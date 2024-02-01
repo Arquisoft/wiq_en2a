@@ -4,6 +4,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2a&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2a)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2a&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2a)
 
+
 This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
 
 This repo is a basic application composed of several components.
@@ -14,6 +15,15 @@ This repo is a basic application composed of several components.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
+
+## Contributors
+
+- Álvaro Ibáñez Coedo
+- Carlos Pelazas
+- Carolina
+- Jaime Loredo Teijeiro
+- Miguel Estapé Fernandez
+- Pablo Lobeto Arenas 
 
 ## Quick start guide
 
