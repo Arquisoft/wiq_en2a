@@ -31,16 +31,15 @@ The application must be a full stack application consisting of a web app and a s
 | Technology | Explanation
 | React | Description: React is a JavaScript library for building user interfaces with a component-based architecture. It promotes a declarative approach and utilizes a virtual DOM for efficient UI updates.
 
-Fit for the application: Description: Express is a fast and minimalist web framework for Node.js, simplifying the creation of robust web applications and APIs. It follows a middleware pattern, making it versatile for handling various server-side tasks.
+Fit for the application: React's component-based structure is ideal for creating reusable UI elements, aligning well with the modular nature of a trivia app. The virtual DOM enhances performance in real-time scenarios.
 
-| ExpressJS | Description: MongoDB is a NoSQL document database storing data in flexible, JSON-like documents. It offers schema flexibility, making it suitable for applications with evolving data structures, and supports scalability and high performance.
+| ExpressJS | Description: Express is a fast and minimalist web framework for Node.js, simplifying the creation of robust web applications and APIs. It follows a middleware pattern, making it versatile for handling various server-side tasks.
 
-Fit for the application: MongoDB's schema-less design allows easy adaptation to different question formats in a trivia app. Its scalability and sharding capabilities make it apt for handling large data volumes and concurrent user interactions.
+Fit for the application: Express's middleware architecture is well-suited for managing authentication, routing, and server-side concerns. Its lightweight nature and scalability support simultaneous user interactions in a multiplayer trivia game.
 
 | MongoDB | Description: MongoDB is a NoSQL document database storing data in flexible, JSON-like documents. It offers schema flexibility, making it suitable for applications with evolving data structures, and supports scalability and high performance.
 
 Fit for the application: MongoDB's schema-less design allows easy adaptation to different question formats in a trivia app. Its scalability and sharding capabilities make it apt for handling large data volumes and concurrent user interactions.
-
 
 |===
 
