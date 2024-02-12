@@ -33,8 +33,6 @@ The application must be a full stack application consisting of a web app and a s
 
 Fit for the application: Description: Express is a fast and minimalist web framework for Node.js, simplifying the creation of robust web applications and APIs. It follows a middleware pattern, making it versatile for handling various server-side tasks.
 
-Fit for the application: Express's middleware architecture is well-suited for managing authentication, routing, and server-side concerns. Its lightweight nature and scalability support simultaneous user interactions in a multiplayer trivia game.
-
 | ExpressJS | Description: MongoDB is a NoSQL document database storing data in flexible, JSON-like documents. It offers schema flexibility, making it suitable for applications with evolving data structures, and supports scalability and high performance.
 
 Fit for the application: MongoDB's schema-less design allows easy adaptation to different question formats in a trivia app. Its scalability and sharding capabilities make it apt for handling large data volumes and concurrent user interactions.
