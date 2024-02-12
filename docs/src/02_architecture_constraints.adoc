@@ -3,25 +3,46 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-architecture-constraints]]
 == Architecture Constraints
 
+When designing the WIQ Application there are several constraints that must be taken into consideration, as they will have a large impact on the final application. These requirements that we must follow, will ensure that the final product meets the needs and expectations of final users and stakeholders.
+The following table summarizes these constraints and provides a brief explanation of each.
 
-[role="arc42help"]
-****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
+[options="header", cols="1,1"]
 
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
+|===
+| Constraint | Explanation
+| Use of Wikidata | Wikidata is a collaborative, multilingual knowledge base that provides the required information to popular websites as Wikipedia. Wikidata houses information about a wide range of entities, such as people, places, and concepts, using a linked and interconnected data model. The project will have to generate questions and responses to those questions automatically, and for this task, Wikidata can be very useful.
 
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
+| Version control and monitoring (GitHub) | GitHub and Git will be very valuable for the application, facilitating version control and team collaboration during project development. It enables the coordination and management of the development workflow, while also monitoring the modifications and contributions made by individual team members.
+
+| User Experience | The design of the application must make its use friendly and easy.
+
+| Deployment | The application must be deployed.
+
+|===
 
 
-.Further Information
+=== Recommended technologies to take into account
 
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
+The application must be a full stack application consisting of a web app and a server. These are some technologies mentioned to provide a clear understanding of this application and how it works. These are not considered constraints because they were not imposed, but they should be present in this section due to the impact they have on the project.
 
-****
+[options="header", cols="1,1"]
+
+|===
+| Technology | Explanation
+| React | Description: React is a JavaScript library for building user interfaces with a component-based architecture. It promotes a declarative approach and utilizes a virtual DOM for efficient UI updates.
+
+Fit for the application: Description: Express is a fast and minimalist web framework for Node.js, simplifying the creation of robust web applications and APIs. It follows a middleware pattern, making it versatile for handling various server-side tasks.
+
+Fit for the application: Express's middleware architecture is well-suited for managing authentication, routing, and server-side concerns. Its lightweight nature and scalability support simultaneous user interactions in a multiplayer trivia game.
+
+| ExpressJS | Description: MongoDB is a NoSQL document database storing data in flexible, JSON-like documents. It offers schema flexibility, making it suitable for applications with evolving data structures, and supports scalability and high performance.
+
+Fit for the application: MongoDB's schema-less design allows easy adaptation to different question formats in a trivia app. Its scalability and sharding capabilities make it apt for handling large data volumes and concurrent user interactions.
+
+| MongoDB | Description: MongoDB is a NoSQL document database storing data in flexible, JSON-like documents. It offers schema flexibility, making it suitable for applications with evolving data structures, and supports scalability and high performance.
+
+Fit for the application: MongoDB's schema-less design allows easy adaptation to different question formats in a trivia app. Its scalability and sharding capabilities make it apt for handling large data volumes and concurrent user interactions.
+
+
+|===
+
