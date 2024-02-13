@@ -42,7 +42,7 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 |QG1|Usability|The user can easily navigate through the app and find the information they need
 |QG2|Performance|The app should be able to handle a large amount of users at the same time
 |QG3|Security|The user's data should be protected and not accesible by anyone else
-
+|===
 ****
 
 === Stakeholders
@@ -59,3 +59,5 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 |_Development Team_||_Acquire experience in the development process of Software Architecture and pass the subject to complete their studies_
 |_Users_|_Anyone who uses the app_|_Test their knowledge on a functional and easy to use quizz game app_
 |===
+
+****
