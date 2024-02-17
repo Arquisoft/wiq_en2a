@@ -790,31 +790,51 @@ The following table summarizes these constraints and provides a brief explanatio
 </div>
 <div class="sect2">
 <h3 id="_technical_context">3.2. Technical Context</h3>
-<div class="sidebarblock arc42help">
+<div class="paragraph">
+<p>The application structure is the following:</p>
+</div>
+<div class="imageblock">
 <div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation which I/O uses which channel.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>E.g. UML deployment diagram describing channels to neighboring systems,
-together with a mapping table showing the relationships between channels and input/output.</p>
-</div>
+<img src="./images/technicalDiagram.png" alt="Technical Diagram" width="600" height="400">
 </div>
 </div>
 <div class="paragraph">
-<p><strong>&lt;Diagram or Table&gt;</strong></p>
+<div class="title">Explanation of the Diagram</div>
+<p>The application will be deployed on an Azure Server. It will consist of the following:</p>
 </div>
 <div class="paragraph">
-<p><strong>&lt;optionally: Explanation of technical interfaces&gt;</strong></p>
+<p>The client communicates with the web app, the front-end of the application. Developed with <strong>React</strong> and <strong>JavaScript</strong>, this application retrieves information from the server, interacting with the <strong>Gateway</strong>.</p>
 </div>
 <div class="paragraph">
-<p><strong>&lt;Mapping Input/Output to Channels&gt;</strong></p>
+<p>We employ a facade pattern on the server, with a dedicated <strong>Gateway service</strong> redirecting requests to different internal services.</p>
+</div>
+<div class="paragraph">
+<p>The services include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Authentication Service</strong></p>
+</li>
+<li>
+<p><strong>Users Service</strong></p>
+</li>
+<li>
+<p><strong>Question Generator Service</strong></p>
+</li>
+<li>
+<p><strong>Game Service</strong></p>
+</li>
+<li>
+<p><strong>Groups Service</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All these services interact with the <strong>MongoDB</strong> database, retrieving and adding information.</p>
+</div>
+<div class="paragraph">
+<p>To generate questions automatically, communication with the <strong>WikiData API</strong> is necessary. The <strong>Question Generator Service</strong> houses an algorithm for question generation.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1790,7 +1810,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-09 17:16:48 +0100
+Last updated 2024-02-05 17:15:38 +0100
 </div>
 </div>
 </body>
