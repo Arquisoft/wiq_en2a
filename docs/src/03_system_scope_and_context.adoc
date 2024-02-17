@@ -4,11 +4,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 == System Scope and Context
 
 
-
-
-
-
-
 === Business Context
 
 [role="arc42help"]
@@ -22,23 +17,30 @@ image::business-context.png[Business Context Diagram, 600, 400]
 **<optionally: Explanation of external domain interfaces>**
 
 === Technical Context
+The application structure is the following:
 
-[role="arc42help"]
-****
-.Contents
-Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation which I/O uses which channel.
+image::technicalDiagram.png[Technical Diagram, 600, 400]
 
-.Motivation
-Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.
+.Explanation of the Diagram
 
-.Form
-E.g. UML deployment diagram describing channels to neighboring systems,
-together with a mapping table showing the relationships between channels and input/output.
 
-****
+The application will be deployed on an Azure Server. It will consist of the following:
 
-**<Diagram or Table>**
+The client communicates with the web app, the front-end of the application. Developed with *React* and *JavaScript*, this application retrieves information from the server, interacting with the *Gateway*.
 
-**<optionally: Explanation of technical interfaces>**
+We employ a facade pattern on the server, with a dedicated *Gateway service* redirecting requests to different internal services.
 
-**<Mapping Input/Output to Channels>**
+The services include:
+
+- *Authentication Service*
+- *Users Service*
+- *Question Generator Service*
+- *Game Service*
+- *Groups Service*
+
+All these services interact with the *MongoDB* database, retrieving and adding information.
+
+To generate questions automatically, communication with the *WikiData API* is necessary. The *Question Generator Service* houses an algorithm for question generation.
+
+
+
