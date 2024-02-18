@@ -462,7 +462,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_technical_context">3.2. Technical Context</a></li>
 </ul>
 </li>
-<li><a href="#section-solution-strategy">4. Solution Strategy</a></li>
+<li><a href="#section-solution-strategy">4. Solution Strategy</a>
+<ul class="sectlevel2">
+<li><a href="#_technologies">4.1. Technologies</a></li>
+<li><a href="#_organizational">4.2. Organizational</a></li>
+</ul>
+</li>
 <li><a href="#section-building-block-view">5. Building Block View</a>
 <ul class="sectlevel2">
 <li><a href="#_whitebox_overall_system">5.1. Whitebox Overall System</a></li>
@@ -848,48 +853,51 @@ The following table summarizes these constraints and provides a brief explanatio
 <div class="sect1">
 <h2 id="section-solution-strategy">4. Solution Strategy</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
 <div class="paragraph">
-<div class="title">Contents</div>
-<p>A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes</p>
+<p>This section aims to describe the strategies decided by the team.</p>
+</div>
+<div class="sect2">
+<h3 id="_technologies">4.1. Technologies</h3>
+<div class="paragraph">
+<p>The following list names the technologies selected:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>technology decisions</p>
+<p><strong>Arc42:</strong> this is a template for documentation and communication of software and system architectures</p>
 </li>
 <li>
-<p>decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern</p>
+<p><strong>TypeScript:</strong> free and open-source high-level programming languaage deriving from JavaScript. The former provides tools that JavaScript does not. It will be used to program the client part of the application.</p>
 </li>
 <li>
-<p>decisions on how to achieve key quality goals</p>
+<p><strong>React:</strong> free and open-source front-end JavaScript library for building user interfaces based in components. It allows building complex interfaces in a simpler way, being flexible and easy to maintain.</p>
 </li>
 <li>
-<p>relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.</p>
+<p><strong>Docker:</strong> set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. It will be used to deploy the application.</p>
+</li>
+<li>
+<p><strong>MongoDB:</strong> non-relational document database that provides support for JSON-like storage. It has drivers for major programming languages and development environments.</p>
+</li>
+<li>
+<p><strong>NodeJS:</strong> cross-platform, opens-source JavaScript library for the server layer that provides the tools to implement the application. It has a large and active community that may be usefull in difficult times.</p>
+</li>
+<li>
+<p><strong>ExpressJS:</strong> nodejs web application framework that provides a robust set of features for web and mobile applications.</p>
+</li>
+<li>
+<p><strong>Wikidata:</strong> collaboratively edited multilingual knowledge graph. It&#8217;s a common source of open data that anyone can use. It also can be read and edited by both humans and machines.</p>
 </li>
 </ul>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_organizational">4.2. Organizational</h3>
 <div class="paragraph">
-<div class="title">Motivation</div>
-<p>These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Keep the explanations of such key decisions short.</p>
-</div>
-<div class="paragraph">
-<p>Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-4/">Solution Strategy</a> in the arc42 documentation.</p>
-</div>
-</div>
+<p>-<strong>Weekly meetings:</strong> to maintain a well communicated team so all are aware of the decissions and team progress
+-<strong>Github:</strong> use of issues, pull request, discussions and other tools that Github offers.</p>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1851,7 +1859,7 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-05 17:15:38 +0100
+Last updated 2024-02-09 17:17:20 +0100
 </div>
 </div>
 </body>
