@@ -45,13 +45,14 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 |===
 
 
+
+
+
 === Stakeholders
 
 [role="arc42help"]
 
-
-
-[options="header",cols="1,2,2"]
+[options="header"]
 |===
 |Role/Name|Contact|Expectations
 | _Wikidata_ | _Wikidata.org_ | _Public exposure by the use of their services deriving in a greater demand of said services_
