@@ -6,10 +6,10 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Business Context
 
-[role="arc42help"]
 
 
-image::businessContext1.png[Business Diagram, 600, 400]
+
+image::businessContext.png[Bussiness Context, 600, 400]
 
 
 .Explanation of the Diagram

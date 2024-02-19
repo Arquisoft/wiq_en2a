@@ -7,7 +7,7 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 
 === Requirements Overview
 
-[role="arc42help"]
+
 
 
 * Users will be able to create an account and log in
@@ -26,7 +26,7 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 
 === Quality Goals
 
-[role="arc42help"]
+
 
  
 //This table is just a placeholder, replace it with real quality goals once discussed !!!
@@ -50,7 +50,7 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 
 === Stakeholders
 
-[role="arc42help"]
+
 
 [options="header"]
 |===
@@ -63,4 +63,5 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 
 
 
+=== End
 
