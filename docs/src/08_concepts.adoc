@@ -56,9 +56,9 @@ See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 ****
 
 
-=== _<Concept 1>_
+=== WikiData Query Service
 
-_<explanation>_
+image::WikiDataQuery.png["WikiData Query Service"]
 
 
 
