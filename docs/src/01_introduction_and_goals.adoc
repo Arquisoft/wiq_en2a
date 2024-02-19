@@ -2,13 +2,13 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
 == Introduction and Goals
-****
+
 The project is a quizz game based on the Spanish TV show "Saber y ganar", the users will be able to test their knowledge with questions from different categories and difficulties. Users will autenticate themselves into the system or create an account first.
-****
+
 === Requirements Overview
 
 [role="arc42help"]
-****
+
 
 * Users will be able to create an account and log in
 * Each question must have a prize associated to it
@@ -22,12 +22,12 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 
 
 
-****
+
 
 === Quality Goals
 
 [role="arc42help"]
-****
+
  
 //This table is just a placeholder, replace it with real quality goals once discussed !!!
 
@@ -43,12 +43,12 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 |QG2|Performance|The app should be able to handle a large amount of users at the same time
 |QG3|Security|The user's data should be protected and not accesible by anyone else
 |===
-****
+
 
 === Stakeholders
 
 [role="arc42help"]
-****
+
 
 
 [options="header",cols="1,2,2"]
@@ -60,4 +60,6 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 |_Users_|_Anyone who uses the app_|_Test their knowledge on a functional and easy to use quizz game app_
 |===
 
-****
+
+
+

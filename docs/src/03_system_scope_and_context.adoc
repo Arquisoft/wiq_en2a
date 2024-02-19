@@ -8,13 +8,15 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [role="arc42help"]
 ****
-image::business-context.png[Business Context Diagram, 600, 400]
+image::businessContext1.png[Business Context Diagram, 600, 400]
 
 ****
 
-**<Diagram or Table>**
+.Explanation of the Diagram
 
-**<optionally: Explanation of external domain interfaces>**
+The diagram shows the main 4 services the user interacts with.
+
+Login and validation of answers are handled by external services, such as *Google* and *WikiData*.
 
 === Technical Context
 The application structure is the following:
