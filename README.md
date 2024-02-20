@@ -15,6 +15,15 @@ This repo is a basic application composed of several components.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
+## Collaborators
+
+- Álvaro Ibáñez Coedo
+- Carlos Garcia Pelazas
+- Carolina Barrios González
+- Jaime Loredo Teijeiro
+- Miguel Estapé Fernández
+- Pablo Lobeto Arenas
+
 ## Quick start guide
 
 ### Using docker
