@@ -62,12 +62,6 @@ image::WikiDataQuery.png["WikiData Query Service"]
 
 
 
-=== _<Concept 2>_
-
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_
+=== Design and UI
+You can see the first version of the prototypes in the following link:
+link:https://github.com/Arquisoft/wiq_en2a/wiki/Prototypes-%E2%80%90-20%E2%80%9002%E2%80%902024[Prototypes]
