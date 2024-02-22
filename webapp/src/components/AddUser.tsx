@@ -5,7 +5,11 @@ import { Container, Typography, TextField, Button, Snackbar } from '@mui/materia
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddUser = () => {
+type ActionProps = {
+  goBack:()=> void;
+}
+
+const AddUser = (props:ActionProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -46,9 +50,12 @@ const AddUser = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button variant="contained" color="primary" onClick={addUser}>
+      <button  color="primary" onClick={addUser}>
         Add User
-      </Button>
+      </button>
+      <button color="primary" onClick={props.goBack}>
+        Go back
+      </button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
