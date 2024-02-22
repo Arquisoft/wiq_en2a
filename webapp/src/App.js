@@ -19,6 +19,7 @@ function App() {
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
         Welcome to wiq_en2a
       </Typography>
+      <p>HOla</p>
       {showLogin ? <Login /> : <AddUser />}
       <Typography component="div" align="center" sx={{ marginTop: 2 }}>
         {showLogin ? (

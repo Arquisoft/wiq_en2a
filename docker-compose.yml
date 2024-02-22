@@ -52,6 +52,8 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+    volumes:
+      - ./game/qgservice:/usr/src/questiongeneratorservice
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
