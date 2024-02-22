@@ -1,10 +1,10 @@
 {
-  "name": "userservice",
+  "name": "qgservice",
   "version": "1.0.0",
-  "description": "User service, in charge of handling users in the application",
+  "description": "Question generator service",
   "main": "service.js",
   "scripts": {
-    "start": "node user-service.js",
+    "start": "node qg-service.js",
     "test": "jest"
   },
   "repository": {

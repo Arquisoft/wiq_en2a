@@ -38,6 +38,20 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+    
+  questiongeneratorservice:
+    container_name: qgservice-${teamname:-defaultASW}
+    image: pelazas1/questiongenerator:latest
+    profiles: ["dev", "prod"]
+    build: ./game/qgservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8003:8003"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/userdb
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -55,6 +69,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
+      QG_SERVICE_URL: http://qgservice:8003
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}

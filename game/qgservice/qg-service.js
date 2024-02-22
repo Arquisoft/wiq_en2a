@@ -16,6 +16,12 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
 
 
+app.get('/', (req, res) => {
+  res.json({
+    "hi":"question generator"
+  })
+})
+
 /*
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -47,7 +53,7 @@ app.post('/adduser', async (req, res) => {
     */
 
 const server = app.listen(port, () => {
-  console.log(`User Service listening at http://localhost:${port}`);
+  console.log(`Question generator Service listening at http://localhost:${port}`);
 });
 
 // Listen for the 'close' event on the Express.js server
