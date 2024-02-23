@@ -8,6 +8,7 @@ const port = 8000;
 
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
+const qgServiceUrl = process.env.GQ_SERVICE_URL || 'http://localhost:8003';
 
 app.use(cors());
 app.use(express.json());
@@ -40,6 +41,29 @@ app.post('/adduser', async (req, res) => {
     res.status(error.response.status).json({ error: error.response.data.error });
   }
 });
+
+app.get('/populationQuestion', async (req, res) => {
+  try {
+    const country = req.query.country.toLowerCase();
+    
+    // Forward the population question request to the user service
+    const endpoint = `${qgServiceUrl}/${country}Population`;
+    console.log(endpoint);
+
+    if (country !== 'spain' && country !== 'usa') {
+      console.log(country);
+      res.status(400).json({ error: 'Country not supported', message: 'Please use a valid country' });
+      return;
+    }
+
+    const populationResponse = await axios.get(endpoint);
+    res.json(populationResponse.data);
+  } catch (error) {
+    console.error('Error in /populationQuestion:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 // Start the gateway service
 const server = app.listen(port, () => {
