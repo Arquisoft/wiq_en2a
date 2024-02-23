@@ -37,4 +37,20 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
   });
+
+  it('should not support the country', async () => {
+    const response = await request(app)
+      .get('/populationQuestion')
+      .query({ country: 'invalidCountry' });
+
+    expect(response.statusCode).toBe(400);
+  })
+
+  it('should return population data', async () => {
+    const response = await request(app)
+      .get('/populationQuestion')
+      .query({ country: 'spain' });
+
+    expect(response.statusCode).toBe(200);
+  })
 });
