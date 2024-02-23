@@ -1,6 +1,7 @@
 const request = require('supertest');
 const axios = require('axios');
-const app = require('./gateway-service'); 
+const app = require('./gateway-service');
+const axiosRequest = require('axios');
 
 afterAll(async () => {
     app.close();
@@ -47,10 +48,24 @@ describe('Gateway Service', () => {
   })
 
   it('should return population data', async () => {
+    const mockedResponse = {
+      data: {
+        question:"What is the population of Marbella?",
+        correctAnswer: "156295",
+        incorrectAnswer1:"423350",
+        incorrectAnswer2:"185902",
+        incorrectAnswer3:"218300"
+      },
+      status: 200,
+    };
+  
+    // Mock the axios get method to resolve with the mocked response
+    axiosRequest.get.mockResolvedValueOnce(mockedResponse);
     const response = await request(app)
       .get('/populationQuestion')
       .query({ country: 'spain' });
 
     expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(mockedResponse.data);
   })
 });
