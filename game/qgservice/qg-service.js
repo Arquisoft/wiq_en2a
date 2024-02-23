@@ -1,8 +1,8 @@
 // qg-service.js
 const express = require('express');
-//const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const { usaPopulationQuery } = require('./queries'); 
 
 const app = express();
 const port = 8003;
@@ -31,25 +31,48 @@ async function executeSparqlQuery(query) {
   }
 }
 
-// Connect to MongoDB
-//const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
-//mongoose.connect(mongoUri);
+function generateQuestion(cityPopulationMap) {
+  // Convert the Map to an array for easier manipulation
+  const cityPopulationArray = Array.from(cityPopulationMap);
 
-const sparqlQuery = `
-  SELECT DISTINCT ?city ?cityLabel ?population
-  WHERE {
-    ?city wdt:P31/wdt:P279* wd:Q515.
-    ?city wdt:P17 wd:Q29.
-    OPTIONAL { ?city wdt:P1082 ?population. }
-    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  // Randomly choose a city from the array
+  const randomIndex = Math.floor(Math.random() * cityPopulationArray.length);
+  const [city, population] = cityPopulationArray[randomIndex];
+
+  // Generate incorrect answers by selecting random populations from other cities
+  const incorrectAnswers = [];
+  while (incorrectAnswers.length < 3) {
+    const randomCity = cityPopulationArray[Math.floor(Math.random() * cityPopulationArray.length)];
+    const [randomCityName, randomCityPopulation] = randomCity;
+    if (randomCityName !== city && !incorrectAnswers.includes(randomCityPopulation)) {
+      incorrectAnswers.push(randomCityPopulation);
+    }
   }
-`;
+
+  // Create the question object
+  const question = {
+    question: `What is the population of ${city}?`,
+    correctAnswer: population,
+    incorrectAnswers,
+  };
+
+  return question;
+}
 
 // Define the route to handle the SPARQL query
 app.get('/sparql', async (req, res) => {
   try {
-    const sparqlResult = await executeSparqlQuery(sparqlQuery);
-    res.json(sparqlResult);
+    const sparqlResult = await executeSparqlQuery(usaPopulationQuery);
+    const cityPopulation = new Map();
+
+    sparqlResult.results.bindings.forEach(entry => {
+      const cityLabel = entry.cityLabel.value;
+      const population = parseFloat(entry.population.value);
+      cityPopulation.set(cityLabel, population);
+    });
+    const question = generateQuestion(cityPopulation);
+    // console.log(question)
+    res.json(question);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -63,12 +86,6 @@ app.get('/', (req, res) => {
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);
-});
-
-// Listen for the 'close' event on the Express.js server
-server.on('close', () => {
-  // Close the Mongoose connection
-  mongoose.connection.close();
 });
 
 module.exports = server;
