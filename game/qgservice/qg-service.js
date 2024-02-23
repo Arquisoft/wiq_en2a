@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const { usaPopulationQuery } = require('./queries');
+const { usaPopulationQuery, spainPopulationQuery } = require('./queries');
 const { generateQuestionPopulation } = require('./questiongenerator');
 
 const app = express();
@@ -33,6 +33,24 @@ async function executeSparqlQuery(query) {
 app.get('/usaPopulation', async (req, res) => {
   try {
     const sparqlResult = await executeSparqlQuery(usaPopulationQuery);
+    const cityPopulation = new Map();
+
+    sparqlResult.results.bindings.forEach(entry => {
+      const cityLabel = entry.cityLabel.value;
+      const population = parseFloat(entry.population.value);
+      cityPopulation.set(cityLabel, population);
+    });
+
+    const question = generateQuestionPopulation(cityPopulation);
+    res.json(question);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/spainPopulation', async (req, res) => {
+  try {
+    const sparqlResult = await executeSparqlQuery(spainPopulationQuery);
     const cityPopulation = new Map();
 
     sparqlResult.results.bindings.forEach(entry => {
