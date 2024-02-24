@@ -6,9 +6,9 @@ const app = express();
 const port = 8004; 
 
 
-// Connect to MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
-mongoose.connect(mongoUri);
+// Connect to MongoDB 
+// const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
+// mongoose.connect(mongoUri);
 
 
 // TODO: hacer peticiones (get/post/put ...) para manejar logica de grupos
