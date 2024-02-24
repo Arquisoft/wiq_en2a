@@ -38,6 +38,20 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+  
+  groupservice:
+    container_name: groupservice-${teamname:-defaultASW}
+    image: pelazas1/groupservice:latest
+    profiles: ["dev", "prod"]
+    build: ./game/groupservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/userdb
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -55,6 +69,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
+      GROUP_SERVICE_URL: http://groupservice:8004
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
