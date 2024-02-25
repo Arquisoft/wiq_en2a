@@ -2,12 +2,14 @@
 import  { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 type ActionProps = {
     goBack:()=> void;
 }
 
 const Login = (props: ActionProps) => {
+  const { t } = useTranslation()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -51,7 +53,7 @@ const Login = (props: ActionProps) => {
       ) : (
         <div>
           <Typography component="h1" variant="h5">
-            Login
+            {t('login')}
           </Typography>
           <TextField
             margin="normal"
@@ -69,10 +71,10 @@ const Login = (props: ActionProps) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button  color="primary" onClick={loginUser}>
-            Login
+          {t('login')}
           </button>
           <button color="primary" onClick={props.goBack}>
-            Go back
+          {t('go_back')}
           </button>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
           {error && (
