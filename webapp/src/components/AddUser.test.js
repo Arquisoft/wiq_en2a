@@ -3,10 +3,12 @@ import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AddUser from './AddUser';
+import { useTranslation } from 'react-i18next';
 
 const mockAxios = new MockAdapter(axios);
 
 describe('AddUser component', () => {
+  const { t } = useTranslation()
   beforeEach(() => {
     mockAxios.reset();
   });
@@ -16,7 +18,7 @@ describe('AddUser component', () => {
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const addUserButton = screen.getByRole('button', { name: /Add User/i });
+    const addUserButton = screen.getByRole('button', { name: /{t('add_user')}/i });
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
@@ -39,7 +41,7 @@ describe('AddUser component', () => {
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const addUserButton = screen.getByRole('button', { name: /Add user/i });
+    const addUserButton = screen.getByRole('button', { name: /{t('add_user')}/i });
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });
