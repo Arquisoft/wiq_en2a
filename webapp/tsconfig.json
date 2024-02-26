@@ -5,6 +5,11 @@
         "ESNext",
         "dom"
       ],
+
+      "types":["node"],
+      "jsx":"react-jsx",
+      "module": "esnext",
+
       "outDir": "lib",
       "removeComments": true,
       "target": "ES6",
@@ -32,7 +37,7 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true
     },
-    "include": ["./**/*.ts"],
+    "include": ["./**/*.tsx"],
     "exclude": [
       "node_modules/**/*"
     ]
