@@ -11,7 +11,7 @@ type ActionProps = {
 }
 
 const AddUser = (props:ActionProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -52,7 +52,7 @@ const AddUser = (props:ActionProps) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button  color="primary" onClick={addUser}>
+      <button  color="primary" onClick={addUser} name = "Add user">
         {t('add_user')}
       </button>
       <button color="primary" onClick={props.goBack}>

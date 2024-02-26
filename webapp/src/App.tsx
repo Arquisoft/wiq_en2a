@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Init from './components/Init';
-import './i18n'
+import './i18n';
 
 function App() {
   const { t } = useTranslation()

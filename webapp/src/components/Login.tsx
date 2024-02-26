@@ -9,7 +9,7 @@ type ActionProps = {
 }
 
 const Login = (props: ActionProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

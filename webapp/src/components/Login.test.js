@@ -3,12 +3,11 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Login from './Login';
-import { useTranslation } from 'react-i18next';
 
 const mockAxios = new MockAdapter(axios);
 
 describe('Login component', () => {
-  const { t } = useTranslation()
+  
   beforeEach(() => {
     mockAxios.reset();
   });
@@ -18,7 +17,7 @@ describe('Login component', () => {
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /{t('login')}/i });
+    const loginButton = screen.getByRole('button', { name: /Login/i });
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/login').reply(200, { createdAt: '2024-01-01T12:34:56Z' });
@@ -40,7 +39,7 @@ describe('Login component', () => {
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /{t('login')}/i });
+    const loginButton = screen.getByRole('button', { name: /Login/i });
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/login').reply(401, { error: 'Unauthorized' });
