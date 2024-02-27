@@ -1,8 +1,8 @@
 // qg-service.js
 require('dotenv').config();
-const {OpenAIApi, Configuration} = require('openai')
+const OpenAI = require('openai')
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const { usaPopulationQuery, spainPopulationQuery, chatgptPrompt } = require('./queries');
@@ -11,15 +11,16 @@ const { generateQuestionPopulation } = require('./questiongenerator');
 const app = express();
 const port = 8003;
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
-
-const configuration = new Configuration({
+const openai = new OpenAI();
+/*const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
-  });
-const openai = new OpenAIApi(configuration);
+  });*/
+//const openai = new OpenAIApi(configuration);
 
 async function executeSparqlQuery(query) {
   try {
@@ -84,14 +85,14 @@ app.get('/', (req, res) => {
 });
 
 app.post('/api/chat', async (req, res) => {
-    const completion = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: chatgptPrompt,
-        max_tokens:200
-      });
-  
-   res.json({ response: completion.data.choices[0].text })
-   });
+  const stream = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: "Say this is a test" }],
+    stream: true,
+  });
+  for await (const chunk of stream) {
+      process.stdout.write(chunk.choices[0]?.delta?.content || "");
+  }})
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);
