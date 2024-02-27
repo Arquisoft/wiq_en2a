@@ -19,6 +19,7 @@ const AddUser = (props:ActionProps) => {
 
   const addUser = async () => {
     try {
+      // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
     } catch (error) {
