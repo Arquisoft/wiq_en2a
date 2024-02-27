@@ -1,5 +1,7 @@
 import GoogleLogin from "react-google-login";
+import { useTranslation } from 'react-i18next';
 
+const { t } = useTranslation();
 const GClientId = "YOUR_GOOGLE";
 const GLoginButton = () => {
 
@@ -17,7 +19,7 @@ const GLoginButton = () => {
         <div id='signInButton'>
             <GoogleLogin
                 clientId={GClientId}
-                buttonText="Login with Google"
+                buttonText={t('login_google')}
                 onSuccess={onSuccess}
                 onFailure={onFailure}
                 cookiePolicy={'single_host_origin'}

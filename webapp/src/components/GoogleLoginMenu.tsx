@@ -31,3 +31,5 @@ const GoogleLogin = (props: ActionProps) => {
 
 
 }
+
+export default GoogleLogin;

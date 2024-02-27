@@ -16,7 +16,8 @@ i18n
                     login: 'Login',
                     go_back: 'Go back',
                     register: 'Register',
-                    add_user: 'Add user'
+                    add_user: 'Add user',
+                    login_google: 'Login with Google'
                 }
             },
             es: {
@@ -25,7 +26,8 @@ i18n
                     login: 'Iniciar sesión',
                     go_back: 'Ir atrás',
                     register: 'Registrarse',
-                    add_user: 'Añadir usuario'
+                    add_user: 'Añadir usuario',
+                    login_google: 'Iniciar sesión con Google'
                 }
             },
 
