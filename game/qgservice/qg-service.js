@@ -1,9 +1,11 @@
 // qg-service.js
+require('dotenv').config();
+const {OpenAIApi, Configuration} = require('openai')
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { usaPopulationQuery, spainPopulationQuery } = require('./queries');
+const { usaPopulationQuery, spainPopulationQuery, chatgptPrompt } = require('./queries');
 const { generateQuestionPopulation } = require('./questiongenerator');
 
 const app = express();
@@ -13,6 +15,11 @@ app.use(bodyParser.json());
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+  });
+const openai = new OpenAIApi(configuration);
 
 async function executeSparqlQuery(query) {
   try {
@@ -75,6 +82,16 @@ app.get('/', (req, res) => {
     "hi": "question generator"
   });
 });
+
+app.post('/api/chat', async (req, res) => {
+    const completion = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: chatgptPrompt,
+        max_tokens:200
+      });
+  
+   res.json({ response: completion.data.choices[0].text })
+   });
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);

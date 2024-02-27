@@ -23,7 +23,19 @@ WHERE {
 }
 `
 
+const chatgptPrompt = `
+Hi, I want you to generate trivia questions, with 1 correct answer and 3 incorrect. Please format them as:
+question: *question*
+correctAnswer: *correct answer*
+incorrectAnswer1: *incorrect Answer*
+incorrectAnswer2: *incorrect Answer 2*
+incorrectAnswer3: *incorrect Answer 3*
+
+Please generate 19 random questions
+`
+
 module.exports = {
   usaPopulationQuery,
-  spainPopulationQuery
+  spainPopulationQuery,
+  chatgptPrompt
 };
