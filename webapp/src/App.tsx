@@ -17,7 +17,7 @@ function App() {
     setShowLogin(state);
   };
 
-  const handleLogginRegisterToggleView = (state?:boolean) => {
+  const handleLoginRegisterToggleView = (state?:boolean) => {
     setShowInit(!showInit);
     state? handleToggleView(state) : handleToggleView(false)
   };
@@ -28,11 +28,12 @@ function App() {
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
         {t('app_name')}
       </Typography>
+      
       {showInit ? 
-       < Init changeView={handleLogginRegisterToggleView}/>
+       < Init changeView={handleLoginRegisterToggleView}/>
        : showLogin?
-          <Login goBack={handleLogginRegisterToggleView} /> 
-          : <AddUser goBack={handleLogginRegisterToggleView}/>}
+          <Login goBack={handleLoginRegisterToggleView} /> 
+          : <AddUser goBack={handleLoginRegisterToggleView}/>}
      
      
     </Container>
