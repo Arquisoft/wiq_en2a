@@ -23,6 +23,26 @@ WHERE {
 }
 `
 
+const worldCapitalQuery = `
+SELECT ?country ?countryLabel ?capital ?capitalLabel WHERE {
+  ?country wdt:P31 wd:Q6256;
+        wdt:P36 ?capital.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+`
+
+// Utilizar country en vez de comunidad para poder reaprovechar codigo
+const spainCapitalQuery = `
+SELECT ?country ?countryLabel ?capital ?capitalLabel WHERE {
+  ?country wdt:P31 wd:Q10742;
+    wdt:P36 ?capital;
+    wdt:P17 wd:Q29.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+`
+
+
+
 const chatgptPrompt = `
 Hi, I want you to generate trivia questions, with 1 correct answer and 3 incorrect. Please format them as:
 question: *question*

@@ -37,6 +37,43 @@ function generateQuestionPopulation(cityPopulationMap) {
   return question;
 }
 
+function generateQuestionCapital(countryCapitalMap) {
+  const countryCapitalArray = Array.from(countryCapitalMap);
+
+  const randomIndex = Math.floor(Math.random() * countryCapitalArray.length);
+  const [country, capital] = countryCapitalArray[randomIndex];
+
+  const incorrectAnswers = [];
+  while (incorrectAnswers.length < 3) {
+    const randomCountry = countryCapitalArray[Math.floor(Math.random() * countryCapitalArray.length)];
+    const [randomCountryName, randomCountryCapital] = randomCountry;
+    if (randomCountryName !== country && !incorrectAnswers.includes(randomCountryCapital)) {
+      incorrectAnswers.push(randomCountryCapital);
+    }
+  }
+
+  // Create the question object
+  const question = {
+    question: `What is the capital of ${country}?`,
+    correctAnswer: capital,
+    incorrectAnswer1: incorrectAnswers[0],
+    incorrectAnswer2: incorrectAnswers[1],
+    incorrectAnswer3: incorrectAnswers[2],
+  };
+
+  // Save the question to MongoDB
+  const newQuestion = new Question4Answers(question);
+  newQuestion.save()
+    .then(savedQuestion => {
+      console.log('Question saved to MongoDB:', savedQuestion);
+    })
+    .catch(error => {
+      console.error('Error saving question to MongoDB:', error.message);
+    });
+
+  return question;
+}
+
 module.exports = {
   generateQuestionPopulation,
 };

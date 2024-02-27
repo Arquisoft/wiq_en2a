@@ -78,6 +78,42 @@ app.get('/spainPopulation', async (req, res) => {
   }
 });
 
+app.get('/worldCapitals', async (req, res) => {
+  try {
+    const sparqlResult = await executeSparqlQuery(worldCapitalQuery);
+    const countryCapitals = new Map();
+
+    sparqlResult.results.bindings.forEach(entry => {
+      const countryLabel = entry.countryLabel.value;
+      const capital = entry.capitalLabel.value;
+      countryCapitals.set(countryLabel, capital);
+    });
+
+    const question = generateQuestionCapital(countryCapitals);
+    res.json(question);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/spainCapitals', async (req, res) => {
+  try {
+    const sparqlResult = await executeSparqlQuery(spainCapitalQuery);
+    const countryCapitals = new Map();
+
+    sparqlResult.results.bindings.forEach(entry => {
+      const countryLabel = entry.countryLabel.value;
+      const capital = entry.capitalLabel.value;
+      countryCapitals.set(countryLabel, capital);
+    });
+
+    const question = generateQuestionCapital(countryCapitals);
+    res.json(question);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.get('/', (req, res) => {
   res.json({
     "hi": "question generator"
