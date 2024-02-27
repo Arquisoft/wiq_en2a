@@ -22,9 +22,13 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
+/*
+  PETICIONES:
+  - unirse: recibe el user y se añade a members, manejar tamaño maximo de grupo y si es publico/privado contraseña
+  - salir: recibe el user y se elimina de members (tambien sirve para que el admin expulse expulsar)
+  - crear: recibe el user (lo asigna admin), todos los campos de grupo, y se crea el grupo
+*/
 
-
-// TODO: hacer peticiones (get/post/put ...) para manejar logica de grupos
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to group service module' });
 });
