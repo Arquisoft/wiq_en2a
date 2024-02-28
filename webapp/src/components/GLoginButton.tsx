@@ -1,9 +1,10 @@
 import GoogleLogin from "react-google-login";
 import { useTranslation } from 'react-i18next';
 
-const { t } = useTranslation();
-const GClientId = "YOUR_GOOGLE";
+
+const GClientId = "http://259836370797-brpmuu6pn6a20eecpjag1l2nkoqp3eo6.apps.googleusercontent.com";
 const GLoginButton = () => {
+    const { t } = useTranslation();
 
     const onSuccess = (response: any) => {
         console.log(  "LOGIN SUCCESS! Current User: ",response.profileObject); 
