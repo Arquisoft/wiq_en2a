@@ -7,6 +7,7 @@ import AddUser from './AddUser';
 const mockAxios = new MockAdapter(axios);
 
 describe('AddUser component', () => {
+  
   beforeEach(() => {
     mockAxios.reset();
   });
@@ -16,7 +17,7 @@ describe('AddUser component', () => {
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const addUserButton = screen.getByRole('button', { name: /Add User/i });
+    const addUserButton = screen.getByRole('button', { name: /add_user/i });
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
@@ -39,7 +40,7 @@ describe('AddUser component', () => {
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
-    const addUserButton = screen.getByRole('button', { name: /Add User/i });
+    const addUserButton = screen.getByRole('button', { name: /add_user/i });
 
     // Mock the axios.post request to simulate an error response
     mockAxios.onPost('http://localhost:8000/adduser').reply(500, { error: 'Internal Server Error' });

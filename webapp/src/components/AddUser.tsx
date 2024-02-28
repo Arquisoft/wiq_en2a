@@ -1,11 +1,17 @@
 // src/components/AddUser.js
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField,  Snackbar } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-const AddUser = () => {
+type ActionProps = {
+  goBack:()=> void;
+}
+
+const AddUser = (props:ActionProps) => {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,6 +19,7 @@ const AddUser = () => {
 
   const addUser = async () => {
     try {
+      // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
     } catch (error) {
@@ -27,7 +34,7 @@ const AddUser = () => {
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Typography component="h1" variant="h5">
-        Add User
+        {t('add_user')}
       </Typography>
       <TextField
         name="username"
@@ -46,9 +53,12 @@ const AddUser = () => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button variant="contained" color="primary" onClick={addUser}>
-        Add User
-      </Button>
+      <button  color="primary" onClick={addUser} name = "Add user">
+        {t('add_user')}
+      </button>
+      <button color="primary" onClick={props.goBack}>
+        {t('go_back')}
+      </button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />

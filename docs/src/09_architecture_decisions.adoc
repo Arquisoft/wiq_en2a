@@ -3,33 +3,61 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-design-decisions]]
 == Architecture Decisions
 
+=== Database Selection for Our Application
 
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.
+In this application, we require a database to store information about users, groups, automatically generated questions, and how the user performs on those questions. In this section, we discuss why we chose to use a NoSQL database, specifically MongoDB, for this purpose, and explore the alternatives that we considered and rejected.
 
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
+==== Reasons for Choosing MongoDB
 
-Avoid redundancy. 
-Refer to section 4, where you already captured the most important decisions of your architecture.
+*Flexibility:*
+NoSQL databases like MongoDB are schema-less, allowing us to store data without a predefined structure. This flexibility is invaluable for applications where the data schema may evolve over time or if we have varying types of questions.
 
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
+*Query Language:*
+MongoDB boasts a powerful and expressive query language that facilitates efficient data retrieval and manipulation. This is particularly useful for fetching specific questions based on criteria.
 
-.Form
-Various options:
+*Performance:*
+NoSQL databases are often optimized for specific use cases, and MongoDB excels in providing good performance for certain types of queries, especially when dealing with large amounts of unstructured or semi-structured data.
 
-* ADR (https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions]) for every important decision
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
+==== Main Alternatives Considered
 
-.Further Information
+*Relational Database (e.g., PostgreSQL):*
+We decided against this approach because the data we store might not have a well-defined structure and relationships.
 
-See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 documentation.
-There you will find links and examples about ADR.
+*Graph Database (e.g., Neo4j):*
+We opted not to follow this approach because the complexity of the data we are dealing with is relatively simple in terms of complex relationships.
 
-****
+==== Conclusion
+
+Our decision to use MongoDB aligns with the flexible nature of our data, the need for a powerful query language, and the performance requirements of our application.
+
+
+=== Frontend and Backend Technology Stack Decision
+
+In developing our application, we need to make crucial decisions about the technologies we use for the frontend and backend. Here, we discuss why we chose to use React for the frontend and Express.js for the backend, and explore the considerations that influenced this decision.
+
+==== Frontend: React
+
+*Declarative UI:*
+React offers a declarative approach to building user interfaces, making it easier to understand and debug code. This allows us to efficiently design interactive and dynamic user interfaces.
+
+*Component-Based Architecture:*
+React's component-based architecture encourages modularity, reusability, and maintainability in our codebase. This structure is beneficial for building complex applications with distinct features.
+
+*Popularity:*
+There is a large number of developers that use React for their web applications, therefore a lot of resources available. This can save development time and provide solutions to common problems.
+
+==== Backend: Express.js
+
+*Lightweight and Flexible:*
+Express.js is a minimal and flexible Node.js web application framework, providing the essential features for building robust web applications. This is also useful because of the use of Docker. Express.js applications can be containerizated very well.
+
+*Routing:*
+It provides a simple routing mechanism. It makes it easy to define routes for different parts of the application, and handle requests in an organized way.
+
+*Scalability:*
+Express.js is well-suited for building scalable applications. Its non-opinionated nature gives developers the freedom to structure their code as needed, making it adaptable to the evolving needs of our project.
+
+==== Conclusion
+
+Our decision to use React for the frontend and Express.js for the backend, apart of being the mentioned advantages, was that the initial project was built with these technologies, and we already had a base to work on for future developments.
+

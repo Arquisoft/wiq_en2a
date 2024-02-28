@@ -1,9 +1,15 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-const Login = () => {
+type ActionProps = {
+    goBack:()=> void;
+}
+
+const Login = (props: ActionProps) => {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -37,6 +43,7 @@ const Login = () => {
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       {loginSuccess ? (
         <div>
+          {/* poner aqui la aplicacion */}
           <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
             Hello {username}!
           </Typography>
@@ -47,7 +54,7 @@ const Login = () => {
       ) : (
         <div>
           <Typography component="h1" variant="h5">
-            Login
+            {t('login')}
           </Typography>
           <TextField
             margin="normal"
@@ -64,9 +71,12 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
+          <button  color="primary" onClick={loginUser}>
+          {t('login')}
+          </button>
+          <button color="primary" onClick={props.goBack}>
+          {t('go_back')}
+          </button>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
