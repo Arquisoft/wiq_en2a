@@ -5,7 +5,7 @@ const express = require('express');
 // const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { usaPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery } = require('./queries');
+const { worldPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery } = require('./queries');
 const { generateQuestionPopulation, generateQuestionCapital } = require('./questiongenerator');
 
 const app = express();
@@ -42,93 +42,73 @@ async function executeSparqlQuery(query) {
   }
 }
 
-app.get('/usaPopulation', async (req, res) => {
-  try {
-    const sparqlResult = await executeSparqlQuery(usaPopulationQuery);
-    const cityPopulation = new Map();
-
-    sparqlResult.results.bindings.forEach(entry => {
-      const cityLabel = entry.cityLabel.value;
-      const population = parseFloat(entry.population.value);
-      cityPopulation.set(cityLabel, population);
-    });
-
-    const question = generateQuestionPopulation(cityPopulation);
-    res.json(question);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-app.get('/spainPopulation', async (req, res) => {
-  try {
-    const sparqlResult = await executeSparqlQuery(spainPopulationQuery);
-    const cityPopulation = new Map();
-
-    sparqlResult.results.bindings.forEach(entry => {
-      const cityLabel = entry.cityLabel.value;
-      const population = parseFloat(entry.population.value);
-      cityPopulation.set(cityLabel, population);
-    });
-
-    const question = generateQuestionPopulation(cityPopulation);
-    res.json(question);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-app.get('/worldCapitals', async (req, res) => {
-  try {
-    const sparqlResult = await executeSparqlQuery(worldCapitalQuery);
-    const countryCapitals = new Map();
-
-    sparqlResult.results.bindings.forEach(entry => {
-      const countryLabel = entry.countryLabel.value;
-      const capital = entry.capitalLabel.value;
-      countryCapitals.set(countryLabel, capital);
-    });
-
-    const question = generateQuestionCapital(countryCapitals);
-    res.json(question);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
-app.get('/spainCapitals', async (req, res) => {
-  try {
-    const sparqlResult = await executeSparqlQuery(spainCapitalQuery);
-    const countryCapitals = new Map();
-
-    sparqlResult.results.bindings.forEach(entry => {
-      const countryLabel = entry.countryLabel.value;
-      const capital = entry.capitalLabel.value;
-      countryCapitals.set(countryLabel, capital);
-    });
-
-    const question = generateQuestionCapital(countryCapitals);
-    res.json(question);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
 app.get('/', (req, res) => {
   res.json({
     "hi": "question generator"
   });
 });
 
-app.post('/api/chat', async (req, res) => {
-  const stream = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: "Say this is a test" }],
-    stream: true,
-  });
-  for await (const chunk of stream) {
-      process.stdout.write(chunk.choices[0]?.delta?.content || "");
-  }})
+app.get('/game', async (req, res) => {
+  try {
+
+    // 2 preguntas capitales comunidades autonomas españa
+    const spainQueryResult = await executeSparqlQuery(spainCapitalQuery);
+    const spainCapitals = new Map();
+
+    spainQueryResult.results.bindings.forEach(entry => {
+      const comAutonomaLabel = entry.countryLabel.value;
+      const capital = entry.capitalLabel.value;
+      spainCapitals.set(comAutonomaLabel, capital);
+    });
+
+    const numberOfQuestionsSpainCapital = 2;
+    const questions = [];
+
+    for (let i = 0; i < numberOfQuestionsSpainCapital; i++) {
+      const question = generateQuestionCapital(spainCapitals);
+      questions.push(question);
+    }
+
+    // 2 preguntas capitales mundo
+    const worldQueryResult = await executeSparqlQuery(worldCapitalQuery);
+    const worldCapitals = new Map();
+
+    worldQueryResult.results.bindings.forEach(entry => {
+      const countryLabel = entry.countryLabel.value;
+      const capital = entry.capitalLabel.value;
+      worldCapitals.set(countryLabel, capital);
+    });
+
+    const numberOfQuestionsWorldCapital = 2;
+
+    for (let i = 0; i < numberOfQuestionsWorldCapital; i++) {
+      const question = generateQuestionCapital(worldCapitals);
+      questions.push(question);
+    }
+
+    // 5 preguntas poblacion mundo
+    const worldPopulationResult = await executeSparqlQuery(worldPopulationQuery);
+    const worldPopulation = new Map();
+
+    worldPopulationResult.results.bindings.forEach(entry => {
+      const cityLabel = entry.cityLabel.value;
+      const population = parseFloat(entry.population.value);
+      worldPopulation.set(cityLabel, population);
+    });
+
+    const numberOfQuestionsWorldPopulation = 5;
+
+    for (let i = 0; i < numberOfQuestionsWorldPopulation; i++) {
+      const question = generateQuestionPopulation(worldPopulation);
+      questions.push(question);
+    }
+
+    res.json(questions);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);
