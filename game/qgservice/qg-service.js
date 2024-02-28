@@ -1,12 +1,12 @@
 // qg-service.js
 require('dotenv').config();
-const OpenAI = require('openai')
+// const OpenAI = require('openai')
 const express = require('express');
 // const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { usaPopulationQuery, spainPopulationQuery, chatgptPrompt } = require('./queries');
-const { generateQuestionPopulation } = require('./questiongenerator');
+const { usaPopulationQuery, spainPopulationQuery, chatgptPrompt, spainCapitalQuery } = require('./queries');
+const { generateQuestionPopulation, generateQuestionCapital } = require('./questiongenerator');
 
 const app = express();
 const port = 8003;
@@ -16,7 +16,7 @@ app.use(express.json());
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
-const openai = new OpenAI();
+// const openai = new OpenAI();
 /*const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
   });*/

@@ -76,4 +76,5 @@ function generateQuestionCapital(countryCapitalMap) {
 
 module.exports = {
   generateQuestionPopulation,
+  generateQuestionCapital
 };

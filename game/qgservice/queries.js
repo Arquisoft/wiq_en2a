@@ -57,5 +57,6 @@ Please generate 19 random questions
 module.exports = {
   usaPopulationQuery,
   spainPopulationQuery,
-  chatgptPrompt
+  chatgptPrompt,
+  spainCapitalQuery
 };
