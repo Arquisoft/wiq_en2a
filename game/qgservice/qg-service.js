@@ -5,7 +5,7 @@ const express = require('express');
 // const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { usaPopulationQuery, spainPopulationQuery, chatgptPrompt, spainCapitalQuery } = require('./queries');
+const { usaPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery } = require('./queries');
 const { generateQuestionPopulation, generateQuestionCapital } = require('./questiongenerator');
 
 const app = express();
