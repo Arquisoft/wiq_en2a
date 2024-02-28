@@ -39,33 +39,39 @@ describe('Gateway Service', () => {
     expect(response.body.userId).toBe('mockedUserId');
   });
 
-  it('should not support the country', async () => {
-    const response = await request(app)
-      .get('/populationQuestion')
-      .query({ country: 'invalidCountry' });
+  it('should return questions on successful request to /game', async () => {
+    // Mock the axios.get method to simulate a successful response from /game endpoint
+    axios.get.mockResolvedValue({
+      data: [
+        { question: 'Sample Question 1',
+          correctAnswer: 'Sample Answer 1',
+          incorrectAnswer1: 'Sample Answer 2',
+          incorrectAnswer2: 'Sample Answer 3',
+          incorrectAnswer3: 'Sample Answer 4',
+        } 
+      ],
+    });
 
-    expect(response.statusCode).toBe(400);
-  })
+    const response = await request(app).get('/questionsGame');
 
-  it('should return population data', async () => {
-    const mockedResponse = {
-      data: {
-        question:"What is the population of Marbella?",
-        correctAnswer: "156295",
-        incorrectAnswer1:"423350",
-        incorrectAnswer2:"185902",
-        incorrectAnswer3:"218300"
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      { question: 'Sample Question 1',
+          correctAnswer: 'Sample Answer 1',
+          incorrectAnswer1: 'Sample Answer 2',
+          incorrectAnswer2: 'Sample Answer 3',
+          incorrectAnswer3: 'Sample Answer 4',
       },
-      status: 200,
-    };
-  
-    // Mock the axios get method to resolve with the mocked response
-    axiosRequest.get.mockResolvedValueOnce(mockedResponse);
-    const response = await request(app)
-      .get('/populationQuestion')
-      .query({ country: 'spain' });
+    ]);
+  });
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(mockedResponse.data);
-  })
+  it('should handle internal server error from /game endpoint', async () => {
+    // Mock the axios.get method to simulate an error response from /game endpoint
+    axios.get.mockRejectedValue({ response: { status: 500, data: { error: 'Internal server error' } } });
+
+    const response = await request(app).get('/questionsGame');
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
 });
