@@ -7,11 +7,11 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Init from './components/Init';
 import './i18n';
-import GoogleLoginMenu from './components/GoogleLoginMenu';
+/* import GoogleLoginMenu from './components/GoogleLoginMenu'; */
 
 function App() {
   const { t } = useTranslation()
-  const [showGoogleLM, setShowGoogleLM] = useState(false);
+  // const [showGoogleLM, setShowGoogleLM] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const [showInit, setShowInit] = useState(true);
 
@@ -24,10 +24,10 @@ function App() {
     state? handleToggleView(state) : handleToggleView(false)
   };
 
-  const handleGoogleViewChange = () => {
+  /* const handleGoogleViewChange = () => {
     setShowGoogleLM(!showGoogleLM);
     setShowInit(!showInit);
-  }
+  } */
 
   return (
     <Container component="main" maxWidth="xs">
@@ -37,9 +37,9 @@ function App() {
       </Typography>
 
       {showInit ? 
-       <Init changeView={handleLoginRegisterToggleView} changeGoogleView={handleGoogleViewChange} />
-       : showGoogleLM ?
-        <GoogleLoginMenu goBack={handleGoogleViewChange} />
+       <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
+       /* : showGoogleLM ?
+        <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
           : showLogin ?
             <Login goBack={handleLoginRegisterToggleView} /> 
             : <AddUser goBack={handleLoginRegisterToggleView} />}

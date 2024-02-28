@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 
 type ActionProps = {
     changeView:(arg:boolean)=> void;
-    changeGoogleView:()=> void;
+    /* changeGoogleView:()=> void; */
 }
 
 const Init = (props:ActionProps) =>{
@@ -17,10 +17,10 @@ const Init = (props:ActionProps) =>{
           onClick={() => props.changeView(true)}>
             {t('login')}
           </button>
-          <button className={'app-button'}
+          {/* <button className={'app-button'}
           onClick={props.changeGoogleView}>
             {t('login_google')}
-          </button>
+          </button> */}
         </div> 
     );
 };

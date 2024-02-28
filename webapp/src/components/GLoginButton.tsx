@@ -1,4 +1,4 @@
-import GoogleLogin from "react-google-login";
+/* import GoogleLogin from "react-google-login";
 import { useTranslation } from 'react-i18next';
 
 
@@ -47,4 +47,4 @@ const GLoginButton = () => {
     )
 }
 
-export default GLoginButton;
+export default GLoginButton; */
