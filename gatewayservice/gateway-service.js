@@ -42,24 +42,14 @@ app.post('/adduser', async (req, res) => {
   }
 });
 
-app.get('/populationQuestion', async (req, res) => {
+app.get('/questionsGame', async (req, res) => {
   try {
-    const country = req.query.country.toLowerCase();
-    
-    // Forward the population question request to the user service
-    const endpoint = `${qgServiceUrl}/${country}Population`;
-    console.log(endpoint);
+    const response = await axios.get(qgServiceUrl+'/game');
+    const questions = response.data;
+    res.json(questions);
 
-    if (country !== 'spain' && country !== 'usa') {
-      console.log(country);
-      res.status(400).json({ error: 'Country not supported', message: 'Please use a valid country' });
-      return;
-    }
-
-    const populationResponse = await axios.get(endpoint);
-    res.json(populationResponse.data);
   } catch (error) {
-    console.error('Error in /populationQuestion:', error);
+    
     res.status(500).json({ error: 'Internal server error' });
   }
 });
