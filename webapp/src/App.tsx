@@ -7,9 +7,11 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Init from './components/Init';
 import './i18n';
+/* import GoogleLoginMenu from './components/GoogleLoginMenu'; */
 
 function App() {
   const { t } = useTranslation()
+  // const [showGoogleLM, setShowGoogleLM] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const [showInit, setShowInit] = useState(true);
 
@@ -17,10 +19,15 @@ function App() {
     setShowLogin(state);
   };
 
-  const handleLogginRegisterToggleView = (state?:boolean) => {
+  const handleLoginRegisterToggleView = (state?:boolean) => {
     setShowInit(!showInit);
     state? handleToggleView(state) : handleToggleView(false)
   };
+
+  /* const handleGoogleViewChange = () => {
+    setShowGoogleLM(!showGoogleLM);
+    setShowInit(!showInit);
+  } */
 
   return (
     <Container component="main" maxWidth="xs">
@@ -28,11 +35,14 @@ function App() {
       <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
         {t('app_name')}
       </Typography>
+
       {showInit ? 
-       < Init changeView={handleLogginRegisterToggleView}/>
-       : showLogin?
-          <Login goBack={handleLogginRegisterToggleView} /> 
-          : <AddUser goBack={handleLogginRegisterToggleView}/>}
+       <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
+       /* : showGoogleLM ?
+        <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
+          : showLogin ?
+            <Login goBack={handleLoginRegisterToggleView} /> 
+            : <AddUser goBack={handleLoginRegisterToggleView} />}
      
      
     </Container>
