@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Init from './components/Init';
 import './i18n';
-/* import GoogleLoginMenu from './components/GoogleLoginMenu'; */
+import GLoginButton from './components/GLoginButton';
 
 function App() {
   const { t } = useTranslation()
@@ -43,6 +43,8 @@ function App() {
           : showLogin ?
             <Login goBack={handleLoginRegisterToggleView} /> 
             : <AddUser goBack={handleLoginRegisterToggleView} />}
+      
+      <GLoginButton /* Añadido sin usar typescript ya que no da problemas con el componente de google auth *//>
      
      
     </Container>
