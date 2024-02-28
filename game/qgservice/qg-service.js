@@ -105,9 +105,9 @@ app.get('/game', async (req, res) => {
     }
 
     const mathquestions = await saveMathQuestions(5)
-    console.log(mathquestions)
     questions.push(...mathquestions)
-    console.log(questions)
+
+
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
