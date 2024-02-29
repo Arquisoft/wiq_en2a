@@ -41,7 +41,7 @@ services:
     
   questiongeneratorservice:
     container_name: qgservice-${teamname:-defaultASW}
-    image: pelazas1/questiongenerator:latest
+    image: ghcr.io/arquisoft/wiq_en2a/qgservice:latest
     profiles: ["dev", "prod"]
     build: ./game/qgservice
     depends_on:
