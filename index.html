@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.20">
-<title>Template</title>
+<title>Wiq_en2a</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,7 +435,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<h1><span class="image"><img src="./images/arc42-logo.png" alt="arc42"></span> Template</h1>
+<h1><span class="image"><img src="./images/arc42-logo.png" alt="arc42"></span> Wiq_en2a</h1>
 <div class="details">
 <span id="revnumber">version 8.2 EN,</span>
 <span id="revdate">January 2023</span>
@@ -449,7 +449,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_requirements_overview">1.1. Requirements Overview</a></li>
 <li><a href="#_quality_goals">1.2. Quality Goals</a></li>
 <li><a href="#_stakeholders">1.3. Stakeholders</a></li>
-<li><a href="#_end">1.4. End</a></li>
 </ul>
 </li>
 <li><a href="#section-architecture-constraints">2. Architecture Constraints</a>
@@ -653,7 +652,7 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Uniovi&#8217;s Software Architecture Teacher council</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>jelabra@gmail.com</em></p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Provide their students (development team) with a practical experience about the use of Software architecture in projects and making sure the have understood the concepts of it</em></p></td>
 </tr>
 <tr>
@@ -668,9 +667,6 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </tr>
 </tbody>
 </table>
-</div>
-<div class="sect2">
-<h3 id="_end">1.4. End</h3>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -834,16 +830,10 @@ The following table summarizes these constraints and provides a brief explanatio
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Arc42:</strong> this is a template for documentation and communication of software and system architectures</p>
-</li>
-<li>
 <p><strong>TypeScript:</strong> free and open-source high-level programming languaage deriving from JavaScript. The former provides tools that JavaScript does not. It will be used to program the client part of the application.</p>
 </li>
 <li>
 <p><strong>React:</strong> free and open-source front-end JavaScript library for building user interfaces based in components. It allows building complex interfaces in a simpler way, being flexible and easy to maintain.</p>
-</li>
-<li>
-<p><strong>Docker:</strong> set of platform as a service products that use OS-level virtualization to deliver software in packages called containers. It will be used to deploy the application.</p>
 </li>
 <li>
 <p><strong>MongoDB:</strong> non-relational document database that provides support for JSON-like storage. It has drivers for major programming languages and development environments.</p>
@@ -855,7 +845,7 @@ The following table summarizes these constraints and provides a brief explanatio
 <p><strong>ExpressJS:</strong> nodejs web application framework that provides a robust set of features for web and mobile applications.</p>
 </li>
 <li>
-<p><strong>Wikidata:</strong> collaboratively edited multilingual knowledge graph. It&#8217;s a common source of open data that anyone can use. It also can be read and edited by both humans and machines.</p>
+<p><strong>Wikidata Query Service:</strong> Wikimedia implementation of SPARQL server to service queries for Wikidata and other data sets.</p>
 </li>
 </ul>
 </div>
@@ -1330,48 +1320,10 @@ concrete and measurable.</p>
 <div class="sect1">
 <h2 id="section-glossary">12. Glossary</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>The most important domain and technical terms that your stakeholders use when discussing the system.</p>
-</div>
-<div class="paragraph">
-<p>You can also see the glossary as source for translations if you work in multi-language teams.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should clearly define your terms, so that all stakeholders</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>have an identical understanding of these terms</p>
-</li>
-<li>
-<p>do not use synonyms and homonyms</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>A table with columns &lt;Term&gt; and &lt;Definition&gt;.</p>
-</div>
-<div class="paragraph">
-<p>Potentially more columns in case you need translations.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-12/">Glossary</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
-<div class="sidebarblock arc42help">
-<div class="content">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 66.6667%;">
+<col style="width: 25%;">
+<col style="width: 75%;">
 </colgroup>
 <thead>
 <tr>
@@ -1381,24 +1333,38 @@ concrete and measurable.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Converst information, data or other communications from one protocol or format to another.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Facade pattern</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analogous to a facade in architecture, a facade is an object that serves as a front-facing interface masking more complex underlying or structural code.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaScript</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An object-oriented computer proframming language commonly used to create interactive effects within web browsers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Structured set of data held in a computer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prototipe</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A model of the views for the web application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Query</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question or request for information expressed in a formal manner. The retrieved information comes from a database.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</div>
-</div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-05 17:15:38 +0100
+Last updated 2024-02-29 20:54:55 +0100
 </div>
 </div>
 </body>
