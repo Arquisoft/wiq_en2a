@@ -74,7 +74,7 @@ jobs:
       with:
           name: arquisoft/wiq_en2a/questiongenerator
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_PAT }}
           registry: ghcr.io
           workdir: game/qgservice
 
