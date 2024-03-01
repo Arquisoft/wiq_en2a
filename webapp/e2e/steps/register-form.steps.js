@@ -38,7 +38,7 @@ defineFeature(feature, test => {
     when('I fill the data in the form and press submit', async () => {
       await page.type('input[name="username"]', username);
       await page.type('input[name="password"]', password);
-      await page.click('button', { text: 'Add User' })
+      await page.click('button', { text: 'Add User' }) 
     });
 
    then('A confirmation message should be shown in the screen', async () => {
