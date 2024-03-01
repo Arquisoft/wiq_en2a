@@ -18,6 +18,7 @@ app.use(express.json());
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
 // const openai = new OpenAI();
+// 
 
 async function executeSparqlQuery(query) {
   try {
