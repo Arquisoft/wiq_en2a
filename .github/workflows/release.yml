@@ -72,9 +72,9 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       with:
-          name: pelazas/questiongenerator
+          name: arquisoft/wiq_en2a/questiongenerator
           username: ${{ github.actor }}
-          password: ${{ secrets.GH_PAT }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: game/qgservice
 

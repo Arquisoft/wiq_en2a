@@ -41,7 +41,7 @@ services:
     
   questiongeneratorservice:
     container_name: qgservice-${teamname:-defaultASW}
-    image: ghcr.io/pelazas/questiongenerator:latest
+    image: ghcr.io/arquisoft/wiq_en2a/questiongenerator:latest
     profiles: ["dev", "prod"]
     build: ./game/qgservice
     depends_on:
@@ -52,8 +52,6 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
-    volumes:
-      - ./game/qgservice:/usr/src/questiongeneratorservice
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
