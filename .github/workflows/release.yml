@@ -76,7 +76,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT }}
           registry: ghcr.io
-          workdir: users/qgservice
+          workdir: game/qgservice
 
   docker-push-authservice:
     name: Push auth service Docker Image to GitHub Packages
