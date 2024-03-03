@@ -35,6 +35,8 @@ app.get('/', (req, res) => {
 
 app.post('/join', (req,requiredFields) => {
   res.json({ message: 'Joining Group' });
+  validateRequiredFields(req, ['user']);
+
   //
 });
 
@@ -42,8 +44,29 @@ app.post('/leave', (req,requiredFields) => {
   res.json({ message: 'Leaving Group' });
 });
 
-app.post('/create', (req,requiredFields) =>{
-  res.json({ message: 'Creating Group' });
+app.post('/create', async (req,requiredFields) =>{
+  try{
+    res.json({ message: 'Creating Group' });
+
+    const joinCode = crypto.randomUUID;
+    const dateNow = Date();
+
+    const newGroup = new Group({
+      groupName: req.body.groupName,
+      admin: req.body.adminUserName,
+      maxNuberUsers: req.body.maxNuberUsers,
+      description: req.body.description,
+      isPublic: req.body.isPublic,
+      joinCode: joinCode,
+      creationDate: dateNow,
+    });
+    
+    await newGroup.save();
+    res.json(newGroup);
+  } catch(error){
+    res.status(400).json({error: error.message})
+  }
+
 });
 
 app.put('/')
