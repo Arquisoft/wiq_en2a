@@ -16,6 +16,32 @@ const groupSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    admin: {
+        type: String,
+        required: true,
+    },
+    maxNumUsers: {
+        type: Number,
+        required: true,
+    },
+    description: {
+        type: String,
+        requiered: false,
+    },
+    isPublic: {
+        type: Boolean,
+        requiered: true,
+    },
+    joinCode: {
+        type: String,
+        requiered: false,
+    },
+    creationDate: {
+        type: Date,
+        required: false,
+    }
+
+
 });
 
 const Group = mongoose.model('Group', groupSchema);
