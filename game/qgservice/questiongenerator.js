@@ -74,6 +74,44 @@ function generateQuestionCapital(countryCapitalMap) {
   return question;
 }
 
+function generateQuestionDates(eventDateMap) {
+  const eventDateArray = Array.from(eventDateMap);
+
+  const randomIndex = Math.floor(Math.random() * eventDateArray.length);
+  const [event, date] = eventDateArray[randomIndex];
+
+  const incorrectAnswers = [];
+  while (incorrectAnswers.length < 3) {
+    const randomEvent = eventDateArray[Math.floor(Math.random() * eventDateArray.length)];
+    const [randomEventName, randomDate] = randomEvent;
+    if (randomEventName !== event && !incorrectAnswers.includes(randomDate)) {
+      incorrectAnswers.push(randomDate);
+    }
+  }
+
+  // Create the question object
+  const question = {
+    question: `When did ${event} take place?`,
+    correctAnswer: date,
+    incorrectAnswer1: incorrectAnswers[0],
+    incorrectAnswer2: incorrectAnswers[1],
+    incorrectAnswer3: incorrectAnswers[2],
+  };
+
+  // Save the question to MongoDB
+  const newQuestion = new Question4Answers(question);
+  newQuestion.save()
+    .then(savedQuestion => {
+      console.log('Question saved to MongoDB:', savedQuestion);
+    })
+    .catch(error => {
+      console.error('Error saving question to MongoDB:', error.message);
+    });
+
+  return question;
+}
+
+
 module.exports = {
   generateQuestionPopulation,
   generateQuestionCapital

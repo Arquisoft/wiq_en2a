@@ -40,6 +40,14 @@ SELECT ?country ?countryLabel ?capital ?capitalLabel WHERE {
 }
 `
 
+const historicalEventsquery = `SELECT ?event ?eventLabel ?date
+WHERE
+{
+  ?event wdt:P31/wdt:P279* wd:Q198. 
+  ?event wdt:P585 ?date. 
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}`
+
 
 
 const chatgptPrompt = `

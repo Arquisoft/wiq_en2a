@@ -5,8 +5,8 @@ const express = require('express');
 // const bodyParser = require('body-parser');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { worldPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery } = require('./queries');
-const { generateQuestionPopulation, generateQuestionCapital } = require('./questiongenerator');
+const { worldPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery, historicalEventsquery } = require('./queries');
+const { generateQuestionPopulation, generateQuestionCapital, generateQuestionDate } = require('./questiongenerator');
 const { saveMathQuestions } = require('./MathQuestions');
 
 const app = express();
@@ -101,6 +101,40 @@ app.get('/game', async (req, res) => {
 
     for (let i = 0; i < numberOfQuestionsWorldPopulation; i++) {
       const question = generateQuestionPopulation(worldPopulation);
+      questions.push(question);
+    }
+
+    // 5 preguntas poblacion españa
+    const spainPopulationResult = await executeSparqlQuery(spainPopulationQuery);
+    const spainPopulation = new Map();
+
+    spainPopulationResult.results.bindings.forEach(entry => {
+      const cityLabel = entry.cityLabel.value;
+      const population = parseFloat(entry.population.value);
+      spainPopulation.set(cityLabel, population);
+    });
+
+    const numberOfQuestionsSpainPopulation = 2;
+
+    for (let i = 0; i < numberOfQuestionsSpainPopulation; i++) {
+      const question = generateQuestionPopulation(spainPopulation);
+      questions.push(question);
+    }
+
+    // 5 preguntas eventos historicos
+    const historicalEventResult = await executeSparqlQuery(historicalEventsquery);
+    const historicalEvent = new Map();
+
+    historicalEventResult.results.bindings.forEach(entry => {
+      const eventLabel = entry.eventLabel.value;
+      const date = parseDate(entry.date.value);
+      worldPopulation.set(eventLabel, date);
+    });
+
+    const numberOfQuestionsHistoricalEvent = 3;
+
+    for (let i = 0; i < numberOfQuestionsHistoricalEvent; i++) {
+      const question = generateQuestionDates(historicalEvent);
       questions.push(question);
     }
 
