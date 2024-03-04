@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Init from '../../components/Init';
 import '../../i18n';
 
+/** Code that was beforehand in App.tsx */
 export const InitPage: React.FC<{}> = () =>{
   const { t } = useTranslation()
   // const [showGoogleLM, setShowGoogleLM] = useState(false);
