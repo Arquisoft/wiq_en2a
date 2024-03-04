@@ -3,13 +3,14 @@ import  { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import GameLayout from './GameLayout';
+import { useNavigate } from "react-router-dom";
 
 type ActionProps = {
     goBack:()=> void;
 }
 
 const Login = (props: ActionProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -36,21 +37,12 @@ const Login = (props: ActionProps) => {
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
+    if(loginSuccess)
+      navigate("/game");
   };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
-        /*<{ div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>} */
-        <GameLayout/>
-      ) : (
         <div>
           <Typography component="h1" variant="h5">
             {t('login')}
@@ -81,7 +73,6 @@ const Login = (props: ActionProps) => {
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
-      )}
     </Container>
   );
 };
