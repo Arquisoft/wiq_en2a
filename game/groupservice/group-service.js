@@ -67,15 +67,15 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/join', async (req,res,requiredFields) => {
+app.post('/join', async (req,res) => {
   try{
     res.json({ message: 'Joining Group' });
-    //requieredFields = ['username','groupName','joinCode']
+    requieredFields = ['username','groupName','joinCode']
     validateRequiredFields(req, requiredFields);
 
     //Group.findOne returns a promise
     //To obtain a Group object we return it in a diferent
-    const group = getGroupByName(req.groupName);
+    const group = getGroupByName(req.body.groupName);
 
 
     //checks for telling if the operacion can  be performedWW
@@ -86,7 +86,7 @@ app.post('/join', async (req,res,requiredFields) => {
     }
 
     if(!group.isPublic){
-      if(group.joinCode != joinCode){
+      if(group.joinCode != req.body.joinCode){
         res.json({ message2: 'The code for joining this private group' +
          ' is incorrect action has been cancelled' });
         return;
@@ -95,15 +95,18 @@ app.post('/join', async (req,res,requiredFields) => {
 
     //User.findOne returns a promise
     //To obtain a User object we return it in a diferent
-    const user = getUserByName(req.username);
+    const user = getUserByName(req.body.username);
 
     group.numberOfUsers += 1;
 
     user.groupName = groupName;
     res.json({ message2: 'User' + userName + ' joined group: '+ groupName });
     
+    
     await group.save()  
     await user.save()
+
+    res.json(user);
 
   }catch(error){
     res.status(400).json({error: error.message})
@@ -111,20 +114,20 @@ app.post('/join', async (req,res,requiredFields) => {
 
 });
 
-app.post('/leave', async (req,res,requiredFields) => {
+app.post('/leave', async (req,res) => {
   try{
     res.json({ message: 'Leaving Group' });
 
-    //requieredFields = ['username','groupName']
+    requieredFields = ['username','groupName']
     validateRequiredFields(req, requiredFields);
   
-    const group = getGroupByName(req.groupName);
+    const group = getGroupByName(req.body.groupName);
 
     if(!group){
       res.status(401).json({ error: 'This group does not exist' });
     }
 
-    const user = getUserByName(req.username);
+    const user = getUserByName(req.body.username);
 
     if(!user){
       res.status(401).json({ error: 'This user does not exist' });
@@ -138,7 +141,7 @@ app.post('/leave', async (req,res,requiredFields) => {
 
       user.groupName = null;
 
-      group.admin = req.newAdmin
+      group.admin = req.body.newAdmin
       
       
     }else{
@@ -152,15 +155,17 @@ app.post('/leave', async (req,res,requiredFields) => {
 
     res.json({ message2: 'User' + userName + ' left group: '
     + groupName });
+
+    res.json(user);
   }catch(error){
     res.status(400).json({error: error.message})
   }
 });
 
-app.post(' /kickUser', async (req,res,requiredFields) =>{
+app.post(' /kickUser', async (req,res) =>{
   try{
     res.json({ message: 'Leaving Group' });
-    //requieredFields = ['username','groupName','adminName']
+    requieredFields = ['username','groupName','adminName']
     validateRequiredFields(req, requiredFields);
 
     const group = getGroupByName(req.groupName);
@@ -180,17 +185,17 @@ app.post(' /kickUser', async (req,res,requiredFields) =>{
     removeUserFromGroup(user,group);
     res.json({ message2: 'User' + userName + ' has been kicked from group: '
     + groupName });
+
+    res.json(user);
   }catch(error){
     res.status(400).json({error: error.message})
   }
 });
 
-app.post
-
-app.post('/create', async (req,requiredFields) =>{
+app.post('/create', async (req,res) =>{
   try{
 
-    //required fields =['groupName','adminUserName','description','isPublic']
+    requiredFields =['groupName','adminUserName','description','isPublic']
     validateRequiredFields(req,requiredFields);
 
     res.json({ message: 'Creating Group' });
@@ -210,13 +215,12 @@ app.post('/create', async (req,requiredFields) =>{
     
     await newGroup.save();
     res.json(newGroup);
+
   } catch(error){
     res.status(400).json({error: error.message})
   }
 
 });
-
-app.put('/')
 
 const server = app.listen(port, () => {
   console.log(`Group Service listening at http://localhost:${port}`);
