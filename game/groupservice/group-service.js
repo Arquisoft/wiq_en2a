@@ -29,13 +29,40 @@ function validateRequiredFields(req, requiredFields) {
   - crear: recibe el user (lo asigna admin), todos los campos de grupo, y se crea el grupo
 */
 
+
+/**
+ * 
+ * @param {nome of the user we want to find} name 
+ * @returns 
+ */
+async function getUserByName(name){
+  const user = await User.findOne({username: req.username})
+  return user;
+}
+
+async function getGroupByName(groupName){
+  const group = await Group.findOne({groupName: req.username})
+  return group;
+}
+
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to group service module' });
 });
 
-app.post('/join', (req,requiredFields) => {
+
+app.post('/join', async (req,requiredFields) => {
   res.json({ message: 'Joining Group' });
-  validateRequiredFields(req, ['user']);
+  validateRequiredFields(req, ['username','groupName']);
+
+  const group = getGroupByName(req.groupName);
+
+  //User.findOne returns a promise
+  //To obtain a User object we return it in a diferent
+  const user = getUserByName(req.username);
+
+  
+
+  await user.save()
 
   //
 });
@@ -46,6 +73,10 @@ app.post('/leave', (req,requiredFields) => {
 
 app.post('/create', async (req,requiredFields) =>{
   try{
+
+    validateRequiredFields(req, ['groupName','adminUserName','maxNUmberUsers',
+      'description','isPublic'])
+
     res.json({ message: 'Creating Group' });
 
     const joinCode = crypto.randomUUID;

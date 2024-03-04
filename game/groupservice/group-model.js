@@ -20,6 +20,10 @@ const groupSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    numberOfUsers:{
+        type: Number,
+        required: true,
+    },
     maxNumUsers: {
         type: Number,
         required: true,
