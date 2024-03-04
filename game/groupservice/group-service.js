@@ -24,6 +24,28 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
+async function removeUserFromGroup(req,res,requieredFields){
+  res.json({ message: 'Leaving Group' });
+  //requieredFields = ['username','groupName']
+  validateRequiredFields(req, requiredFields);
+
+  //Group.findOne returns a promise
+  //To obtain a Group object we return it in a diferent
+  const group = getGroupByName(req.groupName);
+
+  group.numberOfUsers -= 1;
+
+  //User.findOne returns a promise
+  //To obtain a User object we return it in a diferent
+  const user = getUserByName(req.username);
+
+  user.groupName = null;
+  
+  await group.save()  
+  await user.save()
+
+}
+
 /*
   PETICIONES:
   - unirse: recibe el user y se añade a members, manejar tamaño maximo de grupo y si es publico/privado contraseña
@@ -55,7 +77,7 @@ app.get('/', (req, res) => {
 app.post('/join', async (req,res,requiredFields) => {
   try{
     res.json({ message: 'Joining Group' });
-    //requieredFields = ['username','groupName']
+    //requieredFields = ['username','groupName','joinCode']
     validateRequiredFields(req, requiredFields);
 
     //Group.findOne returns a promise
@@ -87,31 +109,26 @@ app.post('/join', async (req,res,requiredFields) => {
 
 app.post('/leave', async (req,res,requiredFields) => {
   try{
-    res.json({ message: 'Leaving Group' });
-    //requieredFields = ['username','groupName']
-    validateRequiredFields(req, requiredFields);
-
-    //Group.findOne returns a promise
-    //To obtain a Group object we return it in a diferent
-    const group = getGroupByName(req.groupName);
-
-    group.numberOfUsers -= 1;
-
-    //User.findOne returns a promise
-    //To obtain a User object we return it in a diferent
-    const user = getUserByName(req.username);
-
-    user.groupName = null;
+    removeUserFromGroup(req,res,requiredFields);
     res.json({ message2: 'User' + userName + ' left group: '
-      + groupName });
-    
-    await group.save()  
-    await user.save()
-
+    + groupName });
   }catch(error){
     res.status(400).json({error: error.message})
   }
 });
+
+app.post(' /kickUser', async (req,res,requiredFields) =>{
+  try{
+    //COMPROBAR QUE EL USUARIO QUE PIDE EL KICK ES EL ADMIN
+    removeUserFromGroup(req,res,requiredFields);
+    res.json({ message2: 'User' + userName + ' has been kicked from group: '
+    + groupName });
+  }catch(error){
+    res.status(400).json({error: error.message})
+  }
+});
+
+app.post
 
 app.post('/create', async (req,requiredFields) =>{
   try{
