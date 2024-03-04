@@ -9,11 +9,11 @@ const port = 8004;
 const maxNuberUsers = 30;
 
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Connect to MongoDB 
-// const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
-// mongoose.connect(mongoUri);
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
+mongoose.connect(mongoUri);
 
 // Function to validate required fields in the request body
 function validateRequiredFields(req, requiredFields) {
@@ -22,28 +22,6 @@ function validateRequiredFields(req, requiredFields) {
       throw new Error(`Missing required field: ${field}`);
     }
   }
-}
-
-async function removeUserFromGroup(req,res,requieredFields){
-  res.json({ message: 'Leaving Group' });
-  //requieredFields = ['username','groupName']
-  validateRequiredFields(req, requiredFields);
-
-  //Group.findOne returns a promise
-  //To obtain a Group object we return it in a diferent
-  const group = getGroupByName(req.groupName);
-
-  group.numberOfUsers -= 1;
-
-  //User.findOne returns a promise
-  //To obtain a User object we return it in a diferent
-  const user = getUserByName(req.username);
-
-  user.groupName = null;
-  
-  await group.save()  
-  await user.save()
-
 }
 
 /*
@@ -55,17 +33,32 @@ async function removeUserFromGroup(req,res,requieredFields){
 
 
 /**
- * 
- * @param {nome of the user we want to find} name 
+ * Finds a User in the database by username
+ * It check if the user exist
+ * @param {username of the user we want to find} name 
  * @returns 
  */
-async function getUserByName(name){
-  const user = await User.findOne({username: req.username})
+async function getUserByName(res,name){
+  const user = await User.findOne({username: name})
+
+  if(!user){
+    res.status(401).json({ error: 'This user does not exist' });
+  }
   return user;
 }
 
-async function getGroupByName(groupName){
-  const group = await Group.findOne({groupName: req.username})
+/**
+ * Finds a Group in the database from the database
+ * It check if the group exist
+ * @param {groupName of group we want to find} name 
+ * @returns 
+ */
+async function getGroupByName(name){
+  const group = await Group.findOne({groupName: name})
+  
+  if(!group){
+    res.status(401).json({ error: 'This group does not exist' });
+  }
   return group;
 }
 
@@ -84,9 +77,20 @@ app.post('/join', async (req,res,requiredFields) => {
     //To obtain a Group object we return it in a diferent
     const group = getGroupByName(req.groupName);
 
+
+    //checks for telling if the operacion can  be performedWW
+
     if(group.numberOfUsers == maxNuberUsers){
       res.json({ message2: 'This group is full' });
       return;
+    }
+
+    if(!group.isPublic){
+      if(group.joinCode != joinCode){
+        res.json({ message2: 'The code for joining this private group' +
+         ' is incorrect action has been cancelled' });
+        return;
+      }
     }
 
     //User.findOne returns a promise
@@ -109,7 +113,43 @@ app.post('/join', async (req,res,requiredFields) => {
 
 app.post('/leave', async (req,res,requiredFields) => {
   try{
-    removeUserFromGroup(req,res,requiredFields);
+    res.json({ message: 'Leaving Group' });
+
+    //requieredFields = ['username','groupName']
+    validateRequiredFields(req, requiredFields);
+  
+    const group = getGroupByName(req.groupName);
+
+    if(!group){
+      res.status(401).json({ error: 'This group does not exist' });
+    }
+
+    const user = getUserByName(req.username);
+
+    if(!user){
+      res.status(401).json({ error: 'This user does not exist' });
+    }
+
+    //if the admin leaves the group it must name a new admin
+    //before leaving
+    if(group.admin == user.name){
+      validateRequiredFields(['newAdmin'], requiredFields);
+      group.numberOfUsers -= 1;
+
+      user.groupName = null;
+
+      group.admin = req.newAdmin
+      
+      
+    }else{
+      group.numberOfUsers -= 1;
+
+      user.groupName = null;
+    }
+    
+    await group.save()  
+    await user.save() 
+
     res.json({ message2: 'User' + userName + ' left group: '
     + groupName });
   }catch(error){
@@ -119,8 +159,25 @@ app.post('/leave', async (req,res,requiredFields) => {
 
 app.post(' /kickUser', async (req,res,requiredFields) =>{
   try{
-    //COMPROBAR QUE EL USUARIO QUE PIDE EL KICK ES EL ADMIN
-    removeUserFromGroup(req,res,requiredFields);
+    res.json({ message: 'Leaving Group' });
+    //requieredFields = ['username','groupName','adminName']
+    validateRequiredFields(req, requiredFields);
+
+    const group = getGroupByName(req.groupName);
+
+    if(group.admin != adminName ){
+      res.json({ message2: 'Acion cancelled, only the admin' +
+      'is allowed to kick other users'});
+      return;
+    }
+    if(group.admin == username){
+      res.json({ message2: 'Acion cancelled, you can not kick the admin'});
+      return;
+    }
+
+    const user = getUserByName(req.username);
+
+    removeUserFromGroup(user,group);
     res.json({ message2: 'User' + userName + ' has been kicked from group: '
     + groupName });
   }catch(error){
