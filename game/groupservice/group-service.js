@@ -71,9 +71,12 @@ app.post('/join', async (req,res,requiredFields) => {
     //To obtain a User object we return it in a diferent
     const user = getUserByName(req.username);
 
+    group.numberOfUsers += 1;
+
     user.groupName = groupName;
-    res.json({ message2: 'User' + userName + ' has been added to group: '
-       + groupName });
+    res.json({ message2: 'User' + userName + ' joined group: '+ groupName });
+    
+    await group.save()  
     await user.save()
 
   }catch(error){
@@ -82,8 +85,32 @@ app.post('/join', async (req,res,requiredFields) => {
 
 });
 
-app.post('/leave', (req,requiredFields) => {
-  res.json({ message: 'Leaving Group' });
+app.post('/leave', async (req,res,requiredFields) => {
+  try{
+    res.json({ message: 'Leaving Group' });
+    //requieredFields = ['username','groupName']
+    validateRequiredFields(req, requiredFields);
+
+    //Group.findOne returns a promise
+    //To obtain a Group object we return it in a diferent
+    const group = getGroupByName(req.groupName);
+
+    group.numberOfUsers -= 1;
+
+    //User.findOne returns a promise
+    //To obtain a User object we return it in a diferent
+    const user = getUserByName(req.username);
+
+    user.groupName = null;
+    res.json({ message2: 'User' + userName + ' left group: '
+      + groupName });
+    
+    await group.save()  
+    await user.save()
+
+  }catch(error){
+    res.status(400).json({error: error.message})
+  }
 });
 
 app.post('/create', async (req,requiredFields) =>{
