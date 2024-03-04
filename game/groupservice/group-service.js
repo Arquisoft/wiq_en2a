@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 8004; 
 
+const maxNuberUsers = 30;
+
 
 app.use(bodyParser.json());
 
@@ -50,21 +52,34 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/join', async (req,requiredFields) => {
-  res.json({ message: 'Joining Group' });
-  validateRequiredFields(req, ['username','groupName']);
+app.post('/join', async (req,res,requiredFields) => {
+  try{
+    res.json({ message: 'Joining Group' });
+    //requieredFields = ['username','groupName']
+    validateRequiredFields(req, requiredFields);
 
-  const group = getGroupByName(req.groupName);
+    //Group.findOne returns a promise
+    //To obtain a Group object we return it in a diferent
+    const group = getGroupByName(req.groupName);
 
-  //User.findOne returns a promise
-  //To obtain a User object we return it in a diferent
-  const user = getUserByName(req.username);
+    if(group.numberOfUsers == maxNuberUsers){
+      res.json({ message2: 'This group is full' });
+      return;
+    }
 
-  
+    //User.findOne returns a promise
+    //To obtain a User object we return it in a diferent
+    const user = getUserByName(req.username);
 
-  await user.save()
+    user.groupName = groupName;
+    res.json({ message2: 'User' + userName + ' has been added to group: '
+       + groupName });
+    await user.save()
 
-  //
+  }catch(error){
+    res.status(400).json({error: error.message})
+  }
+
 });
 
 app.post('/leave', (req,requiredFields) => {
@@ -74,8 +89,8 @@ app.post('/leave', (req,requiredFields) => {
 app.post('/create', async (req,requiredFields) =>{
   try{
 
-    validateRequiredFields(req, ['groupName','adminUserName','maxNUmberUsers',
-      'description','isPublic'])
+    //required fields =['groupName','adminUserName','description','isPublic']
+    validateRequiredFields(req,requiredFields);
 
     res.json({ message: 'Creating Group' });
 
@@ -85,7 +100,7 @@ app.post('/create', async (req,requiredFields) =>{
     const newGroup = new Group({
       groupName: req.body.groupName,
       admin: req.body.adminUserName,
-      maxNuberUsers: req.body.maxNuberUsers,
+      maxNuberUsers: maxNuberUsers,
       description: req.body.description,
       isPublic: req.body.isPublic,
       joinCode: joinCode,
