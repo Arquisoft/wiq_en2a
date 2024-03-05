@@ -70,7 +70,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      QG_SERVICE_URL: http://questiongeneratorservice:8003
+      GQ_SERVICE_URL: http://questiongeneratorservice:8003
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
