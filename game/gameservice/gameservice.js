@@ -17,7 +17,12 @@ app.get('/', (req, res) => {
     "hi": "game service"
   });
 });
+/* 
 
+  PETICIONES A HACER:
+    1. Crear game dado un array de preguntas y un array de usuarios.
+
+ */
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);
