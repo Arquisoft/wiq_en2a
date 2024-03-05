@@ -28,12 +28,11 @@ function validateRequiredFields(req, requiredFields) {
 app.post('/creategame', async (req, res) => {
     try {
         // Check if required fields are present in the request body
-        validateRequiredFields(req, ['player1', 'player1points']);
+        validateRequiredFields(req, ['player']);
 
         const newGame = new Game({
             //id: TODO: generate unique id
-            player1: req.body.player1,
-            player1Points: req.body.player1points,
+            player1: req.body.player,
             questions: req.body.questions,
         });
 
