@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8004
 
 # Define the command to run your app
-CMD ["node", "user-service.js"]
+CMD ["node", "gameservice.js"]

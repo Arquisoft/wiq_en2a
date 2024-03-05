@@ -26,6 +26,7 @@ app.get('/health', (_req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
+    console.log(authServiceUrl)
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
@@ -45,12 +46,10 @@ app.post('/adduser', async (req, res) => {
 
 app.get('/questionsGame', async (req, res) => {
   try {
-    const response = await axios.get(qgServiceUrl+'/game');
-    const questions = response.data;
-    res.json(questions);
-
+    const response = await axios.get( qgServiceUrl+"/game");
+    res.json(response.data);
   } catch (error) {
-    
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
