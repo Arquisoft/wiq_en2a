@@ -33,3 +33,13 @@ $white-medium: #F5F5F5;
 $white-intense: #FFFFFF;
 
 // Application fonts   
+
+// Font stack for the body
+
+$font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+
+// Font stack for the code
+
+$font-family-code: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+monospace;
