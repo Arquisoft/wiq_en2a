@@ -15,13 +15,19 @@ const groupSchema = new mongoose.Schema({
     groupName: {
         type: String,
         required: true,
+        unique: true,
     },
     admin: {
         type: String,
         required: true,
     },
-    numberOfUsers:{
-        type: Number,
+    members:{
+        type: [
+            {
+                type: String,
+                ref: "User"
+            }
+        ],
         required: true,
     },
     maxNumUsers: {

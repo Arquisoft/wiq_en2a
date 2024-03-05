@@ -74,13 +74,12 @@ app.post('/join', async (req,res) => {
     validateRequiredFields(req, requiredFields);
 
     //Group.findOne returns a promise
-    //To obtain a Group object we return it in a diferent
     const group = getGroupByName(req.body.groupName);
 
 
-    //checks for telling if the operacion can  be performedWW
+    //checks for telling if the operacion can  be performed
 
-    if(group.numberOfUsers == maxNuberUsers){
+    if(group.members.length == maxNuberUsers){
       res.json({ message2: 'This group is full' });
       return;
     }
@@ -94,12 +93,11 @@ app.post('/join', async (req,res) => {
     }
 
     //User.findOne returns a promise
-    //To obtain a User object we return it in a diferent
     const user = getUserByName(req.body.username);
 
-    group.numberOfUsers += 1;
-
+    group.members.push(user.username);
     user.groupName = groupName;
+
     res.json({ message2: 'User' + userName + ' joined group: '+ groupName });
     
     
@@ -137,7 +135,6 @@ app.post('/leave', async (req,res) => {
     //before leaving
     if(group.admin == user.name){
       validateRequiredFields(['newAdmin'], requiredFields);
-      group.numberOfUsers -= 1;
 
       user.groupName = null;
 
@@ -145,11 +142,11 @@ app.post('/leave', async (req,res) => {
       
       
     }else{
-      group.numberOfUsers -= 1;
-
       user.groupName = null;
     }
-    
+
+    var index = group.members.at(user.username);
+    group.members[index] = null;
     await group.save()  
     await user.save() 
 
@@ -182,7 +179,9 @@ app.post(' /kickUser', async (req,res) =>{
 
     const user = getUserByName(req.username);
 
-    removeUserFromGroup(user,group);
+    var index = group.members.at(user.username);
+    group.members[index] = null;emoveUserFromGroup(user,group);
+    
     res.json({ message2: 'User' + userName + ' has been kicked from group: '
     + groupName });
 
@@ -206,6 +205,7 @@ app.post('/create', async (req,res) =>{
     const newGroup = new Group({
       groupName: req.body.groupName,
       admin: req.body.adminUserName,
+      members: [req.body.adminUserName],
       maxNuberUsers: maxNuberUsers,
       description: req.body.description,
       isPublic: req.body.isPublic,
