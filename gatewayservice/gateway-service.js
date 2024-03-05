@@ -44,12 +44,10 @@ app.post('/adduser', async (req, res) => {
 
 app.get('/questionsGame', async (req, res) => {
   try {
-    const response = await axios.get(qgServiceUrl+'/game');
-    const questions = response.data;
-    res.json(questions);
-
+    const response = await axios.get("http://questiongeneratorservice:8003/game", req.body);
+    res.json(response.data);
   } catch (error) {
-    
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
