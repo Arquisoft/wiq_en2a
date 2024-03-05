@@ -66,5 +66,6 @@ module.exports = {
   spainPopulationQuery,
   //chatgptPrompt,
   spainCapitalQuery,
-  worldCapitalQuery
+  worldCapitalQuery,
+  historicalEventsquery
 };

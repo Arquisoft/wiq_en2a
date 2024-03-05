@@ -6,7 +6,7 @@ const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const { worldPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery, historicalEventsquery } = require('./queries');
-const { generateQuestionPopulation, generateQuestionCapital, generateQuestionDate } = require('./questiongenerator');
+const { generateQuestionPopulation, generateQuestionCapital, generateQuestionDates } = require('./questiongenerator');
 const { saveMathQuestions } = require('./MathQuestions');
 
 const app = express();
