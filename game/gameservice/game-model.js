@@ -1,20 +1,31 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-    username: {
+
+
+const gameSchema = new mongoose.Schema({
+    id: {
       type: String,
       required: true,
     },
-    password: {
-      type: String,
-      required: true,
+    player1:{
+        type: mongoose.Schema.Types.ObjectId,ref:'User',
+        required: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now, 
-    },
+    player2: 
+      {
+        type: mongoose.Schema.Types.ObjectId,ref:'User'
+      },
+    player3: 
+      {
+        type: mongoose.Schema.Types.ObjectId,ref:'User'
+      },
+    questions:[
+      {
+        type: mongoose.Schema.Types.ObjectId,ref:'Question4Answers'
+      }
+    ],
 });
 
-const User = mongoose.model('User', userSchema);
+const Game = mongoose.model('Game', gameSchema);
 
-module.exports = User
+module.exports = Game
