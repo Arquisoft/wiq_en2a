@@ -1,12 +1,11 @@
 // user-service.js
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const User = require('./user-model')
+const Game = require('./game-model')
 
 const app = express();
-const port = 8001;
+const port = 8004;
 
 // Middleware to parse JSON in request body
 app.use(bodyParser.json());
@@ -26,21 +25,20 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-app.post('/adduser', async (req, res) => {
+app.post('/creategame', async (req, res) => {
     try {
         // Check if required fields are present in the request body
-        validateRequiredFields(req, ['username', 'password']);
+        validateRequiredFields(req, ['player1', 'player1points']);
 
-        // Encrypt the password before saving it
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-        const newUser = new User({
-            username: req.body.username,
-            password: hashedPassword,
+        const newGame = new Game({
+            //id: TODO: generate unique id
+            player1: req.body.player1,
+            player1Points: req.body.player1points,
+            questions: req.body.questions,
         });
 
-        await newUser.save();
-        res.json(newUser);
+        await newGame.save();
+        res.json(newGame);
     } catch (error) {
         res.status(400).json({ error: error.message }); 
     }});

@@ -11,14 +11,22 @@ const gameSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,ref:'User',
         required: true,
     },
-    player2: 
-      {
+    player1Points:{
+        type: Number,
+        required: true,
+    },
+    player2:{
         type: mongoose.Schema.Types.ObjectId,ref:'User'
-      },
-    player3: 
-      {
+    },
+    player2Points:{
+      type: Number,
+    },
+    player3:{
         type: mongoose.Schema.Types.ObjectId,ref:'User'
-      },
+    },
+    player3Points:{
+      type: Number, 
+    },
     questions:[
       {
         type: mongoose.Schema.Types.ObjectId,ref:'Question4Answers'

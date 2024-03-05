@@ -9,6 +9,7 @@ const port = 8000;
 const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const qgServiceUrl = process.env.GQ_SERVICE_URL || 'http://localhost:8003';
+const gameServiceUrl = process.env.GQ_SERVICE_URL || 'http://localhost:8004';
 
 app.use(cors());
 app.use(express.json());
@@ -50,6 +51,15 @@ app.get('/questionsGame', async (req, res) => {
 
   } catch (error) {
     
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/addgame', async (req, res) => {
+  try {
+    const response = await axios.get(gameServiceUrl+'/addgame', req.body);
+    res.json(response.data);
+  } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
