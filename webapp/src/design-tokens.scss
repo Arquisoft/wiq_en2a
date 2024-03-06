@@ -1,6 +1,30 @@
-//Application sizes
+// APPLICATION MEDIA QUERY BREAKPOINTS
 
-// Application colors
+// Mobile devices
+
+$mobile-devices-min-size: rem(320px);
+$mobile-devices-max-size: rem(480px);
+
+// Ipads and tablets
+
+$ipads-and-tablets-min-size: rem(481px);
+$ipads-and-tablets-max-size: rem(768px);
+
+// Laptops and small screens
+
+$laptops-and-small-screens-min-size: rem(769px);
+$laptops-and-small-screens-max-size: rem(1024px);
+
+// Large screens and desktops
+
+$large-screens-and-desktops-min-size: rem(1025px);
+$large-screens-and-desktops-max-size: rem(1200px);
+
+// TV and extra large screens
+
+$tv-and-extra-large-screens-min-size: rem(1201px);
+
+// APPLICATION COLORS
 
 // Shades of gunmetal
 
@@ -32,7 +56,7 @@ $white-soft: #EBEBEB;
 $white-medium: #F5F5F5;
 $white-intense: #FFFFFF;
 
-// Application fonts   
+// APPLICATION FONTS   
 
 // Font stack for the body
 
