@@ -1,7 +1,7 @@
 // src/components/Login.js
 import  { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 
@@ -62,12 +62,14 @@ const Login = (props: ActionProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button  color="primary" onClick={loginUser}>
-          {t('login')}
-          </button>
-          <button color="primary" onClick={props.goBack}>
-          {t('go_back')}
-          </button>
+          <Stack direction="column" spacing={2}>
+            <Button  color="primary" onClick={loginUser}>
+              {t('login')}
+            </Button>
+            <Button color="primary" onClick={props.goBack}>
+              {t('go_back')}
+            </Button>
+          </Stack>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
