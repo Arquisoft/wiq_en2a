@@ -1,5 +1,6 @@
-const Question4Answers = require('./Question4Answers');
+const Question4Answers = require('../Question4Answers');
 const mongoose = require('mongoose');
+const uuid = require('uuid');
 
 function generateQuestionPopulation(cityPopulationMap) {
   const cityPopulationArray = Array.from(cityPopulationMap);
@@ -18,7 +19,7 @@ function generateQuestionPopulation(cityPopulationMap) {
 
   // Create the question object
   const question = {
-    _id: new mongoose.Types.ObjectId(), 
+    uuid: uuid.v4(), 
     question: `What is the population of ${city}?`,
     correctAnswer: population.toString(),
     incorrectAnswer1: incorrectAnswers[0].toString(),
@@ -56,7 +57,7 @@ function generateQuestionCapital(countryCapitalMap) {
 
   // Create the question object
   const question = {
-    _id: new mongoose.Types.ObjectId(),
+    uuid: uuid.v4(),
     question: `What is the capital of ${country}?`,
     correctAnswer: capital,
     incorrectAnswer1: incorrectAnswers[0],

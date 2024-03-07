@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const question4AnswersSchema = new mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  uuid: {
+    type: String,
+    required: true,
+  },
   question: {
     type: String,
     required: true,
@@ -26,4 +29,4 @@ const question4AnswersSchema = new mongoose.Schema({
 
 const Question4Answers = mongoose.model('Question4Answers', question4AnswersSchema);
 
-module.exports = {Question4Answers, question4AnswersSchema};
+module.exports = Question4Answers;

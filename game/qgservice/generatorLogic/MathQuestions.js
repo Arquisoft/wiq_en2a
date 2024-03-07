@@ -1,5 +1,6 @@
-const Question4Answers = require("./Question4Answers");
+const Question4Answers = require("../Question4Answers");
 const mongoose = require("mongoose");
+const uuid = require("uuid");
 
 function generateRandomMathQuestion() {
     const operators = ['+', '-', '*', '/'];
@@ -27,7 +28,7 @@ function generateRandomMathQuestion() {
     }
   
     return {
-      _id: new mongoose.Types.ObjectId(),
+      uuid: uuid.v4(),
       question,
       correctAnswer,
       incorrectAnswer1: incorrectAnswers[0],
