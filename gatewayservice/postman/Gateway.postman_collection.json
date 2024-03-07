@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "7435d58c-18e7-42d4-8ba7-1381cec22cd2",
+		"name": "Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33131426"
+	},
+	"item": [
+		{
+			"name": "Questions Game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"players\":[\r\n        {\"uuid\":\"af4c5a65-7768-47b8-aa05-4aff34b62391\"}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createGame",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createGame"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

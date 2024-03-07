@@ -58,11 +58,12 @@ app.get('/questionsGame', async (req, res) => {
 
 app.post('/createGame', async (req, res) => {
   try {
-    const createGameResponse = await axios.post(gameServiceUrl+'/creategame', req.body);
-    console.log("ESTOY AQUI")
-    const updateUserResponse = await axios.post(userServiceUrl+'/updateLastGame', createGameResponse.data);
+    const { players } = req.body;
+    const createGameResponse = await axios.get(qgServiceUrl+'/game');
+    const questions = createGameResponse.data;
+    const updateUserResponse = await axios.post(gameServiceUrl+'/createGame', {players, questions});
 
-    res.json(createGameResponse.data);
+    res.json(questions);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }

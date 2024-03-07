@@ -10,8 +10,9 @@ let GameController = {
         res.json(response);
     },*/
     create: async (req, res) => {
-        const { questions, users } = req.body;
-        const game = await createGame(questions, users);
+        const { questions, players } = req.body;
+        console.log(questions, players)
+        const game = await createGame(questions, players);
         res.json(game);
     },
     delete: async (req, res) => {
