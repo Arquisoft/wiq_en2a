@@ -1,10 +1,11 @@
 const Game = require("./game-model")
+const mongoose = require('mongoose');
 
 async function createGame(questions, users) {
     try {
         // Create a new Game instance
         const game = new Game({
-          id: mongoose.Types.ObjectId(),
+          _id: new mongoose.Types.ObjectId(),
           players: users,
           questions: questions,
         });

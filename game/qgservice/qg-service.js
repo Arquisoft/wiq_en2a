@@ -7,7 +7,7 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const { worldPopulationQuery, spainPopulationQuery, spainCapitalQuery, worldCapitalQuery } = require('./queries');
 const { generateQuestionPopulation, generateQuestionCapital } = require('./questiongenerator');
-const { saveMathQuestions } = require('./MathQuestions');
+const { createMathQuestions } = require('./MathQuestions');
 
 const app = express();
 const port = 8003;
@@ -101,12 +101,13 @@ app.get('/game', async (req, res) => {
       questions.push(question);
     }
 
-    const mathquestions = await saveMathQuestions(5)
+    const mathquestions = await createMathQuestions(5)
     questions.push(...mathquestions)
 
 
     res.json(questions);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal Server Error' });
   }
 })

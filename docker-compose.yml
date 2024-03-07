@@ -85,7 +85,7 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      GQ_SERVICE_URL: http://questiongeneratorservice:8003
+      QG_SERVICE_URL: http://questiongeneratorservice:8003
       GAME_SERVICE_URL: http://gameservice:8004
 
   webapp:

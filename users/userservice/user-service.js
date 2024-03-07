@@ -30,6 +30,7 @@ app.post('/adduser', async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
         const newUser = new User({
+            _id: new mongoose.Types.ObjectId(),
             username: req.body.username,
             password: hashedPassword,
         });

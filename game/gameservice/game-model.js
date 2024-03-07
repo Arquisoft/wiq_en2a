@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 
 
 const gameSchema = new mongoose.Schema({
-    id: {
-      type: String,
-      required: true,
-    },
+    _id: mongoose.Schema.Types.ObjectId,
     players:[{
         type: mongoose.Schema.Types.ObjectId,ref:'User',
         required: true,
