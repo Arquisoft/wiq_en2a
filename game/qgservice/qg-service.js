@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/game', QGController.getQuestions);
+app.post('/getQuestionsByIds', QGController.getQuestionsByIds)
 
 
 const server = app.listen(port, () => {

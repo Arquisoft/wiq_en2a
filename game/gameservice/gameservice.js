@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 // Routes
 app.post('/createGame', GameController.create);
 app.delete('/deleteGame/:id', GameController.delete);
-app.get('/getById/:id', GameController.getById);
+app.get('/getGame/:id', GameController.getById);
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);

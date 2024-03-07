@@ -71,6 +71,25 @@ app.post('/createGame', async (req, res) => {
   }
 });
 
+app.get('/getStats/:id', async (req, res) => {
+  try {
+    const uuid = req.params.id;
+    const statsResponse = await axios.get(userServiceUrl+'/getStatistics/'+uuid);
+    const userStats = statsResponse.data;
+    const gameResponse = await axios.get(gameServiceUrl+'/getGame/'+userStats.lastGameId);
+    const ids = gameResponse.data[0].questions;
+    const questionsResponse = await axios.post(qgServiceUrl+'/getQuestionsByIds/', {ids});
+    const questionsData = questionsResponse.data;
+    const combinedResponse = {
+      userStats,
+      lastGame: questionsData
+    }
+    res.json(combinedResponse);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
 
 // Start the gateway service
 const server = app.listen(port, () => {

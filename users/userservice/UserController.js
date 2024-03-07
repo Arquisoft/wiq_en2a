@@ -72,6 +72,11 @@ let UserController = {
         }
         const nPlayers = players.length;
         res.json({ "message": `Statistics updated for ${nPlayers} users.` });
+    },
+    getStatistics: async (req, res) => {
+        const uuid = req.params.id;
+        const user = await User.findOne({ uuid: uuid }).select('-password');
+        res.json(user);
     }
     
 }

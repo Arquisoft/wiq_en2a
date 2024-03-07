@@ -25,6 +25,7 @@ mongoose.connect(mongoUri);
 app.post('/adduser',UserController.addUser);
 app.post('/updateLastGame', UserController.updateLastGame);
 app.post('/updateStatistics', UserController.updateStatistics);
+app.get('/getStatistics/:id', UserController.getStatistics);
 
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);

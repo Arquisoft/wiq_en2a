@@ -1,4 +1,5 @@
 const { generateQuestionPopulation, generateQuestionCapital } = require('./generatorLogic/questiongenerator');
+const Question4Answers = require('./Question4Answers');
 const { executeSparqlQuery } = require('./generatorLogic/SparqlQuery')
 const { bindCapitalsResults, bindPopulationResults } = require('./generatorLogic/BindResults')
 const { spainCapitalQuery, worldCapitalQuery, worldPopulationQuery } = require('./generatorLogic/queries')
@@ -46,6 +47,22 @@ let QGController = {
 
             res.json(questions);
 
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
+    getQuestionsByIds: async (req, res) => {
+        try {
+            const { ids } = req.body;
+            console.log(ids)
+            const questions = [];
+            for (const id of ids) {
+                const question = await Question4Answers.find({uuid: id})
+                console.log(question)
+                questions.push(question);
+            }
+            res.json(questions);
         } catch (error) {
             console.log(error)
             res.status(500).json({ error: 'Internal Server Error' });
