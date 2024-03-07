@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const User = require('./user-model')
+const uuid = require('uuid');
 
 const app = express();
 const port = 8001;
@@ -29,8 +30,10 @@ app.post('/adduser', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+        const id = uuid.v4();
+        console.log(id);
         const newUser = new User({
-            _id: new mongoose.Types.ObjectId(),
+            uuid: id,
             username: req.body.username,
             password: hashedPassword,
         });

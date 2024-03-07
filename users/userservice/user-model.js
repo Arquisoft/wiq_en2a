@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+    uuid: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: true,
@@ -14,9 +17,8 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now, 
     },
-    lastGame: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Game',
+    lastGameId: {
+      type: String,
       required: false,
     },
     
@@ -29,4 +31,4 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = {User,userSchema};
+module.exports = User;
