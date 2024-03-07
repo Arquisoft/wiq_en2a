@@ -61,6 +61,14 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get statistics",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
