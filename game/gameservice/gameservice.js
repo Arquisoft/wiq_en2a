@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 });
 
 // Routes
-app.post('/creategame', GameController.create);
-app.delete('/deletegame/:id', GameController.delete);
+app.post('/createGame', GameController.create);
+app.delete('/deleteGame/:id', GameController.delete);
 app.get('/getById/:id', GameController.getById);
 
 const server = app.listen(port, () => {

@@ -15,11 +15,11 @@ let GameController = {
         res.json(game);
     },
     delete: async (req, res) => {
-        await Game.findByIdAndDelete(req.params.id);
+        await Game.findOneAndDelete({uuid: req.params.id});
         res.json({message: "Game deleted"});
     },
     getById: async (req, res) => {
-        let game = await Game.findById(req.params.id)
+        let game = await Game.find({uuid: req.params.id})
         res.json(game);
     }
 }

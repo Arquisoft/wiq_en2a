@@ -1,0 +1,78 @@
+{
+	"info": {
+		"_postman_id": "14d0de93-02f8-4263-a713-a357d829e6b3",
+		"name": "Game",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33131426"
+	},
+	"item": [
+		{
+			"name": "Create game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"questions\": [\r\n    {\r\n    \"uuid\":\"352e79d4-83f3-42a1-85d7-9bb13cc7a984\"\r\n    },\r\n    {\r\n    \"uuid\":\"6cb530a2-6d85-484a-9da0-1b711c41c1ef\"\r\n    }\r\n  ],\r\n  \"users\": [\r\n    {\r\n        \"uuid\": \"af4c5a65-7768-47b8-aa05-4aff34b62391\",\r\n        \"username\": \"Jose\",\r\n        \"password\": \"$2b$10$DU146ENXY7hC.tfurjJLd..Rzj/axCHPtz7QDI5R4rQL5NiCAYm/S\",\r\n        \"lastGame\": null,\r\n        \"createdAt\": \"2024-03-07T06:42:05.616Z\",\r\n        \"__v\": 0\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8004/createGame",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8004",
+					"path": [
+						"createGame"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get game by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8004/getById/c31bd43a-9422-409f-aa1e-8068dd7bf0fb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8004",
+					"path": [
+						"getById",
+						"c31bd43a-9422-409f-aa1e-8068dd7bf0fb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8004/deleteGame/c31bd43a-9422-409f-aa1e-8068dd7bf0fb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8004",
+					"path": [
+						"deleteGame",
+						"c31bd43a-9422-409f-aa1e-8068dd7bf0fb"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
