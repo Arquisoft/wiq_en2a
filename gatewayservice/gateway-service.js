@@ -44,10 +44,10 @@ app.post('/adduser', async (req, res) => {
   }
 });
 
-app.get('/questionsGame', async (req, res) => {
+app.post('/updateStats', async (req, res) => {
   try {
-    const response = await axios.get( qgServiceUrl+"/game");
-    // coger los usuarios y crear el game con preguntas y usuarios
+    const { players } = req.body;
+    const response = await axios.post( userServiceUrl+"/updateStatistics", {players});
     
     res.json(response.data);
   } catch (error) {

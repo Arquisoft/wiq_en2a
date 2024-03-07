@@ -1,10 +1,7 @@
 // user-service.js
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const User = require('./user-model')
-const uuid = require('uuid');
 const UserController = require('./UserController');
 
 const app = express();
@@ -17,35 +14,6 @@ app.use(bodyParser.json());
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
 
-function validateRequiredFields(req, requiredFields) {
-    for (const field of requiredFields) {
-      if (!(field in req.body)) {
-        throw new Error(`Missing required field: ${field}`);
-      }
-    }
-}
-
-app.post('/adduser', async (req, res) => {
-    try {
-        validateRequiredFields(req, ['username', 'password']);
-
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-        const id = uuid.v4();
-        console.log(id);
-        const newUser = new User({
-            uuid: id,
-            username: req.body.username,
-            password: hashedPassword,
-        });
-
-        await newUser.save();
-        res.json(newUser);
-    } catch (error) {
-        res.status(400).json({ error: error.message }); 
-    }});
-
-  
 /*
     FUNCIONES A HACER:
       1. Update User al finalizar una partida -> puntos, lastGame, preguntas acertadas/falladas
@@ -53,7 +21,10 @@ app.post('/adduser', async (req, res) => {
       3. Obtener estadisticas por usuario (puntos, partidas jugadas, preguntas acertadas/falladas)
       4. Checkear si existe usuario con username
 */
+
+app.post('/adduser',UserController.addUser);
 app.post('/updateLastGame', UserController.updateLastGame);
+app.post('/updateStatistics', UserController.updateStatistics);
 
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);

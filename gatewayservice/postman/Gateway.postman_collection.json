@@ -33,6 +33,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Update player stats",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"players\":[\r\n    {\r\n        \"uuid\":\"3c68688e-84e7-4d29-b7c7-09474d42b669\",\r\n        \"nCorrectAnswers\":12,\r\n        \"nWrongAnswers\":3,\r\n        \"totalScore\":500,\r\n        \"isWinner\":true\r\n    }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/updateStats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"updateStats"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

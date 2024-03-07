@@ -21,12 +21,24 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: false,
     },
-    
-    // many to one con group
-    // int preguntas acertadas
-    // int preguntas falladas
-    // int puntuacion
+    nCorrectAnswers: {
+      type: Number,
+      required: false,
+    },
+    nWrongAnswers: {
+      type: Number,
+      required: false,
+    },
+    totalScore: {
+      type: Number,
+      required: false,
+    },
+    nWins: {
+      type: Number,
+      required: false,
+    }
 
+    // uuid del group con group
 });
 
 const User = mongoose.model('User', userSchema);
