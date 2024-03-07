@@ -33,6 +33,7 @@ app.post('/adduser', async (req, res) => {
             _id: new mongoose.Types.ObjectId(),
             username: req.body.username,
             password: hashedPassword,
+            lastGame: null,
         });
 
         await newUser.save();

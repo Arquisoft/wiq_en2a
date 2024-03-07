@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    _id: mongoose.Schema.Types.ObjectId,
     username: {
       type: String,
       required: true,
@@ -13,9 +14,12 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now, 
     },
+    lastGame: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Game',
+    },
     
     // many to one con group
-    // many to one con lastgame
     // int preguntas acertadas
     // int preguntas falladas
     // int puntuacion
