@@ -19,6 +19,7 @@ const AddUser = (props:ActionProps) => {
 
   const addUser = async () => {
     try {
+      // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
     } catch (error) {
@@ -58,7 +59,7 @@ const AddUser = (props:ActionProps) => {
       <button color="primary" onClick={props.goBack}>
         {t('go_back')}
       </button>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" id='successUserAdd'/>
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
