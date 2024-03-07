@@ -17,7 +17,10 @@ i18n
                     go_back: 'Go back',
                     register: 'Register',
                     add_user: 'Add user',
-                    login_google: 'Login with Google'
+                    login_google: 'Login with Google',
+                    nav_game: 'Game',
+                    nav_groups: 'Groups',
+                    nav_scoreboard: 'Scoreboard',
                 }
             },
             es: {
@@ -27,7 +30,10 @@ i18n
                     go_back: 'Ir atrás',
                     register: 'Registrarse',
                     add_user: 'Añadir usuario',
-                    login_google: 'Iniciar sesión con Google'
+                    login_google: 'Iniciar sesión con Google',
+                    nav_game: 'Juego',
+                    nav_groups: 'Grupos',
+                    nav_scoreboard: 'Tabla de puntos',
                 }
             },
 
