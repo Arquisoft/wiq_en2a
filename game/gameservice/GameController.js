@@ -1,18 +1,14 @@
 let Game = require('./game-model');
-let { userSchema } = require('../../users/userservice/user-model');
-const {question4AnswersSchema} = require("../qgservice/Question4Answers");
-const { createGame } = require('./gameLogic');
+const { createGame } = require('./queries/CreateGame');
 const mongoose = require('mongoose');
 
-const User = mongoose.model('User', userSchema);
-const Question4Answers = mongoose.model('Question4Answers', question4AnswersSchema);
-
 let GameController = {
+    /* HACER EN USER - GET LAST GAME BY USER
     findByUsername: async (req, res) => {
         let game = await User.find({username: req.params.username}).populate("lastGame")
         let response = await Game.findById(game[0].lastGame.id).populate("questions").populate("players")
         res.json(response);
-    },
+    },*/
     create: async (req, res) => {
         const { questions, users } = req.body;
         const game = await createGame(questions, users);
@@ -21,6 +17,10 @@ let GameController = {
     delete: async (req, res) => {
         await Game.findByIdAndDelete(req.params.id);
         res.json({message: "Game deleted"});
+    },
+    getById: async (req, res) => {
+        let game = await Game.findById(req.params.id)
+        res.json(game);
     }
 }
 
