@@ -48,6 +48,22 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post("/updateLastGame", async (req, res) => {
+  try {
+    const { _id, players } = req.body;
+    players.map(async (p) => {
+      const user = await User.findById(p._id);
+      user.lastGame = _id;
+      await user.save();
+      console.log(user);
+      return user;
+    })
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
 // Start the server
 const server = app.listen(port, () => {
   console.log(`Auth Service listening at http://localhost:${port}`);
