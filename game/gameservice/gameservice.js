@@ -3,6 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
 const { createGame } = require('./gameLogic');
+const GameController = require('./GameController');
 
 const app = express();
 const port = 8004;
@@ -19,15 +20,10 @@ app.get('/', (req, res) => {
   });
 });
 
-/* 
-  PETICIONES A HACER:
-    1. Crear game dado un array de preguntas y un array de usuarios.
- */
-app.post('/creategame', async (req, res) => {
-  const { questions, users } = req.body;
-  const game = await createGame(questions, users);
-  res.json(game);
-});
+// Routes
+app.post('/creategame', GameController.create);
+app.delete('/deletegame/:id', GameController.delete);
+app.get('/getByUsername/:username', GameController.findByUsername);
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);

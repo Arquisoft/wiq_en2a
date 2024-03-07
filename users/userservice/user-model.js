@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     lastGame: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Game',
+      required: false,
     },
     
     // many to one con group
@@ -28,4 +29,4 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User
+module.exports = {User, userSchema}

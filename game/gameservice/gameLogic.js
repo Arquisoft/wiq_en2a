@@ -1,10 +1,12 @@
 const Game = require("./game-model")
 const mongoose = require('mongoose');
-const User = require("../../users/userservice/user-model");
-const Question4Answers = require("../qgservice/Question4Answers");
+const {userSchema} = require("../../users/userservice/user-model");
+const {question4AnswersSchema} = require("../qgservice/Question4Answers");
 
 async function createGame(questions, users) {
     try {
+        var Question4Answers = mongoose.model('Question4Answers', question4AnswersSchema);
+        var User = mongoose.model('User', userSchema);
         // Create a new Game instance
         const game = new Game({
           _id: new mongoose.Types.ObjectId(),
@@ -14,18 +16,14 @@ async function createGame(questions, users) {
     
         // Save the game to the database
         const savedGame = await game.save();
-        console.log("aqui")
 
-        await User.updateMany(
-          { _id: { $in: users.map(user => user._id) } },
-          { $set: { lastGame: savedGame._id } },
-          { multi: true }
-        );
+        users.forEach(async u => {
+          await User.findOneAndUpdate({ _id: u._id }, { lastGame: savedGame._id } );
+        });
 
-        const populatedGame = await Game.findById(savedGame._id).populate('players');
-        // await savedGame.populate('questions').execPopulate();
-        console.log(populatedGame);
-        return savedGame;
+        let populatedGame = await Game.findById(savedGame._id).populate('players').populate('questions');
+
+        return populatedGame;
       } catch (error) {
         console.error('Error creating game:', error);
         throw error;

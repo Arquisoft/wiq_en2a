@@ -26,4 +26,4 @@ const question4AnswersSchema = new mongoose.Schema({
 
 const Question4Answers = mongoose.model('Question4Answers', question4AnswersSchema);
 
-module.exports = Question4Answers;
+module.exports = {Question4Answers, question4AnswersSchema};
