@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const User = require('./user-model')
 const uuid = require('uuid');
+const UserController = require('./UserController');
 
 const app = express();
 const port = 8001;
@@ -52,6 +53,7 @@ app.post('/adduser', async (req, res) => {
       3. Obtener estadisticas por usuario (puntos, partidas jugadas, preguntas acertadas/falladas)
       4. Checkear si existe usuario con username
 */
+app.post('/updateLastGame', UserController.updateLastGame);
 
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);
