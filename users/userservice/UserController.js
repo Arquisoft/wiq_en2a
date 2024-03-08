@@ -7,27 +7,25 @@ const isValidUuidV4 = require('./util/ValidateUUID');
 let UserController = {
     updateLastGame: async (req, res) => {
         const { gameUUID, players } = req.body;
-
         for (const p of players) {
             try {
                 let user;
 
                 const isValid = isValidUuidV4(p.uuid);
                 if(!isValid){
-                    console.error(`Invalid UUID format for user: ${p.uuid}`);
-                    res.status(500).json({ error: 'Invalid UUID provided' });
-                    return; 
+                    throw new Error(`Invalid UUID provided`);
                 }
+
                 user = await User.findOne({ uuid: p.uuid });
     
                 if (user) {
                     user.lastGameId = gameUUID;
                     await user.save();
                 } else {
-                    console.error(`User with UUID ${p.uuid} not found.`);
+                    throw new Error(`User with UUID ${p.uuid} not found.`);
                 }
             } catch (error) {
-                console.error(`Error updating last game for user with UUID ${p.uuid}: ${error.message}`);
+                return res.status(500).json({ error: error.message });
             }
         
         }
