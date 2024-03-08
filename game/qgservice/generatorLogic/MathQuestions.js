@@ -1,4 +1,6 @@
-const Question4Answers = require("./Question4Answers");
+const Question4Answers = require("../Question4Answers");
+const mongoose = require("mongoose");
+const uuid = require("uuid");
 
 function generateRandomMathQuestion() {
     const operators = ['+', '-', '*', '/'];
@@ -26,6 +28,7 @@ function generateRandomMathQuestion() {
     }
   
     return {
+      uuid: uuid.v4(),
       question,
       correctAnswer,
       incorrectAnswer1: incorrectAnswers[0],
@@ -34,7 +37,7 @@ function generateRandomMathQuestion() {
     };
   }
 
-  async function saveMathQuestions(numberOfQuestions) {
+  async function createMathQuestions(numberOfQuestions) {
     const questions = [];
   
     for (let i = 0; i < numberOfQuestions; i++) {
@@ -51,4 +54,4 @@ function generateRandomMathQuestion() {
     }
   }
 
-module.exports = { saveMathQuestions };
+module.exports = { createMathQuestions };
