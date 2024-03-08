@@ -14,6 +14,13 @@ let UserController = {
           if (!isValid) {
             throw new Error(`Invalid UUID provided`);
           }
+
+          const requiredFields = ['uuid'];
+          const missingFields = requiredFields.filter(field => !p.hasOwnProperty(field));
+          if (missingFields.length > 0) {
+            throw new Error(`Missing required fields in player object: ${missingFields.join(', ')}`);
+          }
+          
           const user = await User.findOne({ uuid: p.uuid }); 
     
           if (user) {
