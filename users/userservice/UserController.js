@@ -6,32 +6,29 @@ const isValidUuidV4 = require('./util/ValidateUUID');
 
 let UserController = {
     updateLastGame: async (req, res) => {
-        const { gameUUID, players } = req.body;
-        for (const p of players) {
-            try {
-                let user;
-
-                const isValid = isValidUuidV4(p.uuid);
-                if(!isValid){
-                    throw new Error(`Invalid UUID provided`);
-                }
-
-                user = await User.findOne({ uuid: p.uuid });
+      const { gameUUID, players } = req.body;
     
-                if (user) {
-                    user.lastGameId = gameUUID;
-                    await user.save();
-                } else {
-                    throw new Error(`User with UUID ${p.uuid} not found.`);
-                }
-            } catch (error) {
-                return res.status(500).json({ error: error.message });
-            }
-        
+      for (const p of players) {
+        try {
+          const isValid = isValidUuidV4(p.uuid);
+          if (!isValid) {
+            throw new Error(`Invalid UUID provided`);
+          }
+          const user = await User.findOne({ uuid: p.uuid }); 
+    
+          if (user) {
+            user.lastGameId = gameUUID;
+            await user.save();
+          } else {
+            throw new Error(`User with UUID ${p.uuid} not found`); 
+          }
+        } catch (error) {
+          return res.status(500).json({ error: error.message });
         }
+      }
     
-        const nPlayers = players.length;
-        res.json({ "message": `Last game updated for ${nPlayers} users.` });
+      const nPlayers = players.length;
+      res.json({ message: `Last game updated for ${nPlayers} users.` });
     },
     addUser: async (req, res) => {
         try {

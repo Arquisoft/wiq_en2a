@@ -42,7 +42,7 @@ describe('Gateway Service', () => {
       .post('/adduser')
       .send({ username: 'newuser', password: 'newpassword' });
 
-    // expect(response.statusCode).toBe(200);
+
     expect(response.body.userId).toBe('mockedUserId');
   });
 
