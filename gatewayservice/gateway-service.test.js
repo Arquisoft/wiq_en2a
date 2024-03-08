@@ -9,6 +9,11 @@ afterAll(async () => {
 
 jest.mock('axios');
 
+const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
+const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
+const qgServiceUrl = process.env.QG_SERVICE_URL || 'http://localhost:8003';
+const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8004';
+
 describe('Gateway Service', () => {
   // Mock responses from external services
   axios.post.mockImplementation((url, data) => {
@@ -41,6 +46,52 @@ describe('Gateway Service', () => {
     expect(response.body.userId).toBe('mockedUserId');
   });
 
+  it('fetches user stats successfuly', async () => {
+
+    const mockUserStats = {
+      id: 1,
+      username: 'testuser',
+      lastGameId: 2,
+    };
+
+    const mockGameResponse = {
+      data: [
+        {
+          questions: [1, 2, 3],
+        },
+      ],
+    };
+
+    const mockQuestionsData = [
+      { id: 1, question: 'Question 1' },
+      { id: 2, question: 'Question 2' },
+      { id: 3, question: 'Question 3' },
+    ];
+    axios.get.mockImplementation((url) => {
+      if (url.endsWith(`/getStatistics/1`)) {
+        return Promise.resolve({ data: mockUserStats });
+      } else if (url.endsWith('/getGame/2')) {
+        return Promise.resolve(mockGameResponse);
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+  
+    axios.post.mockImplementation((url, data) => {
+      if (url.endsWith('/getQuestionsByIds')) {
+        expect(data).toEqual({ ids: [1, 2, 3] });
+        return Promise.resolve({ data: mockQuestionsData });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+
+    const response = await request(app).get('/getStats/1');
+  
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual({
+      userStats: mockUserStats,
+      lastGame: mockQuestionsData,
+    });
+  })
   /*it('should return questions on successful request to /createGame', async () => {
     const testData = {
       "players": [
@@ -69,4 +120,5 @@ describe('Gateway Service', () => {
     expect(response.body).toEqual({ error: 'Internal server error' });
   });
   */
+
 });

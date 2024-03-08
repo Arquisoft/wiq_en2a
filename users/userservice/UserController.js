@@ -9,17 +9,20 @@ let UserController = {
 
         for (const p of players) {
             try {
-                const user = await User.findOne({ uuid: p.uuid });
+                let user;
+                if(p.uuid instanceof String){
+                    user = await User.findOne({ uuid: p.uuid });
     
                 if (user) {
                     user.lastGameId = gameUUID;
                     await user.save();
                 } else {
                     console.error(`User with UUID ${p.uuid} not found.`);
-                }
+                }}
             } catch (error) {
                 console.error(`Error updating last game for user with UUID ${p.uuid}: ${error.message}`);
             }
+        
         }
     
         const nPlayers = players.length;

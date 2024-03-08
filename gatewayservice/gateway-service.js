@@ -26,7 +26,6 @@ app.get('/health', (_req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
-    console.log(authServiceUrl)
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
     res.json(authResponse.data);
   } catch (error) {
@@ -64,7 +63,7 @@ app.post('/createGame', async (req, res) => {
     const gameResponse = await axios.post(gameServiceUrl+'/createGame', {players, questions});
     const game = gameResponse.data;
     const gameUUID = game.uuid;
-    const updateLastGameResponse = await axios.post(userServiceUrl+'/updateLastGame', {gameUUID, players});
+    await axios.post(userServiceUrl+'/updateLastGame', {gameUUID, players});
     res.json(questions);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
@@ -78,7 +77,7 @@ app.get('/getStats/:id', async (req, res) => {
     const userStats = statsResponse.data;
     const gameResponse = await axios.get(gameServiceUrl+'/getGame/'+userStats.lastGameId);
     const ids = gameResponse.data[0].questions;
-    const questionsResponse = await axios.post(qgServiceUrl+'/getQuestionsByIds/', {ids});
+    const questionsResponse = await axios.post(qgServiceUrl+'/getQuestionsByIds', {ids});
     const questionsData = questionsResponse.data;
     const combinedResponse = {
       userStats,
