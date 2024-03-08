@@ -2,6 +2,7 @@ const User = require('./user-model')
 const validateRequiredFields = require('./util/ValidateAddUser');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+const isValidUuidV4 = require('./util/ValidateUUID');
 
 let UserController = {
     updateLastGame: async (req, res) => {
@@ -10,15 +11,21 @@ let UserController = {
         for (const p of players) {
             try {
                 let user;
-                if(p.uuid instanceof String){
-                    user = await User.findOne({ uuid: p.uuid });
+
+                const isValid = isValidUuidV4(p.uuid);
+                if(!isValid){
+                    console.error(`Invalid UUID format for user: ${p.uuid}`);
+                    res.status(500).json({ error: 'Invalid UUID provided' });
+                    return; 
+                }
+                user = await User.findOne({ uuid: p.uuid });
     
                 if (user) {
                     user.lastGameId = gameUUID;
                     await user.save();
                 } else {
                     console.error(`User with UUID ${p.uuid} not found.`);
-                }}
+                }
             } catch (error) {
                 console.error(`Error updating last game for user with UUID ${p.uuid}: ${error.message}`);
             }
@@ -35,7 +42,6 @@ let UserController = {
             const hashedPassword = await bcrypt.hash(req.body.password, 10);
     
             const id = uuid.v4();
-            console.log(id);
             const newUser = new User({
                 uuid: id,
                 username: req.body.username,
@@ -54,28 +60,44 @@ let UserController = {
     },
     updateStatistics: async (req, res) => {
         const { players } = req.body;
-        console.log(players);
+      
         for (const p of players) {
-            try {
-                const user = await User.findOne({ uuid: p.uuid });
-                console.log(user)
-                console.log(p)
-                if (user) {
-                    user.nCorrectAnswers = user.nCorrectAnswers + p.nCorrectAnswers;
-                    user.nWrongAnswers = user.nWrongAnswers + p.nWrongAnswers;
-                    user.totalScore = user.totalScore + p.totalScore;
-                    p.isWinner ? user.nWins++ : null;
-                    await user.save();
-                } else {
-                    console.error(`User with UUID ${p.uuid} not found.`);
-                }
-            } catch (error) {
-                console.error(`Error updating statistics for user with UUID ${p.uuid}: ${error.message}`);
+          try {
+            // Validate UUID first
+            const isValid = isValidUuidV4(p.uuid);
+            if (!isValid) {
+                throw new Error(`Invalid UUID`);
             }
+      
+            // Validate required player data
+            const requiredFields = ['nCorrectAnswers', 'nWrongAnswers', 'totalScore'];
+            const missingFields = requiredFields.filter(field => !p.hasOwnProperty(field));
+            if (missingFields.length > 0) {
+              throw new Error(`Missing required fields in player object: ${missingFields.join(', ')}`);
+            }
+      
+            const user = await User.findOne({ uuid: p.uuid });
+            if (user) {
+              // Update user statistics
+              user.nCorrectAnswers += p.nCorrectAnswers;
+              user.nWrongAnswers += p.nWrongAnswers;
+              user.totalScore += p.totalScore;
+              if (p.isWinner) {
+                user.nWins++;
+              }
+              await user.save();
+            } else {
+              console.error(`User with UUID ${p.uuid} not found.`);
+            }
+          } catch (error) {
+            console.error(`Error updating statistics for user with UUID ${p.uuid}: ${error.message}`);
+            return res.status(400).json({ error: error.message });
+          }
         }
+      
         const nPlayers = players.length;
         res.json({ "message": `Statistics updated for ${nPlayers} users.` });
-    },
+      },
     getStatistics: async (req, res) => {
         const uuid = req.params.id;
         const user = await User.findOne({ uuid: uuid }).select('-password');
