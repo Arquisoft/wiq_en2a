@@ -72,8 +72,11 @@ app.post('/createGame', async (req, res) => {
 
 app.get('/getStats/:id', async (req, res) => {
   try {
+    const baseUrl = userServiceUrl + '/getStatistics/';
     const uuid = req.params.id;
-    const statsResponse = await axios.get(userServiceUrl+'/getStatistics/'+uuid);
+    const encodedUuid = encodeURIComponent(uuid);
+    
+    const statsResponse = await axios.get(`${baseUrl}${encodedUuid}`);
     const userStats = statsResponse.data;
     const gameResponse = await axios.get(gameServiceUrl+'/getGame/'+userStats.lastGameId);
     const ids = gameResponse.data[0].questions;

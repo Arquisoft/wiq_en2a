@@ -92,33 +92,45 @@ describe('Gateway Service', () => {
       lastGame: mockQuestionsData,
     });
   })
-  /*it('should return questions on successful request to /createGame', async () => {
-    const testData = {
-      "players": [
-        { "uuid": "3c68688e-84e7-4d29-b7c7-09474d42b669" }
-      ]
-    };
+
+  it('creates a game and updates last game for players', async () => {
+    const players = [
+      { uuid: 'user1-uuid' },
+      { uuid: 'user2-uuid' },
+    ];
+    const questions = [
+      { question: 'Sample Question 1' },
+      { question: 'Sample Question 2' }
+    ];
+    const game = { uuid: 'game-uuid-123' };
   
-    const response = await request(app)
-      .post('/createGame')
-      .send(testData);
+    axios.get.mockImplementation((url) => {
+      if (url.endsWith(`/game`)) {
+        return Promise.resolve({ data: questions });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
   
-    // Verify status code
+    axios.post.mockImplementation((url, data) => {
+      if (url.endsWith('/createGame')) {
+        return Promise.resolve({ data: game });
+      } else if(url.endsWith('/updateLastGame')){
+        return Promise.resolve();
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+  
+    const response = await request(app).post('/createGame').send({ players });
+  
     expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(questions);
   
-    // Verify response body
-    expect(response.body).toEqual({ questions: [] });
+    // Assertions on axios calls
+    expect(axios.get).toHaveBeenCalledWith(qgServiceUrl + '/game');
+    expect(axios.post).toHaveBeenCalledWith(gameServiceUrl + '/createGame', { players, questions });
+    expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateLastGame', { gameUUID: game.uuid, players });
+  
   });
 
-  it('should handle internal server error from /game endpoint', async () => {
-    // Mock the axios.get method to simulate an error response from /game endpoint
-    axios.get.mockRejectedValue({ response: { status: 500, data: { error: 'Internal server error' } } });
-
-    const response = await request(app).get('/questionsGame');
-
-    expect(response.status).toBe(500);
-    expect(response.body).toEqual({ error: 'Internal server error' });
-  });
-  */
 
 });
