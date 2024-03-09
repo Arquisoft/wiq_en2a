@@ -1,5 +1,5 @@
 import React from 'react';
-import './nav.css';
+import './nav.scss';
 import { useTranslation } from 'react-i18next';
 import {AppBar, Container, Toolbar, Grid, Stack, Button} from "@mui/material";
 import { useNavigate } from "react-router-dom";
