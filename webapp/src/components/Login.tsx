@@ -1,32 +1,32 @@
 // src/components/Login.js
 import  { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
 type ActionProps = {
     goBack:()=> void;
 }
 
 const Login = (props: ActionProps) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const [createdAt, setCreatedAt] = useState('');
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const loginUser = async () => {
     try {
-      const response = await axios.post(`${apiEndpoint}/login`, { username, password });
+      await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
-
-      setCreatedAt(userCreatedAt);
+   
       setLoginSuccess(true);
 
       setOpenSnackbar(true);
@@ -37,21 +37,12 @@ const Login = (props: ActionProps) => {
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
+    if(loginSuccess)
+      navigate("/game");
   };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
-        <div>
-          {/* poner aqui la aplicacion */}
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>
-      ) : (
         <div>
           <Typography component="h1" variant="h5">
             {t('login')}
@@ -71,18 +62,19 @@ const Login = (props: ActionProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button  color="primary" onClick={loginUser}>
-          {t('login')}
-          </button>
-          <button color="primary" onClick={props.goBack}>
-          {t('go_back')}
-          </button>
+          <Stack direction="column" spacing={2}>
+            <Button  color="primary" onClick={loginUser}>
+              {t('login')}
+            </Button>
+            <Button color="primary" onClick={props.goBack}>
+              {t('go_back')}
+            </Button>
+          </Stack>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
-      )}
     </Container>
   );
 };

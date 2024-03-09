@@ -2,7 +2,6 @@
 import { useTranslation } from 'react-i18next';
 
 
-const GClientId = "http://259836370797-brpmuu6pn6a20eecpjag1l2nkoqp3eo6.apps.googleusercontent.com";
 const GLoginButton = () => {
     const { t } = useTranslation();
 
@@ -48,3 +47,20 @@ const GLoginButton = () => {
 }
 
 export default GLoginButton; */
+
+import { GoogleLogin } from '@react-oauth/google';
+
+const GLoginButton = () => {
+
+    return(
+      <GoogleLogin
+         onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+            }}
+         onError={() => {
+                console.log('Login Failed');
+            }}
+    />)
+}
+
+export default GLoginButton;

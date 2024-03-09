@@ -9,6 +9,7 @@
       "types":["node"],
       "jsx":"react-jsx",
       "module": "esnext",
+      "resolveJsonModule": true,
 
       "outDir": "lib",
       "removeComments": true,
