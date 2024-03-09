@@ -27,13 +27,13 @@ i18n
                 translation: {
                     app_name: 'Conocer y Vencer',
                     login: 'Iniciar sesión',
-                    go_back: 'Ir atrás',
+                    go_back: 'Volver',
                     register: 'Registrarse',
                     add_user: 'Añadir usuario',
                     login_google: 'Iniciar sesión con Google',
                     nav_game: 'Juego',
                     nav_groups: 'Grupos',
-                    nav_scoreboard: 'Tabla de puntos',
+                    nav_scoreboard: 'Puntuación',
                 }
             },
 
