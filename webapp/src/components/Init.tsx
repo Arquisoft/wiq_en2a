@@ -10,7 +10,7 @@ type ActionProps = {
 const Init = (props:ActionProps) =>{
   const { t } = useTranslation()
     return (
-      <Stack direction="column" spacing={2}>
+      <Stack direction="column">
           <Button onClick={() => props.changeView(false)}>
             {t('register')}
           </Button>

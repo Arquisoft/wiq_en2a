@@ -53,7 +53,7 @@ const AddUser = (props:ActionProps) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Stack direction="column" spacing={2}>
+      <Stack direction="column">
         <Button color="primary" onClick={addUser}>
           {t('register')}
         </Button>
