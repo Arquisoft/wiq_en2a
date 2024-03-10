@@ -57,7 +57,7 @@ const AddUser = (props:ActionProps) => {
         {t('add_user')}
       </button>
       <button color="primary" onClick={props.goBack}>
-        {t('go_back')}
+        {t('return')}
       </button>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" id='successUserAdd'/>
       {error && (

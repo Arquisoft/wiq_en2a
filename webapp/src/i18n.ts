@@ -14,7 +14,7 @@ i18n
                 translation: {
                     app_name: 'Conocer y Vencer',
                     login: 'Login',
-                    go_back: 'Return',
+                    return: 'Return',
                     register: 'Register',
                     add_user: 'Add user',
                     login_google: 'Login with Google',
@@ -27,7 +27,7 @@ i18n
                 translation: {
                     app_name: 'Conocer y Vencer',
                     login: 'Iniciar sesión',
-                    go_back: 'Volver',
+                    return: 'Volver',
                     register: 'Registrarse',
                     add_user: 'Añadir usuario',
                     login_google: 'Iniciar sesión con Google',

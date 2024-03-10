@@ -67,7 +67,7 @@ const Login = (props: ActionProps) => {
               {t('login')}
             </Button>
             <Button color="primary" onClick={props.goBack}>
-              {t('go_back')}
+              {t('return')}
             </Button>
           </Stack>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
