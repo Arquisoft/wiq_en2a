@@ -1,21 +1,29 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const mongoose = require('mongoose');
+const Group = require('./group-model');
 
 let mongoServer;
-let app;
+let app
 
 beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
+    app = require('../../users/userservice/user-service');
     const mongoUri = mongoServer.getUri();
-    process.env.MONGODB_URI = mongoUri;
-    app = require('./user-service'); 
-
-
-})
+    await mongoose.connect(mongoUri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+});
 
 afterAll(async () => {
-    app.close();
+    await mongoose.disconnect();
     await mongoServer.stop();
+});
+
+beforeEach(async () => {
+    // Clear the Group collection before each test
+    await Group.deleteMany({});
 });
 
 describe('Group Service', () =>{
@@ -104,4 +112,5 @@ describe('Group Service', () =>{
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('groupName', null);
     })
+
 })
