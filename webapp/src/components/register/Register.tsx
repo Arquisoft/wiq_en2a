@@ -10,7 +10,7 @@ type ActionProps = {
   goBack:()=> void;
 }
 
-const AddUser = (props:ActionProps) => {
+const Register = (props:ActionProps) => {
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -61,7 +61,7 @@ const AddUser = (props:ActionProps) => {
           {t('return')}
         </Button>
       </Stack>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" id='successUserAdd'/>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="You registered successfully" id='successUserAdd'/>
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
@@ -69,4 +69,4 @@ const AddUser = (props:ActionProps) => {
   );
 };
 
-export default AddUser;
+export default Register;

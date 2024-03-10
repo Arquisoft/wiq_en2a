@@ -1,11 +1,11 @@
 import  { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AddUser from '../../components/Register';
-import Login from '../../components/Login';
+import Register from '../../components/register/Register';
+import Login from '../../components/login/Login';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Init from '../../components/Init';
+import Init from '../../components/init/Init';
 import '../../i18n';
 
 /** Code that was beforehand in App.tsx */
@@ -42,7 +42,7 @@ export const InitPage: React.FC<{}> = () =>{
         <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
           : showLogin ?
             <Login goBack={handleLoginRegisterToggleView} /> 
-            : <AddUser goBack={handleLoginRegisterToggleView} />}
+            : <Register goBack={handleLoginRegisterToggleView} />}
     </Container>
     /* changed the login button to /components/Init.tsx (where the other buttons are)*/
   );

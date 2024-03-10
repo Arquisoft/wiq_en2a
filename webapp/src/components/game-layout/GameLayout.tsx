@@ -1,9 +1,9 @@
 
 
 import { useState } from "react";
-import Game from "./Game";
-import Group from "./Group";
-import Scoreboard from "./Scoreboard";
+import Game from "../game/Game";
+import Group from "../group/Group";
+import Scoreboard from "../scoreboard/Scoreboard";
 
 
 const GameLayout = () => {
