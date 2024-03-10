@@ -2,20 +2,18 @@
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { useState,useEffect, ReactNode } from 'react';
+import { Question4Answers } from '/../../game/qgservice/Question4Answers.js';
+
 
 // Función para crear un juego
-
-
-
-
 
 
 const Game = () => {
 
     const user = 'user';
     
-    const [questions, setQuestions] = useState([]);
-    const [currentQuestion, setCurrentQuestion] = useState<undefined>(undefined);
+    const [questions, setQuestions] = useState<Question4Answers[]>([]);
+    const [currentQuestion, setCurrentQuestion] = useState();
     const [elements, setElements] = useState<ReactNode[]>([]);
     const[isGameStarted, setIsGameStarted] = useState(false);
 
@@ -102,10 +100,6 @@ const Game = () => {
         }
     }
 
-
- 
-
-  
 
     return (
         <div>
