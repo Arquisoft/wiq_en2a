@@ -1,7 +1,7 @@
 // src/components/AddUser.js
 import  { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField,  Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, Stack, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -34,7 +34,7 @@ const AddUser = (props:ActionProps) => {
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
       <Typography component="h1" variant="h5">
-        {t('add_user')}
+        {t('register')}
       </Typography>
       <TextField
         name="username"
@@ -53,12 +53,14 @@ const AddUser = (props:ActionProps) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button  color="primary" onClick={addUser} name = "Add user">
-        {t('add_user')}
-      </button>
-      <button color="primary" onClick={props.goBack}>
-        {t('return')}
-      </button>
+      <Stack direction="column" spacing={2}>
+        <Button color="primary" onClick={addUser}>
+          {t('register')}
+        </Button>
+        <Button color="primary" onClick={props.goBack}>
+          {t('return')}
+        </Button>
+      </Stack>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" id='successUserAdd'/>
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />

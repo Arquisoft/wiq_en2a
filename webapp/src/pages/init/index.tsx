@@ -1,6 +1,6 @@
 import  { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AddUser from '../../components/AddUser';
+import AddUser from '../../components/Register';
 import Login from '../../components/Login';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
