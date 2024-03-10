@@ -4,16 +4,11 @@ import Group from "../group/Group";
 import Scoreboard from "../scoreboard/Scoreboard";
 import './GameLayout.scss';
 
-
 const GameLayout = () => {
 
 const [currentView, setCurrentView] = useState("Game");
 
-    
-
-return(
-
-
+return (
     <head className="GameHead">
     <nav className="GameNav">
         <ul>
@@ -21,13 +16,13 @@ return(
                 <p>Game</p>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Game")}>Game</a>
+                <button onClick={()=>setCurrentView("Game")}>Game</button>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Group")} >Group</a>
+                <button onClick={()=>setCurrentView("Group")} >Group</button>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Scoreboard")}>Scoreboard</a>
+                <button onClick={()=>setCurrentView("Scoreboard")}>Scoreboard</button>
             </li>
         </ul>
     </nav>
@@ -35,14 +30,13 @@ return(
     import Game from "./Game"; // Import the 'Game' component
 
     <body>
-        {currentView === "Game" ? <Game /> :
+        {
+            currentView === "Game" ? <Game /> :
             currentView === "Group" ? <Group /> :
-                <Scoreboard />}
+            <Scoreboard />
+        }
     </body>
     </head>
-
 )
-
-
 
 }; export default GameLayout; // Export the 'GameLayout' component

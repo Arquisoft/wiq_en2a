@@ -1,14 +1,16 @@
 import { GoogleLogin } from '@react-oauth/google';
 import './GLoginButton.scss';
 
-const GLoginButton = () => {
-
+const GLoginButton = () => 
+{
     return(
       <GoogleLogin
-         onSuccess={(credentialResponse) => {
+         onSuccess={(credentialResponse) => 
+            {
                 console.log(credentialResponse);
             }}
-         onError={() => {
+         onError={() => 
+            {
                 console.log('Login Failed');
             }}
     />)

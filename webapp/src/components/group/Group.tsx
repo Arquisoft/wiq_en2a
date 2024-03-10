@@ -1,7 +1,7 @@
 import './Group.scss';
 
-const Group=()=>{
-
+const Group = () => 
+{
     return(
         <div>
             <h1>Group</h1>

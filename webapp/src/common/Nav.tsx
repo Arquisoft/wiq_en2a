@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import {AppBar, Container, Toolbar, Grid, Stack, Button} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const NavBar: React.FC<{}> = () => {
+const NavBar: React.FC<{}> = () => 
+{
     const { t } = useTranslation();
     const navigate = useNavigate();
     return (
