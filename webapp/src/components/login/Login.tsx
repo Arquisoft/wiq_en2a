@@ -1,4 +1,3 @@
-// src/components/Login.js
 import  { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
@@ -27,7 +26,6 @@ const Login = (props: ActionProps) => {
       await axios.post(`${apiEndpoint}/login`, { username, password });
 
       // Extract data from the response
-   
       setLoginSuccess(true);
 
       setOpenSnackbar(true);

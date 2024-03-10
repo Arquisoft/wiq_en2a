@@ -5,7 +5,6 @@ import './Init.scss';
 
 type ActionProps = {
     changeView:(arg:boolean)=> void;
-    /* changeGoogleView:()=> void; */
 }
 
 const Init = (props:ActionProps) =>{
@@ -18,7 +17,7 @@ const Init = (props:ActionProps) =>{
           <Button onClick={() => props.changeView(true)}>
             {t('login')}
           </Button>
-          <GLoginButton /* Añadido sin usar typescript ya que no da problemas con el componente de google auth *//>
+          <GLoginButton />
       </Stack>
     );
 };

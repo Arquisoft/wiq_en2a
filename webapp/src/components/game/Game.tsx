@@ -8,4 +8,4 @@ const Game = () => {
     )
 }
 
-export default Game; // Export the 'Game' component
+export default Game;
