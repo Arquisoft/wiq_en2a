@@ -49,6 +49,7 @@ const GLoginButton = () => {
 export default GLoginButton; */
 
 import { GoogleLogin } from '@react-oauth/google';
+import './GLoginButton.scss';
 
 const GLoginButton = () => {
 

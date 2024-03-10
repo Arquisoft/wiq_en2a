@@ -1,4 +1,4 @@
-
+import './Game.scss';
 
 const Game = () => {
     return (

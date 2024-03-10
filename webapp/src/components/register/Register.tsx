@@ -3,6 +3,7 @@ import  { useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Stack, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import './Register.scss';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 

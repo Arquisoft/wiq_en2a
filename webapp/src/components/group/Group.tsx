@@ -1,4 +1,4 @@
-
+import './Group.scss';
 
 const Group=()=>{
 

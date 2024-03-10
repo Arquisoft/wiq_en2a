@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import {Button, Stack} from "@mui/material";
 import GLoginButton from '../g-login-button/GLoginButton';
+import './Init.scss';
 
 type ActionProps = {
     changeView:(arg:boolean)=> void;

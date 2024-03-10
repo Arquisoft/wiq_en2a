@@ -1,5 +1,4 @@
-
-
+import './Scoreboard.scss';
 
 const Scoreboard = (
     
