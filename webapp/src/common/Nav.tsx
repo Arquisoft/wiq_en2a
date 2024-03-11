@@ -11,12 +11,12 @@ const NavBar: React.FC<{}> = () =>
     return (
         <AppBar className="nav_appBar">
             <Toolbar>
-                <Container maxWidth="xl">
+                <Container maxWidth="xl" >
                     <Grid
                     container
                     direction="row"
                     alignItems="center"
-                    spacing={2}
+                    spacing={4}
                     >
                         <Grid item className="logo">
                             {t('app_name')}
