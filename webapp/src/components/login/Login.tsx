@@ -15,19 +15,14 @@ const Login = (props: ActionProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
-
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const loginUser = async () => {
     try {
       await axios.post(`${apiEndpoint}/login`, { username, password });
-
       // Extract data from the response
-      setLoginSuccess(true);
-
+      navigate("/game");
       setOpenSnackbar(true);
     } catch (error) {
       setError(error.response.data.error);
@@ -36,8 +31,6 @@ const Login = (props: ActionProps) => {
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
-    if(loginSuccess)
-      navigate("/game");
   };
 
   return (
