@@ -32,8 +32,9 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     }
 
     const handleNext = async () => {
-      const randomPoints = Math.floor(Math.random() * (10000 - 100 + 1) / 50) * 50 + 100;
+      
       players.map(player => {
+        const randomPoints = Math.floor(Math.random() * (1000 - 100 + 1) / 50) * 50 + 100;
         if(player.isBot){
           player.points += randomPoints;
         }else {

@@ -30,19 +30,22 @@ export interface Player {
   isBot: boolean;
 }
 
-
 const Game = () => {
 
     const [questions, setQuestions] = useState<Question4Answers[]>([]);
     const [currentStage, setCurrentStage] = useState(1);
     const [players, setPlayers] = useState<Player[]>([]);
+    const [gameCreated, setGameCreated] = useState(false);
 
     const username = localStorage.getItem("username");
     const uuid = localStorage.getItem("userUUID");
 
     useEffect(() => {
-      createGame();
-    },[])
+      if(!gameCreated){
+        createGame(); 
+        setGameCreated(true);
+      }
+    },[gameCreated])
 
     if(!username) return <p>error</p>;
     

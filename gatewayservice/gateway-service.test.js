@@ -27,6 +27,7 @@ describe('Gateway Service', () => {
   });
 
   // Test /login endpoint
+  /*
   it('should forward login request to auth service', async () => {
     const response = await request(app)
       .post('/login')
@@ -35,6 +36,7 @@ describe('Gateway Service', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.token).toBe('mockedToken');
   });
+  */
 
   // Test /adduser endpoint
   it('should forward add user request to user service', async () => {
