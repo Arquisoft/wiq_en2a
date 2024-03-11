@@ -41,14 +41,18 @@ function validateRequiredFields(req, requiredFields) {
  * @param {username of the user we want to find} name 
  * @returns 
  */
-async function getUserByName(res,name){
-  
-  const user = await User.findOne({username: name}).exec();
+async function getUserByName(name){
+  try {
+    const user = await User.findOne({username: name});
 
-  if(!user){
-    res.status(401).json({ error: 'This user does not exist' });
+    if (!group) {
+      throw new Error('This user does not exist');
+    }
+
+    return group;
+  } catch (error) {
+    throw new Error(error.message); 
   }
-  return user;
 }
 
 /**
@@ -65,10 +69,10 @@ async function getGroupByName(name) {
       throw new Error('This group does not exist');
     }
 
-    return group; // Return the found group
+    return group;
   } catch (error) {
     // Handle the error here
-    throw new Error(error.message); // You can customize the error message if needed
+    throw new Error(error.message); 
   }
 }
 
