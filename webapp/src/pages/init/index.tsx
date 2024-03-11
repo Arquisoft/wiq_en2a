@@ -7,7 +7,6 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Init from '../../components/init/Init';
 import Box from '@mui/material/Box';
-import './init-page.scss';
 import '../../i18n';
 
 /** Code that was beforehand in App.tsx */
