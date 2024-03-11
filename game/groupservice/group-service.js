@@ -42,7 +42,8 @@ function validateRequiredFields(req, requiredFields) {
  * @returns 
  */
 async function getUserByName(res,name){
-  const user = await User.findOne({username: name})
+  
+  const user = await User.findOne({username: name}).exec();
 
   if(!user){
     res.status(401).json({ error: 'This user does not exist' });
@@ -56,13 +57,19 @@ async function getUserByName(res,name){
  * @param {groupName of group we want to find} name 
  * @returns 
  */
-async function getGroupByName(name){
-  const group = await Group.findOne({groupName: name})
-  
-  if(!group){
-    res.status(401).json({ error: 'This group does not exist' });
+async function getGroupByName(name) {
+  try {
+    const group = await Group.findOne({ groupName: name });
+
+    if (!group) {
+      throw new Error('This group does not exist');
+    }
+
+    return group; // Return the found group
+  } catch (error) {
+    // Handle the error here
+    throw new Error(error.message); // You can customize the error message if needed
   }
-  return group;
 }
 
 app.get('/', (req, res) => {
@@ -73,12 +80,17 @@ app.get('/', (req, res) => {
 app.post('/join', async (req,res) => {
   try{
     res.json({ message: 'Joining Group' });
-    requieredFields = ['username','groupName','joinCode']
+    requiredFields = ['username','groupName','joinCode']
     validateRequiredFields(req, requiredFields);
 
-    //Group.findOne returns a promise
-    const group = getGroupByName(req.body.groupName);
-
+    try {
+      const group = await getGroupByName(req.body.groupName);
+      // Use the found group here
+      console.log(group);
+    } catch (error) {
+      // Handle the error here
+      console.error(error);
+    }
 
     //checks for telling if the operacion can  be performed
 
@@ -119,37 +131,52 @@ app.post('/leave', async (req,res) => {
   try{
     res.json({ message: 'Leaving Group' });
 
-    requieredFields = ['username','groupName']
+    requiredFields = ['username','groupName']
     validateRequiredFields(req, requiredFields);
   
-    const group = getGroupByName(req.body.groupName);
+    try {
+      const group = await getGroupByName(req.body.groupName);
+      // Use the found group here
+      console.log(group);
+    } catch (error) {
+      // Handle the error here
+      console.error(error);
+    }
 
     if(!group){
       res.status(401).json({ error: 'This group does not exist' });
     }
 
-    const user = getUserByName(req.body.username);
+    try {
+      const user = await getGroupByName(req.body.userName);
+      // Use the found group here
+      console.log(group);
+    } catch (error) {
+      // Handle the error here
+      console.error(error);
+    }
 
     if(!user){
       res.status(401).json({ error: 'This user does not exist' });
     }
 
+    user.groupName = null;
+    var index = group.members.at(user.username);
+    group.members[index] = null;
+
     //if the admin leaves the group it must name a new admin
     //before leaving
     if(group.admin == user.name){
-      validateRequiredFields(['newAdmin'], requiredFields);
 
-      user.groupName = null;
+      if(index > group.members.length){
+        group.admin = group.members[0];
 
-      group.admin = req.body.newAdmin
+      }else{
+        group.admin = group.members[index+1];
+      }
       
       
-    }else{
-      user.groupName = null;
     }
-
-    var index = group.members.at(user.username);
-    group.members[index] = null;
     await group.save()  
     await user.save() 
 
