@@ -33,6 +33,7 @@ const Login = (props: ActionProps) => {
       localStorage.setItem("score", user.data.totalScore);
       localStorage.setItem("nWins", user.data.nWins);
       localStorage.setItem("uuid", user.data.uuid);
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
 
       setOpenSnackbar(true);

@@ -7,6 +7,12 @@ import { useNavigate } from "react-router-dom";
 const NavBar: React.FC<{}> = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const value :string= JSON.stringify( localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
+
+    if(value === "false"){
+        navigate("/");
+    } 
+
     return (
         <AppBar className="nav_appBar">
             <Toolbar>

@@ -29,6 +29,8 @@ export const InitPage: React.FC<{}> = () =>{
     setShowInit(!showInit);
   } */
 
+  localStorage.clear();
+  localStorage.setItem("isAuthenticated", JSON.stringify(false));
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
