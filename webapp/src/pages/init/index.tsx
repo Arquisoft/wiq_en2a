@@ -10,7 +10,7 @@ import '../../i18n';
 
 /** Code that was beforehand in App.tsx */
 export const InitPage: React.FC<{}> = () =>{
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   // const [showGoogleLM, setShowGoogleLM] = useState(false);
   const [showLogin, setShowLogin] = useState(true);
   const [showInit, setShowInit] = useState(true);
@@ -29,6 +29,8 @@ export const InitPage: React.FC<{}> = () =>{
     setShowInit(!showInit);
   } */
 
+  localStorage.clear();
+  localStorage.setItem("isAuthenticated", JSON.stringify(false));
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

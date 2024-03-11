@@ -1,13 +1,16 @@
 // src/components/Login.js
-import  { useState } from 'react';
+import  {  useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
 
+
 type ActionProps = {
     goBack:()=> void;
 }
+
+
 
 const Login = (props: ActionProps) => {
   const navigate = useNavigate();
@@ -15,21 +18,26 @@ const Login = (props: ActionProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
-
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const loginUser = async () => {
-    try {
-      await axios.post(`${apiEndpoint}/login`, { username, password });
 
+    try {
+      localStorage.clear();
+      const user = await axios.post(`${apiEndpoint}/login`, { username, password });
+  
+      console.log(user.data);
+      localStorage.setItem("username", user.data.username);
+      localStorage.setItem("score", user.data.totalScore);
+      localStorage.setItem("nWins", user.data.nWins);
+      localStorage.setItem("uuid", user.data.uuid);
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
-   
-      setLoginSuccess(true);
 
       setOpenSnackbar(true);
+      navigate("/game")
     } catch (error) {
       setError(error.response.data.error);
     }
@@ -37,9 +45,8 @@ const Login = (props: ActionProps) => {
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
-    if(loginSuccess)
-      navigate("/game");
   };
+
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>

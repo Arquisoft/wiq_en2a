@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './nav.css';
 import { useTranslation } from 'react-i18next';
-import {AppBar, Container, Toolbar, Grid, Stack, Button} from "@mui/material";
+import {AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const NavBar: React.FC<{}> = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const value :string= JSON.stringify( localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
+    const user =  JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
+    const [anchorEl, setAnchorEl] = useState<null|HTMLElement>(null);
+    const open = Boolean(anchorEl)
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget)
+    }
+
+    const handleClose =() => {
+        setAnchorEl(null)
+    }
+
+    if(value === "false"){
+        navigate("/");
+    } 
+
     return (
         <AppBar className="nav_appBar">
             <Toolbar>
@@ -15,6 +31,7 @@ const NavBar: React.FC<{}> = () => {
                     container
                     direction="row"
                     alignItems="center"
+                    justifyContent="space-between"
                     >
                         <Grid item className="logo">
                             {t('app_name')}
@@ -30,9 +47,25 @@ const NavBar: React.FC<{}> = () => {
                                 <Button variant="contained" onClick={() => navigate("/scoreboard")}>
                                     {t('nav_scoreboard')}
                                 </Button>
-                        </Stack>
+                            </Stack>
+                        </Grid>
+                        <Grid >
+                            <Button variant="text" 
+                                id="menu-button" 
+                                color='inherit' 
+                                onClick={handleClick} 
+                                aria-control={open? 'menu' : undefined} 
+                                aria-haspopup='true' aria-expanded={open? 'true' : undefined}>
+                                {user}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    </Grid>
+                    
+                    <Menu id="menu" open={open} MenuListProps={{'aria-labelledby':'menu-button'}} 
+                        onClose={()=>handleClose()} anchorEl={anchorEl}>
+                        <MenuItem onClick={()=> navigate("/profile")}>My account</MenuItem>
+                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
+                    </Menu>
                 </Container>
             </Toolbar>
         </AppBar>

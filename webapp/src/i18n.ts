@@ -21,6 +21,9 @@ i18n
                     nav_game: 'Game',
                     nav_groups: 'Groups',
                     nav_scoreboard: 'Scoreboard',
+                    profile_name:'Nombre:',
+                    profile_email:'Email:',
+                    profile_points:'Puntos totales:',
                 }
             },
             es: {
@@ -34,6 +37,9 @@ i18n
                     nav_game: 'Juego',
                     nav_groups: 'Grupos',
                     nav_scoreboard: 'Tabla de puntos',
+                    profile_name:'Name:',
+                    profile_email:'Email:',
+                    profile_points:'Total points:',
                 }
             },
 
