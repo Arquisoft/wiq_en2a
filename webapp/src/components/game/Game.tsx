@@ -35,12 +35,10 @@ const Game = () => {
     const [currentStage, setCurrentStage] = useState(1);
     const [players, setPlayers] = useState<Player[]>([]);
 
-    // const userUUID = localStorage.getItem("userUUID");
     const username = localStorage.getItem("username");
     if(!username) return <p>error</p>;
 
     
-
     const createGame = async () => {
 
       const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
