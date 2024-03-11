@@ -26,6 +26,7 @@ export interface Player {
   // can be a real player or bot
   username: string;
   points: number;
+  isBot: boolean;
 }
 
 
@@ -52,7 +53,8 @@ const Game = () => {
           setPlayers([
             {
               username: username,
-              points: 0
+              points: 0,
+              isBot: false,
             }
           ])
           const requestData = {
@@ -77,15 +79,19 @@ const Game = () => {
         }
       };
 
-      const handlePlayers = () => {
-        return setPlayers;
+      const handlePlayers = (Players:Player[]) => {
+        return setPlayers(Players);
+      }
+
+      const handleCurrentStage = (n:number) => {
+        return setCurrentStage(n);
       }
 
       
     return (
       <div>
-        {currentStage === 1 && (<MenuGame />)}
-        {currentStage === 2 && (<LobbyGame players={players} setPlayers={handlePlayers}/>)}
+        {currentStage === 1 && (<MenuGame setCurrentStage={handleCurrentStage} />)}
+        {currentStage === 2 && (<LobbyGame players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage}/>)}
         {currentStage === 3 && (<PlayingGame questions={questions}/>)}
         {currentStage === 4 && (<ScoreboardGame userScores={players}/>)}
       </div>
