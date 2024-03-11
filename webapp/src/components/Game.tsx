@@ -9,7 +9,11 @@ interface Question4Answers {
     incorrectAnswer2: string;
     incorrectAnswer3: string;
 }
-
+interface Score {
+  username: string;
+  points: string;
+}
+export type { Score }; // Export the 'Score' type
 // Función para crear un juego
 
 
