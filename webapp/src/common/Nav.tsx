@@ -9,7 +9,7 @@ const NavBar: React.FC<{}> = () =>
     const { t } = useTranslation();
     const navigate = useNavigate();
     return (
-        <AppBar className="nav_appBar">
+        <AppBar className="nav-appBar">
             <Toolbar>
                 <Container maxWidth="xl" >
                     <Grid
