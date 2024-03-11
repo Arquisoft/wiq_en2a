@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { Player, Question4Answers } from './Game'
+import axios from 'axios';
 
 interface PlayingGameProps {
   questions: Question4Answers[]
@@ -9,6 +10,10 @@ interface PlayingGameProps {
 }
 
 const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players}) => {
+    
+    const uuid = localStorage.getItem("userUUID");
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
@@ -26,7 +31,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       return points;
     }
 
-    const handleNext = () => {
+    const handleNext = async () => {
       const randomPoints = Math.floor(Math.random() * (10000 - 100 + 1) / 50) * 50 + 100;
       players.map(player => {
         if(player.isBot){
@@ -38,6 +43,16 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       })
       setPlayers(players);
       setCurrentStage(4);
+      const sorted = players.sort((a, b) => b.points - a.points);
+      const requestData ={ "players": [{
+        "uuid": uuid,
+        "nCorrectAnswers": correctAnswers,
+        "nWrongAnswers": questions.length - correctAnswers,
+        "totalScore": calculatePoints(correctAnswers, questions.length),
+        "isWinner": !sorted[0].isBot
+      }]}
+
+      await axios.post(`${apiEndpoint}/updateStats`, requestData);
     }
 
     const getShuffledAnswers = () => {
