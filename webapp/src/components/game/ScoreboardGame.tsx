@@ -6,6 +6,7 @@ interface ScoreboardGameProps {
     userScores: Player[];
 }
 
+
 const ScoreboardGame:FC<ScoreboardGameProps> = (props: ScoreboardGameProps) => {
 
     const [sorted, setSorted] = useState<Player[]>([]);
