@@ -11,14 +11,15 @@ interface LobbyGameProps {
 const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage}) => {
 
   const addBotPlayer = () => {
-    if (players.length < 4) { // Limit to 4 players
-      setPlayers([...players, { username: `Bot ${players.length + 1}`, points: 0, isBot: true }]);
+    if (players.length < 4) { 
+      const randomPoints = Math.floor(Math.random() * (10000 - 100 + 1) / 50) * 50 + 100;
+      setPlayers([...players, { username: `Bot ${players.length + 1}`, points: randomPoints, isBot: true }]);
     }
   };
 
   const deletePlayer = (playerIndex: number) => {
-    const newPlayers = [...players]; // Copy the players array
-    newPlayers.splice(playerIndex, 1); // Remove the player at the specified index
+    const newPlayers = [...players]; 
+    newPlayers.splice(playerIndex, 1);
     setPlayers(newPlayers);
   };
 
