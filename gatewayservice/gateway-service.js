@@ -27,7 +27,9 @@ app.post('/login', async (req, res) => {
   try {
     // Forward the login request to the authentication service
     const authResponse = await axios.post(authServiceUrl+'/login', req.body);
-    res.json(authResponse.data);
+    const username = authResponse.data.username;
+    const userResponse = await axios.get(userServiceUrl+'/getUser/' + username);
+    res.json(userResponse.data);
   } catch (error) {
     res.status(error.response.status).json({ error: error.response.data.error });
   }

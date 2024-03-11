@@ -104,6 +104,11 @@ let UserController = {
         const uuid = req.params.id;
         const user = await User.findOne({ uuid: uuid }).select('-password');
         res.json(user);
+    },
+    getUserByUsername: async (req, res) => {
+        const username = req.params.username;
+        const user = await User.findOne({ username: username }).select('-password');
+        res.json(user);
     }
     
 }
