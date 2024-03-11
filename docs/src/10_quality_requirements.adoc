@@ -34,10 +34,9 @@ image::QualityAttributesTree.PNG["Quality Attributes Tree"]
 
 |Usability(QG1)| Ease of use| Ease of use for the user| 
 |   |Ease of Learning| The standard functions should be as easy and intuitive to use as possible without the need for lengthy prior instruction| SC1
+|   |Compressible questions| The system shall generate compressible questions using information from Wikidata|SC2 
 |Performance(QG2)| Responsiveness| Pages shoud load at a resonable time.\n During the game the answers to the questions must be processed by the system quickly|
 |   |Robustness| The system shall work reliable under all specified environment and operating conditions.|
-|Question Generation|Compressible questions| The system shall generate compressible questions using information fomr Wikidata|SC2 
-|   |Question Variety| The system shall generate questions based on different fields of knowledge keeping the from getting repetitive|
 |Security(QG3)|Data Protection|The user’s data should be protected and not accesible by anyone else|   
 |===
 

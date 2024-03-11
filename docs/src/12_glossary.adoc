@@ -2,43 +2,13 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-glossary]]
 == Glossary
-
-[role="arc42help"]
-****
-.Contents
-The most important domain and technical terms that your stakeholders use when discussing the system.
-
-You can also see the glossary as source for translations if you work in multi-language teams.
-
-.Motivation
-You should clearly define your terms, so that all stakeholders
-
-* have an identical understanding of these terms
-* do not use synonyms and homonyms
-
-
-.Form
-
-A table with columns <Term> and <Definition>.
-
-Potentially more columns in case you need translations.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
-****
-[role="arc42help"]
-****
-[cols="e,2e" options="header"]
+[options="header",cols="1,3"]
 |===
-|Term |Definition
-
-|<Term-1>
-|<definition-1>
-
-|<Term-2>
-|<definition-2>
+|Term|Definition
+|Gateway|Converst information, data or other communications from one protocol or format to another.
+|Facade pattern|Analogous to a facade in architecture, a facade is an object that serves as a front-facing interface masking more complex underlying or structural code.
+|JavaScript|An object-oriented computer proframming language commonly used to create interactive effects within web browsers.
+|Database|Structured set of data held in a computer.
+|Prototipe|A model of the views for the web application.
+|Query|Question or request for information expressed in a formal manner. The retrieved information comes from a database.
 |===
-
-****
