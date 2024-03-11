@@ -1,15 +1,19 @@
 import { useTranslation } from 'react-i18next';
+import { UserData } from 'src/App';
+import { Container } from '@mui/material';
 
 const ProfilePage = () => {
     const { t } = useTranslation();
+    const {AuthUser} = UserData();
     return(
-        <div className="profile">
-            <div className="profile-body">
+        <Container sx={{ mt: 9 }} maxWidth="xl">
+            <div >
                 <p>{t('profile_name')}</p>
-                <p>{t('profile_email')}</p>
+                <p>{AuthUser.name}</p>
                 <p>{t('profile_points')}</p>
+                <p>{AuthUser.points}</p>
             </div>
-        </div>
+        </Container>
     )
 }
 
