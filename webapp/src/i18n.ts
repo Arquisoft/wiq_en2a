@@ -20,6 +20,7 @@ i18n
                     nav_game: 'Game',
                     nav_groups: 'Groups',
                     nav_scoreboard: 'Scoreboard',
+                    nav_profile: 'Perfil'
                 }
             },
             es: {
@@ -32,6 +33,7 @@ i18n
                     nav_game: 'Juego',
                     nav_groups: 'Grupos',
                     nav_scoreboard: 'Puntuación',
+                    nav_profile: 'Perfil'
                 }
             },
 
