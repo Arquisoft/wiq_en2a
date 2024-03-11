@@ -6,6 +6,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Init from '../../components/init/Init';
+import Box from '@mui/material/Box';
+import './init-page.scss';
 import '../../i18n';
 
 /** Code that was beforehand in App.tsx */
@@ -32,17 +34,18 @@ export const InitPage: React.FC<{}> = () =>{
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-        {t('app_name')}
-      </Typography>
-
-      {showInit ? 
-       <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
-       /* : showGoogleLM ?
-        <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
-          : showLogin ?
-            <Login goBack={handleLoginRegisterToggleView} /> 
+      <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
+          {t('app_name')}
+        </Typography>
+        {showInit ?
+        <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
+        /* : showGoogleLM ?
+          <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
+            : showLogin ?
+            <Login goBack={handleLoginRegisterToggleView} />
             : <Register goBack={handleLoginRegisterToggleView} />}
+      </Box>
     </Container>
     /* changed the login button to /components/Init.tsx (where the other buttons are)*/
   );
