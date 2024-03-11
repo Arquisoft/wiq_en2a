@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
 import { Player } from './Game';
+import './ScoreboardGame.css';
 
 interface ScoreboardGameProps {
 
@@ -18,15 +19,29 @@ const ScoreboardGame:FC<ScoreboardGameProps> = (props: ScoreboardGameProps) => {
 
     //Return the scoreboard
     return (
-        <div>
-            <h1>Scoreboard</h1>
-            <p>Here is the scoreboard</p>
-            <ul>
-                {sorted.map((score, index) => {
-                    return <li key={index.toString()}>{score.username}: {score.points}</li>
-                })} 
-            </ul>
-        </div>
+        <section>
+        <table>
+            <caption>Scoreboard</caption>
+          <thead>
+            <tr>
+              <th scope="col" id="rankingHeader">Username</th>
+              <th scope="col" id="usernameHeader">Username</th>
+              <th scope="col" id="pointsHeader">Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((score, index) => {
+              return (
+                <tr key={index.toString()}>
+                  <td headers="rankingHeader">{index+1}</td>
+                  <td headers="usernameHeader">{score.username}</td>
+                  <td headers="pointsHeader">{score.points}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </section>
     )
 }
 
