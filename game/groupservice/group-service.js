@@ -199,7 +199,14 @@ app.post(' /kickUser', async (req,res) =>{
     requieredFields = ['username','groupName','adminName']
     validateRequiredFields(req, requiredFields);
 
-    const group = getGroupByName(req.groupName);
+    try {
+      const group = await getGroupByName(req.body.groupName);
+      // Use the found group here
+      console.log(group);
+    } catch (error) {
+      // Handle the error here
+      console.error(error);
+    }
 
     if(group.admin != adminName ){
       res.json({ message2: 'Acion cancelled, only the admin' +
@@ -211,7 +218,14 @@ app.post(' /kickUser', async (req,res) =>{
       return;
     }
 
-    const user = getUserByName(req.username);
+    try {
+      const user = await getGroupByName(req.body.userName);
+      // Use the found group here
+      console.log(group);
+    } catch (error) {
+      // Handle the error here
+      console.error(error);
+    }
 
     var index = group.members.at(user.username);
     group.members[index] = null;emoveUserFromGroup(user,group);
