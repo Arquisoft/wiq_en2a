@@ -4,8 +4,6 @@ import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
-import { UserData } from 'src/App';
-import { User } from "../common/types";
 
 
 type ActionProps = {
@@ -20,7 +18,6 @@ const Login = (props: ActionProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { setAuthUser} = UserData();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -28,16 +25,14 @@ const Login = (props: ActionProps) => {
   const loginUser = async () => {
 
     try {
-      await axios.post(`${apiEndpoint}/login`, { username, password });
-      
-      var user:User = {
-        name: username, 
-        points: "10", 
-        isAuthenticated: true
-      }
-
-
-      setAuthUser(user);
+      localStorage.clear();
+      const user = await axios.post(`${apiEndpoint}/login`, { username, password });
+  
+      console.log(user.data);
+      localStorage.setItem("username", user.data.username);
+      localStorage.setItem("score", user.data.totalScore);
+      localStorage.setItem("nWins", user.data.nWins);
+      localStorage.setItem("uuid", user.data.uuid);
       // Extract data from the response
 
       setOpenSnackbar(true);
