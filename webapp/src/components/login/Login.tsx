@@ -34,7 +34,7 @@ const Login = (props: ActionProps) => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
+    <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
         <div>
           <Typography component="h1" variant="h5">
             {t('login')}
