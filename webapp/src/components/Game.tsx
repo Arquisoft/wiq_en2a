@@ -1,44 +1,47 @@
 
 import { Button } from '@mui/material';
 import axios from 'axios';
-import { useState,useEffect, ReactNode } from 'react';
-import { Question4Answers } from '/../../game/qgservice/Question4Answers.js';
-
+import { useState, ReactNode } from 'react';
+interface Question4Answers {
+    question: string;
+    correctAnswer: string;
+    incorrectAnswer1: string;
+    incorrectAnswer2: string;
+    incorrectAnswer3: string;
+}
 
 // Función para crear un juego
 
 
 const Game = () => {
 
-    const user = 'user';
+    const user = localStorage.getItem("user");
     
     const [questions, setQuestions] = useState<Question4Answers[]>([]);
-    const [currentQuestion, setCurrentQuestion] = useState();
+    const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [elements, setElements] = useState<ReactNode[]>([]);
-    const[isGameStarted, setIsGameStarted] = useState(false);
+    const [isGameStarted, setIsGameStarted] = useState(false);
 
     const createGame = async (players: any) => {
 
-    
+      const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
         try {
-          // Endpoint del servicio de gateway
-          const gatewayUrl = 'http://localhost:8000';
-      
           // Datos necesarios para crear el juego
           const requestData = {
             players: players,
           };
       
           // Realizar la solicitud POST al servicio de gateway para crear el juego
-          const response = await axios.post(`${gatewayUrl}/createGame`, requestData);
+          const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
       
           // Si la solicitud es exitosa, se recibe la respuesta del juego creado
           const createdGame = response.data;
       
           // Manejar la respuesta del juego creado (por ejemplo, mostrar un mensaje de éxito)
           console.log('Juego creado:', createdGame);
-      
+
+          setIsGameStarted(true)
           // Retornar la respuesta del juego creado 
           return createdGame;
         } catch (error) {
@@ -51,7 +54,7 @@ const Game = () => {
 
     const submitAnswer = (answer: string) => {
         //problema con los tipos
-        if (currentQuestion && answer === currentQuestion.correctAnswer) {
+        if (currentQuestion && answer === questions[currentQuestion]?.correctAnswer) {
             console.log('Respuesta correcta');
         } else {
             console.log('Respuesta incorrecta');
@@ -87,24 +90,21 @@ const Game = () => {
         setIsGameStarted(true);
     }
 
-    function* nextQuestion() {
-        for (let i = 0; i < questions.length; i++) {
-           
-            const currentQuestion = questions[i];
-            if (currentQuestion) {
-                setCurrentQuestion(currentQuestion);
-                yield currentQuestion;
-            } else {
-                console.error('La pregunta actual es indefinida');
-            }
-        }
+    function nextQuestion() {
+        setCurrentQuestion(currentQuestion+1);
+        return questions[currentQuestion]
     }
 
 
     return (
         <div>
             <h1>Game</h1>
-            <Button onClick={() => isGameStarted? addElements(nextQuestion()):startGame()}>
+            <Button onClick={() => isGameStarted? addElements(nextQuestion()) : startGame()}>
+            Nuevo juego
+            {elements}
+          </Button>
+    
+          <Button onClick={() => startGame()}>
             Nuevo juego
             {elements}
           </Button>
