@@ -23,10 +23,16 @@ const Login = (props: ActionProps) => {
 
   const loginUser = async () => {
     try {
+      console.log("aqui")
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
+      console.log("aqui2")
 
       // Extract data from the response
-      localStorage.setItem('user', user.data);
+      localStorage.setItem('userUUID', user.data.uuid);
+      localStorage.setItem('username', user.data.username);
+      console.log(user.data.uuid)
+      console.log(user.data.username)
+
       setLoginSuccess(true);
 
       setOpenSnackbar(true);

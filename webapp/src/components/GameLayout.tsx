@@ -1,7 +1,7 @@
 
 
 import { useState } from "react";
-import Game from "./Game";
+import Game from "./game/Game";
 import Group from "./Group";
 import Scoreboard from "./Scoreboard";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Game from "../../components/Game";
+import Game from "../../components/game/Game";
 import { Container } from "@mui/material";
 
 export const GamePage: React.FC<{}> = () => {
