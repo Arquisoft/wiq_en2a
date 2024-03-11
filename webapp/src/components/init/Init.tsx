@@ -11,10 +11,10 @@ const Init = (props:ActionProps) =>{
   const { t } = useTranslation()
     return (
       <Stack direction="column">
-          <Button onClick={() => props.changeView(false)}>
+          <Button onClick={() => props.changeView(false)} size='large'>
             {t('register')}
           </Button>
-          <Button onClick={() => props.changeView(true)}>
+          <Button onClick={() => props.changeView(true)} size='large' sx={{ marginBottom: 2 }}>
             {t('login')}
           </Button>
           <GLoginButton />

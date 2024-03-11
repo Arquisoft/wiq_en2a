@@ -33,14 +33,22 @@ export const InitPage: React.FC<{}> = () =>{
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-          {t('app_name')}
-        </Typography>
-        {showInit ?
-        <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
-        /* : showGoogleLM ?
-          <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
+      <Box sx={
+        {
+          minHeight: '100vh', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center' 
+        }
+      }>
+          <Typography component="h1" variant="h2" align="center" sx={{ marginBottom: 3 }}>
+            {t('app_name')}
+          </Typography>
+          {showInit ?
+            <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
+            /* : showGoogleLM ?
+            <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
             : showLogin ?
             <Login goBack={handleLoginRegisterToggleView} />
             : <Register goBack={handleLoginRegisterToggleView} />}
