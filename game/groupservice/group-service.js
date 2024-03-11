@@ -2,11 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Group = require('./group-model');
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
+const User = require('../../users/userservice/user-service')
 
 const app = express();
 const port = 8004; 
 
-const maxNuberUsers = 30;
+const maxNumUsers = 30;
+
 
 
 app.use(express.json());
@@ -202,11 +205,13 @@ app.post('/create', async (req,res) =>{
     const joinCode = crypto.randomUUID;
     const dateNow = Date();
 
+    var foundingMember = [req.body.adminUserName]; 
+
     const newGroup = new Group({
       groupName: req.body.groupName,
       admin: req.body.adminUserName,
-      members: [req.body.adminUserName],
-      maxNuberUsers: maxNuberUsers,
+      members: foundingMember,
+      maxNumUsers: maxNumUsers,
       description: req.body.description,
       isPublic: req.body.isPublic,
       joinCode: joinCode,

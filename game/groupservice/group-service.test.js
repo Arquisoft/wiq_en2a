@@ -1,116 +1,65 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
-const Group = require('./group-model');
+const app = require('./group-service'); // Replace 'your-app-file' with the filename where your app is defined
 
 let mongoServer;
-let app
 
-beforeAll(async () => {
+describe('Group Service API Tests', () => {
+  beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
-    app = require('../../users/userservice/user-service');
     const mongoUri = mongoServer.getUri();
-    await mongoose.connect(mongoUri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+    process.env.MONGODB_URI = mongoUri;
     });
-});
 
-afterAll(async () => {
-    await mongoose.disconnect();
+  afterAll(async () => {
+    app.close();
     await mongoServer.stop();
+    });
+
+  // Test case for the '/' route
+  it('GET / should return welcome message', async () => {
+    const response = await request(app).get('/');
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Welcome to group service module');
+  });
+
+  // Test case for the '/join' route
+  it('POST /join should return "Joining Group" message', async () => {
+    const response = await request(app)
+      .post('/join')
+      .send({
+        username: 'testUser',
+        groupName: 'testGroup',
+        joinCode: '123456'
+      });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Joining Group');
+  });
+
+  // Test case for the '/leave' route
+  it('POST /leave should return "Leaving Group" message', async () => {
+    const response = await request(app)
+      .post('/leave')
+      .send({
+        username: 'testUser',
+        groupName: 'testGroup'
+      });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Leaving Group');
+  });
+
+  // Test case for the '/create' route
+  it('POST /create should return "Creating Group" message', async () => {
+    const response = await request(app)
+      .post('/create')
+      .send({
+        groupName: 'testGroup',
+        adminUserName: 'adminUser',
+        description: 'Test group',
+        isPublic: true
+      });
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe('Creating Group');
+  });
 });
-
-beforeEach(async () => {
-    // Clear the Group collection before each test
-    await Group.deleteMany({});
-});
-
-describe('Group Service', () =>{
-    it('create group on POST /create', async ()=>{
-        const newUser = {
-            username: 'testuser',
-            password: 'testpassword',
-          };
-
-        const newGroup = new Group({
-            groupName: 'testGroup',
-            admin: 'testuser',
-            description: 'description',
-            isPublic: true,
-        });
-
-        await request(app).post('/adduser').send(newUser);
-        
-        const response = await request(app).post('/create').send(newGroup);
-        expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('groupName','testGroup');
-    })
-
-    it('user joins preexisting public group on /join', async ()=>{
-        const admin = {
-            username: 'adminUser',
-            password: 'adminPassword',
-          };
-
-        const newUser = {
-            username: 'testuser',
-            password: 'testpassword',
-          };
-
-        const newGroup = new Group({
-            groupName: 'testGroup',
-            admin: 'testuser',
-            description: 'description',
-            isPublic: true,
-        });
-
-        await request(app).post('/adduser').send(admin);
-        await request(app).post('/adduser').send(newUser);
-        await request(app).post('/create').send(newGroup);
-
-        const params = {
-            username: 'testuser',
-            groupName: 'testGroup',
-            joinCode: 'adkabdwqi'
-        }
-    
-        const response =  await request(app).post('/join').send(params);
-        expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('groupName','testGroup');
-    })
-
-    it('user leaves preexisting public group on /leave', async ()=>{
-        const admin = {
-            username: 'adminUser',
-            password: 'adminPassword',
-          };
-
-        const newUser = {
-            username: 'testuser',
-            password: 'testpassword',
-          };
-
-        const newGroup = new Group({
-            groupName: 'testGroup',
-            admin: 'testuser',
-            description: 'description',
-            isPublic: true,
-        });
-
-        await request(app).post('/adduser').send(admin);
-        await request(app).post('/create').send(newGroup);
-        await request(app).post('/join').send(newUser);
-
-        const params = {
-            username: 'testuser',
-            groupName: 'testGroup',
-            joinCode: 'adkabdwqi'
-        }
-    
-        const response =  await request(app).post('/leave').send(params);
-        expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('groupName', null);
-    })
-
-})

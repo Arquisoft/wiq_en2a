@@ -21,39 +21,34 @@ const groupSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    members:{
-        type: [
-            {
-                type: String,
-                ref: "User"
-            }
-        ],
-        required: true,
-    },
+    members: [{
+        type: String,
+        ref: "User"
+    }],
     maxNumUsers: {
         type: Number,
         required: true,
     },
     description: {
         type: String,
-        requiered: false,
+        required: false, 
     },
     isPublic: {
         type: Boolean,
-        requiered: true,
+        required: true,
     },
     joinCode: {
         type: String,
-        requiered: false,
+        required: function() {
+            return !this.isPublic;
+        },
     },
     creationDate: {
         type: Date,
-        required: false,
+        default: Date.now,
     }
-
-
 });
 
 const Group = mongoose.model('Group', groupSchema);
 
-module.exports = Group
+module.exports = Group;
