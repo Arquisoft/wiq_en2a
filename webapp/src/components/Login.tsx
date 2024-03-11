@@ -1,29 +1,44 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import  {  useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+
+type ActionProps = {
+    goBack:()=> void;
+}
+
+
+
+const Login = (props: ActionProps) => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [createdAt, setCreatedAt] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const loginUser = async () => {
+
     try {
-      const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-
+      localStorage.clear();
+      const user = await axios.post(`${apiEndpoint}/login`, { username, password });
+  
+      console.log(user.data);
+      localStorage.setItem("username", user.data.username);
+      localStorage.setItem("score", user.data.totalScore);
+      localStorage.setItem("nWins", user.data.nWins);
+      localStorage.setItem("uuid", user.data.uuid);
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
-
-      setCreatedAt(userCreatedAt);
-      setLoginSuccess(true);
+      localStorage.setItem('userUUID', user.data.uuid);
 
       setOpenSnackbar(true);
+      navigate("/game")
     } catch (error) {
       setError(error.response.data.error);
     }
@@ -33,21 +48,12 @@ const Login = () => {
     setOpenSnackbar(false);
   };
 
+
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
-        <div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>
-      ) : (
         <div>
           <Typography component="h1" variant="h5">
-            Login
+            {t('login')}
           </Typography>
           <TextField
             margin="normal"
@@ -64,15 +70,19 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
+          <Stack direction="column" spacing={2}>
+            <Button  color="primary" onClick={loginUser}>
+              {t('login')}
+            </Button>
+            <Button color="primary" onClick={props.goBack}>
+              {t('go_back')}
+            </Button>
+          </Stack>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
           {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
-      )}
     </Container>
   );
 };

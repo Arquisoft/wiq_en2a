@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table caption {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  table th, table td {
+    border: 1px solid black;
+    width: 33.33%;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  table th {
+    color: blue;
+  }

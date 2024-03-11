@@ -5,6 +5,12 @@
         "ESNext",
         "dom"
       ],
+
+      "types":["node"],
+      "jsx":"react-jsx",
+      "module": "esnext",
+      "resolveJsonModule": true,
+
       "outDir": "lib",
       "removeComments": true,
       "target": "ES6",
@@ -23,7 +29,7 @@
       "alwaysStrict": true,
       "allowUnreachableCode": false,
       "noImplicitAny": true,
-      "strictNullChecks": true,
+      //"strictNullChecks": true,
 
       // Linter Checks
       "noImplicitReturns": true,
@@ -32,7 +38,7 @@
       "noUnusedLocals": true,
       "noUnusedParameters": true
     },
-    "include": ["./**/*.ts"],
+    "include": ["./**/*.tsx", "src/index.tsx"],
     "exclude": [
       "node_modules/**/*"
     ]
