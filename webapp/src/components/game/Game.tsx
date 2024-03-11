@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MenuGame from './MenuGame';
 import LobbyGame from './LobbyGame';
 import PlayingGame from './PlayingGame';
@@ -36,8 +36,13 @@ const Game = () => {
     const [players, setPlayers] = useState<Player[]>([]);
 
     const username = localStorage.getItem("username");
-    if(!username) return <p>error</p>;
+    const uuid = localStorage.getItem("userUUID");
 
+    useEffect(() => {
+      createGame();
+    },[])
+
+    if(!username) return <p>error</p>;
     
     const createGame = async () => {
 
@@ -51,7 +56,9 @@ const Game = () => {
             }
           ])
           const requestData = {
-            players: players,
+            players: [{
+              uuid: uuid,
+            }],
           };
       
           const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
@@ -69,17 +76,18 @@ const Game = () => {
           throw error;
         }
       };
+
       const handlePlayers = () => {
         return setPlayers;
       }
 
-      createGame();
+      
     return (
       <div>
         {currentStage === 1 && (<MenuGame />)}
         {currentStage === 2 && (<LobbyGame players={players} setPlayers={handlePlayers}/>)}
         {currentStage === 3 && (<PlayingGame questions={questions}/>)}
-        {currentStage === 4 && (<ScoreboardGame players={players}/>)}
+        {currentStage === 4 && (<ScoreboardGame userScores={players}/>)}
       </div>
         
     )
