@@ -35,6 +35,7 @@ const Login = (props: ActionProps) => {
       localStorage.setItem("uuid", user.data.uuid);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
+      localStorage.setItem('userUUID', user.data.uuid);
 
       setOpenSnackbar(true);
       navigate("/game")
