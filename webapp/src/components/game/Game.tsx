@@ -5,6 +5,7 @@ import LobbyGame from './LobbyGame';
 import PlayingGame from './PlayingGame';
 import ScoreboardGame from './ScoreboardGame';
 export interface Question4Answers {
+    uuid: string
     question: string;
     correctAnswer: string;
     incorrectAnswer1: string;
@@ -67,7 +68,7 @@ const Game = () => {
       
           const createdGame = response.data;
 
-          setQuestions(createdGame.questions);
+          setQuestions(createdGame);
           console.log('Juego creado:', createdGame);
 
           
