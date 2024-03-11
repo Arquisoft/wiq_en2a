@@ -16,6 +16,7 @@ const NavBar: React.FC<{}> = () =>
                     container
                     direction="row"
                     alignItems="center"
+                    spacing={2}
                     >
                         <Grid item className="logo">
                             {t('app_name')}
