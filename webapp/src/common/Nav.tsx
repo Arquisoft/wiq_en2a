@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './nav.css';
 import { useTranslation } from 'react-i18next';
-import {AppBar, Container, Toolbar, Grid, Stack, Button} from "@mui/material";
+import {AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const NavBar: React.FC<{}> = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const value :string= JSON.stringify( localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
+    const user =  JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
+    const [open, setOpenMenu] = useState(false);
+    
 
     if(value === "false"){
         navigate("/");
@@ -36,9 +39,19 @@ const NavBar: React.FC<{}> = () => {
                                 <Button variant="contained" onClick={() => navigate("/scoreboard")}>
                                     {t('nav_scoreboard')}
                                 </Button>
-                        </Stack>
+                            </Stack>
+                        </Grid>
+                        <Grid>
+                            <Button variant="text" id="menu-button" color='inherit' onClick={()=>setOpenMenu(!open)}>
+                                {user}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    </Grid>
+                    
+                    <Menu id="menu" open={open} MenuListProps={{'aria-labelledby':'menu-button'}} onClose={()=>setOpenMenu(!open)}>
+                        <MenuItem onClick={()=> navigate("/profile")}>My account</MenuItem>
+                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
+                    </Menu>
                 </Container>
             </Toolbar>
         </AppBar>
