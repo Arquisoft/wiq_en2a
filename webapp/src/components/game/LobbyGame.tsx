@@ -12,8 +12,8 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage}) =
 
   const addBotPlayer = () => {
     if (players.length < 4) { 
-      const randomPoints = Math.floor(Math.random() * (10000 - 100 + 1) / 50) * 50 + 100;
-      setPlayers([...players, { username: `Bot ${players.length + 1}`, points: randomPoints, isBot: true }]);
+      
+      setPlayers([...players, { username: `Bot ${players.length + 1}`, points: 0, isBot: true }]);
     }
   };
 

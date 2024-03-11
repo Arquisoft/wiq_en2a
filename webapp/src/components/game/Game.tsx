@@ -93,8 +93,8 @@ const Game = () => {
       <div>
         {currentStage === 1 && (<MenuGame setCurrentStage={handleCurrentStage} />)}
         {currentStage === 2 && (<LobbyGame players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage}/>)}
-        {currentStage === 3 && (<PlayingGame questions={questions}/>)}
-        {currentStage === 4 && (<ScoreboardGame userScores={players}/>)}
+        {currentStage === 3 && (<PlayingGame questions={questions} setCurrentStage={handleCurrentStage} setPlayers={handlePlayers} players={players}/>)}
+        {currentStage === 4 && (<ScoreboardGame userScores={players}/> )}
       </div>
         
     )

@@ -1,17 +1,18 @@
 import { FC, useState } from 'react'
-import { Question4Answers } from './Game'
+import { Player, Question4Answers } from './Game'
 
 interface PlayingGameProps {
   questions: Question4Answers[]
+  setCurrentStage: (n: number) => void;
+  setPlayers: (players:Player[]) => void;
+  players: Player[];
 }
 
-const PlayingGame: FC<PlayingGameProps> = ({questions}) => {
+const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players}) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
     const handleAnswerClick = (answer: string) => {
-      console.log(answer)
-      console.log(questions[currentQuestion].correctAnswer)
       if(questions[currentQuestion].correctAnswer === answer){
         setCorrectAnswers(correctAnswers + 1);
         
@@ -25,6 +26,19 @@ const PlayingGame: FC<PlayingGameProps> = ({questions}) => {
       return points;
     }
 
+    const handleNext = () => {
+      const randomPoints = Math.floor(Math.random() * (10000 - 100 + 1) / 50) * 50 + 100;
+      players.map(player => {
+        if(player.isBot){
+          player.points += randomPoints;
+        }else {
+          player.points += calculatePoints(correctAnswers, questions.length);
+        }
+        return player;
+      })
+      setPlayers(players);
+      setCurrentStage(4);
+    }
 
     const getShuffledAnswers = () => {
       const answers = [
@@ -53,7 +67,6 @@ const PlayingGame: FC<PlayingGameProps> = ({questions}) => {
             {getShuffledAnswers().map((answer) => (
               <button
                 key={answer}
-                //disabled={selectedAnswer !== null}
                 onClick={() => handleAnswerClick(answer)}
               >
                 {answer}
@@ -62,11 +75,11 @@ const PlayingGame: FC<PlayingGameProps> = ({questions}) => {
           </div>
         </>
       )}
-      {currentQuestion+1 === questions.length && ( // Display message after all questions
+      {currentQuestion+1 === questions.length && ( 
         <>
           <p>You answered {correctAnswers} out of {questions.length} questions correctly.</p>
           <p>You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
-          <button>Next</button>
+          <button onClick={() => handleNext()}>Next</button>
         </>
       )}
     </div>
