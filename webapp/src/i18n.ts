@@ -20,7 +20,14 @@ i18n
                     nav_game: 'Game',
                     nav_groups: 'Groups',
                     nav_scoreboard: 'Scoreboard',
-                    nav_profile: 'Profile'
+                    nav_profile: 'Profile',
+                    profile_name: 'Name:',
+                    profile_email: 'Email:',
+                    profile_created_at: 'Account exists since:',
+                    profile_points: 'Total points:',
+                    profile_nwins: 'Number of victories:',
+                    profile_n_correct_answers: 'Number of correct answers:',
+                    profile_n_wrong_answers: 'Number of wrong answers:'
                 }
             },
             es: {
@@ -33,7 +40,14 @@ i18n
                     nav_game: 'Juego',
                     nav_groups: 'Grupos',
                     nav_scoreboard: 'Puntuación',
-                    nav_profile: 'Perfil'
+                    nav_profile: 'Perfil',
+                    profile_name: 'Nombre:',
+                    profile_email: 'Email:',
+                    profile_created_at: 'La cuenta existe desde el:',
+                    profile_points: 'Puntuación total:',
+                    profile_nwins: 'Número de victorias:',
+                    profile_n_correct_answers: 'Número de respuestas correctas:',
+                    profile_n_wrong_answers: 'Número de respuestas incorrectas:'
                 }
             },
 

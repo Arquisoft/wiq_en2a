@@ -5,7 +5,7 @@ import { GroupsPage } from "./pages/groups";
 import { RouterLayout } from "./common/RouterLayout";
 import { InitPage } from "./pages/init";
 import { ScoreboardPage } from "./pages/scoreboard";
-import { ProfilePage } from "./pages/profile";
+import ProfilePage from "./pages/userProfile"
  
 export const AppRouter: React.FC<{}> = () => {
   return (
