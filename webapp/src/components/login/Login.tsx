@@ -10,8 +10,6 @@ type ActionProps = {
     goBack:()=> void;
 }
 
-
-
 const Login = (props: ActionProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -21,6 +19,11 @@ const Login = (props: ActionProps) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+
+  const handleReturnButtonClick = () => {
+    document.title = "Conocer y Vencer";
+    props.goBack();
+  };
 
   const loginUser = async () => {
 
@@ -50,7 +53,7 @@ const Login = (props: ActionProps) => {
 
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
+    <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
         <div>
           <Typography component="h1" variant="h5">
             {t('login')}
@@ -74,8 +77,8 @@ const Login = (props: ActionProps) => {
             <Button  color="primary" onClick={loginUser}>
               {t('login')}
             </Button>
-            <Button color="primary" onClick={props.goBack}>
-              {t('go_back')}
+            <Button color="primary" onClick={handleReturnButtonClick}>
+              {t('return')}
             </Button>
           </Stack>
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />

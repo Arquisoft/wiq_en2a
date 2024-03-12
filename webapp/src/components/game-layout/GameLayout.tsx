@@ -1,14 +1,17 @@
 import { useState } from "react";
-import Game from "./game/Game";
-import Group from "./Group";
-import Scoreboard from "./ScoreBoard";
+import Game from "../game/Game";
+import Group from "../group/Group";
+import Scoreboard from "../scoreboard/Scoreboard";
 
 
 const GameLayout = () => {
 
 const [currentView, setCurrentView] = useState("Game");
+
     
+
 return(
+
 
     <head className="GameHead">
     <nav className="GameNav">
