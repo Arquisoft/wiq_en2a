@@ -1,11 +1,12 @@
 import  { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AddUser from '../../components/AddUser';
-import Login from '../../components/Login';
+import Register from '../../components/register/Register';
+import Login from '../../components/login/Login';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Init from '../../components/Init';
+import Init from '../../components/init/Init';
+import Box from '@mui/material/Box';
 import '../../i18n';
 
 /** Code that was beforehand in App.tsx */
@@ -34,17 +35,26 @@ export const InitPage: React.FC<{}> = () =>{
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-        {t('app_name')}
-      </Typography>
-
-      {showInit ? 
-       <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
-       /* : showGoogleLM ?
-        <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
-          : showLogin ?
-            <Login goBack={handleLoginRegisterToggleView} /> 
-            : <AddUser goBack={handleLoginRegisterToggleView} />}
+      <Box sx={
+        {
+          minHeight: '100vh', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center' 
+        }
+      }>
+          <Typography component="h1" variant="h2" align="center" sx={{ marginBottom: 3 }}>
+            {t('app_name')}
+          </Typography>
+          {showInit ?
+            <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
+            /* : showGoogleLM ?
+            <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
+            : showLogin ?
+            <Login goBack={handleLoginRegisterToggleView} />
+            : <Register goBack={handleLoginRegisterToggleView} />}
+      </Box>
     </Container>
     /* changed the login button to /components/Init.tsx (where the other buttons are)*/
   );

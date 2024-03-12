@@ -11,8 +11,8 @@ export const AppRouter: React.FC<{}> = () => {
   return (
     <Routes>
       <Route element={<RouterLayout />}>
-        /* when accessing /game or the other paths, it will be shown as the  
-            outlet inside the RouterLayout*/
+        { /* When accessing /game or the other paths, it will be shown as the  
+            outlet inside RouterLayout*/ }
         <Route path="/game" element={<GamePage />} />
         <Route path="/groups" element={<GroupsPage />} />
         <Route path="/scoreboard" element={<ScoreboardPage />} />

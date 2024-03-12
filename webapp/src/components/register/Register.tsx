@@ -1,8 +1,8 @@
-// src/components/AddUser.js
 import  { useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, TextField,  Snackbar } from '@mui/material';
+import { Container, Typography, TextField, Snackbar, Stack, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import './Register.scss';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -10,7 +10,7 @@ type ActionProps = {
   goBack:()=> void;
 }
 
-const AddUser = (props:ActionProps) => {
+const Register = (props:ActionProps) => {
   const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -31,10 +31,15 @@ const AddUser = (props:ActionProps) => {
     setOpenSnackbar(false);
   };
 
+  const handleReturnButtonClick = () => {
+    document.title = "Conocer y Vencer";
+    props.goBack();
+  };
+
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
+    <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
       <Typography component="h1" variant="h5">
-        {t('add_user')}
+        {t('register')}
       </Typography>
       <TextField
         name="username"
@@ -53,13 +58,15 @@ const AddUser = (props:ActionProps) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button  color="primary" onClick={addUser} name = "Add user">
-        {t('add_user')}
-      </button>
-      <button color="primary" onClick={props.goBack}>
-        {t('go_back')}
-      </button>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" id='successUserAdd'/>
+      <Stack direction="column">
+        <Button color="primary" onClick={addUser}>
+          {t('register')}
+        </Button>
+        <Button color="primary" onClick={handleReturnButtonClick}>
+          {t('return')}
+        </Button>
+      </Stack>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="You registered successfully" id='successUserAdd'/>
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
@@ -67,4 +74,4 @@ const AddUser = (props:ActionProps) => {
   );
 };
 
-export default AddUser;
+export default Register;
