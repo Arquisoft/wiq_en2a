@@ -33,6 +33,11 @@ const Login = (props: ActionProps) => {
     setOpenSnackbar(false);
   };
 
+  const handleReturnButtonClick = () => {
+    document.title = "Conocer y Vencer";
+    props.goBack();
+  };
+
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
         <div>
@@ -58,7 +63,7 @@ const Login = (props: ActionProps) => {
             <Button  color="primary" onClick={loginUser}>
               {t('login')}
             </Button>
-            <Button color="primary" onClick={props.goBack}>
+            <Button color="primary" onClick={handleReturnButtonClick}>
               {t('return')}
             </Button>
           </Stack>

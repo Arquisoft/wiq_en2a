@@ -31,6 +31,11 @@ const Register = (props:ActionProps) => {
     setOpenSnackbar(false);
   };
 
+  const handleReturnButtonClick = () => {
+    document.title = "Conocer y Vencer";
+    props.goBack();
+  };
+
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
       <Typography component="h1" variant="h5">
@@ -57,7 +62,7 @@ const Register = (props:ActionProps) => {
         <Button color="primary" onClick={addUser}>
           {t('register')}
         </Button>
-        <Button color="primary" onClick={props.goBack}>
+        <Button color="primary" onClick={handleReturnButtonClick}>
           {t('return')}
         </Button>
       </Stack>
