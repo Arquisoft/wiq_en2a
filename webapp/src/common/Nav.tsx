@@ -31,9 +31,17 @@ const NavBar: React.FC<{}> = () =>
       }, [location.pathname]);
 
     return (
-        <AppBar className="nav-appBar">
+        <AppBar className="nav-appBar" sx={
+            { 
+                display: 'flex', 
+                flexDirection: 'row',
+                flexWrap: 'nowrap', 
+                alignItems: 'flex-start', 
+                justifyContent: 'flex-start' 
+            }
+        }>
             <Toolbar>
-                <Container maxWidth="xl" >
+                <Container maxWidth="xl">
                     <Grid
                     container
                     direction="row"
