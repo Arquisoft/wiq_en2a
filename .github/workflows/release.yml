@@ -77,6 +77,24 @@ jobs:
           password: ${{ secrets.GH_PAT }}
           registry: ghcr.io
           workdir: game/qgservice
+  
+  docker-push-gameservice:
+    name: Push game service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [e2e-tests]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+          name: arquisoft/wiq_en2a/gameservice
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_PAT }}
+          registry: ghcr.io
+          workdir: game/gameservice
 
   docker-push-authservice:
     name: Push auth service Docker Image to GitHub Packages

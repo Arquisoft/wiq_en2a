@@ -1,9 +1,10 @@
-import  { useState } from 'react';
+// src/components/Login.js
+import  {  useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from "react-router-dom";
-import './Login.scss';
+
 
 type ActionProps = {
     goBack:()=> void;
@@ -16,14 +17,31 @@ const Login = (props: ActionProps) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
+  const handleReturnButtonClick = () => {
+    document.title = "Conocer y Vencer";
+    props.goBack();
+  };
+
   const loginUser = async () => {
+
     try {
-      await axios.post(`${apiEndpoint}/login`, { username, password });
+      localStorage.clear();
+      const user = await axios.post(`${apiEndpoint}/login`, { username, password });
+  
+      console.log(user.data);
+      localStorage.setItem("username", user.data.username);
+      localStorage.setItem("score", user.data.totalScore);
+      localStorage.setItem("nWins", user.data.nWins);
+      localStorage.setItem("uuid", user.data.uuid);
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
-      navigate("/game");
+      localStorage.setItem('userUUID', user.data.uuid);
+
       setOpenSnackbar(true);
+      navigate("/game")
     } catch (error) {
       setError(error.response.data.error);
     }
@@ -33,10 +51,6 @@ const Login = (props: ActionProps) => {
     setOpenSnackbar(false);
   };
 
-  const handleReturnButtonClick = () => {
-    document.title = "Conocer y Vencer";
-    props.goBack();
-  };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
@@ -59,7 +73,7 @@ const Login = (props: ActionProps) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Stack direction="column">
+          <Stack direction="column" spacing={2}>
             <Button  color="primary" onClick={loginUser}>
               {t('login')}
             </Button>

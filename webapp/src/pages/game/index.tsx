@@ -1,8 +1,11 @@
 import React from "react";
 import Game from "../../components/game/Game";
+import { Container } from "@mui/material";
 
 export const GamePage: React.FC<{}> = () => {
   return (
-    <Game/>
+    <Container sx={{ mt: 9 }} maxWidth="xl">
+      <Game/>
+    </Container>
   );
 };

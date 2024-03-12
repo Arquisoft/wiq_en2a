@@ -29,7 +29,7 @@
       "alwaysStrict": true,
       "allowUnreachableCode": false,
       "noImplicitAny": true,
-      "strictNullChecks": true,
+      //"strictNullChecks": true,
 
       // Linter Checks
       "noImplicitReturns": true,

@@ -19,6 +19,7 @@
     "react-i18next": "^14.0.5",
     "react-router-dom": "^6.22.2",
     "react-scripts": "^5.0.1",
+    "react-sf-building-blocks": "^1.0.87",
     "web-vitals": "^3.5.1"
   },
   "scripts": {
@@ -28,7 +29,7 @@
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios)/'",
     "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject",
-    "test-only:e2e":"cd e2e && jest"
+    "test-only:e2e": "cd e2e && jest"
   },
   "eslintConfig": {
     "extends": [
