@@ -77,9 +77,7 @@ const NavBar: React.FC<{}> = () =>
                                 <Button variant="contained" onClick={() => navigate("/scoreboard")}>
                                     {t('nav_scoreboard')}
                                 </Button>
-                            </Stack>
-                        </Grid>
-                        <Grid >
+                                <Grid >
                             <Button variant="text" 
                                 id="menu-button" 
                                 color='inherit' 
@@ -89,6 +87,10 @@ const NavBar: React.FC<{}> = () =>
                                 {user}
                             </Button>
                         </Grid>
+                            </Stack>
+                            
+                        </Grid>
+                        
                     </Grid>
                     <Menu id="menu" open={open} MenuListProps={{'aria-labelledby':'menu-button'}} 
                         onClose={()=>handleClose()} anchorEl={anchorEl}>
