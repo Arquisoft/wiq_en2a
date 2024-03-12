@@ -152,7 +152,7 @@ jobs:
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp, docker-push-qgservice]
+    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp, docker-push-qgservice, docker-push-gameservice]
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
