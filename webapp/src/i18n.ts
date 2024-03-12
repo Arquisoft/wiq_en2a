@@ -20,7 +20,7 @@ i18n
                     nav_game: 'Game',
                     nav_groups: 'Groups',
                     nav_scoreboard: 'Scoreboard',
-                    nav_profile: 'Perfil'
+                    nav_profile: 'Profile'
                 }
             },
             es: {

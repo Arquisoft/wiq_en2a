@@ -5,6 +5,7 @@ import { GroupsPage } from "./pages/groups";
 import { RouterLayout } from "./common/RouterLayout";
 import { InitPage } from "./pages/init";
 import { ScoreboardPage } from "./pages/scoreboard";
+import { ProfilePage } from "./pages/profile";
  
 export const AppRouter: React.FC<{}> = () => {
   return (
@@ -15,6 +16,7 @@ export const AppRouter: React.FC<{}> = () => {
         <Route path="/game" element={<GamePage />} />
         <Route path="/groups" element={<GroupsPage />} />
         <Route path="/scoreboard" element={<ScoreboardPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
       <Route path="/" element={<InitPage/>} />
     </Routes>
