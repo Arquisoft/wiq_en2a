@@ -38,16 +38,44 @@ services:
       - mynetwork
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
+    
+  questiongeneratorservice:
+    container_name: qgservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en2a/questiongenerator:latest
+    profiles: ["dev", "prod"]
+    build: ./game/qgservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8003:8003"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/userdb
   
+  gameservice:
+    container_name: gameservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en2a/gameservice:latest
+    profiles: ["dev", "prod"]
+    build: ./game/gameservice
+    depends_on:
+      - mongodb
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/userdb
+
   groupservice:
     container_name: groupservice-${teamname:-defaultASW}
-    image: pelazas1/groupservice:latest
+    image: ghcr.io/arquisoft/wiq_en2a/groupservice:latest
     profiles: ["dev", "prod"]
     build: ./game/groupservice
     depends_on:
       - mongodb
     ports:
-      - "8004:8004"
+      - "8005:8005"
     networks:
       - mynetwork
     environment:
@@ -62,6 +90,8 @@ services:
       - mongodb
       - userservice
       - authservice
+      - questiongeneratorservice
+      - gameservice
     ports:
       - "8000:8000"
     networks:
@@ -69,7 +99,9 @@ services:
     environment:
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
-      GROUP_SERVICE_URL: http://groupservice:8004
+      QG_SERVICE_URL: http://questiongeneratorservice:8003
+      GAME_SERVICE_URL: http://gameservice:8004
+      GROUP_SERVICE_URL: http://groupservice:8005
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}

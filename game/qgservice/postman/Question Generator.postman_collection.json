@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "5149e774-8e53-479d-a470-163f06f16f9b",
+		"name": "Question Generator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33131426"
+	},
+	"item": [
+		{
+			"name": "Get questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8003/game",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8003",
+					"path": [
+						"game"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
