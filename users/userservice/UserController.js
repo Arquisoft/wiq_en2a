@@ -143,8 +143,17 @@ let UserController = {
         users.push(user);
       }
       res.json(users);
+    },
+    leaveGroup: async (req, res) => {
+      const id = req.params.id;
+      console.log(id)
+      const user = await User.findOne({uuid: id});
+      if(user){
+        user.groupId = null;
+      }
+      const response = await user.save();
+      res.json(response);
     }
-    
 }
 
 module.exports = UserController;

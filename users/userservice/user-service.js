@@ -30,6 +30,7 @@ app.get('/getUser/:username', UserController.getUserByUsername);
 app.post('/getUsersByIds', UserController.getUsersByIds);
 app.get('/getUserById/:id', UserController.getUserById)
 app.put('/addGroup/:userUUID', UserController.addGroupToUser)
+app.delete('/leaveGroup/:id', UserController.leaveGroup)
 
 const server = app.listen(port, () => {
   console.log(`User Service listening at http://localhost:${port}`);

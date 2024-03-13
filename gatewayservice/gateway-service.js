@@ -138,7 +138,20 @@ app.post('/joinGroup', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
 // leave group
+app.post('/leaveGroup', async (req, res) => {
+  try{
+    const groupResponse = await axios.post(groupServiceUrl+'/leaveGroup', req.body);
+    console.log("---- GROUP LEFT SUCCESFULLY ----")
+    console.log(groupResponse.data)
+    const userResponse = await axios.delete(userServiceUrl+'/leaveGroup/'+req.body.expelledUUID);
+    res.json(groupResponse.data);
+  } catch(error){
+    res.status(500).json({ error: error.message });
+  }
+})
+
 // get group by id
 app.get('/getGroup/:uuid', async (req, res) => {
   try{
