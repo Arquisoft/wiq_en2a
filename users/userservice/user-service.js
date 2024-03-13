@@ -27,6 +27,8 @@ app.post('/updateLastGame', UserController.updateLastGame);
 app.post('/updateStatistics', UserController.updateStatistics);
 app.get('/getStatistics/:id', UserController.getStatistics);
 app.get('/getUser/:username', UserController.getUserByUsername);
+app.post('/getUsersByIds', UserController.getUsersByIds);
+app.get('/getUserById/:id', UserController.getUserById)
 app.put('/addGroup/:userUUID', UserController.addGroupToUser)
 
 const server = app.listen(port, () => {

@@ -140,6 +140,22 @@ app.post('/joinGroup', async (req, res) => {
 })
 // leave group
 // get group by id
+app.get('/getGroup/:uuid', async (req, res) => {
+  try{
+    const uuid = req.params.uuid
+    const groupResponse = await axios.get(groupServiceUrl+'/getGroup/'+uuid);
+    console.log(groupResponse.data.members)
+    const userResponseAdmin = await axios.get(userServiceUrl+'/getUserById/'+groupResponse.data.admin);
+    groupResponse.data.admin = userResponseAdmin.data
+    const userIds = groupResponse.data.members
+    const userResponseMembers = await axios.post(userServiceUrl+'/getUsersByIds', {userIds});
+    groupResponse.data.members = userResponseMembers.data
+    console.log(groupResponse.data)
+    res.json(groupResponse.data);
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+})
 
 
 // Start the gateway service
