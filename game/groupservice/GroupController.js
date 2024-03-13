@@ -41,17 +41,25 @@ let GroupController = {
       },
       leaveGroup: async (req,res) => {
         try{
+          console.log(req.body)
           requiredFields = ['expelledUUID','groupName', 'adminUUID']
           validateRequiredFields(req, requiredFields);
           const group = await getGroupByName(req.body.groupName);
       
-          if(req.body.adminUUID != group.admin){
+          if(req.body.adminUUID != group.admin && req.body.adminUUID == req.body.expelledUUID){
+            console.log("entra en la condicion")
             res.json({ message: 'User is unable to perform this operation' });
             return;
           }
       
           group.members = group.members.filter(member => member != req.body.expelledUUID)
-      
+          
+          if(group.members.length == 0){
+            await group.deleteOne()
+            res.json({ message: 'Group deleted' });
+            return;
+          }
+
           if(group.admin == req.body.expelledUUID){
               group.admin = group.members.at(0);
           }
@@ -60,6 +68,7 @@ let GroupController = {
           res.json(response); 
       
         }catch(error){
+          console.log(error)
           res.status(500).json({error: error.message})
         }
       },

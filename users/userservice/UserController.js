@@ -114,14 +114,17 @@ let UserController = {
       const { groupUUID } = req.body;
       const { userUUID } = req.params;
       const user = await User.findOne({ uuid: userUUID });
+      let previousGroup;
       if (user) {
+        previousGroup = user.groupId;
         user.groupId = groupUUID;
         await user.save();
       } else {
         throw new Error(`User with UUID ${p.uuid} not found`); 
       }
-      const response = await user.save();
-      console.log(response)
+      const response = {
+        previousGroup: previousGroup,
+      }
       res.json(response);
     }
     

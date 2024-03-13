@@ -100,10 +100,17 @@ app.post('/createGroup', async (req, res) => {
   try {
     const { creatorUUID } = req.body
     const groupResponse = await axios.post(groupServiceUrl+'/createGroup', req.body);
+    const groupName = groupResponse.data.groupName;
     const userResponse = await axios.put(userServiceUrl+'/addGroup/'+creatorUUID, {groupUUID: groupResponse.data.uuid});
+    console.log(userResponse.data);
+    if(userResponse.data.previousGroup){
+      const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
+      console.log(getGroupResponse.data)
+      const exitGroupResponse = await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: creatorUUID, adminUUID: creatorUUID, groupName: getGroupResponse.data.groupName});
+    }
     res.json(groupResponse.data);
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message });
   }
 })
 // join group
