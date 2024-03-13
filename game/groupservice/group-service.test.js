@@ -2,6 +2,8 @@ const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
 const app = require('./group-service'); // Replace 'your-app-file' with the filename where your app is defined
+const Group = require('./group-model');
+const uuid = require('uuid');
 
 let mongoServer;
 
@@ -25,16 +27,67 @@ describe('Group Service API Tests', () => {
   });
 
   // Test case for the '/join' route
-  it('POST /join should return "Joining Group" message', async () => {
-    const response = await request(app)
+  it('POST /join should join a user to a group with valid data', async () => {
+    const uuidGroup = uuid.v4();
+    const admin = uuid.v4();
+    const group = new Group({
+      groupName: 'Test Group',
+      members: [admin],
+      isPublic: true,
+      admin: admin,
+      uuid: uuidGroup,
+      joinCode: '123456',
+      description: 'Test group',
+      creationDate: Date(),
+      maxNumUsers: 10,
+    });
+    await group.save();
+
+    const newUserUUID = uuid.v4();
+    const joinData = {
+      uuid: newUserUUID,
+      groupName: 'Test Group',
+    };
+
+    const res = await request(app)
       .post('/join')
-      .send({
-        username: 'testUser',
-        groupName: 'testGroup',
-        joinCode: '123456'
-      });
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Joining Group');
+      .send(joinData)
+      .expect(200);
+
+    await Group.findOneAndDelete({uuid: uuidGroup});
+    expect(res.body.members).toContain(newUserUUID);
+  });
+
+  it('POST /join should return an error if the user is already in the group', async () => {
+    // Create a group with a user already in it
+    const uuidGroup = uuid.v4();
+    const admin = uuid.v4();
+    const testUser = uuid.v4();
+    const group = new Group({
+      groupName: 'Test Group2',
+      members: [admin, testUser],
+      isPublic: true,
+      admin: admin,
+      uuid: uuidGroup,
+      joinCode: '123456',
+      description: 'Test group2',
+      creationDate: Date(),
+      maxNumUsers: 10,
+    });
+    await group.save();
+
+    const joinData = {
+      uuid: testUser,
+      groupName: 'Test Group2',
+    };
+
+    const res = await request(app)
+      .post('/join')
+      .send(joinData)
+      .expect(200);
+
+    await Group.findOneAndDelete({uuid: uuidGroup});
+    expect(res.body.message).toBe('User is already in this group');
   });
 
   // Test case for the '/leave' route
