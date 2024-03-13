@@ -92,6 +92,7 @@ services:
       - authservice
       - questiongeneratorservice
       - gameservice
+      - groupservice
     ports:
       - "8000:8000"
     networks:
