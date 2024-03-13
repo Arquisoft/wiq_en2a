@@ -35,6 +35,7 @@ let GroupController = {
           res.json(response);
       
         }catch(error){
+          console.log(error)
           res.status(400).json({error: error.message})
         }
       
@@ -45,8 +46,8 @@ let GroupController = {
           requiredFields = ['expelledUUID','groupName', 'adminUUID']
           validateRequiredFields(req, requiredFields);
           const group = await getGroupByName(req.body.groupName);
-      
-          if(req.body.adminUUID != group.admin && req.body.adminUUID == req.body.expelledUUID){
+          console.log(req.body.adminUUID +" - "+ req.body.expelledUUID)
+          if(req.body.adminUUID != group.admin && req.body.adminUUID != req.body.expelledUUID){
             console.log("entra en la condicion")
             res.json({ message: 'User is unable to perform this operation' });
             return;

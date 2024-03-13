@@ -100,13 +100,20 @@ app.post('/createGroup', async (req, res) => {
   try {
     const { creatorUUID } = req.body
     const groupResponse = await axios.post(groupServiceUrl+'/createGroup', req.body);
-    const groupName = groupResponse.data.groupName;
+    console.log("----Group created succesfully----")
+    console.log(groupResponse.data)
     const userResponse = await axios.put(userServiceUrl+'/addGroup/'+creatorUUID, {groupUUID: groupResponse.data.uuid});
-    console.log(userResponse.data);
+    console.log("----User updated succesfully----");
+    console.log(userResponse.data)
     if(userResponse.data.previousGroup){
+      console.log("----User has a previous group----")
+      console.log(userResponse.data.previousGroup)
       const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
+      console.log("----Group retrieved succesfully----")
       console.log(getGroupResponse.data)
       const exitGroupResponse = await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: creatorUUID, adminUUID: creatorUUID, groupName: getGroupResponse.data.groupName});
+      console.log("----Group exited succesfully----")
+      console.log(exitGroupResponse.data)
     }
     res.json(groupResponse.data);
   } catch (error) {
@@ -114,6 +121,23 @@ app.post('/createGroup', async (req, res) => {
   }
 })
 // join group
+app.post('/joinGroup', async (req, res) => {
+  try{
+    const { uuid } = req.body
+    const groupResponse = await axios.post(groupServiceUrl+'/joinGroup', req.body);
+    const userResponse = await axios.put(userServiceUrl+'/addGroup/'+req.body.uuid, {groupUUID: groupResponse.data.uuid});
+    if(userResponse.data.previousGroup){
+      const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
+      console.log(getGroupResponse.data)
+      const exitGroupResponse = await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: uuid, adminUUID: uuid, groupName: getGroupResponse.data.groupName});
+      console.log(exitGroupResponse.data)
+    }
+    console.log(groupResponse.data)
+    res.json(groupResponse.data);
+  } catch(error){
+    res.status(500).json({ error: error.message });
+  }
+})
 // leave group
 // get group by id
 
