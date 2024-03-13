@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Group = require('./group-model');
 const bodyParser = require('body-parser');
-const uuid = require('uuid')
+const uuid = require('uuid');
+const generateJoinCode = require('./util/GenerateJoinCode');
 
 const app = express();
 const port = 8004; 
@@ -24,23 +25,11 @@ function validateRequiredFields(req, requiredFields) {
   }
 }
 
-/*
-  PETICIONES:
-  - unirse: recibe el user y se añade a members, manejar tamaño maximo de grupo y si es publico/privado contraseña
-  - salir: recibe el user y se elimina de members (tambien sirve para que el admin expulse expulsar)
-  - crear: recibe el user (lo asigna admin), todos los campos de grupo, y se crea el grupo
-*/
-
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to group service module' });
 });
 
-/**
- * Finds a Group in the database from the database
- * It check if the group exist
- * @param {groupName of group we want to find} name 
- * @returns 
- */
+
 async function getGroupByName(name) {
   try {
     const group = await Group.findOne({ groupName: name });
@@ -59,44 +48,18 @@ async function getGroupByName(name) {
 
 app.post('/join', async (req,res) => {
   try{
-    requiredFields = ['username','groupName','joinCode']
+    requiredFields = ['uuid','groupName']
     validateRequiredFields(req, requiredFields);
-
-    try {
-      const group = await getGroupByName(req.body.groupName);
-      // Use the found group here
-      console.log(group);
-    } catch (error) {
-      // Handle the error here
-      console.error(error);
-    }
-
-    //checks for telling if the operacion can  be performed
+    const group = await getGroupByName(req.body.groupName);
 
     if(group.members.length == maxNuberUsers){
-      res.json({ message2: 'This group is full' });
+      res.json({ message: 'This group is full' });
       return;
     }
 
-    if(!group.isPublic){
-      if(group.joinCode != req.body.joinCode){
-        res.json({ message2: 'The code for joining this private group' +
-         ' is incorrect action has been cancelled' });
-        return;
-      }
-    }
-
-    //User.findOne returns a promise
-    const user = getUserByName(req.body.username);
-
-    group.members.push(user.username);
-    user.groupName = groupName;
-
-    res.json({ message2: 'User' + userName + ' joined group: '+ groupName });
-    
+    group.members.push(req.body.uuid);
     
     await group.save()  
-    await user.save()
 
     res.json(user);
 
@@ -106,109 +69,23 @@ app.post('/join', async (req,res) => {
 
 });
 
-app.post('/leave', async (req,res) => {
+app.post('/leaveGroup', async (req,res) => {
   try{
-    res.json({ message: 'Leaving Group' });
-
-    requiredFields = ['username','groupName']
+    requiredFields = ['expelledUUID','groupName', 'adminUUID']
     validateRequiredFields(req, requiredFields);
-  
-    try {
-      const group = await getGroupByName(req.body.groupName);
-      // Use the found group here
-      console.log(group);
-    } catch (error) {
-      // Handle the error here
-      console.error(error);
+    const group = await getGroupByName(req.body.groupName);
+    if(req.body.adminUUID != group.admin){
+      res.json({ message: 'User is unable to perform this operation' });
+      return;
     }
+    group.updateOne({ $pull: { members: req.body.uuid } });
 
-    if(!group){
-      res.status(401).json({ error: 'This group does not exist' });
-    }
-
-    try {
-      const user = await getGroupByName(req.body.userName);
-      // Use the found group here
-      console.log(group);
-    } catch (error) {
-      // Handle the error here
-      console.error(error);
-    }
-
-    if(!user){
-      res.status(401).json({ error: 'This user does not exist' });
-    }
-
-    user.groupName = null;
-    var index = group.members.at(user.username);
-    group.members[index] = null;
-
-    //if the admin leaves the group it must name a new admin
-    //before leaving
-    if(group.admin == user.name){
-
-      if(index > group.members.length){
+    if(group.admin == req.body.uuid){
         group.admin = group.members[0];
-
-      }else{
-        group.admin = group.members[index+1];
-      }
-      
-      
     }
+
     await group.save()  
-    await user.save() 
 
-    res.json({ message2: 'User' + userName + ' left group: '
-    + groupName });
-
-    res.json(user);
-  }catch(error){
-    res.status(400).json({error: error.message})
-  }
-});
-
-app.post(' /kickUser', async (req,res) =>{
-  try{
-    res.json({ message: 'Leaving Group' });
-    requieredFields = ['username','groupName','adminName']
-    validateRequiredFields(req, requiredFields);
-
-    try {
-      const group = await getGroupByName(req.body.groupName);
-      // Use the found group here
-      console.log(group);
-    } catch (error) {
-      // Handle the error here
-      console.error(error);
-    }
-
-    if(group.admin != adminName ){
-      res.json({ message2: 'Acion cancelled, only the admin' +
-      'is allowed to kick other users'});
-      return;
-    }
-    if(group.admin == username){
-      res.json({ message2: 'Acion cancelled, you can not kick the admin'});
-      return;
-    }
-
-    try {
-      const user = await getGroupByName(req.body.userName);
-      // Use the found group here
-      console.log(group);
-    } catch (error) {
-      // Handle the error here
-      console.error(error);
-    }
-
-    var index = group.members.at(user.username);
-    group.members[index] = null;emoveUserFromGroup(user,group);
-    
-    res.json({ message2: 'User' + userName + ' has been kicked from group: '
-    + groupName });
-
-    res.json(user);
   }catch(error){
     res.status(400).json({error: error.message})
   }
@@ -217,17 +94,28 @@ app.post(' /kickUser', async (req,res) =>{
 app.post('/create', async (req,res) =>{
   try{
 
-    requiredFields =['groupName','adminUserName','description','isPublic']
+    requiredFields =['groupName','creatorUUID','description','isPublic']
     validateRequiredFields(req,requiredFields);
 
     res.json({ message: 'Creating Group' });
+    let newGroup;
+    if(!req.body.isPublic){
+      newGroup = new Group({
+        admin: req.body.creatorUUID,
+        members: [req.body.creatorUUID],
+        maxNumUsers: maxNumUsers,
+        description: req.body.description,
+        isPublic: false,
+        creationDate: Date(),
+        groupName: req.body.groupName,
+        uuid: uuid.v4(),
+      })
+      await newGroup.save();
 
-    const joinCode = crypto.randomUUID;
-    const dateNow = Date();
+    } else {
+    const joinCode = generateJoinCode();
 
-    var foundingMember = [req.body.adminUserName]; 
-
-    const newGroup = new Group({
+    newGroup = new Group({
       groupName: req.body.groupName,
       admin: req.body.adminUserName,
       members: foundingMember,
@@ -239,6 +127,7 @@ app.post('/create', async (req,res) =>{
     });
     
     await newGroup.save();
+  }
     res.json(newGroup);
 
   } catch(error){

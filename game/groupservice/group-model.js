@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const groupSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: true,
+    },
     groupName: {
         type: String,
         required: true,
