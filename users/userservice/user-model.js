@@ -37,12 +37,10 @@ const userSchema = new mongoose.Schema({
     nWins: {
       type: Number,
       required: false,
-    }
-
-    // uuid del group con group
+    },
     groupName:{
       type: String,
-      ref: "Group"
+      required: false,
     }
 });
 

@@ -2,15 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Group = require('./group-model');
 const bodyParser = require('body-parser');
-const crypto = require('crypto');
-const User = require('../../users/userservice/user-service')
+const uuid = require('uuid')
 
 const app = express();
 const port = 8004; 
 
 const maxNumUsers = 30;
-
-
 
 app.use(express.json());
 
@@ -34,26 +31,9 @@ function validateRequiredFields(req, requiredFields) {
   - crear: recibe el user (lo asigna admin), todos los campos de grupo, y se crea el grupo
 */
 
-
-/**
- * Finds a User in the database by username
- * It check if the user exist
- * @param {username of the user we want to find} name 
- * @returns 
- */
-async function getUserByName(name){
-  try {
-    const user = await User.findOne({username: name});
-
-    if (!group) {
-      throw new Error('This user does not exist');
-    }
-
-    return group;
-  } catch (error) {
-    throw new Error(error.message); 
-  }
-}
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to group service module' });
+});
 
 /**
  * Finds a Group in the database from the database
@@ -76,14 +56,9 @@ async function getGroupByName(name) {
   }
 }
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to group service module' });
-});
-
 
 app.post('/join', async (req,res) => {
   try{
-    res.json({ message: 'Joining Group' });
     requiredFields = ['username','groupName','joinCode']
     validateRequiredFields(req, requiredFields);
 
