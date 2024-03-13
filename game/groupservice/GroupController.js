@@ -106,7 +106,20 @@ let GroupController = {
           res.status(500).json({error: error.message})
         }
       
+      },
+    getGroup: async (req, res) => {
+      try{
+        const uuid = req.params.uuid
+        const group = await Group.findOne({uuid: uuid})
+        if(!group){
+          res.status(404).json({error: 'Group not found'})
+          return;
+        }
+        res.json(group)
+      } catch(error){
+        res.status(500).json({error: error.message})
       }
+    }
 }
 
 async function getGroupByName(name) {

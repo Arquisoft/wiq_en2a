@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"creatorUUID\": \"c77b2bde-1834-49f3-9775-3569eb1e1c6d\",\r\n    \"groupName\": \"Grupo tekila\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
+					"raw": "{\r\n    \"creatorUUID\": \"c77b2bde-1834-49f3-9775-3569eb1e1c6d\",\r\n    \"groupName\": \"Grupo marihuana\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"uuid\": \"7e4032f0-ccbb-4b3c-afc9-35a3065b0479\",\r\n    \"groupName\": \"Grupo tekila\",\r\n    \"joinCode\": \"OAej\"\r\n}",
+					"raw": "{\r\n    \"uuid\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"groupName\": \"Grupo 2\",\r\n    \"joinCode\": \"ppf4\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -49,7 +49,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8005/joinGroup",
+					"raw": "http://localhost:8005/join",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -69,7 +69,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"expelledUUID\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"adminUUID\": \"c77b2bde-1834-49f3-9775-3569eb1e1c6d\",\r\n    \"groupName\": \"Grupo tekila\"\r\n}",
+					"raw": "{\r\n    \"expelledUUID\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"adminUUID\": \"c77b2bde-1834-49f3-9775-3569eb1e1c6d\",\r\n    \"groupName\": \"Grupo 2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -85,6 +85,26 @@
 					"port": "8005",
 					"path": [
 						"leaveGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get group",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8005/getGroup/9a5fb4ef-3880-48c7-8f5b-449c87b70dee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8005",
+					"path": [
+						"getGroup",
+						"9a5fb4ef-3880-48c7-8f5b-449c87b70dee"
 					]
 				}
 			},

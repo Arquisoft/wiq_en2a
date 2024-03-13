@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 app.post('/joinGroup', GroupController.joinGroup);
 app.post('/leaveGroup', GroupController.leaveGroup);
 app.post('/createGroup', GroupController.createGroup);
+app.get('/getGroup/:uuid', GroupController.getGroup);
 
 const server = app.listen(port, () => {
   console.log(`Group Service listening at http://localhost:${port}`);
