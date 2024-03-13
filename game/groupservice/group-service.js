@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Welcome to group service module' });
 });
 
-app.post('/join', GroupController.joinGroup);
+app.post('/joinGroup', GroupController.joinGroup);
 app.post('/leaveGroup', GroupController.leaveGroup);
 app.post('/createGroup', GroupController.createGroup);
 

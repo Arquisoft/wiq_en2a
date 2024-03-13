@@ -27,7 +27,7 @@ describe('Group Service API Tests', () => {
   });
 
   // Test case for the '/join' route
-  it('POST /join should join a user to a group with valid data', async () => {
+  it('POST /joinGroup should join a user to a group with valid data', async () => {
     const uuidGroup = uuid.v4();
     const admin = uuid.v4();
     const group = new Group({
@@ -50,7 +50,7 @@ describe('Group Service API Tests', () => {
     };
 
     const res = await request(app)
-      .post('/join')
+      .post('/joinGroup')
       .send(joinData)
       .expect(200);
 
@@ -58,7 +58,7 @@ describe('Group Service API Tests', () => {
     expect(res.body.members).toContain(newUserUUID);
   });
 
-  it('POST /join should return an error if the user is already in the group', async () => {
+  it('POST /joinGroup should return an error if the user is already in the group', async () => {
     // Create a group with a user already in it
     const uuidGroup = uuid.v4();
     const admin = uuid.v4();
@@ -82,7 +82,7 @@ describe('Group Service API Tests', () => {
     };
 
     const res = await request(app)
-      .post('/join')
+      .post('/joinGroup')
       .send(joinData)
       .expect(200);
 
@@ -91,15 +91,69 @@ describe('Group Service API Tests', () => {
   });
 
   // Test case for the '/leave' route
-  it('POST /leave should return "Leaving Group" message', async () => {
-    const response = await request(app)
-      .post('/leave')
-      .send({
-        username: 'testUser',
-        groupName: 'testGroup'
-      });
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Leaving Group');
+  it('POST /leaveGroup should remove a user from the group with valid data', async () => {
+    const uuidGroup = uuid.v4();
+    const admin = uuid.v4();
+    const testUser = uuid.v4();
+    const group = new Group({
+      groupName: 'Test Group2',
+      members: [admin, testUser],
+      isPublic: true,
+      admin: admin,
+      uuid: uuidGroup,
+      joinCode: '123456',
+      description: 'Test group2',
+      creationDate: Date(),
+      maxNumUsers: 10,
+    });
+    await group.save();
+
+    const leaveData = {
+      expelledUUID: testUser,
+      groupName: 'Test Group2',
+      adminUUID: admin
+    };
+
+    const res = await request(app)
+      .post('/leaveGroup')
+      .send(leaveData)
+      .expect(200);
+
+    await Group.findOneAndDelete({uuid: uuidGroup});
+    expect(res.body.members).not.toContain(testUser);
+  });
+
+  it('POST /leaveGroup should assign a new admin if the expelled user was the admin', async () => {
+    const uuidGroup = uuid.v4();
+    const admin = uuid.v4();
+    const testUser = uuid.v4();
+    const group = new Group({
+      groupName: 'Test Group2',
+      members: [admin, testUser],
+      isPublic: true,
+      admin: admin,
+      uuid: uuidGroup,
+      joinCode: '123456',
+      description: 'Test group2',
+      creationDate: Date(),
+      maxNumUsers: 10,
+    });
+    await group.save();
+
+    const leaveData = {
+      expelledUUID: admin,
+      groupName: 'Test Group2',
+      adminUUID: admin
+    };
+
+    const res = await request(app)
+      .post('/leaveGroup')
+      .send(leaveData)
+      .expect(200);
+
+    await Group.findOneAndDelete({uuid: uuidGroup});
+    expect(res.body.members).not.toContain(admin);
+    expect(res.body.admin).toBe(testUser);
   });
 
   // Test case for the '/create' route
