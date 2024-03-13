@@ -19,14 +19,12 @@ describe('Group Service API Tests', () => {
     await mongoServer.stop();
     });
 
-  // Test case for the '/' route
   it('GET / should return welcome message', async () => {
     const response = await request(app).get('/');
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Welcome to group service module');
   });
 
-  // Test case for the '/join' route
   it('POST /joinGroup should join a user to a group with valid data', async () => {
     const uuidGroup = uuid.v4();
     const admin = uuid.v4();
@@ -59,7 +57,6 @@ describe('Group Service API Tests', () => {
   });
 
   it('POST /joinGroup should return an error if the user is already in the group', async () => {
-    // Create a group with a user already in it
     const uuidGroup = uuid.v4();
     const admin = uuid.v4();
     const testUser = uuid.v4();
@@ -90,7 +87,6 @@ describe('Group Service API Tests', () => {
     expect(res.body.message).toBe('User is already in this group');
   });
 
-  // Test case for the '/leave' route
   it('POST /leaveGroup should remove a user from the group with valid data', async () => {
     const uuidGroup = uuid.v4();
     const admin = uuid.v4();
@@ -156,17 +152,25 @@ describe('Group Service API Tests', () => {
     expect(res.body.admin).toBe(testUser);
   });
 
-  // Test case for the '/create' route
-  it('POST /create should return "Creating Group" message', async () => {
-    const response = await request(app)
-      .post('/create')
-      .send({
-        groupName: 'testGroup',
-        adminUserName: 'adminUser',
-        description: 'Test group',
-        isPublic: true
-      });
-    expect(response.status).toBe(200);
-    expect(response.body.message).toBe('Creating Group');
+  it('POST /createGroup should create a public group with valid data', async () => {
+    const admin = uuid.v4();
+    const groupData = {
+      groupName: 'Public Test Group',
+      creatorUUID: admin,
+      description: 'This is a public test group',
+      isPublic: true
+    };
+
+    const res = await request(app)
+      .post('/createGroup')
+      .send(groupData)
+      .expect(200);
+
+    await Group.findOneAndDelete({uuid: res.body.uuid}); // Delete the group after testing
+    expect(res.body.groupName).toBe(groupData.groupName);
+    expect(res.body.admin).toBe(groupData.creatorUUID);
+    expect(res.body.members).toContain(groupData.creatorUUID);
+    expect(res.body.isPublic).toBe(true);
+    
   });
 });

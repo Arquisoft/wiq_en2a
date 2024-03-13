@@ -68,9 +68,10 @@ let GroupController = {
       
           requiredFields =['groupName','creatorUUID','description','isPublic']
           validateRequiredFields(req,requiredFields);
-      
+
           let newGroup;
           if(req.body.isPublic){
+
             newGroup = new Group({
               admin: req.body.creatorUUID,
               members: [req.body.creatorUUID],
@@ -97,13 +98,12 @@ let GroupController = {
             creationDate: Date(),
             uuid: uuid.v4(),
           });
-          
           await newGroup.save();
         }
           res.json(newGroup);
       
         } catch(error){
-          res.status(400).json({error: error.message})
+          res.status(500).json({error: error.message})
         }
       
       }
