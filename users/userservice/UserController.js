@@ -109,6 +109,14 @@ let UserController = {
         const username = req.params.username;
         const user = await User.findOne({ username: username }).select('-password');
         res.json(user);
+    },
+    addGroupToUser: async (req, res) => {
+      const { uuid } = req.body;
+      const { userUUID } = req.params;
+      const user = await User.findOne({ uuid: userUUID });
+      user.groupUUID = uuid;
+      const response = await user.save();
+      res.json(response);
     }
     
 }

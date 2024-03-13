@@ -10,6 +10,7 @@ const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const qgServiceUrl = process.env.QG_SERVICE_URL || 'http://localhost:8003';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8004';
+const groupServiceUrl = process.env.GROUP_SERVICE_URL || 'http://localhost:8005'
 
 app.use(cors());
 app.use(express.json());
@@ -93,6 +94,21 @@ app.get('/getStats/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 })
+
+// create group
+app.post('/createGroup', async (req, res) => {
+  try {
+    const { creatorUUID } = req.body
+    const groupResponse = await axios.post(groupServiceUrl+'/createGroup', req.body);
+    const userResponse = await axios.put(userServiceUrl+'/addGroup/'+creatorUUID, {groupUUID: groupResponse.data.uuid});
+    res.json(groupResponse.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+// join group
+// leave group
+// get group by id
 
 
 // Start the gateway service
