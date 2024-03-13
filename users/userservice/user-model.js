@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
       type: Number,
       required: false,
     },
-    groupUUID:{
+    groupId:{
       type: String,
       required: false,
     }

@@ -111,11 +111,17 @@ let UserController = {
         res.json(user);
     },
     addGroupToUser: async (req, res) => {
-      const { uuid } = req.body;
+      const { groupUUID } = req.body;
       const { userUUID } = req.params;
       const user = await User.findOne({ uuid: userUUID });
-      user.groupUUID = uuid;
+      if (user) {
+        user.groupId = groupUUID;
+        await user.save();
+      } else {
+        throw new Error(`User with UUID ${p.uuid} not found`); 
+      }
       const response = await user.save();
+      console.log(response)
       res.json(response);
     }
     
