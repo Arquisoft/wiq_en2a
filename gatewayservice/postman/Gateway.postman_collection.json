@@ -69,6 +69,98 @@
 				"header": []
 			},
 			"response": []
+		},
+		{
+			"name": "Create Group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"creatorUUID\": \"445541d7-aa01-46a5-8a08-506ae8609b91\",\r\n    \"groupName\": \"Grupo17\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Join Group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"groupName\": \"Grupo 2\",\r\n    \"joinCode\": \"ppf4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/joinGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"joinGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get group",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Leave group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expelledUUID\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"adminUUID\": \"c77b2bde-1834-49f3-9775-3569eb1e1c6d\",\r\n    \"groupName\": \"Grupo 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/leaveGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"leaveGroup"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

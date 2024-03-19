@@ -4,7 +4,7 @@ import { Container, Typography, TextField, Snackbar, Stack, Button } from '@mui/
 import { useTranslation } from 'react-i18next';
 import './Register.scss';
 
-const apiEndpoint = 'http://74.234.241.249:8000';
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 type ActionProps = {
   goBack:()=> void;
