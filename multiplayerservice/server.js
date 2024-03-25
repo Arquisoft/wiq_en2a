@@ -4,9 +4,14 @@ const socketIo = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
-
-const parties = {}; // Store active parties and their corresponding sockets
+const io = socketIo(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
+const parties = {}; 
 
 // Generate a random code for the party
 function generatePartyCode() {
