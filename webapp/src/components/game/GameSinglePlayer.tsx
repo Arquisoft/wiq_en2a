@@ -30,7 +30,7 @@ export interface Player {
   isBot: boolean;
 }
 
-const Game = () => {
+const GameSinglePlayer = () => {
 
     const [questions, setQuestions] = useState<Question4Answers[]>([]);
     const [currentStage, setCurrentStage] = useState(1);
@@ -103,4 +103,4 @@ const Game = () => {
     )
 }
 
-export default Game;
+export default GameSinglePlayer;
