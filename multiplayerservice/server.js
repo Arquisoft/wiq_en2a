@@ -1,12 +1,9 @@
-// gameservice.js
 const express = require('express');
 const axios = require('axios');
 const mongoose = require('mongoose');
-const { createGame } = require('./queries/CreateGame');
-const GameController = require('./GameController');
 
 const app = express();
-const port = 8004;
+const port = 8006;
 
 // app.use(bodyParser.json());
 app.use(express.json());
@@ -16,17 +13,13 @@ mongoose.connect(mongoUri);
 
 app.get('/', (req, res) => {
   res.json({
-    "hi": "game service"
+    "hi": "multiplayer service"
   });
 });
 
-// Routes
-app.post('/createGame', GameController.create);
-app.delete('/deleteGame/:id', GameController.delete);
-app.get('/getGame/:id', GameController.getById);
 
 const server = app.listen(port, () => {
-  console.log(`Question generator Service listening at http://localhost:${port}`);
+  console.log(`Multiplayer Service listening at http://localhost:${port}`);
 });
 
 module.exports = server;
