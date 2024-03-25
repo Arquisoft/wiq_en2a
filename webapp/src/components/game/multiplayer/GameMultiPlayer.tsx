@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import io from 'socket.io-client';
+import MenuMultiplayer from './MenuMultiplayer';
 
 interface GameMultiPlayerProps {
   
 }
 
-interface SocketProps {
+export interface SocketProps {
   emit: (event: string, ...args: any[]) => void;
   close: () => void; 
 }
@@ -14,6 +15,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
 
   const SERVER_URL = 'http://localhost:8006';
   const [socket, setSocket] = useState<SocketProps | null>(null);
+  const [stage, setStage] = useState<number>(1)
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -21,7 +23,6 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
 
     newSocket.on('partyCreated', (partyCode: string) => {
       console.log(`Party created: ${partyCode}`);
-      // Handle the party creation, e.g., store the party code in the state
     });
   
     return () => {
@@ -29,14 +30,14 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     };
   }, []);
 
-  const createParty = () => {
-    socket.emit('createParty');
+  const handleCurrentStage = (n:number) => {
+    setStage(n);
   };
 
   return (
     <div>
-      <h1>Multiplayer Game</h1>
-      <button onClick={createParty}>Create Party</button>
+      {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} />}
+      
     </div>
   )
 }

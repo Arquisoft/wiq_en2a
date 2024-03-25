@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Player, Question4Answers } from './GameSinglePlayer'
+import { Player, Question4Answers } from './singleplayer/GameSinglePlayer'
 import axios from 'axios';
 
 interface PlayingGameProps {
