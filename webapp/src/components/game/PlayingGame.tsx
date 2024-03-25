@@ -43,7 +43,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
         return player;
       })
       setPlayers(players);
-      setCurrentStage(4);
+      setCurrentStage(3);
       const sorted = players.sort((a, b) => b.points - a.points);
       const requestData ={ "players": [{
         "uuid": uuid,

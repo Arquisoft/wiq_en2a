@@ -104,15 +104,15 @@ services:
       GAME_SERVICE_URL: http://gameservice:8004
       GROUP_SERVICE_URL: http://groupservice:8005
 
-  webapp:
-    container_name: webapp-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_en2a/webapp:latest
-    profiles: ["dev", "prod"]
-    build: ./webapp
-    depends_on:
-      - gatewayservice
-    ports:
-      - "3000:3000" 
+  # webapp:
+  #   container_name: webapp-${teamname:-defaultASW}
+  #   image: ghcr.io/arquisoft/wiq_en2a/webapp:latest
+  #   profiles: ["dev", "prod"]
+  #   build: ./webapp
+  #   depends_on:
+  #     - gatewayservice
+  #   ports:
+  #     - "3000:3000" 
 
   prometheus:
     image: prom/prometheus

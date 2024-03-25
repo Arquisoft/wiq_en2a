@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import MenuGame from './MenuGame';
 import LobbyGame from './LobbyGame';
 import PlayingGame from './PlayingGame';
 import ScoreboardGame from './ScoreboardGame';
+import { Container } from '@mui/material';
 export interface Question4Answers {
     uuid: string
     question: string;
@@ -93,12 +93,11 @@ const GameSinglePlayer = () => {
 
       
     return (
-      <div>
-        {currentStage === 1 && (<MenuGame setCurrentStage={handleCurrentStage} />)}
-        {currentStage === 2 && (<LobbyGame players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage}/>)}
-        {currentStage === 3 && (<PlayingGame questions={questions} setCurrentStage={handleCurrentStage} setPlayers={handlePlayers} players={players}/>)}
-        {currentStage === 4 && (<ScoreboardGame userScores={players}/> )}
-      </div>
+      <Container sx={{ mt: 9 }}>
+        {currentStage === 1 && (<LobbyGame players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage}/>)}
+        {currentStage === 2 && (<PlayingGame questions={questions} setCurrentStage={handleCurrentStage} setPlayers={handlePlayers} players={players}/>)}
+        {currentStage === 3 && (<ScoreboardGame userScores={players}/> )}
+      </Container>
         
     )
 }

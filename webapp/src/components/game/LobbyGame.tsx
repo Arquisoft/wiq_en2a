@@ -38,7 +38,7 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage}) =
         <button disabled={players.length === 4} onClick={addBotPlayer} className="add-bot-button">
           Add Bot Player
         </button>
-        <button className="start-game-button" onClick={() => setCurrentStage(3)}>
+        <button className="start-game-button" onClick={() => setCurrentStage(2)}>
             Start Game
         </button>
       </div>
