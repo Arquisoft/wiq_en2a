@@ -6,9 +6,10 @@ interface LobbyGameProps {
   setPlayers: (players:Player[]) => void;
   players: Player[];
   setCurrentStage: (n: number) => void;
+  isFetched: boolean;
 }
 
-const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage}) => {
+const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, isFetched}) => {
 
   const addBotPlayer = () => {
     if (players.length < 4) { 
@@ -38,9 +39,12 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage}) =
         <button disabled={players.length === 4} onClick={addBotPlayer} className="add-bot-button">
           Add Bot Player
         </button>
-        <button className="start-game-button" onClick={() => setCurrentStage(2)}>
+        {isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)}>
             Start Game
-        </button>
+        </button>}
+        {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled>
+            Loading questions...
+        </button>}
       </div>
     </div>
   );

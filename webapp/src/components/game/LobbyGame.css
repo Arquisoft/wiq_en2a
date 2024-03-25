@@ -62,4 +62,10 @@
     cursor: pointer; 
     margin-left: 10px;
   }
+
+  .start-game-button:disabled {
+    background-color: #cccccc; /* Change background color for disabled state */
+    color: #666666; /* Change text color for disabled state */
+    cursor: not-allowed; /* Change cursor for disabled state */
+  }
   
