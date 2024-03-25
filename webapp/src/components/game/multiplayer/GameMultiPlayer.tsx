@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react'
 import io from 'socket.io-client';
 import MenuMultiplayer from './MenuMultiplayer';
+import { Container } from '@mui/material';
+import LobbyMultiPlayer from './LobbyMultiPlayer';
 
 interface GameMultiPlayerProps {
   
@@ -16,6 +18,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
   const SERVER_URL = 'http://localhost:8006';
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
+  const [partyCode, setPartyCode] = useState<string>("");
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -23,6 +26,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
 
     newSocket.on('partyCreated', (partyCode: string) => {
       console.log(`Party created: ${partyCode}`);
+      setPartyCode(partyCode);
     });
   
     return () => {
@@ -35,10 +39,10 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
   };
 
   return (
-    <div>
+    <Container sx={{ mt: 9 }}>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} />}
-      
-    </div>
+      {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode}/>}
+    </Container>
   )
 }
 
