@@ -6,8 +6,8 @@ import { RouterLayout } from "./common/RouterLayout";
 import { InitPage } from "./pages/init";
 import { ScoreboardPage } from "./pages/scoreboard";
 import ProfilePage from "./pages/userProfile";
-import GameSinglePlayer from "./components/game/GameSinglePlayer";
-import GameMultiPlayer from "./components/game/GameMultiPlayer";
+import GameSinglePlayer from "./components/game/singleplayer/GameSinglePlayer";
+import GameMultiPlayer from "./components/game/multiplayer/GameMultiPlayer";
  
 export const AppRouter: React.FC<{}> = () => {
   return (

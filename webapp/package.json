@@ -20,6 +20,7 @@
     "react-router-dom": "^6.22.2",
     "react-scripts": "^5.0.1",
     "react-sf-building-blocks": "^1.0.87",
+    "socket.io-client": "^4.7.5",
     "web-vitals": "^3.5.1"
   },
   "scripts": {

@@ -1,5 +1,5 @@
 import { FC} from 'react'
-import { Player } from './GameSinglePlayer';
+import { Player } from './singleplayer/GameSinglePlayer';
 import './ScoreboardGame.css';
 
 interface ScoreboardGameProps {
