@@ -18,7 +18,7 @@ const Login = (props: ActionProps) => {
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const apiEndpoint = 'http://74.234.241.249:8000';
+  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
   const handleReturnButtonClick = () => {
     document.title = "Conocer y Vencer";
