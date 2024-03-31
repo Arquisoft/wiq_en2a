@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { Player } from './GameSinglePlayer';
 import './LobbyGame.scss';
+import { TableBody } from '@mui/material';
 
 interface LobbyGameProps {
   setPlayers: (players:Player[]) => void;
@@ -9,14 +10,31 @@ interface LobbyGameProps {
   isFetched: boolean;
 }
 
-const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, isFetched}) => {
 
+
+const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, isFetched}) => {
+  function* botCounter(){
+    let count=0;
+    while(true){
+      count++;
+      yield count;
+    }
+    
+  };
+  const botGen = useRef(botCounter()); // Assign the function to the variable
   const addBotPlayer = () => {
     if (players.length < 4) { 
       
-      setPlayers([...players, { username: `Bot ${players.length + 1}`, points: 0, isBot: true }]);
+      setPlayers([...players, { username: `Bot ${botGen.current.next().value}`,
+       points: 0, isBot: true }]); // Call next() on the generator instance
     }
   };
+
+ 
+
+ 
+  
+ 
 
   const deletePlayer = (playerIndex: number) => {
     const newPlayers = [...players]; 
@@ -43,11 +61,9 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
         <td headers='playerUsername'>{player.username}</td>
         <td headers='playerPoints'>Total points: {player.points}</td>
         <td headers='playerBotOptions'>
-          {player.isBot ? (
-            <button onClick={() => deletePlayer(index)} className="delete-button">Delete</button>
-          ) : (
-            <button className="delete-button" disabled>Delete</button>
-          )}
+        {player.isBot && (
+          <button onClick={() => deletePlayer(index)} className="delete-button">Delete</button>
+        )}
         </td>
       </tr>
     ))}
