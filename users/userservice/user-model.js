@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     username: {
       type: String,
       required: true,
-      unique: true,
     },
     password: {
       type: String,
@@ -37,11 +36,9 @@ const userSchema = new mongoose.Schema({
     nWins: {
       type: Number,
       required: false,
-    },
-    groupId:{
-      type: String,
-      required: false,
     }
+
+    // uuid del group con group
 });
 
 const User = mongoose.model('User', userSchema);

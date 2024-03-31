@@ -109,51 +109,8 @@ let UserController = {
         const username = req.params.username;
         const user = await User.findOne({ username: username }).select('-password');
         res.json(user);
-    },
-    addGroupToUser: async (req, res) => {
-      const { groupUUID } = req.body;
-      const { userUUID } = req.params;
-      const user = await User.findOne({ uuid: userUUID });
-      let previousGroup;
-      if (user) {
-        previousGroup = user.groupId;
-        user.groupId = groupUUID;
-        await user.save();
-      } else {
-        throw new Error(`User with UUID ${p.uuid} not found`); 
-      }
-      const response = {
-        previousGroup: previousGroup,
-      }
-      res.json(response);
-    },
-    getUserById: async (req, res) => {
-      console.log(req.params)
-      const userId = req.params.id;
-      console.log(userId)
-      const user = await User.findOne({ uuid: userId });
-      res.json(user);
-    },
-    getUsersByIds: async (req, res) => {
-      const userIds = req.body.userIds;
-      const users = [];
-      for(const id of userIds){
-        console.log(id)
-        const user = await User.findOne({ uuid: id });
-        users.push(user);
-      }
-      res.json(users);
-    },
-    leaveGroup: async (req, res) => {
-      const id = req.params.id;
-      console.log(id)
-      const user = await User.findOne({uuid: id});
-      if(user){
-        user.groupId = null;
-      }
-      const response = await user.save();
-      res.json(response);
     }
+    
 }
 
 module.exports = UserController;

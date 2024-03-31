@@ -10,7 +10,6 @@ const authServiceUrl = process.env.AUTH_SERVICE_URL || 'http://localhost:8002';
 const userServiceUrl = process.env.USER_SERVICE_URL || 'http://localhost:8001';
 const qgServiceUrl = process.env.QG_SERVICE_URL || 'http://localhost:8003';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8004';
-const groupServiceUrl = process.env.GROUP_SERVICE_URL || 'http://localhost:8005'
 
 app.use(cors());
 app.use(express.json());
@@ -92,81 +91,6 @@ app.get('/getStats/:id', async (req, res) => {
     res.json(combinedResponse);
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
-  }
-})
-
-// create group
-app.post('/createGroup', async (req, res) => {
-  try {
-    const { creatorUUID } = req.body
-    const groupResponse = await axios.post(groupServiceUrl+'/createGroup', req.body);
-    console.log("----Group created succesfully----")
-    console.log(groupResponse.data)
-    const userResponse = await axios.put(userServiceUrl+'/addGroup/'+creatorUUID, {groupUUID: groupResponse.data.uuid});
-    console.log("----User updated succesfully----");
-    console.log(userResponse.data)
-    if(userResponse.data.previousGroup){
-      console.log("----User has a previous group----")
-      console.log(userResponse.data.previousGroup)
-      const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
-      console.log("----Group retrieved succesfully----")
-      console.log(getGroupResponse.data)
-      const exitGroupResponse = await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: creatorUUID, adminUUID: creatorUUID, groupName: getGroupResponse.data.groupName});
-      console.log("----Group exited succesfully----")
-      console.log(exitGroupResponse.data)
-    }
-    res.json(groupResponse.data);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-})
-// join group
-app.post('/joinGroup', async (req, res) => {
-  try{
-    const { uuid } = req.body
-    const groupResponse = await axios.post(groupServiceUrl+'/joinGroup', req.body);
-    const userResponse = await axios.put(userServiceUrl+'/addGroup/'+req.body.uuid, {groupUUID: groupResponse.data.uuid});
-    if(userResponse.data.previousGroup){
-      const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
-      console.log(getGroupResponse.data)
-      const exitGroupResponse = await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: uuid, adminUUID: uuid, groupName: getGroupResponse.data.groupName});
-      console.log(exitGroupResponse.data)
-    }
-    console.log(groupResponse.data)
-    res.json(groupResponse.data);
-  } catch(error){
-    res.status(500).json({ error: error.message });
-  }
-})
-
-// leave group
-app.post('/leaveGroup', async (req, res) => {
-  try{
-    const groupResponse = await axios.post(groupServiceUrl+'/leaveGroup', req.body);
-    console.log("---- GROUP LEFT SUCCESFULLY ----")
-    console.log(groupResponse.data)
-    const userResponse = await axios.delete(userServiceUrl+'/leaveGroup/'+req.body.expelledUUID);
-    res.json(groupResponse.data);
-  } catch(error){
-    res.status(500).json({ error: error.message });
-  }
-})
-
-// get group by id
-app.get('/getGroup/:uuid', async (req, res) => {
-  try{
-    const uuid = req.params.uuid
-    const groupResponse = await axios.get(groupServiceUrl+'/getGroup/'+uuid);
-    console.log(groupResponse.data.members)
-    const userResponseAdmin = await axios.get(userServiceUrl+'/getUserById/'+groupResponse.data.admin);
-    groupResponse.data.admin = userResponseAdmin.data
-    const userIds = groupResponse.data.members
-    const userResponseMembers = await axios.post(userServiceUrl+'/getUsersByIds', {userIds});
-    groupResponse.data.members = userResponseMembers.data
-    console.log(groupResponse.data)
-    res.json(groupResponse.data);
-  }catch(error){
-    res.status(500).json({ error: error.message });
   }
 })
 
