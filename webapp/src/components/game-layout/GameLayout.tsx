@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Game from "../game/Game";
+import Game from "../game/GameSinglePlayer";
 import Group from "../group/Group";
 import Scoreboard from "../scoreboard/Scoreboard";
 

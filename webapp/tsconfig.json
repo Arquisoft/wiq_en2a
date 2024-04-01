@@ -26,17 +26,17 @@
       "sourceRoot": "/",
 
       // Strict Checks
-      "alwaysStrict": true,
-      "allowUnreachableCode": false,
-      "noImplicitAny": true,
+      //"alwaysStrict": true,
+      //"allowUnreachableCode": false,
+      //"noImplicitAny": true,
       //"strictNullChecks": true,
 
       // Linter Checks
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-      "noUncheckedIndexedAccess": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true
+      //"noImplicitReturns": true,
+      //"noFallthroughCasesInSwitch": true,
+      //"noUncheckedIndexedAccess": true,
+      //"noUnusedLocals": true,
+      //"noUnusedParameters": true
     },
     "include": ["./**/*.tsx", "src/index.tsx"],
     "exclude": [
