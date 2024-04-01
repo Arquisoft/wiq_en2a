@@ -24,7 +24,20 @@ function bindPopulationResults(queryResult){
     return populationMap
 }
 
+function bindChemicalResults(queryResult){
+    const chemicalElementMap = new Map();
+
+    queryResult.results.bindings.forEach(entry => {
+        const elementLabel = entry.elementLabel.value;
+        const symbol = parseFloat(entry.symbol.value);
+        populationMap.set(symbol, elementLabel);
+    });
+
+    return chemicalElementMap
+}
+
 module.exports = { 
     bindCapitalsResults,
-    bindPopulationResults
+    bindPopulationResults,
+    bindChemicalResults
 }

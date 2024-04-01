@@ -1,8 +1,8 @@
-const { generateQuestionPopulation, generateQuestionCapital } = require('./generatorLogic/questiongenerator');
+const { generateQuestionPopulation, generateQuestionCapital, generateQuestionChemical } = require('./generatorLogic/questiongenerator');
 const Question4Answers = require('./Question4Answers');
 const { executeSparqlQuery } = require('./generatorLogic/SparqlQuery')
 const { bindCapitalsResults, bindPopulationResults } = require('./generatorLogic/BindResults')
-const { spainCapitalQuery, worldCapitalQuery, worldPopulationQuery } = require('./generatorLogic/queries')
+const { spainCapitalQuery, worldCapitalQuery, worldPopulationQuery, chemicalElementQuery } = require('./generatorLogic/queries')
 const { createMathQuestions } = require('./generatorLogic/MathQuestions')
 
 let QGController = {
@@ -32,12 +32,22 @@ let QGController = {
             }
 
             // world population
-            nQuestions = 5;
+            nQuestions = 2;
             const worldPopulationResult = await executeSparqlQuery(worldPopulationQuery);
             const worldPopulation = bindPopulationResults(worldPopulationResult)
         
             for (let i = 0; i < nQuestions; i++) {
             const question = generateQuestionPopulation(worldPopulation);
+            questions.push(question);
+            }
+
+            // chemical elements
+            nQuestions = 3;
+            const chemicalResult = await executeSparqlQuery(chemicalElementQueryQuery);
+            const chemicalElement = bindCapitalsResults(chemicalResult)
+        
+            for (let i = 0; i < nQuestions; i++) {
+            const question = generateQuestionChemical(chemicalElement);
             questions.push(question);
             }
 
