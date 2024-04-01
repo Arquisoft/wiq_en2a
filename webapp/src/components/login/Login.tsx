@@ -1,5 +1,5 @@
 // src/components/Login.js
-import  {  useState, KeyboardEvent  } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -32,14 +32,14 @@ const Login = (props: ActionProps) => {
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   
       console.log(user);
-      /*localStorage.setItem("username", user.data.username);
+      localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
       localStorage.setItem("nWins", user.data.nWins);
       localStorage.setItem("uuid", user.data.uuid);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
-*/
+
       setOpenSnackbar(true);
       navigate("/game")
     } catch (error) {
@@ -54,7 +54,6 @@ const Login = (props: ActionProps) => {
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     if(event.key === 'Enter'){
       loginUser();
-      console.log('logged');
     }
   };
 

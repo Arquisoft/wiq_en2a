@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Stack, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,7 @@ const Register = (props:ActionProps) => {
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const addUser = async () => {
+  async function addUser () {
     try {
       // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
@@ -53,6 +53,12 @@ const Register = (props:ActionProps) => {
     props.goBack();
   };
 
+  const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
+    if(event.key === 'Enter'){
+      addUser();
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
       <Typography component="h1" variant="h5">
@@ -74,6 +80,7 @@ const Register = (props:ActionProps) => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
       <Stack direction="column">
         <Button color="primary" onClick={addUser}>
