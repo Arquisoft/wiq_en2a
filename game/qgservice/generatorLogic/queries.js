@@ -47,6 +47,13 @@ const chemicalElementQuery = `SELECT ?element ?elementLabel ?symbol WHERE {
 }
 `
 
+const monumentQuery = `SELECT ?monument ?monumentLabel ?country ?countryLabel WHERE {
+  ?monument wdt:P31 wd:Q4989906;       # Instance of historical monument
+         wdt:P17 ?country.             # Country of the monument
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+LIMIT 100
+`
 
 
 const chatgptPrompt = `
@@ -66,5 +73,6 @@ module.exports = {
   //chatgptPrompt,
   spainCapitalQuery,
   worldCapitalQuery,
-  chemicalElementQuery
+  chemicalElementQuery,
+  monumentQuery
 };
