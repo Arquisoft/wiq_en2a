@@ -30,14 +30,27 @@ function bindChemicalResults(queryResult){
     queryResult.results.bindings.forEach(entry => {
         const elementLabel = entry.elementLabel.value;
         const symbol = parseFloat(entry.symbol.value);
-        populationMap.set(symbol, elementLabel);
+        chemicalElementMap.set(symbol, elementLabel);
     });
 
     return chemicalElementMap
 }
 
+function bindMonumentResults(queryResult){
+    const monumentMap = new Map();
+
+    queryResult.results.bindings.forEach(entry => {
+        const monumentLabel = entry.monumentLabel.value;
+        const countryLabel = parseFloat(entry.countryLabel.value);
+        monumentMap.set(monumentLabel, countryLabel);
+    });
+
+    return monumentMap
+}
+
 module.exports = { 
     bindCapitalsResults,
     bindPopulationResults,
-    bindChemicalResults
+    bindChemicalResults,
+    bindMonumentResults
 }
