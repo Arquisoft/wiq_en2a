@@ -40,6 +40,13 @@ SELECT ?country ?countryLabel ?capital ?capitalLabel WHERE {
 }
 `
 
+const chemicalElementQuery = `SELECT ?element ?elementLabel ?symbol WHERE {
+  ?element wdt:P31 wd:Q11344;  # Instance of chemical element
+          wdt:P246 ?symbol.    # Chemical symbol
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+`
+
 
 
 const chatgptPrompt = `
