@@ -52,7 +52,7 @@ const monumentQuery = `SELECT ?monument ?monumentLabel ?country ?countryLabel WH
          wdt:P17 ?country.             # Country of the monument
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
-LIMIT 100
+LIMIT 1000
 `
 
 
