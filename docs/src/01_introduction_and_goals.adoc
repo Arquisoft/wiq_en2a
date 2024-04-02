@@ -22,8 +22,6 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 
 //This table is just a placeholder, replace it with real quality goals once discussed !!!
 
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
-
 (based upon the ISO 25010 standard):
 [options="header",cols="1,2,2"]
 |===
