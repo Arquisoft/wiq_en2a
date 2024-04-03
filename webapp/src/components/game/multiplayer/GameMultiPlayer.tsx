@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 import LobbyMultiPlayer from './LobbyMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import QuestionsMultiPlayer from './QuestionsMultiPlayer';
-import ScoreboardMultiPlayer from './ScoreboardMultiPlayer';
+import ScoreboardGame from '../ScoreboardGame';
 
 interface GameMultiPlayerProps {
   
@@ -25,7 +25,7 @@ export interface UserPlayer {
 
 export interface PlayerWithPoints {
   username: string;
-  totalPoints: number;
+  points: number;
 }
 
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
@@ -96,7 +96,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
       {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
-      {stage === 4 && <ScoreboardMultiPlayer/>}
+      {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
     </Container>
   )
 }

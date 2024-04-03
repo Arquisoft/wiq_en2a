@@ -48,7 +48,7 @@ const playerFinished = (partyCode, socketId, totalPoints) => {
       return {
         finished: player.finished,
         username: player.username,
-        totalPoints: player.totalPoints
+        points: player.totalPoints
     }});
 
     // Sort the players by their total points in descending order
