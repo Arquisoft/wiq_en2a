@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { SocketProps, UserPlayer } from './GameMultiPlayer';
 import '../LobbyGame.scss';
 import axios from 'axios';
@@ -13,6 +13,8 @@ interface LobbyMultiPlayerProps {
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage, partyCode, users}) => {
 
   const [isFetched, setFetched] = useState<boolean>(true);
+
+  const uuid = localStorage.getItem("uuid");
 
   const fetchQuestions = async () => {
     setFetched(false)
@@ -36,6 +38,15 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
     }
   };
 
+  const exitLobby = () => {
+    socket.emit('exitParty', partyCode)
+    handleCurrentStage(1)
+  }
+
+  const isAdmin = () => {
+    return users.some((user) => user.uuid === uuid && user.isAdmin);
+  }
+
   return (
     <div className='lobby-container'>
       <h2 className='lobby-title'>Lobby - Multiplayer</h2>
@@ -50,14 +61,9 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
         </div>
       ))}
       <div className='button-container'>
-        {/* {isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)}>
-            Start Game
-        </button>}
-        {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled>
-            Loading questions...
-        </button>} */}
-        <button className="start-game-button" onClick={() => handleCurrentStage(3)}>Exit</button>
-        {isFetched && <button className="start-game-button" onClick={fetchQuestions}>Start game</button>}
+        <button className="exit-lobby-button" onClick={exitLobby}>Exit</button>
+        {isFetched && isAdmin() && <button className="start-game-button" onClick={fetchQuestions}>Start game</button>}
+        {isFetched && !isAdmin() && <button className="start-game-button" onClick={fetchQuestions} disabled>Start game</button>}
         {!isFetched && <button className="start-game-button"  disabled>Loading questions ...</button>}
       </div>
     </div>

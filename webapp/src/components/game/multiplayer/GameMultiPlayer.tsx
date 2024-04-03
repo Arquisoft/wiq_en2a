@@ -22,7 +22,7 @@ export interface UserPlayer {
   isAdmin: boolean;
 }
 
-const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
+const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
   const SERVER_URL = 'http://localhost:8006';
   const username = localStorage.getItem("username")

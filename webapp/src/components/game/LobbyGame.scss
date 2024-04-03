@@ -76,10 +76,21 @@ table {
   .button-container {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
   }
 
   .start-game-button {
     background-color: #007bff; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; 
+    margin-left: 10px;
+  }
+
+  .exit-lobby-button {
+    background-color: red; 
     color: white;
     padding: 10px 20px;
     border: none;

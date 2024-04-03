@@ -27,21 +27,22 @@ function createParty() {
   return partyCode;
 }
 
-// Join a party
-function joinParty(partyCode, socket) {
-  if (parties[partyCode]) {
-    parties[partyCode].push(socket);
-    return true;
-  }
-  return false;
-}
-
 const updateLobbyUsers = (lobbyCode) => {
   io.to(lobbyCode).emit('lobbyUsers', Object.values(lobby[lobbyCode]));
 };
 
 const broadcastQuestions = (partyCode, questions) => {
   io.to(partyCode).emit('questionsUpdated', questions);
+};
+
+const playerFinished = (partyCode, socketId) => {
+  lobby[partyCode][socketId].finished = true;
+
+  const allFinished = Object.values(lobby[partyCode]).every(player => player.finished);
+
+  if (allFinished) {
+    io.to(partyCode).emit('allPlayersFinished');
+  }
 };
 
 io.on('connection', socket => {
@@ -77,6 +78,20 @@ io.on('connection', socket => {
     console.log('here')
     // Broadcast questions to all users in the specified party
     broadcastQuestions(partyCode, questions);
+  });
+
+  socket.on('exitParty', (partyCode) => {
+    console.log("aqui")
+    if (lobby[partyCode]) {
+      // Remove the user from the lobby
+      delete lobby[partyCode][socket.id];
+      // Broadcast updated list of users to all remaining users in the lobby
+      updateLobbyUsers(partyCode);
+    }
+  });
+
+  socket.on('playerFinished', (partyCode) => {
+    playerFinished(partyCode, socket.id);
   });
 
   socket.on('disconnect', () => {
