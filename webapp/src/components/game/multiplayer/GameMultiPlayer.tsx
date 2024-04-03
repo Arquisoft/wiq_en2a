@@ -5,6 +5,7 @@ import { Container } from '@mui/material';
 import LobbyMultiPlayer from './LobbyMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import QuestionsMultiPlayer from './QuestionsMultiPlayer';
+import ScoreboardGame from '../ScoreboardGame';
 
 interface GameMultiPlayerProps {
   
@@ -22,7 +23,12 @@ export interface UserPlayer {
   isAdmin: boolean;
 }
 
-const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
+export interface PlayerWithPoints {
+  username: string;
+  points: number;
+}
+
+const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
   const SERVER_URL = 'http://localhost:8006';
   const username = localStorage.getItem("username")
@@ -32,6 +38,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
   const [partyCode, setPartyCode] = useState<string>("");
   const [users, setUsers] = useState<UserPlayer[]>([]);
   const [questions, setQuestions] = useState<Question4Answers[]>([]);
+  const [sortedUsersByPoints, setSortedUsersByPoints] = useState<PlayerWithPoints[]>([])
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -43,24 +50,23 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     });
 
     newSocket.on('joinedParty', (user: UserPlayer) => {
-      console.log(user)
-      console.log(`User ${username} joined the party`);
       setStage(2);
-      console.log(users)
     })
 
     newSocket.on('lobbyUsers', (users: UserPlayer[]) => {
       setUsers(users);
-      console.log(users)
     });
 
     newSocket.on('partyNotFound', () => {
       console.log('Party not found');
     });
 
+    newSocket.on('allPlayersFinished', (playersWithPoints:PlayerWithPoints[]) => {
+      setSortedUsersByPoints(playersWithPoints);
+      setStage(4);
+    })
+
     newSocket.on('questionsUpdated', (questions: Question4Answers[]) => {
-      console.log('questions recieved from server')
-      console.log(questions);
       setQuestions(questions);
       setStage(3);
     })
@@ -82,7 +88,8 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     <Container sx={{ mt: 9 }}>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
-      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions}/>}
+      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
+      {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
     </Container>
   )
 }

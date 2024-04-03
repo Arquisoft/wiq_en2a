@@ -27,21 +27,36 @@ function createParty() {
   return partyCode;
 }
 
-// Join a party
-function joinParty(partyCode, socket) {
-  if (parties[partyCode]) {
-    parties[partyCode].push(socket);
-    return true;
-  }
-  return false;
-}
-
 const updateLobbyUsers = (lobbyCode) => {
   io.to(lobbyCode).emit('lobbyUsers', Object.values(lobby[lobbyCode]));
 };
 
 const broadcastQuestions = (partyCode, questions) => {
   io.to(partyCode).emit('questionsUpdated', questions);
+};
+
+const playerFinished = (partyCode, socketId, totalPoints) => {
+  console.log(totalPoints)
+  lobby[partyCode][socketId].finished = true;
+  lobby[partyCode][socketId].totalPoints = totalPoints;
+
+  const allFinished = Object.values(lobby[partyCode]).every(player => player.finished);
+
+  if (allFinished) {
+    const playersWithPoints = Object.entries(lobby[partyCode]).map(([id, player]) => {
+      console.log(player)
+      return {
+        finished: player.finished,
+        username: player.username,
+        points: player.totalPoints
+    }});
+
+    // Sort the players by their total points in descending order
+    playersWithPoints.sort((a, b) => b.totalPoints - a.totalPoints);
+
+    // Emit an event to notify all clients with the ordered list of players and their points
+    io.to(partyCode).emit('allPlayersFinished', playersWithPoints);
+  }
 };
 
 io.on('connection', socket => {
@@ -77,6 +92,20 @@ io.on('connection', socket => {
     console.log('here')
     // Broadcast questions to all users in the specified party
     broadcastQuestions(partyCode, questions);
+  });
+
+  socket.on('exitParty', (partyCode) => {
+    console.log("aqui")
+    if (lobby[partyCode]) {
+      // Remove the user from the lobby
+      delete lobby[partyCode][socket.id];
+      // Broadcast updated list of users to all remaining users in the lobby
+      updateLobbyUsers(partyCode);
+    }
+  });
+
+  socket.on('playerFinished', (partyCode, totalPoints) => {
+    playerFinished(partyCode, socket.id, totalPoints);
   });
 
   socket.on('disconnect', () => {

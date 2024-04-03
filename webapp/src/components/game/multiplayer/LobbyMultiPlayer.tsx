@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { SocketProps, UserPlayer } from './GameMultiPlayer';
 import '../LobbyGame.scss';
 import axios from 'axios';
@@ -14,27 +14,33 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
 
   const [isFetched, setFetched] = useState<boolean>(true);
 
+  const uuid = localStorage.getItem("uuid");
+
   const fetchQuestions = async () => {
     setFetched(false)
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     try {
-      console.log(users)
       const requestData = {
         players: users.map((user) => ({uuid: user.uuid}))
       }
-      console.log("requestData")
-      console.log(requestData)
       const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
   
-      console.log("Juego creado")
-      console.log(response.data)
       socket.emit('updateQuestions', partyCode, response.data);
       setFetched(true);
     } catch (error) {
       console.error('Error al obtener las preguntas:', error);
     }
   };
+
+  const exitLobby = () => {
+    socket.emit('exitParty', partyCode)
+    handleCurrentStage(1)
+  }
+
+  const isAdmin = () => {
+    return users.some((user) => user.uuid === uuid && user.isAdmin);
+  }
 
   return (
     <div className='lobby-container'>
@@ -50,14 +56,9 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
         </div>
       ))}
       <div className='button-container'>
-        {/* {isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)}>
-            Start Game
-        </button>}
-        {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled>
-            Loading questions...
-        </button>} */}
-        <button className="start-game-button" onClick={() => handleCurrentStage(3)}>Exit</button>
-        {isFetched && <button className="start-game-button" onClick={fetchQuestions}>Start game</button>}
+        <button className="exit-lobby-button" onClick={exitLobby}>Exit</button>
+        {isFetched && isAdmin() && <button className="start-game-button" onClick={fetchQuestions}>Start game</button>}
+        {isFetched && !isAdmin() && <button className="start-game-button" onClick={fetchQuestions} disabled>Start game</button>}
         {!isFetched && <button className="start-game-button"  disabled>Loading questions ...</button>}
       </div>
     </div>

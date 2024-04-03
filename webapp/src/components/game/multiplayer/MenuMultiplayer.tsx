@@ -27,9 +27,6 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage, 
     };
 
     const joinParty = () => {
-      console.log("Joining party...")
-      console.log(typedCode)
-      console.log(username)
       const user: UserPlayer = {
         username: username,
         totalPoints: parseInt(totalPoints),
