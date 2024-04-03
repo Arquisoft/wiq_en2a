@@ -129,6 +129,15 @@ let GroupController = {
       } catch(error){
         res.status(500).json({error: error.message})
       }
+    },
+    getGroups: async (req, res) => {
+      try{
+        // get all the groups
+        const groups = await Group.find()
+        res.json(groups)
+      } catch(error){
+        res.status(500).json({error: error.message})
+      }
     }
 }
 
