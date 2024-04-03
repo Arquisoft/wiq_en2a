@@ -170,6 +170,15 @@ app.get('/getGroup/:uuid', async (req, res) => {
   }
 })
 
+app.get('/getGroups', async (req, res) => {
+  try{
+    const groupResponse = await axios.get(groupServiceUrl+'/getGroups');
+    res.json(groupResponse.data);
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+})
+
 
 // Start the gateway service
 const server = app.listen(port, () => {

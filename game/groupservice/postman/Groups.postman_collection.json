@@ -49,14 +49,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8005/join",
+					"raw": "http://localhost:8005/joinGroup",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8005",
 					"path": [
-						"join"
+						"joinGroup"
 					]
 				}
 			},
@@ -107,6 +107,14 @@
 						"9a5fb4ef-3880-48c7-8f5b-449c87b70dee"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all groups",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}

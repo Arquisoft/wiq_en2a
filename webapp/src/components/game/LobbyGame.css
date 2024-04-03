@@ -1,14 +1,9 @@
-.lobby-container {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-  }
+
+
+
+/** Deprecated**/
   
-  .lobby-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
+  
   
   .player-item {
     display: flex;
@@ -19,53 +14,7 @@
     padding: 10px;
   }
 
-  .add-bot-button {
-    background-color: #4CAF50; 
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer; 
-    margin-top: 10px; 
-  }
   
-  .add-bot-button:disabled {
-    opacity: 0.5; 
-    cursor: default; 
-  }
 
-  .delete-button {
-    background-color: #f44336;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-left: 10px; 
-  }
   
-  .delete-button:hover {
-    opacity: 0.8;
-  }
-
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .start-game-button {
-    background-color: #007bff; 
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer; 
-    margin-left: 10px;
-  }
-
-  .start-game-button:disabled {
-    background-color: #cccccc; /* Change background color for disabled state */
-    color: #666666; /* Change text color for disabled state */
-    cursor: not-allowed; /* Change cursor for disabled state */
-  }
   
