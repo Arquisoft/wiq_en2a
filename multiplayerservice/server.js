@@ -11,7 +11,9 @@ const io = socketIo(server, {
     credentials: true
   }
 });
-const parties = {}; 
+const parties = {};
+
+const lobby = {};
 
 // Generate a random code for the party
 function generatePartyCode() {
@@ -34,22 +36,30 @@ function joinParty(partyCode, socket) {
   return false;
 }
 
+const updateLobbyUsers = (lobbyCode) => {
+  io.to(lobbyCode).emit('lobbyUsers', Object.values(lobby[lobbyCode]));
+};
+
 io.on('connection', socket => {
   console.log('Client connected');
 
   // Create a new party
-  socket.on('createParty', () => {
+  socket.on('createParty', (username) => {
     const partyCode = createParty();
+    lobby[partyCode] = { [socket.id]: username };
+    socket.join(partyCode);
     socket.emit('partyCreated', partyCode);
+    updateLobbyUsers(partyCode);
   });
 
   // Join an existing party
-  socket.on('joinParty', (inputPartyCode, username) => {
-    const userJoined = joinParty(inputPartyCode, socket);
-    if (userJoined) {
-      socket.join(inputPartyCode);
+  socket.on('joinParty', (partyCode, username) => {
+    if (lobby[partyCode]) {
+      lobby[partyCode][socket.id] = username;
+      socket.join(partyCode);
       socket.emit('joinedParty', username);
-      console.log(`User ${username} joined party: ${inputPartyCode}`);
+      updateLobbyUsers(partyCode);
+      console.log(`User ${username} joined party: ${partyCode}`);
     } else {
       socket.emit('partyNotFound');
     }
@@ -57,14 +67,11 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     console.log('Client disconnected');
-    
-    // Remove the socket from all parties
-    for (const partyCode in parties) {
-      const index = parties[partyCode].indexOf(socket);
-      if (index !== -1) {
-        parties[partyCode].splice(index, 1);
-        console.log(`User left party: ${partyCode}`);
-        break; // Assuming user can only be in one party at a time
+    // Remove the user from the lobby when they disconnect
+    for (const partyCode in lobby) {
+      if (lobby[partyCode][socket.id]) {
+        delete lobby[partyCode][socket.id];
+        updateLobbyUsers(partyCode);
       }
     }
   });

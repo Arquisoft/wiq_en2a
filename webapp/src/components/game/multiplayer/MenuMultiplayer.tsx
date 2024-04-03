@@ -14,7 +14,7 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage})
 
     const createParty = () => {
         handleCurrentStage(2);
-        socket.emit('createParty');
+        socket.emit('createParty', username);
     };
 
     const joinParty = () => {
