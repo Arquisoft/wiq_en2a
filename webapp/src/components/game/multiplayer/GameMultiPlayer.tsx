@@ -16,9 +16,12 @@ export interface SocketProps {
 const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
 
   const SERVER_URL = 'http://localhost:8006';
+  const username = localStorage.getItem("username")
+
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
   const [partyCode, setPartyCode] = useState<string>("");
+  const [users, setUsers] = useState<string[]>([]);
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -27,7 +30,10 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     newSocket.on('partyCreated', (partyCode: string) => {
       console.log(`Party created: ${partyCode}`);
       setPartyCode(partyCode);
+      setUsers([username]);
     });
+
+    //newSocket.on('joinedParty',)
   
     return () => {
       newSocket.close();
@@ -41,7 +47,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
   return (
     <Container sx={{ mt: 9 }}>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} />}
-      {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode}/>}
+      {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
     </Container>
   )
 }
