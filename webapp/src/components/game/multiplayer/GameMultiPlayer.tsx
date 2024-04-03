@@ -5,6 +5,7 @@ import { Container } from '@mui/material';
 import LobbyMultiPlayer from './LobbyMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import QuestionsMultiPlayer from './QuestionsMultiPlayer';
+import ScoreboardMultiPlayer from './ScoreboardMultiPlayer';
 
 interface GameMultiPlayerProps {
   
@@ -22,6 +23,11 @@ export interface UserPlayer {
   isAdmin: boolean;
 }
 
+export interface PlayerWithPoints {
+  username: string;
+  totalPoints: number;
+}
+
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
   const SERVER_URL = 'http://localhost:8006';
@@ -32,6 +38,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
   const [partyCode, setPartyCode] = useState<string>("");
   const [users, setUsers] = useState<UserPlayer[]>([]);
   const [questions, setQuestions] = useState<Question4Answers[]>([]);
+  const [sortedUsersByPoints, setSortedUsersByPoints] = useState<PlayerWithPoints[]>([])
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -58,6 +65,12 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
       console.log('Party not found');
     });
 
+    newSocket.on('allPlayersFinished', (playersWithPoints:PlayerWithPoints[]) => {
+      console.log(playersWithPoints)
+      setSortedUsersByPoints(playersWithPoints);
+      setStage(4);
+    })
+
     newSocket.on('questionsUpdated', (questions: Question4Answers[]) => {
       console.log('questions recieved from server')
       console.log(questions);
@@ -82,7 +95,8 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     <Container sx={{ mt: 9 }}>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
-      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions}/>}
+      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
+      {stage === 4 && <ScoreboardMultiPlayer/>}
     </Container>
   )
 }

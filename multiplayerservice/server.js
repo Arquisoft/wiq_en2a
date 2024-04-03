@@ -35,13 +35,27 @@ const broadcastQuestions = (partyCode, questions) => {
   io.to(partyCode).emit('questionsUpdated', questions);
 };
 
-const playerFinished = (partyCode, socketId) => {
+const playerFinished = (partyCode, socketId, totalPoints) => {
+  console.log(totalPoints)
   lobby[partyCode][socketId].finished = true;
+  lobby[partyCode][socketId].totalPoints = totalPoints;
 
   const allFinished = Object.values(lobby[partyCode]).every(player => player.finished);
 
   if (allFinished) {
-    io.to(partyCode).emit('allPlayersFinished');
+    const playersWithPoints = Object.entries(lobby[partyCode]).map(([id, player]) => {
+      console.log(player)
+      return {
+        finished: player.finished,
+        username: player.username,
+        totalPoints: player.totalPoints
+    }});
+
+    // Sort the players by their total points in descending order
+    playersWithPoints.sort((a, b) => b.totalPoints - a.totalPoints);
+
+    // Emit an event to notify all clients with the ordered list of players and their points
+    io.to(partyCode).emit('allPlayersFinished', playersWithPoints);
   }
 };
 
@@ -90,8 +104,8 @@ io.on('connection', socket => {
     }
   });
 
-  socket.on('playerFinished', (partyCode) => {
-    playerFinished(partyCode, socket.id);
+  socket.on('playerFinished', (partyCode, totalPoints) => {
+    playerFinished(partyCode, socket.id, totalPoints);
   });
 
   socket.on('disconnect', () => {
