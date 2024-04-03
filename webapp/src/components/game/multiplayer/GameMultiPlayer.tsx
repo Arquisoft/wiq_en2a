@@ -35,6 +35,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
 
     newSocket.on('joinedParty', (username: string) => {
       console.log(`User ${username} joined the party`);
+      setStage(2);
       console.log(users)
     })
 

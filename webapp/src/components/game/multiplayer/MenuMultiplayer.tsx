@@ -21,7 +21,6 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage})
       console.log("Joining party...")
       console.log(typedCode)
       console.log(username)
-      handleCurrentStage(2);
       socket.emit('joinParty', typedCode, username);
     }
 
