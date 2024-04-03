@@ -50,15 +50,11 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     });
 
     newSocket.on('joinedParty', (user: UserPlayer) => {
-      console.log(user)
-      console.log(`User ${username} joined the party`);
       setStage(2);
-      console.log(users)
     })
 
     newSocket.on('lobbyUsers', (users: UserPlayer[]) => {
       setUsers(users);
-      console.log(users)
     });
 
     newSocket.on('partyNotFound', () => {
@@ -66,14 +62,11 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     });
 
     newSocket.on('allPlayersFinished', (playersWithPoints:PlayerWithPoints[]) => {
-      console.log(playersWithPoints)
       setSortedUsersByPoints(playersWithPoints);
       setStage(4);
     })
 
     newSocket.on('questionsUpdated', (questions: Question4Answers[]) => {
-      console.log('questions recieved from server')
-      console.log(questions);
       setQuestions(questions);
       setStage(3);
     })

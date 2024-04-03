@@ -14,7 +14,7 @@ const ScoreboardGame:FC<ScoreboardGameProps> = ({userScoresSinglePlayer, userSco
   if(userScoresSinglePlayer){
     sorted = userScoresSinglePlayer.sort((a, b) => b.points - a.points);
   } else if (userScoresMultiPlayer){
-    sorted = userScoresMultiPlayer;
+    sorted = userScoresMultiPlayer.sort((a, b) => b.points - a.points);
   }
     return (
         <section>

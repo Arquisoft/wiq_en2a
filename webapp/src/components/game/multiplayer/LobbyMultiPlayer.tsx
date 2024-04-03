@@ -21,16 +21,11 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     try {
-      console.log(users)
       const requestData = {
         players: users.map((user) => ({uuid: user.uuid}))
       }
-      console.log("requestData")
-      console.log(requestData)
       const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
   
-      console.log("Juego creado")
-      console.log(response.data)
       socket.emit('updateQuestions', partyCode, response.data);
       setFetched(true);
     } catch (error) {

@@ -23,12 +23,9 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
         
       }
       setCurrentQuestion(currentQuestion + 1);
-      console.log(currentQuestion+2)
-      console.log(questions.length)
       if(currentQuestion+2 === questions.length){
         const totalPoints = calculatePoints(correctAnswers, questions.length);
         // the player has finished the game
-        console.log("finish")
         // update stats for each player
         const requestData ={ "players": [{
           "uuid": uuid,
