@@ -44,12 +44,12 @@ io.on('connection', socket => {
   });
 
   // Join an existing party
-  socket.on('joinParty', partyCode, username => {
-    const userJoined = joinParty(partyCode, socket);
+  socket.on('joinParty', (inputPartyCode, username) => {
+    const userJoined = joinParty(inputPartyCode, socket);
     if (userJoined) {
-      socket.join(partyCode);
+      socket.join(inputPartyCode);
       socket.emit('joinedParty', username);
-      console.log(`User ${username} joined party: ${partyCode}`);
+      console.log(`User ${username} joined party: ${inputPartyCode}`);
     } else {
       socket.emit('partyNotFound');
     }

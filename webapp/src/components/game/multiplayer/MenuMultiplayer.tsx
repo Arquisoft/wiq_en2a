@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { SocketProps } from './GameMultiPlayer';
 import './MenuMultiplayer.css'
 
@@ -9,10 +9,21 @@ interface MenuMultiplayerProps {
 
 const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage}) => {
 
+    const username = localStorage.getItem('username');
+    const [typedCode, setTypedCode] = useState<string>();
+
     const createParty = () => {
         handleCurrentStage(2);
         socket.emit('createParty');
     };
+
+    const joinParty = () => {
+      console.log("Joining party...")
+      console.log(typedCode)
+      console.log(username)
+      handleCurrentStage(2);
+      socket.emit('joinParty', typedCode, username);
+    }
 
     return (
         <div className="container">
@@ -20,8 +31,8 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage})
         Create Party
       </button>
       <div className="join-party-container">
-        <input className="join-party-input" placeholder="Code"></input>
-        <button className="join-party-button">Join Party</button>
+        <input className="join-party-input" placeholder="Code" onChange={(e) => setTypedCode(e.target.value)}></input>
+        <button className="join-party-button" onClick={joinParty}>Join Party</button>
       </div>
     </div>
     )
