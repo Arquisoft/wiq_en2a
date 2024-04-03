@@ -77,7 +77,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"creatorUUID\": \"445541d7-aa01-46a5-8a08-506ae8609b91\",\r\n    \"groupName\": \"Grupo17\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
+					"raw": "{\r\n    \"creatorUUID\": \"905aa11b-fd0c-4567-8fe4-e64dac7d96e8\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +105,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"uuid\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"groupName\": \"Grupo 2\",\r\n    \"joinCode\": \"ppf4\"\r\n}",
+					"raw": "{\r\n    \"uuid\": \"58cd0585-e578-4f97-bfe9-eacdaee33ddc\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"joinCode\": \"bxUs\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -130,7 +130,19 @@
 			"name": "Get group",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/getGroup/180e8f22-fc4d-4de4-bfe1-e4c244e3b7dd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"getGroup",
+						"180e8f22-fc4d-4de4-bfe1-e4c244e3b7dd"
+					]
+				}
 			},
 			"response": []
 		},
@@ -141,7 +153,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"expelledUUID\": \"4af4d73c-6d45-47b5-bfc8-5f530e621fa6\",\r\n    \"adminUUID\": \"c77b2bde-1834-49f3-9775-3569eb1e1c6d\",\r\n    \"groupName\": \"Grupo 2\"\r\n}",
+					"raw": "{\r\n    \"expelledUUID\": \"58cd0585-e578-4f97-bfe9-eacdaee33ddc\",\r\n    \"adminUUID\": \"905aa11b-fd0c-4567-8fe4-e64dac7d96e8\",\r\n    \"groupName\": \"GrupoMESSI\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -159,6 +171,14 @@
 						"leaveGroup"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get groups",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
