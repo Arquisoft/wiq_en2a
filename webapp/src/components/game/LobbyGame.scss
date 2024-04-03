@@ -1,28 +1,37 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    border:none;
   
     th, td {
       padding: 8px;
       text-align: center;
+      border:none;
     }
-  
+  /*
     tr:nth-child(even) {
       background-color: #f2f2f2;
-    }
-  
+    }*/
+    /*
     &:hover {
       tr {
         background-color: #ddd;
       }
-    }
+    }*/
   
-    img {
-      max-width: 100px; // Cambia el tamaño máximo de la imagen según sea necesario
-      height: auto;
-      display: block;
-      margin: 0 auto; // Centra la imagen horizontalmente
-    }
+    
+  }
+
+  .player-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+  }
+
+  img {
+    max-width: 100px; // Cambia el tamaño máximo de la imagen según sea necesario
+    height: auto;
+    display: block;
   }
 
   .lobby-title {
