@@ -13,6 +13,13 @@ export interface SocketProps {
   close: () => void; 
 }
 
+export interface UserPlayer {
+  username: string;
+  totalPoints: number;
+  uuid: string;
+  isAdmin: boolean;
+}
+
 const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
 
   const SERVER_URL = 'http://localhost:8006';
@@ -21,7 +28,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
   const [partyCode, setPartyCode] = useState<string>("");
-  const [users, setUsers] = useState<string[]>([]);
+  const [users, setUsers] = useState<UserPlayer[]>([]);
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -30,16 +37,16 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     newSocket.on('partyCreated', (partyCode: string) => {
       console.log(`Party created: ${partyCode}`);
       setPartyCode(partyCode);
-      setUsers([username]);
     });
 
-    newSocket.on('joinedParty', (username: string) => {
+    newSocket.on('joinedParty', (user: UserPlayer) => {
+      console.log(user)
       console.log(`User ${username} joined the party`);
       setStage(2);
       console.log(users)
     })
 
-    newSocket.on('lobbyUsers', (users: string[]) => {
+    newSocket.on('lobbyUsers', (users: UserPlayer[]) => {
       setUsers(users);
       console.log(users)
     });
@@ -57,9 +64,13 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     setStage(n);
   };
 
+  const handlePartyCode = (n:string) => {
+    setPartyCode(n)
+  };
+
   return (
     <Container sx={{ mt: 9 }}>
-      {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} />}
+      {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
     </Container>
   )

@@ -24,8 +24,11 @@ table {
 
   .player-item {
     display: flex;
-    flex-direction: row;
-    justify-content: stretch;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding: 10px;
   }
 
   img {

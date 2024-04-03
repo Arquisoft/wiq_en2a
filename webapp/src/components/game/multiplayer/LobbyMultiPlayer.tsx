@@ -1,18 +1,16 @@
-import { FC, useEffect, useState } from 'react'
-import { SocketProps } from './GameMultiPlayer';
-import '../LobbyGame.css';
-import axios from 'axios';
+import { FC, useState } from 'react'
+import { SocketProps, UserPlayer } from './GameMultiPlayer';
+import '../LobbyGame.scss';
 
 interface LobbyMultiPlayerProps {
     socket: SocketProps;
     handleCurrentStage: (n: number) => void
     partyCode: string
-    users: string[]
+    users: UserPlayer[]
 }
 
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage, partyCode, users}) => {
 
-  const [fetched, setFetched] = useState(false);
 
   // return <div>
   //   <p>Party code: {partyCode}</p>
@@ -20,13 +18,16 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
   //     <p key={index}>{user}</p>
   //   ))}
   // </div>
+  console.log(users)
   return (
     <div className='lobby-container'>
       <h2 className='lobby-title'>Lobby</h2>
       <p>Party code: {partyCode}</p>
       {users.map((player, index) => (
-        <div key={player} className='player-item'>
-          <p>Name: {player}</p>
+        <div key={player.uuid} className='player-item'>
+          <img src={"https://robohash.org/"+player.username+".png"} alt={player.uuid} />
+          <p>{player.username}</p>
+          <p>Points: {player.totalPoints}</p>
         </div>
       ))}
       <div className='button-container'>

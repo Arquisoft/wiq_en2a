@@ -1,27 +1,43 @@
 import { FC, useState } from 'react'
-import { SocketProps } from './GameMultiPlayer';
+import { SocketProps, UserPlayer } from './GameMultiPlayer';
 import './MenuMultiplayer.css'
 
 interface MenuMultiplayerProps {
   socket: SocketProps;
   handleCurrentStage: (n: number) => void
+  handlePartyCode: (n: string) => void
 }
 
-const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage}) => {
+const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage, handlePartyCode}) => {
 
     const username = localStorage.getItem('username');
+    const totalPoints = localStorage.getItem('score');
+    const uuid = localStorage.getItem('uuid');
     const [typedCode, setTypedCode] = useState<string>();
 
     const createParty = () => {
-        handleCurrentStage(2);
-        socket.emit('createParty', username);
+      handleCurrentStage(2);
+      const user: UserPlayer = {
+          username: username,
+          totalPoints: parseInt(totalPoints),
+          uuid: uuid,
+          isAdmin: true
+      }
+      socket.emit('createParty', user);
     };
 
     const joinParty = () => {
       console.log("Joining party...")
       console.log(typedCode)
       console.log(username)
-      socket.emit('joinParty', typedCode, username);
+      const user: UserPlayer = {
+        username: username,
+        totalPoints: parseInt(totalPoints),
+        uuid: uuid,
+        isAdmin: false
+      }
+      handlePartyCode(typedCode)
+      socket.emit('joinParty', typedCode, user);
     }
 
     return (
