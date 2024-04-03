@@ -11,22 +11,17 @@ interface LobbyMultiPlayerProps {
 
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage, partyCode, users}) => {
 
-
-  // return <div>
-  //   <p>Party code: {partyCode}</p>
-  //   {users.map((user, index) => (
-  //     <p key={index}>{user}</p>
-  //   ))}
-  // </div>
   console.log(users)
   return (
     <div className='lobby-container'>
-      <h2 className='lobby-title'>Lobby</h2>
+      <h2 className='lobby-title'>Lobby - Multiplayer</h2>
       <p>Party code: {partyCode}</p>
-      {users.map((player, index) => (
+      {users.map((player) => (
         <div key={player.uuid} className='player-item'>
           <img src={"https://robohash.org/"+player.username+".png"} alt={player.uuid} />
           <p>{player.username}</p>
+          {player.isAdmin && <p>Admin</p>}
+          {!player.isAdmin && <p>Player</p>}
           <p>Points: {player.totalPoints}</p>
         </div>
       ))}
@@ -37,7 +32,8 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
         {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled>
             Loading questions...
         </button>} */}
-        <button className="start-game-button" onClick={() => handleCurrentStage(3)}></button>
+        <button className="start-game-button" onClick={() => handleCurrentStage(3)}>Exit</button>
+        <button className="start-game-button" onClick={() => handleCurrentStage(3)}>Start game</button>
       </div>
     </div>
   )

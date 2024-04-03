@@ -55,11 +55,15 @@ io.on('connection', socket => {
   // Join an existing party
   socket.on('joinParty', (partyCode, username) => {
     if (lobby[partyCode]) {
-      lobby[partyCode][socket.id] = username;
-      socket.join(partyCode);
-      socket.emit('joinedParty', username);
-      updateLobbyUsers(partyCode);
-      console.log(`User ${username} joined party: ${partyCode}`);
+      if (Object.keys(lobby[partyCode]).length >= 4) {
+        socket.emit('partyFull');
+      } else {
+        lobby[partyCode][socket.id] = username;
+        socket.join(partyCode);
+        socket.emit('joinedParty', username);
+        updateLobbyUsers(partyCode);
+        console.log(`User ${username} joined party: ${partyCode}`);
+      }
     } else {
       socket.emit('partyNotFound');
     }
