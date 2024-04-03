@@ -40,6 +40,10 @@ const updateLobbyUsers = (lobbyCode) => {
   io.to(lobbyCode).emit('lobbyUsers', Object.values(lobby[lobbyCode]));
 };
 
+const broadcastQuestions = (partyCode, questions) => {
+  io.to(partyCode).emit('questionsUpdated', questions);
+};
+
 io.on('connection', socket => {
   console.log('Client connected');
 
@@ -67,6 +71,12 @@ io.on('connection', socket => {
     } else {
       socket.emit('partyNotFound');
     }
+  });
+
+  socket.on('updateQuestions', (partyCode, questions) => {
+    console.log('here')
+    // Broadcast questions to all users in the specified party
+    broadcastQuestions(partyCode, questions);
   });
 
   socket.on('disconnect', () => {

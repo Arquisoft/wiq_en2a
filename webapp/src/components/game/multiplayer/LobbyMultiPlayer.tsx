@@ -1,6 +1,7 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { SocketProps, UserPlayer } from './GameMultiPlayer';
 import '../LobbyGame.scss';
+import axios from 'axios';
 
 interface LobbyMultiPlayerProps {
     socket: SocketProps;
@@ -11,7 +12,30 @@ interface LobbyMultiPlayerProps {
 
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage, partyCode, users}) => {
 
-  console.log(users)
+  const [isFetched, setFetched] = useState<boolean>(true);
+
+  const fetchQuestions = async () => {
+    setFetched(false)
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+
+    try {
+      console.log(users)
+      const requestData = {
+        players: users.map((user) => ({uuid: user.uuid}))
+      }
+      console.log("requestData")
+      console.log(requestData)
+      const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
+  
+      console.log("Juego creado")
+      console.log(response.data)
+      socket.emit('updateQuestions', partyCode, response.data);
+      setFetched(true);
+    } catch (error) {
+      console.error('Error al obtener las preguntas:', error);
+    }
+  };
+
   return (
     <div className='lobby-container'>
       <h2 className='lobby-title'>Lobby - Multiplayer</h2>
@@ -33,7 +57,8 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
             Loading questions...
         </button>} */}
         <button className="start-game-button" onClick={() => handleCurrentStage(3)}>Exit</button>
-        <button className="start-game-button" onClick={() => handleCurrentStage(3)}>Start game</button>
+        {isFetched && <button className="start-game-button" onClick={fetchQuestions}>Start game</button>}
+        {!isFetched && <button className="start-game-button"  disabled>Loading questions ...</button>}
       </div>
     </div>
   )

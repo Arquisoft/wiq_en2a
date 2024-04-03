@@ -3,6 +3,8 @@ import io from 'socket.io-client';
 import MenuMultiplayer from './MenuMultiplayer';
 import { Container } from '@mui/material';
 import LobbyMultiPlayer from './LobbyMultiPlayer';
+import { Question4Answers } from '../singleplayer/GameSinglePlayer';
+import QuestionsMultiPlayer from './QuestionsMultiPlayer';
 
 interface GameMultiPlayerProps {
   
@@ -29,6 +31,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
   const [stage, setStage] = useState<number>(1)
   const [partyCode, setPartyCode] = useState<string>("");
   const [users, setUsers] = useState<UserPlayer[]>([]);
+  const [questions, setQuestions] = useState<Question4Answers[]>([]);
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -54,6 +57,13 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     newSocket.on('partyNotFound', () => {
       console.log('Party not found');
     });
+
+    newSocket.on('questionsUpdated', (questions: Question4Answers[]) => {
+      console.log('questions recieved from server')
+      console.log(questions);
+      setQuestions(questions);
+      setStage(3);
+    })
   
     return () => {
       newSocket.close();
@@ -72,6 +82,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = ({}) => {
     <Container sx={{ mt: 9 }}>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
+      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions}/>}
     </Container>
   )
 }
