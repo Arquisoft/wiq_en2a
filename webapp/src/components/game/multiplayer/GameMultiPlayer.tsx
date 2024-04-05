@@ -31,7 +31,6 @@ export interface PlayerWithPoints {
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
   const SERVER_URL = 'http://localhost:8006';
-  const username = localStorage.getItem("username")
 
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
@@ -39,6 +38,26 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
   const [users, setUsers] = useState<UserPlayer[]>([]);
   const [questions, setQuestions] = useState<Question4Answers[]>([]);
   const [sortedUsersByPoints, setSortedUsersByPoints] = useState<PlayerWithPoints[]>([])
+
+  const shuffleQuestions = (questions: Question4Answers[]): Question4Answers[] => {
+    return questions.map((question) => {
+      const { correctAnswer, incorrectAnswer1, incorrectAnswer2, incorrectAnswer3 } = question;
+      const answers = [correctAnswer, incorrectAnswer1, incorrectAnswer2, incorrectAnswer3];
+  
+      // Shuffle the order of incorrect answers (answers excluding correctAnswer)
+      for (let i = answers.length - 1; i > 1; i--) {
+        const j = Math.floor(Math.random() * (i - 1) + 1); // Exclude correctAnswer from shuffling
+        [answers[i], answers[j]] = [answers[j], answers[i]];
+      }
+  
+      return {
+        ...question,
+        incorrectAnswer1: answers[1],
+        incorrectAnswer2: answers[2],
+        incorrectAnswer3: answers[3],
+      };
+    });
+  };
 
   useEffect(() => {
     const newSocket = io(SERVER_URL);
@@ -61,13 +80,19 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
       console.log('Party not found');
     });
 
-    newSocket.on('allPlayersFinished', (playersWithPoints:PlayerWithPoints[]) => {
+    newSocket.on('allPlayersFinished', async (playersWithPoints:PlayerWithPoints[]) => {
+      await new Promise<void>((resolve) => { // Specify void as the type argument
+        setTimeout(() => {
+          resolve(); // Resolve the promise without any arguments
+        }, 1000);
+      });
       setSortedUsersByPoints(playersWithPoints);
       setStage(4);
     })
 
     newSocket.on('questionsUpdated', (questions: Question4Answers[]) => {
-      setQuestions(questions);
+      const shuffledquestions = shuffleQuestions(questions);
+      setQuestions(shuffledquestions);
       setStage(3);
     })
   

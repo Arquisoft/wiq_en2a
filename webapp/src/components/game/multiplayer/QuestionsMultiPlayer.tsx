@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { SocketProps } from './GameMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import axios from 'axios';
@@ -11,24 +11,46 @@ interface QuestionsMultiPlayerProps {
     partyCode: string
 }
 
+
 const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions, partyCode}) => {
+
+    const answersShuffled = useMemo(() => {
+      return questions.map((question) => {
+        const answers = [question.correctAnswer, question.incorrectAnswer1, question.incorrectAnswer2, question.incorrectAnswer3];
+        for (let i = answers.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [answers[i], answers[j]] = [answers[j], answers[i]];
+        }
+        return answers;
+      });
+    }, [questions]);
+
     const uuid = localStorage.getItem("userUUID");
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
-    const predefinedColors = ['#ff6666', '#66ccff', '#99ff99', '#ffcc66', '#cc99ff'];
-    const [currentColorIndex, setCurrentColorIndex] = useState(0);
+    const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
 
-    const handleAnswerClick = async (answer: string) => {
-      if(questions[currentQuestion].correctAnswer === answer){
-        setCorrectAnswers(correctAnswers + 1);
-        setCurrentColorIndex((currentColorIndex + 1) % predefinedColors.length);
+    const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
+
+      if(!isWaiting){
+        setIsWaiting(true);
+        setSelectedAnswer(answer);
+        
+          setTimeout(() => {
+            if (isCorrect) {
+              setCorrectAnswers(correctAnswers + 1);
+            }
+            setCurrentQuestion(currentQuestion + 1);
+            setSelectedAnswer(null);
+          }, 1000);
+        setIsWaiting(false);
       }
-
-      setCurrentQuestion(currentQuestion + 1);
+      
       if(currentQuestion+2 === questions.length){
         const totalPoints = calculatePoints(correctAnswers, questions.length);
         // the player has finished the game
@@ -57,20 +79,9 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
       return points;
     }
 
-    const getShuffledAnswers = () => {
-      const answers = [
-        questions[currentQuestion].correctAnswer,
-        questions[currentQuestion].incorrectAnswer1,
-        questions[currentQuestion].incorrectAnswer2,
-        questions[currentQuestion].incorrectAnswer3,
-      ];
-  
-      for (let i = answers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [answers[i], answers[j]] = [answers[j], answers[i]];
-      }
-  
-      return answers;
+    const getAnswers = () => {
+      console.log(answersShuffled[currentQuestion])
+      return answersShuffled[currentQuestion];
     };
 
     return (
@@ -78,16 +89,20 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
       {(currentQuestion+1) < questions.length && (
         <>
           <div className="question-container">
-            <h2 className="question-title">Question {currentQuestion + 1}</h2>
+            <h2 className="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
             <h4>{questions[currentQuestion].question}</h4>
             </div>
             <div className="answer-grid">
-              {getShuffledAnswers().map((answer) => (
-                <button key={answer} onClick={() => handleAnswerClick(answer)} 
-                style={{ backgroundColor: predefinedColors[(currentQuestion+1 + currentColorIndex) % predefinedColors.length] }}>
+              {getAnswers().map((answer) => {
+                  const isCorrect = questions[currentQuestion].correctAnswer === answer;
+                  const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
+                return (
+                <button key={answer} onClick={() => handleAnswerClick(answer, isCorrect)} 
+                  style={{ backgroundColor: buttonColor }}>
                   {answer}
                 </button>
-              ))}
+              )}
+              )}
             </div>
         </>
       )}
