@@ -34,6 +34,11 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
           "totalScore": totalPoints,
           "isWinner": false
         }]}
+
+        // update score in localstorage
+        const previousScore = parseInt(localStorage.getItem("score"))
+        localStorage.setItem("score", (previousScore + totalPoints).toString())
+
         await axios.post(`${apiEndpoint}/updateStats`, requestData);
         // pass the points obtained of each player to the socket
         socket.emit('playerFinished', partyCode, totalPoints)
