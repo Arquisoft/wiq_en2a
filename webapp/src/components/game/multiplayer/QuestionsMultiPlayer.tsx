@@ -17,22 +17,15 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
-    const [buttonColors, setButtonColors] = useState<string>('rgb(255,255,255)')
 
-    const getRandomColor = () => {
-      const red = Math.floor(Math.random() * 156) + 100; // Minimum value: 100
-      const green = Math.floor(Math.random() * 156) + 100; // Minimum value: 100
-      const blue = Math.floor(Math.random() * 156) + 100; // Minimum value: 100
-    
-      const randomColor = `rgb(${red}, ${green}, ${blue})`;
-      return randomColor;
-    };
+    const predefinedColors = ['#ff6666', '#66ccff', '#99ff99', '#ffcc66', '#cc99ff'];
+    const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
 
     const handleAnswerClick = async (answer: string) => {
       if(questions[currentQuestion].correctAnswer === answer){
         setCorrectAnswers(correctAnswers + 1);
-        const color = getRandomColor();
-        setButtonColors(color);
+        setCurrentColorIndex((currentColorIndex + 1) % predefinedColors.length);
       }
 
       setCurrentQuestion(currentQuestion + 1);
@@ -91,7 +84,7 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
             <div className="answer-grid">
               {getShuffledAnswers().map((answer) => (
                 <button key={answer} onClick={() => handleAnswerClick(answer)} 
-                    style={{backgroundColor: buttonColors}}>
+                style={{ backgroundColor: predefinedColors[(currentQuestion+1 + currentColorIndex) % predefinedColors.length] }}>
                   {answer}
                 </button>
               ))}
