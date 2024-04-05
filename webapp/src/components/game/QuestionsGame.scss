@@ -1,0 +1,24 @@
+.question-container {
+    text-align: center;
+  }
+  
+  .question-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .answer-grid {
+    margin-top: 3em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5em;
+  }
+  
+  .answer-grid button {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px; /* Rounded borders */
+    font-size: 18px; /* Big text */
+    font-weight: bold; /* Bold font */
+  }
+  

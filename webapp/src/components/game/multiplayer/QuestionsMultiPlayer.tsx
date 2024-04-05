@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 import { SocketProps } from './GameMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import axios from 'axios';
+import '../QuestionsGame.scss';
 
 interface QuestionsMultiPlayerProps {
     socket: SocketProps;
@@ -16,12 +17,24 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [buttonColors, setButtonColors] = useState<string>('rgb(255,255,255)')
+
+    const getRandomColor = () => {
+      const red = Math.floor(Math.random() * 156) + 100; // Minimum value: 100
+      const green = Math.floor(Math.random() * 156) + 100; // Minimum value: 100
+      const blue = Math.floor(Math.random() * 156) + 100; // Minimum value: 100
+    
+      const randomColor = `rgb(${red}, ${green}, ${blue})`;
+      return randomColor;
+    };
 
     const handleAnswerClick = async (answer: string) => {
       if(questions[currentQuestion].correctAnswer === answer){
         setCorrectAnswers(correctAnswers + 1);
-        
+        const color = getRandomColor();
+        setButtonColors(color);
       }
+
       setCurrentQuestion(currentQuestion + 1);
       if(currentQuestion+2 === questions.length){
         const totalPoints = calculatePoints(correctAnswers, questions.length);
@@ -71,18 +84,18 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
       <div>
       {(currentQuestion+1) < questions.length && (
         <>
-          <h2>Question {currentQuestion + 1}</h2>
-          <p>{questions[currentQuestion].question}</p>
-          <div className="answer-grid">
-            {getShuffledAnswers().map((answer) => (
-              <button
-                key={answer}
-                onClick={() => handleAnswerClick(answer)}
-              >
-                {answer}
-              </button>
-            ))}
-          </div>
+          <div className="question-container">
+            <h2 className="question-title">Question {currentQuestion + 1}</h2>
+            <h4>{questions[currentQuestion].question}</h4>
+            </div>
+            <div className="answer-grid">
+              {getShuffledAnswers().map((answer) => (
+                <button key={answer} onClick={() => handleAnswerClick(answer)} 
+                    style={{backgroundColor: buttonColors}}>
+                  {answer}
+                </button>
+              ))}
+            </div>
         </>
       )}
       {currentQuestion+1 === questions.length && ( 
