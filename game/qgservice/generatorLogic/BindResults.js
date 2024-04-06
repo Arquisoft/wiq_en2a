@@ -29,7 +29,7 @@ function bindChemicalResults(queryResult){
 
     queryResult.results.bindings.forEach(entry => {
         const elementLabel = entry.elementLabel.value;
-        const symbol = parseFloat(entry.symbol.value);
+        const symbol = entry.symbol.value;
         chemicalElementMap.set(symbol, elementLabel);
     });
 
@@ -41,7 +41,7 @@ function bindMonumentResults(queryResult){
 
     queryResult.results.bindings.forEach(entry => {
         const monumentLabel = entry.monumentLabel.value;
-        const countryLabel = parseFloat(entry.countryLabel.value);
+        const countryLabel = entry.countryLabel.value;
         monumentMap.set(monumentLabel, countryLabel);
     });
 

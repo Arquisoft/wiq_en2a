@@ -126,7 +126,7 @@ function generateQuestionMonument(monumentMap) {
     const randomMonument = monumentArray[Math.floor(Math.random() * monumentArray.length)];
     const [randomMonumentLabel, randomCountry] = randomMonument;
     if (randomMonumentLabel !== monumentLabel && !incorrectAnswers.includes(randomCountry)) {
-      incorrectAnswers.push(random);
+      incorrectAnswers.push(randomCountry);
     }
   }
 
