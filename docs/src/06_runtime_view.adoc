@@ -3,4 +3,4 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-runtime-view]]
 == Runtime View
 
-To Be Done
+image::SequenceGroupService.png[SequenceGroupService, 600, 400]
