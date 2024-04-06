@@ -33,22 +33,18 @@ Contained Building Blocks::
 
 image::BuildingBlockLevel1.png["Level 1 Diagram"]
 
-_<Purpose/Responsibility>_
 
-_<Interface(s)>_
+===== Webapp
 
-_<(Optional) Quality/Performance Characteristics>_
+    Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services have its own easy to use interface.
 
-_<(Optional) Directory/File Location>_
+===== Microservices
 
-_<(Optional) Fulfilled Requirements>_
-
-_<(optional) Open Issues/Problems/Risks>_
+    Components of the application, that have the logic of the game and interact with external services (such as Wikidata and Mongodb). There are several microservices, one for each of the functionalities of the game.
+    
 
 
-
-
-==== <Name black box 2>
+==== Level 2
 
 _<black box template>_
 
