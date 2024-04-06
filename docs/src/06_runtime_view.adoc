@@ -1,9 +1,20 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-runtime-view]]
+
 == Runtime View
 
-===Interaction with the GroupService
-A user creates a new group 
+=== Interaction with the GroupService
+
 image::SequenceGroupService.png[SequenceGroupService, 600, 400]
-image::SequenceGroupService.png[SequenceGame, 600, 400]
+
+=== Interaction with the Game
+
+image::SequenceGame.png[SequenceGame, 600, 400]
+=== Sing in
+
+image::SequenceSingup.png[SequenceSingup, 600, 400]
+
+=== Log in
+
+image::SequenceLogin.png[SequenceLogin, 600, 400]
