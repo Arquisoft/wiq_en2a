@@ -3,5 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-runtime-view]]
 == Runtime View
 
+
 image::SequenceGroupService.png[SequenceGroupService, 600, 400]
 image::SequenceGroupService.png[SequenceGame, 600, 400]
