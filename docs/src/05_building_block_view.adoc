@@ -28,102 +28,46 @@ Contained Building Blocks::
 
 
 
-==== Level 1
+=== Level 2
 
 
-image::BuildingBlockLevel1.png["Level 1 Diagram"]
+image::BuildingBlockLevel1.png["Level 2 Diagram"]
 
 
-===== Webapp
+==== Webapp
 
     Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services have its own easy to use interface.
 
-===== Microservices
+==== Microservices
 
     Components of the application, that have the logic of the game and interact with external services (such as Wikidata and Mongodb). There are several microservices, one for each of the functionalities of the game.
     
 
 
-==== Level 2
-
-_<black box template>_
-
-==== <Name black box n>
-
-_<black box template>_
-
-
-==== <Name interface 1>
-
-...
-
-==== <Name interface m>
-
-
-
-=== Level 2
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
-
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
-****
-
-==== White Box _<building block 1>_
-
-[role="arc42help"]
-****
-...describes the internal structure of _building block 1_.
-****
-
-_<white box template>_
-
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
-
 === Level 3
 
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
+image::BuildingBlockLevel2.png["Level 3 Diagram"]
 
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
+==== User service
 
+    Service in charge of create new users in the database
 
-==== White Box <_building block x.1_>
+==== User service
 
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
+    Service in charge of safe and retrieve the data of a user from the database.
 
+==== Multiplayer
 
-_<white box template>_
+    Service in charge of multiplayer rooms, the webapp comunicate directly to this service, without using the gateway.
 
+==== Group Service
 
-==== White Box <_building block x.2_>
+    Service in charge of manage groups composed of multiple users.
 
-_<white box template>_
+==== Game Service
 
+    Service in charge of the logic of the game, safe the information of the last game played by a user.
 
+==== Question Generation Service
 
-==== White Box <_building block y.1_>
-
-_<white box template>_
-
+    Service in charge of generating the questions for the game using data from wikidata.
