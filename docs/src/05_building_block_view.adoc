@@ -4,4 +4,130 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 
 == Building Block View
-To Be Done
+
+
+=== Whitebox Overall System
+
+
+image::WhiteboxOverallSystem.png["Overview Diagram"]
+
+
+Motivation::
+
+*Conocer y vencer* is an aplication that generates questions using data from wikidata so the user can play a game like Saber y Ganar.
+
+
+Contained Building Blocks::
+[Attributes]
+|===
+|*Name* |*Description*
+
+|Saber y conocer |Aplication based on microservices for the user to interact with and play the game
+|Wikidata |Public Data based used to generate questions for the game
+|===
+
+
+
+==== Level 1
+
+
+image::BuildingBlockLevel1.png["Level 1 Diagram"]
+
+_<Purpose/Responsibility>_
+
+_<Interface(s)>_
+
+_<(Optional) Quality/Performance Characteristics>_
+
+_<(Optional) Directory/File Location>_
+
+_<(Optional) Fulfilled Requirements>_
+
+_<(optional) Open Issues/Problems/Risks>_
+
+
+
+
+==== <Name black box 2>
+
+_<black box template>_
+
+==== <Name black box n>
+
+_<black box template>_
+
+
+==== <Name interface 1>
+
+...
+
+==== <Name interface m>
+
+
+
+=== Level 2
+
+[role="arc42help"]
+****
+Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
+
+You have to decide which building blocks of your system are important enough to justify such a detailed description.
+Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
+Leave out normal, simple, boring or standardized parts of your system
+****
+
+==== White Box _<building block 1>_
+
+[role="arc42help"]
+****
+...describes the internal structure of _building block 1_.
+****
+
+_<white box template>_
+
+==== White Box _<building block 2>_
+
+
+_<white box template>_
+
+...
+
+==== White Box _<building block m>_
+
+
+_<white box template>_
+
+
+
+=== Level 3
+
+[role="arc42help"]
+****
+Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
+
+When you need more detailed levels of your architecture please copy this
+part of arc42 for additional levels.
+****
+
+
+==== White Box <_building block x.1_>
+
+[role="arc42help"]
+****
+Specifies the internal structure of _building block x.1_.
+****
+
+
+_<white box template>_
+
+
+==== White Box <_building block x.2_>
+
+_<white box template>_
+
+
+
+==== White Box <_building block y.1_>
+
+_<white box template>_
+
