@@ -48,7 +48,7 @@ image::BuildingBlockLevel1.png["Level 2 Diagram"]
 
 image::BuildingBlockLevel2.png["Level 3 Diagram"]
 
-==== User service
+==== Authentification service
 
     Service in charge of create new users in the database
 
