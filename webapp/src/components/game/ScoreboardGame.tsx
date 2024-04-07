@@ -1,14 +1,21 @@
 import { FC} from 'react'
-import { Player } from './GameSinglePlayer';
+import { Player } from './singleplayer/GameSinglePlayer';
 import './ScoreboardGame.css';
+import { PlayerWithPoints } from './multiplayer/GameMultiPlayer';
 
 interface ScoreboardGameProps {
-    userScores: Player[];
+    userScoresSinglePlayer?: Player[];
+    userScoresMultiPlayer?: PlayerWithPoints[];
 }
 
 
-const ScoreboardGame:FC<ScoreboardGameProps> = ({userScores}) => {
-    const sorted = userScores.sort((a, b) => b.points - a.points);
+const ScoreboardGame:FC<ScoreboardGameProps> = ({userScoresSinglePlayer, userScoresMultiPlayer}) => {
+  let sorted;
+  if(userScoresSinglePlayer){
+    sorted = userScoresSinglePlayer.sort((a, b) => b.points - a.points);
+  } else if (userScoresMultiPlayer){
+    sorted = userScoresMultiPlayer.sort((a, b) => b.points - a.points);
+  }
     return (
         <section>
         <table>

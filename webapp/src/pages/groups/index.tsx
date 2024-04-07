@@ -1,43 +1,17 @@
-import React, { useState } from "react";
+
 import { Button, Container } from "@mui/material";
+import { GroupCard } from "../../components/group/GroupCard"
 
 export const GroupsPage: React.FC<{}> = () => {
-  const [modal, setModal] = useState(false);
-
-  const toggleModal = () => {
-    setModal(!modal);
-  };
-
-  if(modal) {
-    document.body.classList.add('active-modal')
-  } else {
-    document.body.classList.remove('active-modal')
-  }
+ 
   return (
     <Container sx={{ mt: 9 }} maxWidth="xl">
-      <button onClick={toggleModal} className="btn-modal">
-        Open
-      </button>
-
-      {modal && (
-        <div className="modal">
-          <div onClick={toggleModal} className="overlay"></div>
-          <div className="modal-content">
-            <h2>Hello Modal</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
-              perferendis suscipit officia recusandae, eveniet quaerat assumenda
-              id fugit, dignissimos maxime non natus placeat illo iusto!
-              Sapiente dolorum id maiores dolores? Illum pariatur possimus
-              quaerat ipsum quos molestiae rem aspernatur dicta tenetur. Sunt
-              placeat tempora vitae enim incidunt porro fuga ea.
-            </p>
-            <button className="close-modal" onClick={toggleModal}>
-              CLOSE
-            </button>
-          </div>
-        </div>
-      )}
+      <div>
+            <h3>You are not part of a group...</h3>
+            <Button>Join a group</Button>
+            <Button>Create a group</Button>
+            <GroupCard title="a" members="3" maxMembers="10"></GroupCard>
+      </div>
     </Container>
   );
 };
