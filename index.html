@@ -468,7 +468,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_organizational">4.2. Organizational</a></li>
 </ul>
 </li>
-<li><a href="#section-building-block-view">5. Building Block View</a></li>
+<li><a href="#section-building-block-view">5. Building Block View</a>
+<ul class="sectlevel2">
+<li><a href="#_whitebox_overall_system">5.1. Whitebox Overall System</a></li>
+<li><a href="#_level_2">5.2. Level 2</a></li>
+<li><a href="#_level_3">5.3. Level 3</a></li>
+</ul>
+</li>
 <li><a href="#section-runtime-view">6. Runtime View</a></li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
 <ul class="sectlevel2">
@@ -493,7 +499,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_quality_scenarios">10.2. Quality Scenarios</a></li>
 </ul>
 </li>
-<li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
+<li><a href="#section-technical-risks">11. Risks and Technical Debts</a>
+<ul class="sectlevel3">
+<li><a href="#_risk_minimization_measures">11.1. Risk minimization measures</a></li>
+</ul>
+</li>
 <li><a href="#section-glossary">12. Glossary</a></li>
 </ul>
 </div>
@@ -589,11 +599,6 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/01_2_iso-25010-topics-EN.drawio.png" alt="Categories of Quality Requirements">
-</div>
-</div>
 <div class="paragraph">
 <p>(based upon the ISO 25010 standard):</p>
 </div>
@@ -612,17 +617,17 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QG1<a id="QG1"></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The user can easily navigate through the app and find the information they need</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QG2<a id="QG2"></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The app should be able to handle a large amount of users at the same time</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QG3<a id="QG3"></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The user&#8217;s data should be protected and not accesible by anyone else</p></td>
 </tr>
@@ -869,10 +874,126 @@ The following table summarizes these constraints and provides a brief explanatio
 <div class="sect1">
 <h2 id="section-building-block-view">5. Building Block View</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>To Be Done</p>
+<div class="sect2">
+<h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/WhiteboxOverallSystem.png" alt="Overview Diagram">
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p><strong>Conocer y vencer</strong> is an aplication that generates questions using data from wikidata so the user can play a game like Saber y Ganar.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Saber y conocer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aplication based on microservices for the user to interact with and play the game</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Data based used to generate questions for the game</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_level_2">5.2. Level 2</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/BuildingBlockLevel1.png" alt="Level 2 Diagram">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_webapp">5.2.1. Webapp</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services have its own easy to use interface.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_microservices">5.2.2. Microservices</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Components of the application, that have the logic of the game and interact with external services (such as Wikidata and Mongodb). There are several microservices, one for each of the functionalities of the game.</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_level_3">5.3. Level 3</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/BuildingBlockLevel2.png" alt="Level 3 Diagram">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_service">5.3.1. User service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of create new users in the database</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_service_2">5.3.2. User service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of safe and retrieve the data of a user from the database.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_multiplayer">5.3.3. Multiplayer</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of multiplayer rooms, the webapp comunicate directly to this service, without using the gateway.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_group_service">5.3.4. Group Service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of manage groups composed of multiple users.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_game_service">5.3.5. Game Service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of the logic of the game, safe the information of the last game played by a user.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_question_generation_service">5.3.6. Question Generation Service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of generating the questions for the game using data from wikidata.</pre>
+</div>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -964,111 +1085,23 @@ The following table summarizes these constraints and provides a brief explanatio
 <div class="sect1">
 <h2 id="section-concepts">8. Cross-cutting Concepts</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>models, especially domain models</p>
-</li>
-<li>
-<p>architecture or design patterns</p>
-</li>
-<li>
-<p>rules for using specific technology</p>
-</li>
-<li>
-<p>principal, often technical decisions of an overarching (= cross-cutting) nature</p>
-</li>
-<li>
-<p>implementation rules</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Concepts form the basis for <em>conceptual integrity</em> (consistency, homogeneity) of the architecture.
-Thus, they are an important contribution to achieve inner qualities of your system.</p>
-</div>
-<div class="paragraph">
-<p>Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>The form can be varied:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>concept papers with any kind of structure</p>
-</li>
-<li>
-<p>cross-cutting model excerpts or scenarios using notations of the architecture views</p>
-</li>
-<li>
-<p>sample implementations, especially for technical concepts</p>
-</li>
-<li>
-<p>reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Structure</div>
-<p>A potential (but not mandatory) structure for this section could be:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Domain concepts</p>
-</li>
-<li>
-<p>User Experience concepts (UX)</p>
-</li>
-<li>
-<p>Safety and security concepts</p>
-</li>
-<li>
-<p>Architecture and design patterns</p>
-</li>
-<li>
-<p>"Under-the-hood"</p>
-</li>
-<li>
-<p>development concepts</p>
-</li>
-<li>
-<p>operational concepts</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Note: it might be difficult to assign individual concepts to one specific topic
-on this list.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/08-Crosscutting-Concepts-Structure-EN.png" alt="Possible topics for crosscutting concepts">
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-8/">Concepts</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_wikidata_query_service">8.1. WikiData Query Service</h3>
 <div class="imageblock">
 <div class="content">
 <img src="./images/WikiDataQuery.png" alt="WikiData Query Service">
 </div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Image obtained from <a href="https://wikitech.wikimedia.org/wiki/Wikidata_Query_Service/Runbook">Wikitech</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Wikidata Query Service (WDQS) is a powerful tool that provides access to the data contained in Wikidata. It uses SPARQL, a semantic query language for database.
+We used this service to generate random questions from a template.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1216,7 +1249,7 @@ concrete and measurable.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usability(QG1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability(<a href="#QG1">[QG1]</a>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ease of use</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ease of use for the user</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1225,37 +1258,31 @@ concrete and measurable.</p>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ease of Learning</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The standard functions should be as easy and intuitive to use as possible without the need for lengthy prior instruction</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC1<a id="SC1"></a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Performance(QG2)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Responsiveness</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pages shoud load at a resonable time.\n During the game the answers to the questions must be processed by the system quickly</p></td>
 <td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compressible questions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall generate compressible questions using information from Wikidata</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC2<a id="SC2"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performance(<a href="#QG2">[QG2]</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Responsiveness</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pages shoud load at a resonable time. During the game the answers to the questions must be processed by the system quickly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC3<a id="SC3"></a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Robustness</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The system shall work reliable under all specified environment and operating conditions.</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC4<a id="SC4"></a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Question Generation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Compressible questions</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall generate compressible questions using information fomr Wikidata</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC2</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Question Variety</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The system shall generate questions based on different fields of knowledge keeping the from getting repetitive</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Security(QG3)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security(<a href="#QG3">[QG3]</a>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Data Protection</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The user’s data should be protected and not accesible by anyone else</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC5<a id="SC5"></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1275,12 +1302,24 @@ concrete and measurable.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">After a small tutorial, the user shoud be able to play the game.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC1">[SC1]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">After a small tutorial, the user should be able to play the game.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC2">[SC2]</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">When playing a game, the player whose turn is currently playing will answer autogenerated questions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC3">[SC3]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user accesses the game web page it loads correctly the page in a short time, when he logs in or accesses other pages of the application the same happens. When accessing the game the page loads and informs the player that the game is loading.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC4">[SC4]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user under normal connection and a normal number of users in the system, the user navigates though the application and is able to play the game without encountering any errors, white pages, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC5">[SC5]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user sign up its password is protected by encrypting it.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1291,30 +1330,20 @@ concrete and measurable.</p>
 <div class="sect1">
 <h2 id="section-technical-risks">11. Risks and Technical Debts</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
 <div class="paragraph">
-<div class="title">Contents</div>
-<p>A list of identified technical risks or technical debts, ordered by priority</p>
+<p>|==
+|Risk|Explanation|Risk minimization measure
+|Bottleneck in response times|In the team we are worried about possible bottlenecks regarding the porfarmance of the application,
+ specially the performance of the question generation system as it must ask wiki data for information,
+  the time of this my very depending on wich data is asked| Analize the performance of the application and substituing slow question by faster ones
+|Availability of technologies used| The application depends on some technologies to work properly, most notabilly wikidata, if wikidata or any of the technologies
+ we depend upon are experiencing issues or are not working, the application may not work as expected| Explore options for the application to still work in those cases
+|Use of Azure||</p>
 </div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.)</p>
-</div>
-<div class="paragraph">
-<p>This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-11/">Risks and Technical Debt</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
+<div class="sect3">
+<h4 id="_risk_minimization_measures">11.1. Risk minimization measures</h4>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1364,7 +1393,7 @@ concrete and measurable.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-29 20:54:55 +0100
+Last updated 2024-04-06 05:11:07 +0200
 </div>
 </div>
 </body>
