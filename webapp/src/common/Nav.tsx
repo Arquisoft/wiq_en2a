@@ -10,8 +10,8 @@ const NavBar: React.FC<{}> = () =>
     const location = useLocation();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const value :string= JSON.stringify( localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
-    const user =  JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
+    const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
+    const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
     const [anchorEl, setAnchorEl] = useState<null|HTMLElement>(null);
     const open = Boolean(anchorEl)
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,14 +83,14 @@ const NavBar: React.FC<{}> = () =>
                                 color='inherit' 
                                 onClick={handleClick} 
                                 aria-controls={open? 'menu' : undefined} 
-                                aria-haspopup='true' aria-expanded={open? 'true' : undefined}>
+                                aria-haspopup='true' aria-expanded={open? 'true' : undefined}
+                                sx={{ textTransform: 'none'}}
+                            >
                                 {user}
                             </Button>
                         </Grid>
                             </Stack>
-                            
                         </Grid>
-                        
                     </Grid>
                     <Menu id="menu" open={open} MenuListProps={{'aria-labelledby':'menu-button'}} 
                         onClose={()=>handleClose()} anchorEl={anchorEl}>
