@@ -11,13 +11,27 @@ export const GroupsPage: React.FC<{}> = () => {
   const [error, setError] = useState('');
   const [modal, setModal] = useState(false);
   const [groupName, setGroupName] = useState('');
-  const [public0, setPublic] = useState(true);
+  const [isPublic, setPublic] = useState(true);
   const [maxMembers, setMaxMembers] = useState(2);
   const [description, setDescription] = useState('');
+  const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
 
   const toggleModal = () => {
     setModal(!modal);
   };
+
+  const createGroup = async () =>{
+    try{
+      console.log(groupName);
+      console.log(creatorUUID);
+      console.log(description);
+      console.log(isPublic);
+      await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic });
+      
+    }catch (error:any) {
+      setError(error.response.data.error);
+    }
+  }
 
   const findGroups = async () =>{
     try{
@@ -71,7 +85,7 @@ export const GroupsPage: React.FC<{}> = () => {
                     <p>Group name:</p>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="female"
+                      defaultValue="yes"
                       name="radio-buttons-group"
                     >
                       <FormControlLabel onSelect={() => setPublic(true)} value="yes" control={<Radio />} label="Yes" />
@@ -92,6 +106,10 @@ export const GroupsPage: React.FC<{}> = () => {
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
+                  </Stack>
+                  <Stack direction="row" padding={1}>
+                    <Button onClick={toggleModal}>Close</Button>
+                    <Button onClick={createGroup}>Create group</Button>
                   </Stack>
                 </Grid>
                 <Button onClick={toggleModal}>Close</Button>
