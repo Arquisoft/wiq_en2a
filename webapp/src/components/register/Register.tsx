@@ -55,7 +55,7 @@ const Register = (props:ActionProps) => {
 
   const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
     if(event.key === 'Enter'){
-      addUser();
+        addUser();
     }
   };
 
