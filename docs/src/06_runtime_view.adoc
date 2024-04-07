@@ -8,7 +8,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 image::SequenceGroupService.png[SequenceGroupService, 600, 400]
 
-=== Interaction with the Game
+=== Interaction with the Single Player Game
 
 image::SequenceGame.png[SequenceGame, 600, 400]
 === Sing in

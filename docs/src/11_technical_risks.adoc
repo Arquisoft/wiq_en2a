@@ -2,7 +2,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-technical-risks]]
 == Risks and Technical Debts
-|==
+|===
 |Risk|Explanation|Risk minimization measure
 |Bottleneck in response times|In the team we are worried about possible bottlenecks regarding the porfarmance of the application,
  specially the performance of the question generation system as it must ask wiki data for information,
@@ -10,6 +10,5 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Availability of technologies used| The application depends on some technologies to work properly, most notabilly wikidata, if wikidata or any of the technologies
  we depend upon are experiencing issues or are not working, the application may not work as expected| Explore options for the application to still work in those cases
 |Use of Azure||
-
-==== Risk minimization measures
+|===
 
