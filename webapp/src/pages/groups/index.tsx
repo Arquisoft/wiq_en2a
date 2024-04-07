@@ -13,6 +13,7 @@ export const GroupsPage: React.FC<{}> = () => {
   const [groupName, setGroupName] = useState('');
   const [public0, setPublic] = useState(true);
   const [maxMembers, setMaxMembers] = useState(2);
+  const [description, setDescription] = useState('');
 
   const toggleModal = () => {
     setModal(!modal);
@@ -80,6 +81,17 @@ export const GroupsPage: React.FC<{}> = () => {
                   <Stack direction="row" padding={1}>
                     <p>Max members:</p>
                     <input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} />
+                  </Stack>
+                  <Stack direction="row" padding={1}>
+                    <p>Description:</p>
+                    <TextField
+                      margin="normal"
+                      fullWidth
+                      multiline
+                      label="Description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
                   </Stack>
                 </Grid>
                 <Button onClick={toggleModal}>Close</Button>
