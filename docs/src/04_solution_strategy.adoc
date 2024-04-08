@@ -13,6 +13,7 @@ The following list names the technologies selected:
 - *NodeJS:* cross-platform, opens-source JavaScript library for the server layer that provides the tools to implement the application. It has a large and active community that may be usefull in difficult times.
 - *ExpressJS:* nodejs web application framework that provides a robust set of features for web and mobile applications.
 - *Wikidata Query Service:* Wikimedia implementation of SPARQL server to service queries for Wikidata and other data sets.
+- *Socket.io:* A javascript library that enables real-time communication between client and server through objects called sockets. These objects can broadcast events asynchronously, and can be caught by other sockets to perform different operations. This library is used in the multiplayer service, to allow the players to connect to a game lobby, and compete between each other answering questions.
 
 === Organizational
 - *Weekly meetings:* to maintain a well communicated team so all are aware of the decissions and team progress.
