@@ -7,23 +7,24 @@
 }
 
 .game-page-button {
-  font-size: 1.5em; /* Adjust as needed */
-  padding: 15px 30px; /* Adjust as needed */
-  margin: 10px; /* Adjust as needed */
+  width: 220px;
+  font-size: 1.5em;
+  padding: 15px 30px;
+  margin: 10px;
   text-decoration: none;
   background-color: #007bff;
-  color: #ffffff; /* White text color */
+  color: #ffffff;
   border: none;
-  border-radius: 8px; /* Make the button slightly round */
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .game-page-button:hover {
-  background-color: #0056b3; /* Adjust as needed */
+  background-color: #0056b3;
 }
 
 .game-page-button a {
-  color: inherit; /* Inherit the color from the button */
-  text-decoration: none; /* Remove underline for Link */
+  color: inherit;
+  text-decoration: none;
 }
