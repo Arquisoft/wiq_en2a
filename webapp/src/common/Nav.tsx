@@ -105,7 +105,8 @@ const NavBar: React.FC<{}> = () =>
                                     >
                                         {user}
                                     </Button>
-                                    <svg 
+                                </Grid>
+                                <svg 
                                     fill="#ffffff" 
                                     width="24" 
                                     height="24" 
@@ -118,8 +119,7 @@ const NavBar: React.FC<{}> = () =>
                                     >
                                         <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
                                         8.28799L5.98999 9.70199L12 15.713Z"/>
-                                    </svg>
-                                </Grid>
+                                </svg>
                                 <Grid item>
                                     <Menu 
                                     id="menu" 
