@@ -47,12 +47,14 @@ const chemicalElementQuery = `SELECT ?element ?elementLabel ?symbol WHERE {
 }
 `
 
-const monumentQuery = `SELECT ?monument ?monumentLabel ?country ?countryLabel WHERE {
-  ?monument wdt:P31 wd:Q4989906;       # Instance of historical monument
-         wdt:P17 ?country.             # Country of the monument
+const monumentQuery = `SELECT ?monument ?monumentLabel ?country ?countryLabel ?followers WHERE {
+  ?monument wdt:P31 wd:Q570116;       # Instance of historical monument
+            wdt:P8687 ?followers;     # Social media followers count
+            wdt:P17 ?country.         # Country of the monument
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
-LIMIT 1000
+ORDER BY DESC(?followers)
+LIMIT 100
 `
 
 

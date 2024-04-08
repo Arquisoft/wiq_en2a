@@ -88,8 +88,13 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     }
 
     const getAnswers = () => {
-      console.log(answersShuffled[currentQuestion])
-      return answersShuffled[currentQuestion];
+      const answers = answersShuffled[currentQuestion];
+      if (answers.length > 4) {
+        console.log(answers)
+        const removeCount = answers.length - 4;
+        answers.splice(0, removeCount);
+      }
+      return answers;
     };
 
     return (
