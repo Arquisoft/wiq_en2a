@@ -12,14 +12,14 @@ const NavBar: React.FC<{}> = () =>
     const navigate = useNavigate();
     const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
     const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
     const [open, setOpen] = useState<boolean>(false);
     const [chevronRotated, setChevronRotated] = useState<boolean>(false);
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
         setAnchorEl(event.currentTarget);
-        setOpen(!open); // Toggle dropdown state
-        setChevronRotated(!chevronRotated); // Toggle chevron rotation state
+        setOpen(!open);
+        setChevronRotated(!chevronRotated);
     };
 
     const handleClose = () => {
@@ -94,7 +94,7 @@ const NavBar: React.FC<{}> = () =>
                             justifyContent="flex-end"
                             >
                                 <Grid item>
-                                    <Button 
+                                    <Button
                                     variant="text"
                                     id="menu-button" 
                                     color='inherit' 
@@ -105,22 +105,23 @@ const NavBar: React.FC<{}> = () =>
                                     sx={{ textTransform: 'none', padding: '0' }}
                                     >
                                         {user}
+                                        <svg 
+                                        fill="#ffffff" 
+                                        width="24" 
+                                        height="24"
+                                        onClick={handleClick}
+                                        viewBox="0 0 24 24" 
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className={`
+                                            chevron
+                                            ${chevronRotated ? 'chevron--rotated' : ''}
+                                        `}
+                                        >
+                                            <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
+                                            8.28799L5.98999 9.70199L12 15.713Z"/>
+                                        </svg>
                                     </Button>
                                 </Grid>
-                                <svg 
-                                    fill="#ffffff" 
-                                    width="24" 
-                                    height="24" 
-                                    viewBox="0 0 24 24" 
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className={`
-                                        chevron
-                                        ${chevronRotated ? 'chevron--rotated' : ''}
-                                    `}
-                                    >
-                                        <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
-                                        8.28799L5.98999 9.70199L12 15.713Z"/>
-                                </svg>
                                 <Grid item>
                                     <Menu 
                                     id="menu" 
