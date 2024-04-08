@@ -44,8 +44,10 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
 
   return (
     <div className='lobby-container'>
-      <h2 className='lobby-title'>Lobby - Multiplayer</h2>
-      <p>Party code: {partyCode}</p>
+      <div className='lobby-title-container'>
+        <h2 className='lobby-title'>Lobby - Multiplayer</h2>
+        <p>Party code: <b>{partyCode}</b></p>
+      </div>
       {users.map((player) => (
         <div key={player.uuid} className='player-item'>
           <img src={"https://robohash.org/"+player.username+".png"} alt={player.uuid} />
