@@ -6,28 +6,42 @@ import axios from 'axios';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
+interface Group  {
+    groupName: string;
+    isPublic: string;
+    maxNumUsers: string;
+    numMembers: string;
+    uuid: string;
+}
+
+let groups: Group[] = new Array();
+let groupsCharged = false;
+
 const NoGroup = () => 
 {
     const [error, setError] = useState('');
-    const [modal, setModal] = useState(false);
+    const [createModal, setCreateModal] = useState(false);
+    const [joinModal, setJoinModal] = useState(false);
     const [groupName, setGroupName] = useState('');
     const [isPublic, setPublic] = useState(true);
     const [maxMembers, setMaxMembers] = useState(2);
     const [description, setDescription] = useState('');
     const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
 
-    const toggleModal = () => {
-        setModal(!modal);
+    const toggleCreateModal = () => {
+        setCreateModal(!createModal);
+    };
+
+    const toggleJoinModal = () => {
+        setJoinModal(!joinModal);
+        if(joinModal){
+            findGroups();
+        }
     };
 
     const createGroup = async () =>{
         try{
-        console.log(groupName);
-        console.log(creatorUUID);
-        console.log(description);
-        console.log(isPublic);
-        await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic });
-        
+            await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic });
         }catch (error:any) {
         setError(error.response.data.error);
         }
@@ -35,9 +49,24 @@ const NoGroup = () =>
 
     const findGroups = async () =>{
         try{
-        const groups = await axios.get(`${apiEndpoint}/getGroups`);
-        console.log(groups);
-        }catch (error:any) {
+            await axios.get(`${apiEndpoint}/getGroups`).then( res => {
+                groupsCharged = true;
+                console.log(res);
+                // add only groups that are public
+            })
+        } catch (error:any) {
+        setError(error.response.data.error);
+        }
+    }
+
+    const joinGroup = async (groupUUID: string) =>{
+        try{
+            await axios.get(`${apiEndpoint}/getGroups`).then( res => {
+                groupsCharged = true;
+                console.log(res);
+                // add only groups that are public
+            })
+        } catch (error:any) {
         setError(error.response.data.error);
         }
     }
@@ -59,13 +88,13 @@ const NoGroup = () =>
     return (
         <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container">
         <h3>You are not part of a group...</h3>
-        <Button variant="contained" onClick={findGroups}>Join a group</Button>
-        <Button variant="contained" onClick={toggleModal}>Create a group</Button>
+        <Button variant="contained" onClick={toggleJoinModal}>Join a group</Button>
+        <Button variant="contained" onClick={toggleCreateModal}>Create a group</Button>
         <GroupCard title="a" members="3" maxMembers="10"></GroupCard>
         {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
         )}
-        {modal && (
+        {createModal && (
             <div className="modal">
             <div className="modal-content">
                 <h2>Create group</h2>
@@ -77,7 +106,6 @@ const NoGroup = () =>
                     label="Group name"
                     value={groupName}
                     onChange={(e) => setGroupName(e.target.value)}
-                    
                     />
                 </Stack>
                 <Stack direction="row" padding={1}>
@@ -107,13 +135,32 @@ const NoGroup = () =>
                     />
                 </Stack>
                 <Stack direction="row" padding={1}>
-                    <Button onClick={toggleModal}>Close</Button>
+                    <Button onClick={toggleCreateModal}>Close</Button>
                     <Button onClick={createGroup}>Create group</Button>
                 </Stack>
                 </Grid>
             </div>
             </div>
         )}
+        {joinModal && (groupsCharged && (
+            <div className="modal">
+                <div className="modal-content">
+                    <h2>Join group</h2>
+                    <Grid >
+                        {groups.map((group) => (
+                            <Stack direction="row" padding={1}>
+                                <p>{group.groupName}</p>
+                                <p>{group.numMembers}/{group.maxNumUsers}</p>
+                                <Button onClick={() => joinGroup(group.uuid)}>Join</Button>
+                            </Stack>
+                        ))}                        
+                        <Stack direction="row" padding={1}>
+                            <Button onClick={toggleJoinModal}>Close</Button>
+                        </Stack>
+                    </Grid>
+                </div>
+            </div>
+        ))}
         </Container>
     );
 }

@@ -13,6 +13,7 @@ interface Member  {
 }
 
 let members: Member[] = new Array();
+let membersCharged = false;
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -28,9 +29,9 @@ export const GroupTable = (props: TableProps) => {
                     role : "Member",
                 })
             }
-        
+            
             members.sort((member) => (+member.totalScore));
-            console.log(members);
+            membersCharged = true;
         });        
         
     }    
@@ -48,7 +49,7 @@ export const GroupTable = (props: TableProps) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {members.map((member) => (
+                    {membersCharged && members.map((member) => (
                         <TableRow>
                             <TableCell>{member.username}</TableCell>
                             <TableCell>{member.role}</TableCell>
