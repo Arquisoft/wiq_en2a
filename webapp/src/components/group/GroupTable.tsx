@@ -12,23 +12,26 @@ interface Member  {
     role: string;
 }
 
-let members: Member[];
+let members: Member[] = new Array();
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 export const GroupTable = (props: TableProps) => {
     const aFunction = async ()=>{
-        members = new Array();
         console.log("Cargar grupo");
-        const groups = await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID);
-        console.log(groups.data)
-        for(let member of groups.data.members){
-            members.push({
-                username : member.username,
-                totalScore : member.totalScore,
-                role : "Member",
-            })
-        }
+        await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
+            members = new Array();
+            for(let member of res.data.members){
+                members.push({
+                    username : member.username,
+                    totalScore : member.totalScore,
+                    role : "Member",
+                })
+            }
+        
+            members.sort((member) => (+member.totalScore));
+            console.log(members);
+        });        
         
     }    
     useEffect(()=>{
