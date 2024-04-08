@@ -40,6 +40,20 @@ SELECT ?country ?countryLabel ?capital ?capitalLabel WHERE {
 }
 `
 
+const chemicalElementQuery = `SELECT ?element ?elementLabel ?symbol WHERE {
+  ?element wdt:P31 wd:Q11344;  # Instance of chemical element
+          wdt:P246 ?symbol.    # Chemical symbol
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+`
+
+const monumentQuery = `SELECT ?monument ?monumentLabel ?country ?countryLabel WHERE {
+  ?monument wdt:P31 wd:Q4989906;       # Instance of historical monument
+         wdt:P17 ?country.             # Country of the monument
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+LIMIT 1000
+`
 
 
 const chatgptPrompt = `
@@ -58,5 +72,7 @@ module.exports = {
   spainPopulationQuery,
   //chatgptPrompt,
   spainCapitalQuery,
-  worldCapitalQuery
+  worldCapitalQuery,
+  chemicalElementQuery,
+  monumentQuery
 };
