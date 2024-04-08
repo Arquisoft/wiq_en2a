@@ -7,9 +7,6 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 
 === Requirements Overview
 
-
-
-
 * Users will be able to create an account and log in
 * Each question must have a prize associated to it
 * Accesible through the web
@@ -21,17 +18,9 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 * Se habilitarán salas de juego en tiempo real para el modo multijugador
 
 
-
-
-
 === Quality Goals
 
-
-
- 
 //This table is just a placeholder, replace it with real quality goals once discussed !!!
-
-
 
 image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 
@@ -45,23 +34,13 @@ image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
 |===
 
 
-
-
-
 === Stakeholders
-
-
 
 [options="header"]
 |===
 |Role/Name|Contact|Expectations
 | _Wikidata_ | _Wikidata.org_ | _Public exposure by the use of their services deriving in a greater demand of said services_
-| _Uniovi's Software Architecture Teacher council_ | _jelabra@gmail.com_ | _Provide their students (development team) with a practical experience about the use of Software architecture in projects and making sure the have understood the concepts of it_
+| _Uniovi's Software Architecture Teacher council_ | | _Provide their students (development team) with a practical experience about the use of Software architecture in projects and making sure the have understood the concepts of it_
 |_Development Team_||_Acquire experience in the development process of Software Architecture and pass the subject to complete their studies_
 |_Users_|_Anyone who uses the app_|_Test their knowledge on a functional and easy to use quizz game app_
 |===
-
-
-
-=== End
-

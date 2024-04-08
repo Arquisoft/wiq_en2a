@@ -24,7 +24,33 @@ function bindPopulationResults(queryResult){
     return populationMap
 }
 
+function bindChemicalResults(queryResult){
+    const chemicalElementMap = new Map();
+
+    queryResult.results.bindings.forEach(entry => {
+        const elementLabel = entry.elementLabel.value;
+        const symbol = entry.symbol.value;
+        chemicalElementMap.set(symbol, elementLabel);
+    });
+
+    return chemicalElementMap
+}
+
+function bindMonumentResults(queryResult){
+    const monumentMap = new Map();
+
+    queryResult.results.bindings.forEach(entry => {
+        const monumentLabel = entry.monumentLabel.value;
+        const countryLabel = entry.countryLabel.value;
+        monumentMap.set(monumentLabel, countryLabel);
+    });
+
+    return monumentMap
+}
+
 module.exports = { 
     bindCapitalsResults,
-    bindPopulationResults
+    bindPopulationResults,
+    bindChemicalResults,
+    bindMonumentResults
 }

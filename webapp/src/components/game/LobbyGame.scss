@@ -1,28 +1,41 @@
 table {
     width: 100%;
     border-collapse: collapse;
+    border:none;
   
     th, td {
       padding: 8px;
       text-align: center;
+      border:none;
     }
-  
+  /*
     tr:nth-child(even) {
       background-color: #f2f2f2;
-    }
-  
+    }*/
+    /*
     &:hover {
       tr {
         background-color: #ddd;
       }
-    }
+    }*/
   
-    img {
-      max-width: 100px; // Cambia el tamaño máximo de la imagen según sea necesario
-      height: auto;
-      display: block;
-      margin: 0 auto; // Centra la imagen horizontalmente
-    }
+    
+  }
+
+  .player-item {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    align-items: center; /* Vertically center the grid items */
+    justify-items: center; /* Horizontally center the grid items */
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+  }
+
+  img {
+    max-width: 100px; // Cambia el tamaño máximo de la imagen según sea necesario
+    height: auto;
+    display: block;
   }
 
   .lobby-title {
@@ -63,10 +76,21 @@ table {
   .button-container {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
   }
 
   .start-game-button {
     background-color: #007bff; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; 
+    margin-left: 10px;
+  }
+
+  .exit-lobby-button {
+    background-color: red; 
     color: white;
     padding: 10px 20px;
     border: none;
