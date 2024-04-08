@@ -7,15 +7,21 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Infrastructure Level 1
 
-image::technicalDiagram.png[Deployment Diagram, 600, 400]
+image::07-infrastructure.png[Deployment Diagram, 600, 400]
 
 Motivation::
 
-The sytem is divided in different service related to distinct functionalities. MongoDB used as the database to manage user's data. A service dedicated to user functionalities. Another for the graphic user interface. And a last service in charge of making request to the api of Wikidata.
+The above diagram represents the current architecture of the system. The system is divided in different services related to distinct functionalities. The application is working with multiples services, all of them are ran through docker containers in a virtual machine in Azure.
+
+The deployment is automated through github actions, therefore when you make a release of a tag in the master branch of the repository, the application updates with the committed changes.
 
 Quality and/or Performance Features::
 
 The reasons for using a microservice infratructure are the failure isolation, if one of the service fails, is not necesary that the whole system goes down, the member teams can work on different microservices simultaneously and also each microservice can be written in a different programing language better suit for the task.
+
+In this case, almost all the microservices communicate between each other through HTTP requests. But in the multiplayer service, a different type of communication is needed: Web sockets.
+
+Web sockets is a communication protocol that allow server and client to send messages simultaneously without waiting for a response. This is very useful for real-time applications, like the multiplayer functionality.
 
 Mapping of Building Blocks to Infrastructure::
 
@@ -23,13 +29,13 @@ Mapping of Building Blocks to Infrastructure::
 |===
 |Blocks|Description
 
-|Web App| User interface to interact withe the rest of the application.
-|Gateway| Interface that comunicates the web app with the different services.
-|MongoDB| Database to save the user's data.
-|Authentication| Service for the autentification of the users.
+|Web App| User interface to interact with the rest of the application.
+|Gateway| Following the facade pattern, the gateway works as an interface that communicates the web app with the different services.
+|MongoDB| Database to save the application's data.
+|Authentication| Service for the authentification of the users.
 |Users| Service in charge of managing the users.
-|Question Generation| Service that generates questions with WikiData
-|Game| Service for the quizz game.
-|Groups| Service in charge of managing the groups of users.
-|WikiData| The API used to get infromation from WikiData.
+|Question Generation| This service retrieves information from Wikidata through SPARQL queries, and generates questions based on custom templates
+|Game| Service to manage the logic of the game like the players and questions in a game.
+|Groups| Service in charge of managing the groups.
+|Multiplayer| Service in charge of the multiplayer functionality, this service uses web sockets, while the others use HTTP requests. Provides the real-time functionality for a multiplayer game.
 |===
