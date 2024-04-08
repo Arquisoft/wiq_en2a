@@ -31,17 +31,21 @@ defineFeature(feature, test => {
     given('An unregistered user', async () => {
       username = "pablo"
       password = "pabloasw"
-      await expect(page).toClick("button", { text: "Don't have an account? Register here." });
+      await page.waitFor('button')
+      await page.click("button", {id: "registerButton"});
     });
 
     when('I fill the data in the form and press submit', async () => {
-      await expect(page).toFill('input[name="username"]', username);
-      await expect(page).toFill('input[name="password"]', password);
-      await expect(page).toClick('button', { text: 'Add User' })
+      await page.type('input[name="username"]', username);
+      await page.type('input[name="password"]', password);
+      await page.click('button', { text: 'Add User' }) 
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-        await expect(page).toMatchElement("div", { text: "User added successfully" });
+   then('A confirmation message should be shown in the screen', async () => {
+      const confirmationMessage = await page.waitForSelector('div',"#successUserAdd");
+
+      const messageText = await page.evaluate(confirmationMessage => confirmationMessage.innerText, confirmationMessage);
+      expect(messageText).toContain('User added successfully');
     });
   })
 

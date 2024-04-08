@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "7435d58c-18e7-42d4-8ba7-1381cec22cd2",
+		"name": "Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33131426"
+	},
+	"item": [
+		{
+			"name": "Questions Game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"players\":[\r\n        {\"uuid\":\"af4c5a65-7768-47b8-aa05-4aff34b62391\"}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createGame",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createGame"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update player stats",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"players\":[\r\n    {\r\n        \"uuid\":\"3c68688e-84e7-4d29-b7c7-09474d42b669\",\r\n        \"nCorrectAnswers\":12,\r\n        \"nWrongAnswers\":3,\r\n        \"totalScore\":500,\r\n        \"isWinner\":true\r\n    }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/updateStats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"updateStats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get statistics",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Create Group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"creatorUUID\": \"905aa11b-fd0c-4567-8fe4-e64dac7d96e8\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Join Group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\": \"58cd0585-e578-4f97-bfe9-eacdaee33ddc\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"joinCode\": \"bxUs\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/joinGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"joinGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get group",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/getGroup/180e8f22-fc4d-4de4-bfe1-e4c244e3b7dd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"getGroup",
+						"180e8f22-fc4d-4de4-bfe1-e4c244e3b7dd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Leave group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"expelledUUID\": \"58cd0585-e578-4f97-bfe9-eacdaee33ddc\",\r\n    \"adminUUID\": \"905aa11b-fd0c-4567-8fe4-e64dac7d96e8\",\r\n    \"groupName\": \"GrupoMESSI\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/leaveGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"leaveGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get groups",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

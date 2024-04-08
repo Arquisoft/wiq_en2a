@@ -1,0 +1,12 @@
+@import 'design-tokens';
+
+body {
+  margin: 0;
+  font-family: $font-family-body, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: $font-family-code;
+}

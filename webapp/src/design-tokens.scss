@@ -1,0 +1,69 @@
+// APPLICATION MEDIA QUERY BREAKPOINTS
+
+// Mobile devices
+
+$mobile-devices-min-size: 320px;
+$mobile-devices-max-size: 480px;
+
+// Ipads and tablets
+
+$ipads-and-tablets-min-size: 481px;
+$ipads-and-tablets-max-size: 768px;
+
+// Laptops and small screens
+
+$laptops-and-small-screens-min-size: 769px;
+$laptops-and-small-screens-max-size: 1024px;
+
+// Large screens and desktops
+
+$large-screens-and-desktops-min-size: 1025px;
+$large-screens-and-desktops-max-size: 1200px;
+
+// TV and extra large screens
+
+$tv-and-extra-large-screens-min-size: 1201px;
+
+// APPLICATION COLORS
+
+// Shades of gunmetal
+
+$gunmetal-soft: #044962;
+$gunmetal-medium: #033B4F;
+$gunmetal-intense: #022B3A;
+
+// Shades of teal
+
+$teal-soft: #28A0B8;
+$teal-medium: #2592A7;
+$teal-intense: #1F7A8C;
+
+// Shades of columbia
+
+$columbia-blue-soft: #EDF5FD;
+$columbia-blue-medium: #DBEBFB;
+$columbia-blue-intense: #C8E0F9;
+
+// Shades of lavender
+
+$lavender-web-soft: #FFFFFF;
+$lavender-web-medium: #F1F3F9;
+$lavender-web-intense: #E1E5F2;
+
+// Shades of white
+
+$white-soft: #EBEBEB;
+$white-medium: #F5F5F5;
+$white-intense: #FFFFFF;
+
+// APPLICATION FONTS   
+
+// Font stack for the body
+
+$font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
+
+// Font stack for the code
+
+$font-family-code: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+monospace;
