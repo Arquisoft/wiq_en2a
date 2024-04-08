@@ -2,24 +2,13 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-technical-risks]]
 == Risks and Technical Debts
+|===
+|Risk|Explanation|Risk minimization measure
+|Bottleneck in response times|In the team we are worried about possible bottlenecks regarding the porfarmance of the application,
+ specially the performance of the question generation system as it must ask wiki data for information,
+  the time of this my very depending on wich data is asked| Analize the performance of the application and substituing slow question by faster ones 
+|Availability of technologies used| The application depends on some technologies to work properly, most notabilly wikidata, if wikidata or any of the technologies
+ we depend upon are experiencing issues or are not working, the application may not work as expected| Explore options for the application to still work in those cases
+|Use of Azure||
+|===
 
-
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
-
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
-
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
-
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
-
-****

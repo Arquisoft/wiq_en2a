@@ -22,15 +22,13 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 
 //This table is just a placeholder, replace it with real quality goals once discussed !!!
 
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
-
 (based upon the ISO 25010 standard):
 [options="header",cols="1,2,2"]
 |===
 |Code|Quality Goal|Scenario
-|QG1|Usability|The user can easily navigate through the app and find the information they need
-|QG2|Performance|The app should be able to handle a large amount of users at the same time
-|QG3|Security|The user's data should be protected and not accesible by anyone else
+|QG1[[QG1]]|Usability|The user can easily navigate through the app and find the information they need
+|QG2[[QG2]]|Performance|The app should be able to handle a large amount of users at the same time
+|QG3[[QG3]]|Security|The user's data should be protected and not accesible by anyone else
 |===
 
 
