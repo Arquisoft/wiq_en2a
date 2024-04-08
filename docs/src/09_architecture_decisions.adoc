@@ -69,3 +69,36 @@ In order to get have multiple player in the same game we decided to use the Java
 
 Socket.IO communicates directly with the frontend without using a gateway because it's designed to establish a persistent, bidirectional connection between the client (frontend) and the server.
 
+=== Deployment Technology: Azure
+
+*Scalability:*
+Azure allows us to quickly scale our application up or down to match demand, ensuring we only pay for what we use.
+
+*Security:*
+Azure has robust security measures in place, including encryption, multi-factor authentication, and threat detection.
+
+*Global Reach:*
+With Azure's vast global network of data centers, we can deploy our application closer to our users for improved performance.
+
+*Analytics and AI:*
+Azure provides powerful analytics and AI services that can be integrated into our application to provide advanced features and insights.
+
+==== Other alternatives
+
+Certainly, there are several alternatives to Azure for deploying your application. Here are a few:
+
+*Amazon Web Services (AWS):* AWS is the most popular cloud service provider. It offers a wide range of services for computing, storage, databases, analytics, and more. AWS is known for its scalability, security, and extensive global network.
+
+*Google Cloud Platform (GCP):* GCP is another major player in the cloud services market. It offers similar services to AWS and Azure, and is particularly strong in areas like machine learning and data analytics.
+
+*IBM Cloud:* IBM Cloud offers a wide range of services including IaaS, SaaS, and PaaS. It's known for its AI capabilities, BaaS (Blockchain as a Service), and strong support for open source technologies.
+
+*DigitalOcean:* DigitalOcean is a cloud infrastructure provider that offers cloud services to help deploy, scale and automate modern applications. It's known for its developer-friendly platform, predictable pricing, and high performance virtual machines (droplets).
+
+*Heroku:* Heroku is a cloud platform as a service (PaaS) that supports several programming languages. It's known for its ease of use, developer-friendly features, and strong support for app deployment automation.
+
+Each of these alternatives has its own strengths and weaknesses, and the best choice depends on your specific needs and circumstances.
+
+==== Conclusion
+
+Our decision to use Azure for deployment was based on these advantages, as well the support that azure give to students, ganting us credits.
