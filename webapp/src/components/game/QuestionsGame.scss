@@ -21,6 +21,7 @@
     font-size: 18px; /* Big text */
     font-weight: bold; /* Bold font */
     transition: transform 0.2s; /* Transition for scale animation */
+    cursor:pointer;
   }
 
   .answer-grid button:active {
