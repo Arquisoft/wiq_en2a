@@ -17,14 +17,19 @@ const NavBar: React.FC<{}> = () =>
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget)
     }
+    let dropdown = false;
 
     const handleClose =() => {
         setAnchorEl(null)
+        if(dropdown === false)
+            dropdown = true;
+        else
+            dropdown = true;
     }
 
     if(value === "false"){
         navigate("/");
-    } 
+    }
 
     useEffect(() => {
         switch (location.pathname) {
@@ -100,6 +105,20 @@ const NavBar: React.FC<{}> = () =>
                                     >
                                         {user}
                                     </Button>
+                                    <svg 
+                                    fill="#ffffff" 
+                                    width="24" 
+                                    height="24" 
+                                    viewBox="0 0 24 24" 
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className={`
+                                        chevron
+                                        ${dropdown ? 'chevron--rotated' : ''}
+                                    `}
+                                    >
+                                        <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
+                                        8.28799L5.98999 9.70199L12 15.713Z"/>
+                                    </svg>
                                 </Grid>
                                 <Grid item>
                                     <Menu 
