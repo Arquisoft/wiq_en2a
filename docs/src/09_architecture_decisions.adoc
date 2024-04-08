@@ -61,3 +61,11 @@ Express.js is well-suited for building scalable applications. Its non-opinionate
 
 Our decision to use React for the frontend and Express.js for the backend, apart of being the mentioned advantages, was that the initial project was built with these technologies, and we already had a base to work on for future developments.
 
+=== Multiplayer Technology 
+
+In order to get have multiple player in the same game we decided to use the JavaScript library that enables real-time, bidirectional, and event-based communication between the browser and the server.
+
+==== Communicating directly with frontend
+
+Socket.IO communicates directly with the frontend without using a gateway because it's designed to establish a persistent, bidirectional connection between the client (frontend) and the server.
+
