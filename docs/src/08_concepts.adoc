@@ -12,6 +12,38 @@ image::WikiDataQuery.png["WikiData Query Service"]
 The Wikidata Query Service (WDQS) is a powerful tool that provides access to the data contained in Wikidata. It uses SPARQL, a semantic query language for database.
 We used this service to generate random questions from a template.
 
+=== BCrypt
+
+Bcrypt is a specialized password-hashing library for securely storing passwords. It employs a key derivation function to hash passwords intentionally in a slow and computationally intensive manner. This design choice enhances security by significantly increasing resistance against brute-force attacks.
+
+|===
+| Element | Description
+
+| Hash
+| The characters that comprise the resultant hash are ./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$.
+Resultant hashes will be 60 characters long and they will include the salt among other parameters, as follows:
+"$[algorithm]$[cost]$[salt][hash]"
+- 2 chars hash algorithm identifier prefix. "$2a$" or "$2b$" indicates BCrypt.
+- Cost-factor (n). Represents the exponent used to determine how many iterations 2^n.
+- 16-byte (128-bit) salt, base64 encoded to 22 characters.
+- 24-byte (192-bit) hash, base64 encoded to 31 characters.
+
+| Salt
+| In cryptography, a salt is random data fed as an additional input to a one-way function that hashes data, a password or passphrase. Salting helps defend against attacks that use precomputed tables.
+
+| Cost Factor
+| Represents how many times the data is hashed, the burden.
+|===
+
+=== RoboHash
+
+RoboHash is a web service that generates unique and customizable robot images. It uses a hash of the input data as the seed for the robot image. This service is useful for generating unique avatars for users. It is used to delegate the task of generating avatars to a third-party service as a way to reduce the complexity of the system.Otherwise we would have to allow users to upload their own images, which would require additional security measures to prevent malicious uploads.
+
+image:://robohash.org/ASR.png?set=set1[width=150,height=100]
+image:://robohash.org/ASR.png?set=set4[width=150,height=100]
+image:://robohash.org/ASR.png?set=set5[width=150,height=100]
+
+This images have all been created with robohash, using the same input data "ASR", but with different sets. The sets are used to determine the style of the robot image.
 
 === Design and UI
 You can see the first version of the prototypes in the following link:
