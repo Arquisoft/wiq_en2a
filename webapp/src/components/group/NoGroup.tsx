@@ -8,7 +8,6 @@ const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000
 
 interface Group  {
     groupName: string;
-    isPublic: string;
     maxNumUsers: string;
     numMembers: string;
     uuid: string;
@@ -50,6 +49,20 @@ const NoGroup = () =>
     const findGroups = async () =>{
         try{
             await axios.get(`${apiEndpoint}/getGroups`).then( res => {
+                groups = new Array();
+                for(let group of res.data){
+                    let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
+                    if(isPublic == "true"){
+                        let theNumMembers = group.members.length;
+                        groups.push({
+                            groupName : group.groupName,
+                            maxNumUsers : group.maxNumUsers,
+                            numMembers : theNumMembers,
+                            uuid: group.uuid
+                        })
+                    }
+                    
+                }
                 groupsCharged = true;
                 console.log(res);
                 // add only groups that are public

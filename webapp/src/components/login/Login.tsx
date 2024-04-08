@@ -1,5 +1,5 @@
 // src/components/Login.js
-import  {  useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -25,13 +25,13 @@ const Login = (props: ActionProps) => {
     props.goBack();
   };
 
-  const loginUser = async () => {
+  async function loginUser () {
 
     try {
       localStorage.clear();
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   
-      console.log(user.data);
+      console.log(user);
       localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
       localStorage.setItem("nWins", user.data.nWins);
@@ -51,6 +51,11 @@ const Login = (props: ActionProps) => {
     setOpenSnackbar(false);
   };
 
+  const handleKeyPress = (event: KeyboardEvent<HTMLDivElement>) => {
+    if(event.key === 'Enter'){
+      loginUser();
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 3 }}>
@@ -72,6 +77,7 @@ const Login = (props: ActionProps) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
           <Stack direction="column" spacing={2}>
             <Button  color="primary" onClick={loginUser}>
