@@ -89,13 +89,11 @@ io.on('connection', socket => {
   });
 
   socket.on('updateQuestions', (partyCode, questions) => {
-    console.log('here')
     // Broadcast questions to all users in the specified party
     broadcastQuestions(partyCode, questions);
   });
 
   socket.on('exitParty', (partyCode) => {
-    console.log("aqui")
     if (lobby[partyCode]) {
       // Remove the user from the lobby
       delete lobby[partyCode][socket.id];
