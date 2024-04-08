@@ -25,6 +25,7 @@ const NavBar: React.FC<{}> = () =>
     const handleClose = () => {
         setAnchorEl(null);
         setOpen(false);
+        setChevronRotated(false);
     };
 
     if(value === "false"){
