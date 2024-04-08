@@ -3,15 +3,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
-
-=== WikiData Query Service
-
-image::WikiDataQuery.png["WikiData Query Service"]
-* Image obtained from link:https://wikitech.wikimedia.org/wiki/Wikidata_Query_Service/Runbook[Wikitech]
-
-The Wikidata Query Service (WDQS) is a powerful tool that provides access to the data contained in Wikidata. It uses SPARQL, a semantic query language for database.
-We used this service to generate random questions from a template.
-
 === BCrypt
 
 Bcrypt is a specialized password-hashing library for securely storing passwords. It employs a key derivation function to hash passwords intentionally in a slow and computationally intensive manner. This design choice enhances security by significantly increasing resistance against brute-force attacks.
