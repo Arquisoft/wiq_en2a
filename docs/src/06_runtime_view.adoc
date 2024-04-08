@@ -24,4 +24,4 @@ image::SequenceLogin.png[SequenceLogin, 600, 400]
 image::SequenceQueryService.png[SequenceQueryService, 600, 400]
 
 === Multiplayer Game
-
+image::SequenceMultiplayerGame.png[SequenceQueryService, 600, 400]
