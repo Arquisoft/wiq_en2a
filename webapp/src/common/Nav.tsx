@@ -12,20 +12,20 @@ const NavBar: React.FC<{}> = () =>
     const navigate = useNavigate();
     const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
     const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
-    const [anchorEl, setAnchorEl] = useState<null|HTMLElement>(null);
-    const open = Boolean(anchorEl)
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget)
-    }
-    let dropdown = false;
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [open, setOpen] = useState<boolean>(false);
+    const [chevronRotated, setChevronRotated] = useState<boolean>(false);
 
-    const handleClose =() => {
-        setAnchorEl(null)
-        if(dropdown === false)
-            dropdown = true;
-        else
-            dropdown = true;
-    }
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+        setOpen(!open); // Toggle dropdown state
+        setChevronRotated(!chevronRotated); // Toggle chevron rotation state
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setOpen(false);
+    };
 
     if(value === "false"){
         navigate("/");
@@ -114,7 +114,7 @@ const NavBar: React.FC<{}> = () =>
                                     xmlns="http://www.w3.org/2000/svg"
                                     className={`
                                         chevron
-                                        ${dropdown ? 'chevron--rotated' : ''}
+                                        ${chevronRotated ? 'chevron--rotated' : ''}
                                     `}
                                     >
                                         <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
