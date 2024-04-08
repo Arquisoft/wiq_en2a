@@ -80,7 +80,12 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
     }
 
     const getAnswers = () => {
-      console.log(answersShuffled[currentQuestion])
+      const answers = answersShuffled[currentQuestion];
+      if (answers.length > 4) {
+        console.log(answers)
+        const removeCount = answers.length - 4;
+        answers.splice(0, removeCount);
+      }
       return answersShuffled[currentQuestion];
     };
 
