@@ -85,7 +85,7 @@ const NavBar: React.FC<{}> = () =>
                             <Grid 
                             container 
                             direction="row" 
-                            justifyContent="flex-end" 
+                            justifyContent="flex-end"
                             >
                                 <Grid item>
                                     <Button 
@@ -93,9 +93,9 @@ const NavBar: React.FC<{}> = () =>
                                     id="menu-button" 
                                     color='inherit' 
                                     onClick={handleClick} 
-                                    aria-controls={open? 'menu' : undefined} 
-                                    aria-haspopup='true' 
+                                    aria-controls={open? 'menu' : undefined}  
                                     aria-expanded={open? 'true' : undefined}
+                                    aria-haspopup='true'
                                     sx={{ textTransform: 'none', padding: '0' }}
                                     >
                                         {user}
@@ -108,6 +108,7 @@ const NavBar: React.FC<{}> = () =>
                                     MenuListProps={{'aria-labelledby':'menu-button'}} 
                                     onClose={()=>handleClose()} 
                                     anchorEl={anchorEl}
+                                    sx={{ marginTop: '5px' }}
                                     >
                                         <MenuItem onClick={()=> navigate("/profile")}>My account</MenuItem>
                                         <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
