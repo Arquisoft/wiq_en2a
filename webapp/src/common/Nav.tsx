@@ -96,7 +96,7 @@ const NavBar: React.FC<{}> = () =>
                                     aria-controls={open? 'menu' : undefined} 
                                     aria-haspopup='true' 
                                     aria-expanded={open? 'true' : undefined}
-                                    sx={{ textTransform: 'none' }}
+                                    sx={{ textTransform: 'none', padding: '0' }}
                                     >
                                         {user}
                                     </Button>
