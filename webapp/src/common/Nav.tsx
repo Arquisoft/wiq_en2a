@@ -52,22 +52,24 @@ const NavBar: React.FC<{}> = () =>
                 flexDirection: 'row',
                 flexWrap: 'nowrap', 
                 alignItems: 'flex-start', 
-                justifyContent: 'flex-start' 
+                justifyContent: 'flex-start',
+                width: '100%' 
             }
         }>
-            <Toolbar>
-                <Container maxWidth="xl">
+            <Toolbar sx={{ width: '100%' }}>
+                <Container sx={{ maxWidth: '100% !important' }}>
                     <Grid
                     container
                     direction="row"
                     alignItems="center"
+                    justifyContent="space-between"
                     spacing={4}
                     >
-                        <Grid item className="logo">
-                            {t('app_name')}
-                        </Grid>
-                        <Grid item>
+                        <Grid item spacing={2}>
                             <Stack direction="row" spacing={2}>
+                                <div className="logo">
+                                    {t('app_name')}
+                                </div>
                                 <Button variant="contained" onClick={() => navigate("/game")}>
                                     {t('nav_game')}
                                 </Button>
@@ -77,26 +79,43 @@ const NavBar: React.FC<{}> = () =>
                                 <Button variant="contained" onClick={() => navigate("/scoreboard")}>
                                     {t('nav_scoreboard')}
                                 </Button>
-                                <Grid >
-                            <Button variant="text" 
-                                id="menu-button" 
-                                color='inherit' 
-                                onClick={handleClick} 
-                                aria-controls={open? 'menu' : undefined} 
-                                aria-haspopup='true' aria-expanded={open? 'true' : undefined}
-                                sx={{ textTransform: 'none'}}
-                            >
-                                {user}
-                            </Button>
-                        </Grid>
                             </Stack>
                         </Grid>
+                        <Grid item>
+                            <Grid 
+                            container 
+                            direction="row" 
+                            justifyContent="flex-end" 
+                            >
+                                <Grid item>
+                                    <Button 
+                                    variant="text"
+                                    id="menu-button" 
+                                    color='inherit' 
+                                    onClick={handleClick} 
+                                    aria-controls={open? 'menu' : undefined} 
+                                    aria-haspopup='true' 
+                                    aria-expanded={open? 'true' : undefined}
+                                    sx={{ textTransform: 'none' }}
+                                    >
+                                        {user}
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Menu 
+                                    id="menu" 
+                                    open={open} 
+                                    MenuListProps={{'aria-labelledby':'menu-button'}} 
+                                    onClose={()=>handleClose()} 
+                                    anchorEl={anchorEl}
+                                    >
+                                        <MenuItem onClick={()=> navigate("/profile")}>My account</MenuItem>
+                                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
+                                    </Menu>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Menu id="menu" open={open} MenuListProps={{'aria-labelledby':'menu-button'}} 
-                        onClose={()=>handleClose()} anchorEl={anchorEl}>
-                        <MenuItem onClick={()=> navigate("/profile")}>My account</MenuItem>
-                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
-                    </Menu>
                 </Container>
             </Toolbar>
         </AppBar>
