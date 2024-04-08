@@ -13,10 +13,14 @@ interface Group  {
     uuid: string;
 }
 
+type ActionProps = {
+    nowHasGroup:()=> void;
+}
+
 let groups: Group[] = new Array();
 let groupsCharged = false;
 
-const NoGroup = () => 
+const NoGroup = (props: ActionProps) => 
 {
     const [error, setError] = useState('');
     const [createModal, setCreateModal] = useState(false);
@@ -61,7 +65,6 @@ const NoGroup = () =>
                             uuid: group.uuid
                         })
                     }
-                    
                 }
                 groupsCharged = true;
                 console.log(res);
@@ -72,10 +75,11 @@ const NoGroup = () =>
         }
     }
 
-    const joinGroup = async (groupUUID: string) =>{
+    const joinGroup = async (groupName: string) =>{
         try{
-            await axios.get(`${apiEndpoint}/getGroups`).then( res => {
-                groupsCharged = true;
+            const uuid = creatorUUID;
+            await axios.post(`${apiEndpoint}/joinGroup`, { uuid, groupName}).then( res => {
+                props.nowHasGroup();
                 console.log(res);
                 // add only groups that are public
             })
@@ -161,10 +165,10 @@ const NoGroup = () =>
                     <h2>Join group</h2>
                     <Grid >
                         {groups.map((group) => (
-                            <Stack direction="row" padding={1}>
+                            <Stack direction="row" padding={1} key={group.uuid}>
                                 <p>{group.groupName}</p>
                                 <p>{group.numMembers}/{group.maxNumUsers}</p>
-                                <Button onClick={() => joinGroup(group.uuid)}>Join</Button>
+                                <Button onClick={() => joinGroup(group.groupName)}>Join</Button>
                             </Stack>
                         ))}                        
                         <Stack direction="row" padding={1}>

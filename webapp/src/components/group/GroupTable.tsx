@@ -19,7 +19,7 @@ const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000
 
 export const GroupTable = (props: TableProps) => {
     const aFunction = async ()=>{
-        console.log("Cargar grupo");
+        
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
             members = new Array();
             for(let member of res.data.members){
@@ -29,7 +29,7 @@ export const GroupTable = (props: TableProps) => {
                     role : "Member",
                 })
             }
-            
+            console.log("Cargar grupo");
             members.sort((member) => (+member.totalScore));
             membersCharged = true;
         });        

@@ -42,7 +42,7 @@ export const GroupsPage: React.FC<{}> = () => {
         signedUp? (
           <GroupTable groupUUID={groupUUID}/>
         ) : (
-          <NoGroup/>
+          <NoGroup nowHasGroup={isSignedUp}/>
         ) 
       }
     </Container>
