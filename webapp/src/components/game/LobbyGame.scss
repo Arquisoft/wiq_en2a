@@ -32,6 +32,13 @@ table {
     padding: 10px;
   }
 
+  .lobby-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 2em 0px 2em;
+  }
+
   img {
     max-width: 100px; // Cambia el tamaño máximo de la imagen según sea necesario
     height: auto;

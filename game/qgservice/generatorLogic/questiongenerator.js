@@ -95,7 +95,7 @@ function generateQuestionCapital(countryCapitalMap) {
     // Create the question object
     const question = {
       uuid: uuid.v4(),
-      question: `What is the symbol of ${chemical}?`,
+      question: `What is the chemical symbol of ${chemical}?`,
       correctAnswer: symbol,
       incorrectAnswer1: incorrectAnswers[0],
       incorrectAnswer2: incorrectAnswers[1],
@@ -125,7 +125,7 @@ function generateQuestionMonument(monumentMap) {
   while (incorrectAnswers.length < 3) {
     const randomMonument = monumentArray[Math.floor(Math.random() * monumentArray.length)];
     const [randomMonumentLabel, randomCountry] = randomMonument;
-    if (randomMonumentLabel !== monumentLabel && !incorrectAnswers.includes(randomCountry)) {
+    if (randomMonumentLabel !== monumentLabel && !incorrectAnswers.includes(randomCountry) && randomCountry!= countryLabel) {
       incorrectAnswers.push(randomCountry);
     }
   }

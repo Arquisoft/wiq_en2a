@@ -51,8 +51,6 @@ const GameSinglePlayer = () => {
         const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
     
         setQuestions(response.data);
-        console.log("Juego creado")
-        console.log(response.data)
         setCurrentStage(1);
         setFetched(true);
       } catch (error) {
