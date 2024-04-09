@@ -468,8 +468,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_organizational">4.2. Organizational</a></li>
 </ul>
 </li>
-<li><a href="#section-building-block-view">5. Building Block View</a></li>
-<li><a href="#section-runtime-view">6. Runtime View</a></li>
+<li><a href="#section-building-block-view">5. Building Block View</a>
+<ul class="sectlevel2">
+<li><a href="#_whitebox_overall_system">5.1. Whitebox Overall System</a></li>
+<li><a href="#_level_2">5.2. Level 2</a></li>
+<li><a href="#_level_3">5.3. Level 3</a></li>
+</ul>
+</li>
+<li><a href="#section-runtime-view">6. Runtime View</a>
+<ul class="sectlevel2">
+<li><a href="#_interaction_with_the_groupservice">6.1. Interaction with the GroupService</a></li>
+<li><a href="#_interaction_with_the_single_player_game">6.2. Interaction with the Single Player Game</a></li>
+<li><a href="#_sing_in">6.3. Sing in</a></li>
+<li><a href="#_log_in">6.4. Log in</a></li>
+<li><a href="#_query_service">6.5. Query Service</a></li>
+<li><a href="#_multiplayer_game">6.6. Multiplayer Game</a></li>
+</ul>
+</li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
 <ul class="sectlevel2">
 <li><a href="#_infrastructure_level_1">7.1. Infrastructure Level 1</a></li>
@@ -477,16 +492,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
 <ul class="sectlevel2">
-<li><a href="#_wikidata_query_service">8.1. WikiData Query Service</a></li>
-<li><a href="#_bcrypt">8.2. BCrypt</a></li>
-<li><a href="#_robohash">8.3. RoboHash</a></li>
-<li><a href="#_design_and_ui">8.4. Design and UI</a></li>
+<li><a href="#_bcrypt">8.1. BCrypt</a></li>
+<li><a href="#_robohash">8.2. RoboHash</a></li>
+<li><a href="#_design_and_ui">8.3. Design and UI</a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Architecture Decisions</a>
 <ul class="sectlevel2">
 <li><a href="#_database_selection_for_our_application">9.1. Database Selection for Our Application</a></li>
 <li><a href="#_frontend_and_backend_technology_stack_decision">9.2. Frontend and Backend Technology Stack Decision</a></li>
+<li><a href="#_multiplayer_technology">9.3. Multiplayer Technology</a></li>
+<li><a href="#_deployment_technology_azure">9.4. Deployment Technology: Azure</a></li>
 </ul>
 </li>
 <li><a href="#section-quality-scenarios">10. Quality Requirements</a>
@@ -591,11 +607,6 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </div>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/01_2_iso-25010-topics-EN.drawio.png" alt="Categories of Quality Requirements">
-</div>
-</div>
 <div class="paragraph">
 <p>(based upon the ISO 25010 standard):</p>
 </div>
@@ -614,19 +625,19 @@ For documentation of your own system you use better the <em>plain</em> version.<
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QG1<a id="QG1"></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The user can easily navigate through the app and find the information they need</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QG2<a id="QG2"></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The app should be able to handle a large amount of users at the same time</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">QG3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user&#8217;s data should be protected and not accesible by anyone else</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QG3<a id="QG3"></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mantainability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The game should be easy to update in order to add functianlities</p></td>
 </tr>
 </tbody>
 </table>
@@ -849,6 +860,9 @@ The following table summarizes these constraints and provides a brief explanatio
 <li>
 <p><strong>Wikidata Query Service:</strong> Wikimedia implementation of SPARQL server to service queries for Wikidata and other data sets.</p>
 </li>
+<li>
+<p><strong>Socket.io:</strong> A javascript library that enables real-time communication between client and server through objects called sockets. These objects can broadcast events asynchronously, and can be caught by other sockets to perform different operations. This library is used in the multiplayer service, to allow the players to connect to a game lobby, and compete between each other answering questions.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -871,19 +885,180 @@ The following table summarizes these constraints and provides a brief explanatio
 <div class="sect1">
 <h2 id="section-building-block-view">5. Building Block View</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>To Be Done</p>
+<div class="sect2">
+<h3 id="_whitebox_overall_system">5.1. Whitebox Overall System</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/WhiteboxOverallSystem.png" alt="Overview Diagram">
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Motivation</dt>
+<dd>
+<p><strong>Conocer y vencer</strong> is an aplication that generates questions using data from wikidata so the user can play a game like Saber y Ganar.</p>
+</dd>
+<dt class="hdlist1">Contained Building Blocks</dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top"><strong>Name</strong></th>
+<th class="tableblock halign-left valign-top"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Saber y conocer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Aplication based on microservices for the user to interact with and play the game</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public Data based used to generate questions for the game</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_level_2">5.2. Level 2</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/BuildingBlockLevel1.png" alt="Level 2 Diagram">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_webapp">5.2.1. Webapp</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services have its own easy to use interface.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_microservices">5.2.2. Microservices</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Components of the application, that have the logic of the game and interact with external services (such as Wikidata and Mongodb). There are several microservices, one for each of the functionalities of the game.</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_level_3">5.3. Level 3</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/BuildingBlockLevel2.png" alt="Level 3 Diagram">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authentification_service">5.3.1. Authentification service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of create new users in the database</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_user_service">5.3.2. User service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of safe and retrieve the data of a user from the database.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_multiplayer">5.3.3. Multiplayer</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of multiplayer rooms, the webapp comunicate directly to this service, without using the gateway.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_group_service">5.3.4. Group Service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of manage groups composed of multiple users.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_game_service">5.3.5. Game Service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of the logic of the game, safe the information of the last game played by a user.</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_question_generation_service">5.3.6. Question Generation Service</h4>
+<div class="literalblock">
+<div class="content">
+<pre>Service in charge of generating the questions for the game using data from wikidata.</pre>
+</div>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>To Be Done</p>
+<div class="sect2">
+<h3 id="_interaction_with_the_groupservice">6.1. Interaction with the GroupService</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/SequenceGroupService.png" alt="SequenceGroupService" width="600" height="400">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_interaction_with_the_single_player_game">6.2. Interaction with the Single Player Game</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/SequenceGame.png" alt="SequenceGame" width="600" height="400">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sing_in">6.3. Sing in</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/SequenceSingup.png" alt="SequenceSingup" width="600" height="400">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_log_in">6.4. Log in</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/SequenceLogin.png" alt="SequenceLogin" width="600" height="400">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_query_service">6.5. Query Service</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/SequenceQueryService.png" alt="SequenceQueryService" width="600" height="400">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multiplayer_game">6.6. Multiplayer Game</h3>
+<div class="imageblock">
+<div class="content">
+<img src="./images/SequenceMultiplayerGame.png" alt="SequenceQueryService" width="600" height="400">
+</div>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -893,19 +1068,36 @@ The following table summarizes these constraints and provides a brief explanatio
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/technicalDiagram.png" alt="Deployment Diagram" width="600" height="400">
+<img src="./images/07-infrastructure.png" alt="Deployment Diagram" width="600" height="400">
 </div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>The sytem is divided in different service related to distinct functionalities. MongoDB used as the database to manage user&#8217;s data. A service dedicated to user functionalities. Another for the graphic user interface. And a last service in charge of making request to the api of Wikidata.</p>
+<p>The above diagram represents the current architecture of the system. The system is divided in different services related to distinct functionalities. The application is working with multiples services, all of them are ran through docker containers in a virtual machine in Azure.</p>
 </dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The deployment is automated through github actions, therefore when you make a release of a tag in the master branch of the repository, the application updates with the committed changes.</p>
+</div>
+<div class="dlist">
+<dl>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
 <p>The reasons for using a microservice infratructure are the failure isolation, if one of the service fails, is not necesary that the whole system goes down, the member teams can work on different microservices simultaneously and also each microservice can be written in a different programing language better suit for the task.</p>
 </dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>In this case, almost all the microservices communicate between each other through HTTP requests. But in the multiplayer service, a different type of communication is needed: Web sockets.</p>
+</div>
+<div class="paragraph">
+<p>Web sockets is a communication protocol that allow server and client to send messages simultaneously without waiting for a response. This is very useful for real-time applications, like the multiplayer functionality.</p>
+</div>
+<div class="dlist">
+<dl>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
 </dl>
 </div>
@@ -923,19 +1115,19 @@ The following table summarizes these constraints and provides a brief explanatio
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Web App</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User interface to interact withe the rest of the application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User interface to interact with the rest of the application.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gateway</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Interface that comunicates the web app with the different services.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Following the facade pattern, the gateway works as an interface that communicates the web app with the different services.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">MongoDB</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Database to save the user&#8217;s data.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database to save the application&#8217;s data.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service for the autentification of the users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service for the authentification of the users.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Users</p></td>
@@ -943,19 +1135,19 @@ The following table summarizes these constraints and provides a brief explanatio
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Question Generation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service that generates questions with WikiData</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This service retrieves information from Wikidata through SPARQL queries, and generates questions based on custom templates</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Game</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service for the quizz game.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service to manage the logic of the game like the players and questions in a game.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Groups</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service in charge of managing the groups of users.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service in charge of managing the groups.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">WikiData</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The API used to get infromation from WikiData.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multiplayer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service in charge of the multiplayer functionality, this service uses web sockets, while the others use HTTP requests. Provides the real-time functionality for a multiplayer game.</p></td>
 </tr>
 </tbody>
 </table>
@@ -967,26 +1159,7 @@ The following table summarizes these constraints and provides a brief explanatio
 <h2 id="section-concepts">8. Cross-cutting Concepts</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_wikidata_query_service">8.1. WikiData Query Service</h3>
-<div class="imageblock">
-<div class="content">
-<img src="./images/WikiDataQuery.png" alt="WikiData Query Service">
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Image obtained from <a href="https://wikitech.wikimedia.org/wiki/Wikidata_Query_Service/Runbook">Wikitech</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The Wikidata Query Service (WDQS) is a powerful tool that provides access to the data contained in Wikidata. It uses SPARQL, a semantic query language for database.
-We used this service to generate random questions from a template.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_bcrypt">8.2. BCrypt</h3>
+<h3 id="_bcrypt">8.1. BCrypt</h3>
 <div class="paragraph">
 <p>Bcrypt is a specialized password-hashing library for securely storing passwords. It employs a key derivation function to hash passwords intentionally in a slow and computationally intensive manner. This design choice enhances security by significantly increasing resistance against brute-force attacks.</p>
 </div>
@@ -1024,7 +1197,7 @@ Resultant hashes will be 60 characters long and they will include the salt among
 </table>
 </div>
 <div class="sect2">
-<h3 id="_robohash">8.3. RoboHash</h3>
+<h3 id="_robohash">8.2. RoboHash</h3>
 <div class="paragraph">
 <p>RoboHash is a web service that generates unique and customizable robot images. It uses a hash of the input data as the seed for the robot image. This service is useful for generating unique avatars for users. It is used to delegate the task of generating avatars to a third-party service as a way to reduce the complexity of the system.Otherwise we would have to allow users to upload their own images, which would require additional security measures to prevent malicious uploads.</p>
 </div>
@@ -1048,7 +1221,7 @@ Resultant hashes will be 60 characters long and they will include the salt among
 </div>
 </div>
 <div class="sect2">
-<h3 id="_design_and_ui">8.4. Design and UI</h3>
+<h3 id="_design_and_ui">8.3. Design and UI</h3>
 <div class="paragraph">
 <p>You can see the first version of the prototypes in the following link:
 <a href="https://github.com/Arquisoft/wiq_en2a/wiki/Prototypes-%E2%80%90-20%E2%80%9002%E2%80%902024">Prototypes</a></p>
@@ -1138,6 +1311,67 @@ Express.js is well-suited for building scalable applications. Its non-opinionate
 <div class="paragraph">
 <p>Our decision to use React for the frontend and Express.js for the backend, apart of being the mentioned advantages, was that the initial project was built with these technologies, and we already had a base to work on for future developments.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multiplayer_technology">9.3. Multiplayer Technology</h3>
+<div class="paragraph">
+<p>In order to get have multiple player in the same game we decided to use the JavaScript library that enables real-time, bidirectional, and event-based communication between the browser and the server.</p>
+</div>
+<div class="sect3">
+<h4 id="_communicating_directly_with_frontend">9.3.1. Communicating directly with frontend</h4>
+<div class="paragraph">
+<p>Socket.IO communicates directly with the frontend without using a gateway because it&#8217;s designed to establish a persistent, bidirectional connection between the client (frontend) and the server.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deployment_technology_azure">9.4. Deployment Technology: Azure</h3>
+<div class="paragraph">
+<p><strong>Scalability:</strong>
+Azure allows us to quickly scale our application up or down to match demand, ensuring we only pay for what we use.</p>
+</div>
+<div class="paragraph">
+<p><strong>Security:</strong>
+Azure has robust security measures in place, including encryption, multi-factor authentication, and threat detection.</p>
+</div>
+<div class="paragraph">
+<p><strong>Global Reach:</strong>
+With Azure&#8217;s vast global network of data centers, we can deploy our application closer to our users for improved performance.</p>
+</div>
+<div class="paragraph">
+<p><strong>Analytics and AI:</strong>
+Azure provides powerful analytics and AI services that can be integrated into our application to provide advanced features and insights.</p>
+</div>
+<div class="sect3">
+<h4 id="_other_alternatives">9.4.1. Other alternatives</h4>
+<div class="paragraph">
+<p>Certainly, there are several alternatives to Azure for deploying your application. Here are a few:</p>
+</div>
+<div class="paragraph">
+<p><strong>Amazon Web Services (AWS):</strong> AWS is the most popular cloud service provider. It offers a wide range of services for computing, storage, databases, analytics, and more. AWS is known for its scalability, security, and extensive global network.</p>
+</div>
+<div class="paragraph">
+<p><strong>Google Cloud Platform (GCP):</strong> GCP is another major player in the cloud services market. It offers similar services to AWS and Azure, and is particularly strong in areas like machine learning and data analytics.</p>
+</div>
+<div class="paragraph">
+<p><strong>IBM Cloud:</strong> IBM Cloud offers a wide range of services including IaaS, SaaS, and PaaS. It&#8217;s known for its AI capabilities, BaaS (Blockchain as a Service), and strong support for open source technologies.</p>
+</div>
+<div class="paragraph">
+<p><strong>DigitalOcean:</strong> DigitalOcean is a cloud infrastructure provider that offers cloud services to help deploy, scale and automate modern applications. It&#8217;s known for its developer-friendly platform, predictable pricing, and high performance virtual machines (droplets).</p>
+</div>
+<div class="paragraph">
+<p><strong>Heroku:</strong> Heroku is a cloud platform as a service (PaaS) that supports several programming languages. It&#8217;s known for its ease of use, developer-friendly features, and strong support for app deployment automation.</p>
+</div>
+<div class="paragraph">
+<p>Each of these alternatives has its own strengths and weaknesses, and the best choice depends on your specific needs and circumstances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_conclusion_3">9.4.2. Conclusion</h4>
+<div class="paragraph">
+<p>Our decision to use Azure for deployment was based on these advantages, as well the support that azure give to students, ganting us credits.</p>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1146,28 +1380,6 @@ Express.js is well-suited for building scalable applications. Its non-opinionate
 <div class="sect1">
 <h2 id="section-quality-scenarios">10. Quality Requirements</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Content</div>
-<p>This section contains all quality requirements as quality tree with scenarios. The most important ones have already been described in section 1.2. (quality goals)</p>
-</div>
-<div class="paragraph">
-<p>Here you can also capture quality requirements with lesser priority,
-which will not create high risks when they are not fully achieved.</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>Since quality requirements will have a lot of influence on architectural
-decisions you should know for every stakeholder what is really important to them,
-concrete and measurable.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-10/">Quality Requirements</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="imageblock">
@@ -1192,7 +1404,7 @@ concrete and measurable.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Usability(QG1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability(<a href="#QG1">[QG1]</a>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ease of use</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ease of use for the user</p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1201,31 +1413,31 @@ concrete and measurable.</p>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Ease of Learning</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The standard functions should be as easy and intuitive to use as possible without the need for lengthy prior instruction</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC1<a id="SC1"></a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Compressible questions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The system shall generate compressible questions using information from Wikidata</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC2<a id="SC2"></a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Performance(QG2)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performance(<a href="#QG2">[QG2]</a>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Responsiveness</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Pages shoud load at a resonable time.\n During the game the answers to the questions must be processed by the system quickly</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pages shoud load at a resonable time. During the game the answers to the questions must be processed by the system quickly</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC3<a id="SC3"></a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Robustness</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The system shall work reliable under all specified environment and operating conditions.</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC4<a id="SC4"></a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Security(QG3)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Protection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user’s data should be protected and not accesible by anyone else</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mantainability(<a href="#QG3">[QG3]</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ease of update</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The game should be easy to update in order to add functianlities or patch the</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SC5<a id="SC5"></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1245,12 +1457,24 @@ concrete and measurable.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">After a small tutorial, the user shoud be able to play the game.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC1">[SC1]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">After a small tutorial, the user should be able to play the game.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SC2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC2">[SC2]</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">When playing a game, the player whose turn is currently playing will answer autogenerated questions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC3">[SC3]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user accesses the game web page it loads correctly the page in a short time, when he logs in or accesses other pages of the application the same happens. When accessing the game the page loads and informs the player that the game is loading.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC4">[SC4]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user under normal connection and a normal number of users in the system, the user navigates though the application and is able to play the game without encountering any errors, white pages, etc.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#SC5">[SC5]</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Due to the microservices structure in order to add a new functinality, is easy to update sections without affecting the rest of the code</p></td>
 </tr>
 </tbody>
 </table>
@@ -1261,29 +1485,33 @@ concrete and measurable.</p>
 <div class="sect1">
 <h2 id="section-technical-risks">11. Risks and Technical Debts</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>A list of identified technical risks or technical debts, ordered by priority</p>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.)</p>
-</div>
-<div class="paragraph">
-<p>This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-11/">Risks and Technical Debt</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Risk</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explanation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Risk minimization measure</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bottleneck in response times</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In the team we are worried about possible bottlenecks regarding the porfarmance of the application,
+ specially the performance of the question generation system as it must ask wiki data for information,
+  the time of this my very depending on wich data is asked</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Analize the performance of the application and substituing slow question by faster ones</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability of technologies used</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application depends on some technologies to work properly, most notabilly wikidata, if wikidata or any of the technologies
+ we depend upon are experiencing issues or are not working, the application may not work as expected</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explore options for the application to still work in those cases</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1334,7 +1562,7 @@ concrete and measurable.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-06 13:16:14 +0200
+Last updated 2024-04-09 02:08:20 +0200
 </div>
 </div>
 </body>
