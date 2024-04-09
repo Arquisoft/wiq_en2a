@@ -30,7 +30,7 @@ export interface PlayerWithPoints {
 
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
-  const SERVER_URL = 'http://74.234.241.249/8006';
+  const SERVER_URL = 'http://74.234.241.249:8006';
 
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
