@@ -79,7 +79,7 @@ const Login = (props: ActionProps) => {
             onChange={(e) => setPassword(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <Stack direction="column" spacing={2}>
+          <Stack direction="column">
             <Button  color="primary" onClick={loginUser}>
               {t('login')}
             </Button>

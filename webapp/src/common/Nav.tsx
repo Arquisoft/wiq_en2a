@@ -10,21 +10,27 @@ const NavBar: React.FC<{}> = () =>
     const location = useLocation();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const value :string= JSON.stringify( localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
-    const user =  JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
-    const [anchorEl, setAnchorEl] = useState<null|HTMLElement>(null);
-    const open = Boolean(anchorEl)
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget)
-    }
+    const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
+    const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
+    const [open, setOpen] = useState<boolean>(false);
+    const [chevronRotated, setChevronRotated] = useState<boolean>(false);
 
-    const handleClose =() => {
-        setAnchorEl(null)
-    }
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
+        setAnchorEl(event.currentTarget);
+        setOpen(!open);
+        setChevronRotated(!chevronRotated);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+        setOpen(false);
+        setChevronRotated(false);
+    };
 
     if(value === "false"){
         navigate("/");
-    } 
+    }
 
     useEffect(() => {
         switch (location.pathname) {
@@ -52,22 +58,24 @@ const NavBar: React.FC<{}> = () =>
                 flexDirection: 'row',
                 flexWrap: 'nowrap', 
                 alignItems: 'flex-start', 
-                justifyContent: 'flex-start' 
+                justifyContent: 'flex-start',
+                width: '100%' 
             }
         }>
-            <Toolbar>
-                <Container maxWidth="xl">
+            <Toolbar sx={{ width: '100%' }}>
+                <Container sx={{ maxWidth: '100% !important' }}>
                     <Grid
                     container
                     direction="row"
                     alignItems="center"
+                    justifyContent="space-between"
                     spacing={4}
                     >
-                        <Grid item className="logo">
-                            {t('app_name')}
-                        </Grid>
-                        <Grid item>
+                        <Grid item spacing={2}>
                             <Stack direction="row" spacing={2}>
+                                <div className="logo">
+                                    {t('app_name')}
+                                </div>
                                 <Button variant="contained" onClick={() => navigate("/game")}>
                                     {t('nav_game')}
                                 </Button>
@@ -77,26 +85,59 @@ const NavBar: React.FC<{}> = () =>
                                 <Button variant="contained" onClick={() => navigate("/scoreboard")}>
                                     {t('nav_scoreboard')}
                                 </Button>
-                                <Grid >
-                            <Button variant="text" 
-                                id="menu-button" 
-                                color='inherit' 
-                                onClick={handleClick} 
-                                aria-controls={open? 'menu' : undefined} 
-                                aria-haspopup='true' aria-expanded={open? 'true' : undefined}>
-                                {user}
-                            </Button>
-                        </Grid>
                             </Stack>
-                            
                         </Grid>
-                        
+                        <Grid item>
+                            <Grid 
+                            container 
+                            direction="row" 
+                            justifyContent="flex-end"
+                            >
+                                <Grid item>
+                                    <Button
+                                    variant="text"
+                                    id="menu-button" 
+                                    color='inherit' 
+                                    onClick={handleClick} 
+                                    aria-controls={open? 'menu' : undefined}  
+                                    aria-expanded={open? 'true' : undefined}
+                                    aria-haspopup='true'
+                                    sx={{ textTransform: 'none', padding: '0' }}
+                                    >
+                                        {user}
+                                        <svg 
+                                        fill="#ffffff" 
+                                        width="24" 
+                                        height="24"
+                                        onClick={handleClick}
+                                        viewBox="0 0 24 24" 
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className={`
+                                            chevron
+                                            ${chevronRotated ? 'chevron--rotated' : ''}
+                                        `}
+                                        >
+                                            <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
+                                            8.28799L5.98999 9.70199L12 15.713Z"/>
+                                        </svg>
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Menu 
+                                    id="menu" 
+                                    open={open} 
+                                    MenuListProps={{'aria-labelledby':'menu-button'}} 
+                                    onClose={()=>handleClose()} 
+                                    anchorEl={anchorEl}
+                                    sx={{ marginTop: '5px' }}
+                                    >
+                                        <MenuItem onClick={()=> navigate("/profile")}>Profile</MenuItem>
+                                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
+                                    </Menu>
+                                </Grid>
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    <Menu id="menu" open={open} MenuListProps={{'aria-labelledby':'menu-button'}} 
-                        onClose={()=>handleClose()} anchorEl={anchorEl}>
-                        <MenuItem onClick={()=> navigate("/profile")}>My account</MenuItem>
-                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
-                    </Menu>
                 </Container>
             </Toolbar>
         </AppBar>
