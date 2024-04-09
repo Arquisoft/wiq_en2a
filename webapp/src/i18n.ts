@@ -27,7 +27,13 @@ i18n
                     profile_points: 'Total points:',
                     profile_nwins: 'Number of victories:',
                     profile_n_correct_answers: 'Correct answers:',
-                    profile_n_wrong_answers: 'Wrong answers:'
+                    profile_n_wrong_answers: 'Wrong answers:',
+                    profile_last_game_questions: 'Last game questions',
+                    profile_last_game_questions_question: 'Question:',
+                    profile_last_game_questions_correct_answer: 'Correct answer:',
+                    profile_last_game_questions_incorrect_answer_1: 'Incorrect answer 1:',
+                    profile_last_game_questions_incorrect_answer_2: 'Incorrect answer 2:',
+                    profile_last_game_questions_incorrect_answer_3: 'Incorrect answer 3:'
                 }
             },
             es: {
@@ -47,7 +53,13 @@ i18n
                     profile_points: 'Puntuación total:',
                     profile_nwins: 'Número de victorias:',
                     profile_n_correct_answers: 'Respuestas correctas:',
-                    profile_n_wrong_answers: 'Respuestas incorrectas:'
+                    profile_n_wrong_answers: 'Respuestas incorrectas:',
+                    profile_last_game_questions: 'Preguntas de la última partida',
+                    profile_last_game_questions_question: 'Pregunta:',
+                    profile_last_game_questions_correct_answer: 'Respuesta correcta:',
+                    profile_last_game_questions_incorrect_answer_1: 'Respuesta incorrecta 1:',
+                    profile_last_game_questions_incorrect_answer_2: 'Respuesta incorrecta 2:',
+                    profile_last_game_questions_incorrect_answer_3: 'Respuesta incorrecta 3:'
                 }
             },
 
