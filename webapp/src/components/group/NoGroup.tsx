@@ -44,6 +44,8 @@ const NoGroup = (props: ActionProps) =>
 
     const createGroup = async () =>{
         try{
+            console.log("Public?");
+            console.log(isPublic);
             await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic }).then( res => {
                 props.nowHasGroup();
             });
@@ -62,7 +64,8 @@ const NoGroup = (props: ActionProps) =>
                 groups = new Array();
                 for(let group of res.data){
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
-                    if(isPublic == "true"){
+                    let comprobacion = isPublic === "true";
+                    if(isPublic === "true"){
                         let theNumMembers = group.members.length;
                         groups.push({
                             groupName : group.groupName,
@@ -71,9 +74,9 @@ const NoGroup = (props: ActionProps) =>
                             uuid: group.uuid
                         })
                     }
+                    console.log(comprobacion);
                 }
                 groupsCharged = true;
-                console.log(res);
                 // add only groups that are public
             })
         } catch (error:any) {
@@ -86,7 +89,6 @@ const NoGroup = (props: ActionProps) =>
             const uuid = creatorUUID;
             await axios.post(`${apiEndpoint}/joinGroup`, { uuid, groupName}).then( res => {
                 props.nowHasGroup();
-                console.log(res);
                 // add only groups that are public
             })
         } catch (error:any) {
@@ -124,45 +126,46 @@ const NoGroup = (props: ActionProps) =>
                     <div className="modal-content">
                         <h2>Create group</h2>
                         <Grid >
-                        <Stack direction="row" padding={1}>
-                            <p>Group name:</p>
-                            <TextField
-                            margin="normal"
-                            label="Group name"
-                            value={groupName}
-                            onChange={(e) => setGroupName(e.target.value)}
-                            />
-                        </Stack>
-                        <Stack direction="row" padding={1}>
-                            <p>Group name:</p>
-                            <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="yes"
-                            name="radio-buttons-group"
-                            >
-                            <FormControlLabel onSelect={() => setPublic(true)} value="yes" control={<Radio />} label="Yes" />
-                            <FormControlLabel onSelect={() => setPublic(true)} value="no" control={<Radio />} label="No" />
-                            </RadioGroup>
-                        </Stack>
-                        <Stack direction="row" padding={1}>
-                            <p>Max members:</p>
-                            <input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} />
-                        </Stack>
-                        <Stack direction="row" padding={1}>
-                            <p>Description:</p>
-                            <TextField
-                            margin="normal"
-                            multiline
-                            label="Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            
-                            />
-                        </Stack>
-                        <Stack direction="row" padding={1}>
-                            <Button onClick={toggleCreateModal}>Close</Button>
-                            <Button onClick={createGroup}>Create group</Button>
-                        </Stack>
+                            <Grid container padding={2} >
+                                <Grid item xs={5} ><p>Group name:</p></Grid>
+                                <Grid item xs={5} ><TextField
+                                margin="normal"
+                                label="Group name"
+                                value={groupName}
+                                onChange={(e) => setGroupName(e.target.value)}
+                                /></Grid>
+                            </Grid>
+                            <Grid container padding={2} >
+                                <Grid item xs={5} ><p>Group name:</p></Grid>
+                                <Grid item xs={5} ><RadioGroup
+                                aria-labelledby="demo-radio-buttons-group-label"
+                                defaultValue="yes"
+                                name="radio-buttons-group"
+                                onChange={(e) => setPublic(e.target.value === "yes")}
+                                >
+                                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                                </RadioGroup></Grid>
+                            </Grid>
+                            <Grid container padding={2} >
+                                <Grid item xs={5} ><p>Max members:</p></Grid>
+                                <Grid item xs={5} ><input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
+                            </Grid>
+                            <Grid container padding={2} >
+                                <Grid item xs={5} ><p>Description:</p></Grid>
+                                <Grid item xs={5} ><TextField
+                                margin="normal"
+                                multiline
+                                label="Description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                
+                                /></Grid>
+                            </Grid>
+                            <Grid container padding={2} >
+                                <Grid item xs={6} ><Button onClick={toggleCreateModal}>Close</Button></Grid>
+                                <Grid item xs={6} ><Button onClick={createGroup}>Create group</Button></Grid>
+                            </Grid>
                         </Grid>
                     </div>
                 </div>
