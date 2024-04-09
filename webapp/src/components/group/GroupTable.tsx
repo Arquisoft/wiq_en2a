@@ -67,7 +67,7 @@ export const GroupTable = (props: TableProps) => {
     useEffect(()=>{
         aFunction();
         
-    }, [props.groupUUID]);
+    }, [groupName]);
     return(
         <Container>
            
