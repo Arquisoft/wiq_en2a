@@ -21,11 +21,13 @@ type Group = {
     numMembers: number,
     adminUUID: string,
 }
-
+let prueba = "";
+let total = 0;
+let numberMembers = 0;
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 export const GroupTable = (props: TableProps) => {
-    let prueba = "prueba";
+    
     let group: Group = {
         groupName: "",
         numMembers: 0,
@@ -35,7 +37,6 @@ export const GroupTable = (props: TableProps) => {
 
     const aFunction = async ()=>{
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
-            let total = 0;
             console.log(res.data);
             members = new Array();
             for(let member of res.data.members){
@@ -49,19 +50,20 @@ export const GroupTable = (props: TableProps) => {
                     role : memberRole,
                 })
                 total += +member.totalScore;
+                numberMembers++;
             }
             group = {
                 groupName: res.data.groupName,
-                numMembers: res.data.members.length,
+                numMembers: numberMembers,
                 totalScore: total,
                 adminUUID: res.data.admin.uuid,
             }
             prueba = res.data.groupName;
             console.log("Cargar grupo");
             console.log(group);
+            console.log(prueba);
             members.sort((member) => (+member.totalScore));
             membersCharged = true;
-         
         });        
         
     }    
@@ -86,17 +88,20 @@ export const GroupTable = (props: TableProps) => {
     });
     return(
         <Container>
-            <Button style={{maxWidth: '300px', maxHeight: '50px', minWidth: '300px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
+           
             { membersCharged && (
                 <Grid container padding={2} >
-                    <Grid item xs={4} >
+                    <Grid item xs={3} >
                         <h1 style={{margin:'1em'}} >{prueba}</h1>
                     </Grid>
-                    <Grid item xs={4} >
+                    <Grid item xs={3} >
                         <h1 style={{margin:'1em'}} >{group.totalScore} points</h1>
                     </Grid>
-                    <Grid item xs={4} >
-                        <h1 style={{margin:'1em'}} >{group.numMembers} members</h1>
+                    <Grid item xs={3} >
+                        <h1 style={{margin:'1em'}} >{numberMembers} members</h1>
+                    </Grid>
+                    <Grid item xs={3} >
+                        <Button style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
                     </Grid>
                 </Grid>
             )}
