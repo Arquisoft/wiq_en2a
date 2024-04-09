@@ -9,6 +9,5 @@ ifndef::imagesdir[:imagesdir: ../images]
   the time of this my very depending on wich data is asked| Analize the performance of the application and substituing slow question by faster ones 
 |Availability of technologies used| The application depends on some technologies to work properly, most notabilly wikidata, if wikidata or any of the technologies
  we depend upon are experiencing issues or are not working, the application may not work as expected| Explore options for the application to still work in those cases
-|Use of Azure||
 |===
 
