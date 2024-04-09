@@ -24,7 +24,6 @@ const Register = (props:ActionProps) => {
       // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
-
       localStorage.clear();
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   

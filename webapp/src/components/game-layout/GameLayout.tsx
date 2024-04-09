@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Game from "../game/singleplayer/GameSinglePlayer";
-import Group from "../group/Group";
+import {GroupsPage} from "../../pages/groups/index";
 import Scoreboard from "../scoreboard/Scoreboard";
 
 
@@ -8,11 +8,7 @@ const GameLayout = () => {
 
 const [currentView, setCurrentView] = useState("Game");
 
-    
-
 return(
-
-
     <head className="GameHead">
     <nav className="GameNav">
         <ul>
@@ -23,7 +19,7 @@ return(
                 <a onClick={()=>setCurrentView("Game")}>Game</a>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Group")} >Group</a>
+                <a onClick={()=>setCurrentView("Group")} >Groups</a>
             </li>
             <li>
                 <a onClick={()=>setCurrentView("Scoreboard")}>Scoreboard</a>
@@ -35,7 +31,7 @@ return(
 
     <body>
         {currentView === "Game" ? <Game /> :
-            currentView === "Group" ? <Group /> :
+            currentView === "Group" ? <GroupsPage /> :
                 <Scoreboard />}
     </body>
     </head>

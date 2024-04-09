@@ -42,7 +42,7 @@ const Login = (props: ActionProps) => {
 
       setOpenSnackbar(true);
       navigate("/game")
-    } catch (error) {
+    } catch (error:any) {
       setError(error.response.data.error);
     }
   };
