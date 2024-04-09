@@ -23,7 +23,7 @@ const ProfilePage = () => {
         <Typography variant="h2" gutterBottom className='profile-header'>Profile</Typography>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Paper elevation={3} sx={{ p: 3 }}>
+            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography variant="h4" gutterBottom className='profile-subheader'>Personal Information</Typography>
               <ul>
                 <li><Typography variant="body1" className='field'>{t('profile_name')} { user }</Typography></li>
@@ -33,7 +33,7 @@ const ProfilePage = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3 }}>
+            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography variant="h4" gutterBottom className='profile-subheader'>Performance Statistics</Typography>
               <ul>
                 <li><Typography variant="body1" className='field'>{t('profile_points')} { JSON.stringify(Number(score)) }</Typography></li>
@@ -44,7 +44,7 @@ const ProfilePage = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3 }}>
+            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography variant="h4" gutterBottom className='profile-subheader'>Additional Information</Typography>
               {/* Add additional information here */}
             </Paper>
