@@ -64,7 +64,7 @@ const ProfilePage = () => {
               <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Last Game</Typography>
               {gameInfo ? (
                 <ul className="white-list">
-                  <li><Typography variant="body1" className='field'>User ID: {gameInfo.userStats.userId}</Typography></li>
+                  <li><Typography color="#ffffff" variant="body1" className='field'></Typography></li>
                 </ul>
                ) : (
                 <Typography color="#ffffff" variant="body1" className='field'>You have not played any games yet</Typography>

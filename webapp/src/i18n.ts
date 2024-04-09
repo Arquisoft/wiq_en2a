@@ -23,11 +23,11 @@ i18n
                     nav_profile: 'Profile',
                     profile_name: 'Name:',
                     profile_email: 'Email:',
-                    profile_created_at: 'Account exists since:',
+                    profile_created_at: 'Account creation date:',
                     profile_points: 'Total points:',
                     profile_nwins: 'Number of victories:',
-                    profile_n_correct_answers: 'Number of correct answers:',
-                    profile_n_wrong_answers: 'Number of wrong answers:'
+                    profile_n_correct_answers: 'Correct answers:',
+                    profile_n_wrong_answers: 'Wrong answers:'
                 }
             },
             es: {
@@ -43,11 +43,11 @@ i18n
                     nav_profile: 'Perfil',
                     profile_name: 'Nombre:',
                     profile_email: 'Email:',
-                    profile_created_at: 'La cuenta existe desde el:',
+                    profile_created_at: 'Fecha de creación de cuenta:',
                     profile_points: 'Puntuación total:',
                     profile_nwins: 'Número de victorias:',
-                    profile_n_correct_answers: 'Número de respuestas correctas:',
-                    profile_n_wrong_answers: 'Número de respuestas incorrectas:'
+                    profile_n_correct_answers: 'Respuestas correctas:',
+                    profile_n_wrong_answers: 'Respuestas incorrectas:'
                 }
             },
 
