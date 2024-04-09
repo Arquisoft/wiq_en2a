@@ -65,11 +65,9 @@ const ProfilePage = () => {
               {gameInfo ? (
                 <ul className="white-list">
                   <li><Typography variant="body1" className='field'>User ID: {gameInfo.userStats.userId}</Typography></li>
-                  <li><Typography variant="body1" className='field'>Total Score: {gameInfo.userStats.totalScore}</Typography></li>
-                  <li><Typography variant="body1" className='field'>Number of Questions: {gameInfo.lastGame.length}</Typography></li>
                 </ul>
                ) : (
-                <Typography color="#ffffff" variant="body1" className='field'>You have not played yet</Typography>
+                <Typography color="#ffffff" variant="body1" className='field'>You have not played any games yet</Typography>
                )}
             </Paper>
           </Grid>
