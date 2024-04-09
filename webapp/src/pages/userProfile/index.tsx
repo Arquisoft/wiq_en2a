@@ -45,6 +45,11 @@ const ProfilePage = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
+              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Last Game</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Additional Information</Typography>
             </Paper>
           </Grid>
