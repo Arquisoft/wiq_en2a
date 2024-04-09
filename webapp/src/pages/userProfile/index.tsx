@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Grid, Paper, Typography } from '@mui/material';
+import axios from 'axios';
 import './profile-page.scss';
 
 const ProfilePage = () => {
@@ -11,6 +13,20 @@ const ProfilePage = () => {
     const nwins =  localStorage.getItem("nwins");
     const nCorrectAnswers =  localStorage.getItem("nCorrectAnswers");
     const nWrongAnswers =  localStorage.getItem("nWrongAnswers");
+    const [gameInfo, setGameInfo] = useState(null);
+    const uuid = localStorage.getItem('uuid');
+
+    useEffect(() => {
+      const fetchGameInfo = async () => {
+          try {
+              const response = await axios.get(`/getStats/${uuid}`);
+              setGameInfo(response.data);
+          } catch (error) {
+              console.error('Error fetching game information:', error);
+          }
+      };
+      fetchGameInfo();
+    }, [uuid]);
 
     const formatDate = (date: any) => {
       if (!date) return "";
@@ -46,6 +62,15 @@ const ProfilePage = () => {
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Last Game</Typography>
+              {gameInfo ? (
+                <ul className="white-list">
+                  <li><Typography variant="body1" className='field'>User ID: {gameInfo.userStats.userId}</Typography></li>
+                  <li><Typography variant="body1" className='field'>Total Score: {gameInfo.userStats.totalScore}</Typography></li>
+                  <li><Typography variant="body1" className='field'>Number of Questions: {gameInfo.lastGame.length}</Typography></li>
+                </ul>
+               ) : (
+                <Typography color="#ffffff" variant="body1" className='field'>You have not played yet</Typography>
+               )}
             </Paper>
           </Grid>
           <Grid item xs={12} md={6}>
