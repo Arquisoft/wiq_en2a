@@ -42,8 +42,8 @@ const ProfilePage = () => {
             <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Personal Information</Typography>
               <ul className="white-list">
+                <li><Typography variant="body1" className='field'>{t('profile_uuid')} { uuid }</Typography></li>
                 <li><Typography variant="body1" className='field'>{t('profile_name')} { user }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_email')} { email }</Typography></li>
                 <li><Typography variant="body1" className='field'>{t('profile_created_at')} {formatDate(createdAt) }</Typography></li>
               </ul>
             </Paper>
@@ -62,9 +62,8 @@ const ProfilePage = () => {
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
               <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>{t('profile_last_game_questions')}</Typography>
-              {gameInfo.lastGame ? (
+              {gameInfo ? (
                 <ul className="white-list">
-                  <li><Typography color="#ffffff" variant="body1" className='field'></Typography></li>
                 </ul>
                ) : (
                 <Typography color="#ffffff" variant="body1" className='field'>{t('profile_last_game_questions_warning')}</Typography>
