@@ -40,7 +40,7 @@ export const GroupsPage: React.FC<{}> = () => {
     <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container" >
       {
         signedUp? (
-          <GroupTable groupUUID={groupUUID}/>
+          <GroupTable groupUUID={groupUUID} nowHasNoGroup={isSignedUp}/>
         ) : (
           <NoGroup nowHasGroup={isSignedUp}/>
         ) 

@@ -30,6 +30,7 @@ const NoGroup = (props: ActionProps) =>
     const [maxMembers, setMaxMembers] = useState(2);
     const [description, setDescription] = useState('');
     const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
+    
 
     const toggleCreateModal = () => {
         setCreateModal(!createModal);
@@ -44,7 +45,9 @@ const NoGroup = (props: ActionProps) =>
 
     const createGroup = async () =>{
         try{
-            await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic });
+            await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic }).then( res => {
+                props.nowHasGroup();
+            });
         }catch (error:any) {
         setError(error.response.data.error);
         }
@@ -84,7 +87,7 @@ const NoGroup = (props: ActionProps) =>
                 // add only groups that are public
             })
         } catch (error:any) {
-        setError(error.response.data.error);
+            setError(error.response.data.error);
         }
     }
 
