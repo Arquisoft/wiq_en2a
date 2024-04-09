@@ -19,7 +19,7 @@ const ProfilePage = () => {
     useEffect(() => {
       const fetchGameInfo = async () => {
           try {
-              const response = await axios.get(`/getStats/${uuid}`);
+              const response = await axios.get(`http://localhost:8000/getStats/${uuid}`);
               setGameInfo(response.data);
           } catch (error) {
               console.error('Error fetching game information:', error);
@@ -61,13 +61,13 @@ const ProfilePage = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Last Game</Typography>
-              {gameInfo ? (
+              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>{t('profile_last_game_questions')}</Typography>
+              {gameInfo.lastGame ? (
                 <ul className="white-list">
                   <li><Typography color="#ffffff" variant="body1" className='field'></Typography></li>
                 </ul>
                ) : (
-                <Typography color="#ffffff" variant="body1" className='field'>You have not played any games yet</Typography>
+                <Typography color="#ffffff" variant="body1" className='field'>{t('profile_last_game_questions_warning')}</Typography>
                )}
             </Paper>
           </Grid>
