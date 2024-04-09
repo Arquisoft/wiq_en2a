@@ -1,45 +1,49 @@
 {
-    "compilerOptions": {
-      // project options
-      "lib": [
-        "ESNext",
-        "dom"
-      ],
+  "compilerOptions": {
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ],
+    "types":["node"],
+    "jsx":"react-jsx",
+    "module": "esnext",
+    "resolveJsonModule": true,
 
-      "types":["node"],
-      "jsx":"react-jsx",
-      "module": "esnext",
-      "resolveJsonModule": true,
+    "outDir": "lib",
+    "removeComments": true,
+    "target": "ES6",
 
-      "outDir": "lib",
-      "removeComments": true,
-      "target": "ES6",
+    // Module resolution
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {},
 
-      // Module resolution
-      "baseUrl": "./",
-      "esModuleInterop": true,
-      "moduleResolution": "node",
-      "paths": {},
+    // Source Map
+    "sourceMap": true,
+    "sourceRoot": "/",
 
-      // Source Map
-      "sourceMap": true,
-      "sourceRoot": "/",
+    // Strict Checks
+    //"alwaysStrict": true,
+    //"allowUnreachableCode": false,
+    //"noImplicitAny": true,
+    //"strictNullChecks": true,
 
-      // Strict Checks
-      //"alwaysStrict": true,
-      //"allowUnreachableCode": false,
-      //"noImplicitAny": true,
-      //"strictNullChecks": true,
-
-      // Linter Checks
-      //"noImplicitReturns": true,
-      //"noFallthroughCasesInSwitch": true,
-      //"noUncheckedIndexedAccess": true,
-      //"noUnusedLocals": true,
-      //"noUnusedParameters": true
-    },
-    "include": ["./**/*.tsx", "src/index.tsx"],
-    "exclude": [
-      "node_modules/**/*"
-    ]
-  }
+    // Linter Checks
+    //"noImplicitReturns": true,
+    //"noFallthroughCasesInSwitch": true,
+    //"noUncheckedIndexedAccess": true,
+    //"noUnusedLocals": true,
+    //"noUnusedParameters": true
+  },
+  "include": [
+    "./**/*.tsx",
+    "src/index.tsx"
+  ],
+  "exclude": [
+    "node_modules/**/*"
+  ]
+}

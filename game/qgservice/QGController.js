@@ -1,8 +1,8 @@
-const { generateQuestionPopulation, generateQuestionCapital } = require('./generatorLogic/questiongenerator');
+const { generateQuestionPopulation, generateQuestionCapital, generateQuestionChemical, generateQuestionMonument } = require('./generatorLogic/questiongenerator');
 const Question4Answers = require('./Question4Answers');
 const { executeSparqlQuery } = require('./generatorLogic/SparqlQuery')
-const { bindCapitalsResults, bindPopulationResults } = require('./generatorLogic/BindResults')
-const { spainCapitalQuery, worldCapitalQuery, worldPopulationQuery } = require('./generatorLogic/queries')
+const { bindCapitalsResults, bindPopulationResults, bindChemicalResults, bindMonumentResults } = require('./generatorLogic/BindResults')
+const { spainCapitalQuery, worldCapitalQuery, worldPopulationQuery, chemicalElementQuery, monumentQuery } = require('./generatorLogic/queries')
 const { createMathQuestions } = require('./generatorLogic/MathQuestions')
 
 let QGController = {
@@ -12,7 +12,7 @@ let QGController = {
             const questions = [];
 
             // spain capitals
-            nQuestions = 2;
+            nQuestions = 3;
             const spainQueryResult = await executeSparqlQuery(spainCapitalQuery);
             const spainCapitals = bindCapitalsResults(spainQueryResult)
 
@@ -22,7 +22,7 @@ let QGController = {
             }
 
             // world capitals
-            nQuestions = 3;
+            nQuestions = 2;
             const worldQueryResult = await executeSparqlQuery(worldCapitalQuery);
             const worldCapitals = bindCapitalsResults(worldQueryResult)
         
@@ -32,7 +32,7 @@ let QGController = {
             }
 
             // world population
-            nQuestions = 5;
+            nQuestions = 2;
             const worldPopulationResult = await executeSparqlQuery(worldPopulationQuery);
             const worldPopulation = bindPopulationResults(worldPopulationResult)
         
@@ -41,8 +41,28 @@ let QGController = {
             questions.push(question);
             }
 
+            // chemical elements
+            nQuestions = 2;
+            const chemicalResult = await executeSparqlQuery(chemicalElementQuery);
+            const chemicalElement = bindChemicalResults(chemicalResult)
+        
+            for (let i = 0; i < nQuestions; i++) {
+            const question = generateQuestionChemical(chemicalElement);
+            questions.push(question);
+            }
+
+            // monuments
+            nQuestions = 2;
+            const monumentResult = await executeSparqlQuery(monumentQuery);
+            const monument = bindMonumentResults(monumentResult)
+        
+            for (let i = 0; i < nQuestions; i++) {
+            const question = generateQuestionMonument(monument);
+            questions.push(question);
+            }
+
             // math questions
-            const mathquestions = await createMathQuestions(5)
+            const mathquestions = await createMathQuestions(3)
             questions.push(...mathquestions)
 
             res.json(questions);

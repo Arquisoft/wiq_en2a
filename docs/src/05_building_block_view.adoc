@@ -4,4 +4,70 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 
 == Building Block View
-To Be Done
+
+
+=== Whitebox Overall System
+
+
+image::WhiteboxOverallSystem.png["Overview Diagram"]
+
+
+Motivation::
+
+*Conocer y vencer* is an aplication that generates questions using data from wikidata so the user can play a game like Saber y Ganar.
+
+
+Contained Building Blocks::
+[Attributes]
+|===
+|*Name* |*Description*
+
+|Saber y conocer |Aplication based on microservices for the user to interact with and play the game
+|Wikidata |Public Data based used to generate questions for the game
+|===
+
+
+
+=== Level 2
+
+
+image::BuildingBlockLevel1.png["Level 2 Diagram"]
+
+
+==== Webapp
+
+    Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services have its own easy to use interface.
+
+==== Microservices
+
+    Components of the application, that have the logic of the game and interact with external services (such as Wikidata and Mongodb). There are several microservices, one for each of the functionalities of the game.
+    
+
+
+=== Level 3
+
+image::BuildingBlockLevel2.png["Level 3 Diagram"]
+
+==== Authentification service
+
+    Service in charge of create new users in the database
+
+==== User service
+
+    Service in charge of safe and retrieve the data of a user from the database.
+
+==== Multiplayer
+
+    Service in charge of multiplayer rooms, the webapp comunicate directly to this service, without using the gateway.
+
+==== Group Service
+
+    Service in charge of manage groups composed of multiple users.
+
+==== Game Service
+
+    Service in charge of the logic of the game, safe the information of the last game played by a user.
+
+==== Question Generation Service
+
+    Service in charge of generating the questions for the game using data from wikidata.
