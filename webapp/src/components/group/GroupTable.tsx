@@ -15,30 +15,21 @@ interface Member  {
 
 let members: Member[] = new Array();
 let membersCharged = false;
-type Group = {
-    groupName:string,
-    totalScore: number,
-    numMembers: number,
-    adminUUID: string,
-}
-let prueba = "";
+
+let adminUUID = "";
+let groupName = "";
 let total = 0;
 let numberMembers = 0;
+
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 export const GroupTable = (props: TableProps) => {
-    
-    let group: Group = {
-        groupName: "",
-        numMembers: 0,
-        totalScore: 0,
-        adminUUID: "",
-    };
-
     const aFunction = async ()=>{
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
             console.log(res.data);
             members = new Array();
+            numberMembers=0;
+            total = 0;
             for(let member of res.data.members){
                 let memberRole = "Member";
                 if(member.uuid == res.data.admin.uuid){
@@ -52,16 +43,9 @@ export const GroupTable = (props: TableProps) => {
                 total += +member.totalScore;
                 numberMembers++;
             }
-            group = {
-                groupName: res.data.groupName,
-                numMembers: numberMembers,
-                totalScore: total,
-                adminUUID: res.data.admin.uuid,
-            }
-            prueba = res.data.groupName;
-            console.log("Cargar grupo");
-            console.log(group);
-            console.log(prueba);
+            
+            adminUUID = res.data.admin.uuid;
+            groupName = res.data.groupName;
             members.sort((member) => (+member.totalScore));
             membersCharged = true;
         });        
@@ -69,8 +53,6 @@ export const GroupTable = (props: TableProps) => {
     }    
     const leaveGroup = async () => {
         try{
-            const adminUUID = group.adminUUID;
-            const groupName = group.groupName;
             const expelledUUID = JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
             await axios.post(`${apiEndpoint}/leaveGroup`, { expelledUUID, groupName, adminUUID}).then( res => {
                 props.nowHasNoGroup();
@@ -85,17 +67,17 @@ export const GroupTable = (props: TableProps) => {
     useEffect(()=>{
         aFunction();
         
-    });
+    }, [props.groupUUID]);
     return(
         <Container>
            
             { membersCharged && (
                 <Grid container padding={2} >
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{prueba}</h1>
+                        <h1 style={{margin:'1em'}} >{groupName}</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{group.totalScore} points</h1>
+                        <h1 style={{margin:'1em'}} >{total} points</h1>
                     </Grid>
                     <Grid item xs={3} >
                         <h1 style={{margin:'1em'}} >{numberMembers} members</h1>
@@ -116,7 +98,7 @@ export const GroupTable = (props: TableProps) => {
                     </TableHead>
                     <TableBody>
                         {membersCharged && members.map((member) => (
-                            <TableRow>
+                            <TableRow key={props.groupUUID}>
                                 <TableCell>{member.username}</TableCell>
                                 <TableCell>{member.role}</TableCell>
                                 <TableCell>{member.totalScore}</TableCell>
