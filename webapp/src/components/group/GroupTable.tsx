@@ -1,5 +1,5 @@
 import  {  useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Stack, Button } from "@mui/material"
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Grid, Button } from "@mui/material"
 import axios from 'axios';
 
 type TableProps = {
@@ -88,11 +88,17 @@ export const GroupTable = (props: TableProps) => {
         <Container>
             <Button style={{maxWidth: '300px', maxHeight: '50px', minWidth: '300px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
             { membersCharged && (
-                <Stack direction="row" padding={2} >
-                    <h1 style={{margin:'1em'}} >Group name: {prueba}</h1>
-                    <h1 style={{margin:'1em'}} >{group.totalScore} points</h1>
-                    <h1 style={{margin:'1em'}} >{group.numMembers} members</h1>
-                </Stack>
+                <Grid container padding={2} >
+                    <Grid item xs={4} >
+                        <h1 style={{margin:'1em'}} >{prueba}</h1>
+                    </Grid>
+                    <Grid item xs={4} >
+                        <h1 style={{margin:'1em'}} >{group.totalScore} points</h1>
+                    </Grid>
+                    <Grid item xs={4} >
+                        <h1 style={{margin:'1em'}} >{group.numMembers} members</h1>
+                    </Grid>
+                </Grid>
             )}
             <TableContainer>
                 <Table>

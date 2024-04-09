@@ -1,7 +1,6 @@
 import './Group.scss';
 import { Button, Container, Snackbar, TextField, Grid, Stack, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { GroupCard } from "../../components/group/GroupCard"
-import  { ChangeEvent, useState } from 'react';
+import  { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -53,6 +52,10 @@ const NoGroup = (props: ActionProps) =>
         }
     }
 
+    useEffect(() => {
+        findGroups();
+    })
+
     const findGroups = async () =>{
         try{
             await axios.get(`${apiEndpoint}/getGroups`).then( res => {
@@ -102,85 +105,93 @@ const NoGroup = (props: ActionProps) =>
 
             return (value.length <= 100 ? numeric : curr);
         });
-        };
+    };
     
     
     return (
         <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container">
-        <h3>You are not part of a group...</h3>
-        <Button variant="contained" onClick={toggleJoinModal}>Join a group</Button>
-        <Button variant="contained" onClick={toggleCreateModal}>Create a group</Button>
-        <GroupCard title="a" members="3" maxMembers="10"></GroupCard>
-        {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-        )}
-        {createModal && (
-            <div className="modal">
-            <div className="modal-content">
-                <h2>Create group</h2>
-                <Grid >
-                <Stack direction="row" padding={1}>
-                    <p>Group name:</p>
-                    <TextField
-                    margin="normal"
-                    label="Group name"
-                    value={groupName}
-                    onChange={(e) => setGroupName(e.target.value)}
-                    />
-                </Stack>
-                <Stack direction="row" padding={1}>
-                    <p>Group name:</p>
-                    <RadioGroup
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="yes"
-                    name="radio-buttons-group"
-                    >
-                    <FormControlLabel onSelect={() => setPublic(true)} value="yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel onSelect={() => setPublic(true)} value="no" control={<Radio />} label="No" />
-                    </RadioGroup>
-                </Stack>
-                <Stack direction="row" padding={1}>
-                    <p>Max members:</p>
-                    <input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} />
-                </Stack>
-                <Stack direction="row" padding={1}>
-                    <p>Description:</p>
-                    <TextField
-                    margin="normal"
-                    multiline
-                    label="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    
-                    />
-                </Stack>
-                <Stack direction="row" padding={1}>
-                    <Button onClick={toggleCreateModal}>Close</Button>
-                    <Button onClick={createGroup}>Create group</Button>
-                </Stack>
-                </Grid>
-            </div>
-            </div>
-        )}
-        {joinModal && (groupsCharged && (
-            <div className="modal">
-                <div className="modal-content">
-                    <h2>Join group</h2>
-                    <Grid >
-                        {groups.map((group) => (
-                            <Stack direction="row" padding={1} key={group.uuid}>
-                                <p>{group.groupName}</p>
-                                <p>{group.numMembers}/{group.maxNumUsers}</p>
-                                <Button onClick={() => joinGroup(group.groupName)}>Join</Button>
-                            </Stack>
-                        ))}                        
+            <Stack direction="column" padding={1} style={{display: 'flex', justifyContent: 'center'}}> 
+                <h3>You are not part of a group...</h3>
+                <Button style={{margin:'1em'}} variant="contained" onClick={toggleJoinModal}>Join a group</Button>
+                <Button style={{margin:'1em'}} variant="contained" onClick={toggleCreateModal}>Create a group</Button>
+            </Stack>
+                
+            {error && (
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            )}
+            {createModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Create group</h2>
+                        <Grid >
                         <Stack direction="row" padding={1}>
-                            <Button onClick={toggleJoinModal}>Close</Button>
+                            <p>Group name:</p>
+                            <TextField
+                            margin="normal"
+                            label="Group name"
+                            value={groupName}
+                            onChange={(e) => setGroupName(e.target.value)}
+                            />
                         </Stack>
-                    </Grid>
+                        <Stack direction="row" padding={1}>
+                            <p>Group name:</p>
+                            <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="yes"
+                            name="radio-buttons-group"
+                            >
+                            <FormControlLabel onSelect={() => setPublic(true)} value="yes" control={<Radio />} label="Yes" />
+                            <FormControlLabel onSelect={() => setPublic(true)} value="no" control={<Radio />} label="No" />
+                            </RadioGroup>
+                        </Stack>
+                        <Stack direction="row" padding={1}>
+                            <p>Max members:</p>
+                            <input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} />
+                        </Stack>
+                        <Stack direction="row" padding={1}>
+                            <p>Description:</p>
+                            <TextField
+                            margin="normal"
+                            multiline
+                            label="Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            
+                            />
+                        </Stack>
+                        <Stack direction="row" padding={1}>
+                            <Button onClick={toggleCreateModal}>Close</Button>
+                            <Button onClick={createGroup}>Create group</Button>
+                        </Stack>
+                        </Grid>
+                    </div>
                 </div>
-            </div>
-        ))}
+            )}
+            {joinModal && (groupsCharged && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Join group</h2>
+                        <Grid >
+                            {groups.map((group) => (
+                                <Grid container key={group.uuid}>
+                                    <Grid item xs={4} >
+                                        <p style={{margin:'1em'}} >{group.groupName}</p>  
+                                    </Grid>
+                                    <Grid item xs={4} >
+                                        <p style={{margin:'1em'}}>{group.numMembers}/{group.maxNumUsers}</p>
+                                    </Grid>
+                                    <Grid item xs={4} key={group.uuid}>
+                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)}>Join</Button>
+                                    </Grid>
+                                </Grid>
+                            ))}                        
+                            <Stack direction="row" padding={1}>
+                                <Button variant="contained" onClick={toggleJoinModal}>Close</Button>
+                            </Stack>
+                        </Grid>
+                    </div>
+                </div>
+            ))}
         </Container>
     );
 }
