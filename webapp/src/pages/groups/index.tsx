@@ -1,5 +1,5 @@
 import  { useState, useEffect } from 'react';
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import axios from 'axios';
 import "./groups-page.scss";
 import NoGroup from 'src/components/group/NoGroup';
@@ -21,7 +21,7 @@ export const GroupsPage: React.FC<{}> = () => {
         for(var group of groups.data){
           for(var member of group.members){
             const uuid = JSON.stringify(member).replace("\"", "").replace("\"", "");
-            if(userUuid == uuid){
+            if(userUuid === uuid){
               inGroup = true;
               groupUUID = JSON.stringify(group.uuid).replace("\"", "").replace("\"", "");
             } 

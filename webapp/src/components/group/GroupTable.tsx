@@ -13,7 +13,7 @@ interface Member  {
     role: string;
 }
 
-let members: Member[] = new Array();
+let members: Member[] = [];
 let membersCharged = false;
 
 let adminUUID = "";
@@ -28,12 +28,12 @@ export const GroupTable = (props: TableProps) => {
     const aFunction = async ()=>{
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
             console.log(res.data);
-            members = new Array();
+            members = [];
             numberMembers=0;
             total = 0;
             for(let member of res.data.members){
                 let memberRole = "Member";
-                if(member.uuid == res.data.admin.uuid){
+                if(member.uuid === res.data.admin.uuid){
                     memberRole = "Leader";
                 }
                 members.push({
@@ -51,7 +51,8 @@ export const GroupTable = (props: TableProps) => {
             membersCharged = true;
         });        
         
-    }    
+    }
+
     const leaveGroup = async () => {
         try{
             const expelledUUID = JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
@@ -67,11 +68,10 @@ export const GroupTable = (props: TableProps) => {
 
     useEffect(()=>{
         aFunction();
-        
-    }, [groupName]);
+    });
+    
     return(
         <Container>
-           
             { membersCharged && (
                 <Grid container padding={2} >
                     <Grid item xs={3} >
@@ -109,6 +109,5 @@ export const GroupTable = (props: TableProps) => {
                 </Table>
             </TableContainer>
         </Container>
-       
     )
 }

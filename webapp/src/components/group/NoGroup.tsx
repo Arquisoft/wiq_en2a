@@ -17,7 +17,7 @@ type ActionProps = {
     nowHasGroup:()=> void;
 }
 
-let groups: Group[] = new Array();
+let groups: Group[] = [];
 let groupsCharged = false;
 
 const NoGroup = (props: ActionProps) => 
@@ -62,7 +62,7 @@ const NoGroup = (props: ActionProps) =>
     const findGroups = async () =>{
         try{
             await axios.get(`${apiEndpoint}/getGroups`).then( res => {
-                groups = new Array();
+                groups = [];
                 for(let group of res.data){
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
                     let comprobacion = isPublic === "true";
