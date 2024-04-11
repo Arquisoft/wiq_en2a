@@ -12,7 +12,7 @@ interface PlayingGameProps {
 const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players}) => {
     
     const uuid = localStorage.getItem("userUUID");
-    const apiEndpoint = 'http://localhost:800'
+    const apiEndpoint = 'http://localhost:8000'
     //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);

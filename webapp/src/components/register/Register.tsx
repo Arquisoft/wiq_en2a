@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import './Register.scss';
 import { useNavigate } from "react-router-dom";
 
-const apiEndpoint = 'http://localhost:800'
+const apiEndpoint = 'http://localhost:8000'
 //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 type ActionProps = {
