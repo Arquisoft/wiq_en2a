@@ -32,7 +32,7 @@ const GameSinglePlayer = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const apiEndpoint = 'http://74.234.241.249:8000'
+      const apiEndpoint = 'http://localhost:800'
       //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
       try {

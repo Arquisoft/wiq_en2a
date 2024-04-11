@@ -5,7 +5,7 @@ import "./groups-page.scss";
 import NoGroup from 'src/components/group/NoGroup';
 import { GroupTable } from 'src/components/group/GroupTable';
 
-const apiEndpoint = 'http://74.234.241.249:8000'
+const apiEndpoint = 'http://localhost:800'
 //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 let groupUUID: string = "";
 
