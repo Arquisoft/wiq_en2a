@@ -6,10 +6,6 @@ import axios from 'axios';
 
 const ProfilePage = () => {
   const { t } = useTranslation();
-  const score = localStorage.getItem("totalScore");
-  const nwins =  localStorage.getItem("nwins");
-  const nCorrectAnswers =  localStorage.getItem("nCorrectAnswers");
-  const nWrongAnswers =  localStorage.getItem("nWrongAnswers");
   const apiEndpoint = 'http://localhost:8000'
   const uuid = localStorage.getItem('uuid');
   const [profileInfo, setProfileInfo] = useState(null);
@@ -69,10 +65,26 @@ const ProfilePage = () => {
             <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Performance Statistics</Typography>
             {profileInfo && (  
               <ul className="white-list">
-                <li><Typography variant="body1" className='field'>{t('profile_points')} { JSON.stringify(Number(score)) }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_nwins')} { JSON.stringify(Number(nwins)) }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_n_correct_answers')} { JSON.stringify(Number(nCorrectAnswers)) }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_n_wrong_answers')} { JSON.stringify(Number(nWrongAnswers)) }</Typography></li>
+                <li>
+                  <Typography variant="body1" className='field'>
+                    {t('profile_points')} { JSON.stringify(Number(profileInfo.userStats.totalScore)) }
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className='field'>
+                    {t('profile_nwins')} { JSON.stringify(Number(profileInfo.userStats.nWins)) }
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className='field'>
+                    {t('profile_n_correct_answers')} { JSON.stringify(Number(profileInfo.userStats.nCorrectAnswers)) }
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className='field'>
+                    {t('profile_n_wrong_answers')} { JSON.stringify(Number(profileInfo.userStats.nWrongAnswers)) }
+                  </Typography>
+                </li>
               </ul>
             )}
           </Paper>
@@ -82,7 +94,7 @@ const ProfilePage = () => {
             <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>{t('profile_last_game_questions')}</Typography>
             {profileInfo && (
               <ul className="white-list">
-
+                
               </ul>
             )}
           </Paper>
