@@ -93,9 +93,50 @@ const ProfilePage = () => {
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>{t('profile_last_game_questions')}</Typography>
             {profileInfo && (
-              <ul className="white-list">
-                
-              </ul>
+              <div>
+                <Typography marginBottom={1} color="#ffffff" variant="body1" className='field'>
+                  Last game ID: { JSON.stringify(profileInfo.userStats.lastGameID) }
+                </Typography>
+                <Typography color="#ffffff" variant="h5" gutterBottom className='profile-subheader'>Questions:</Typography>
+                <ul className="white-list">
+                  { 
+                    profileInfo.lastGame.map((question, index) => (
+                      <li>
+                        <Typography color="#ffffff" variant="h6" gutterBottom className='profile-subheader'>
+                          Question { index }
+                          <ul>
+                            <li>
+                              <Typography variant="body1" className='field'>
+                                Question: { JSON.stringify(question.question) }
+                              </Typography>
+                            </li>
+                            <li>
+                              <Typography variant="body1" className='field'>
+                                Correct answer: { JSON.stringify(question.correctAnswer) }
+                              </Typography>
+                            </li>
+                            <li>
+                              <Typography variant="body1" className='field'>
+                                Incorrect answer 1: { JSON.stringify(question.incorrectAnswer1) }
+                              </Typography>
+                            </li>
+                            <li>
+                              <Typography variant="body1" className='field'>
+                                Incorrect answer 2: { JSON.stringify(question.incorrectAnswer2) }
+                              </Typography>
+                            </li>
+                            <li>
+                              <Typography variant="body1" className='field'>
+                                Incorrect answer 3:  { JSON.stringify(question.incorrectAnswer3) }
+                              </Typography>
+                            </li>
+                          </ul>
+                        </Typography>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
             )}
           </Paper>
         </Grid>
