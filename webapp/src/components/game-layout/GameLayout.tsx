@@ -16,13 +16,13 @@ return(
                 <p>Game</p>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Game")}>Game</a>
+                <button onClick={()=>setCurrentView("Game")}>Game</button>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Group")} >Groups</a>
+                <button onClick={()=>setCurrentView("Group")} >Groups</button>
             </li>
             <li>
-                <a onClick={()=>setCurrentView("Scoreboard")}>Scoreboard</a>
+                <button onClick={()=>setCurrentView("Scoreboard")}>Scoreboard</button>
             </li>
         </ul>
     </nav>
