@@ -73,7 +73,7 @@ const NavBar: React.FC<{}> = () =>
                     >
                         <Grid item spacing={2}>
                             <Stack direction="row" spacing={2}>
-                                <div className="logo">
+                                <div className="logo" onClick={() => navigate("/game")}>
                                     {t('app_name')}
                                 </div>
                                 <Button variant="contained" onClick={() => navigate("/game")}>
