@@ -114,9 +114,9 @@ const NoGroup = (props: ActionProps) =>
     return (
         <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container">
             <Stack className='groups-container'> 
-                <h3>You are not part of a group...</h3>
-                <Button className='group-button' variant="contained" onClick={toggleJoinModal}>Join a group</Button>
-                <Button className='group-button' variant="contained" onClick={toggleCreateModal}>Create a group</Button>
+                <h3 style={{ marginBottom: '20px' }}>You are not part of a group yet...</h3>
+                <button className='group-button' onClick={toggleJoinModal}>Join a group</button>
+                <button className='group-button' onClick={toggleCreateModal}>Create a group</button>
             </Stack>
             {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
