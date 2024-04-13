@@ -9,6 +9,9 @@ export const GamePage: React.FC<{}> = () => {
         <Link to="/game/single-player">Single Player</Link>
       </button>
       <button className="game-page-button">
+        <Link to="/game/single-player-ai">Single Player (AI)</Link>
+      </button>
+      <button className="game-page-button">
         <Link to="/game/multi-player">Multiplayer</Link>
       </button>
     </div>
