@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { SocketProps, UserPlayer } from './GameMultiPlayer';
-import './MenuMultiplayer.css'
+import './menu-multiplayer.scss'
 
 interface MenuMultiplayerProps {
   socket: SocketProps;
