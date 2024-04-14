@@ -71,23 +71,22 @@ export const CreationModal = (props: ActionProps) => {
                         </RadioGroup></Grid>
                     </Grid>
                     <Grid container padding={2} >
-                        <Grid item xs={5} ><p>Max members:</p></Grid>
+                        <Grid item xs={5} ><p>{t('create_group_max_members')}</p></Grid>
                         <Grid item xs={5} ><input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
                     </Grid>
                     <Grid container padding={2} >
-                        <Grid item xs={5} ><p>Description:</p></Grid>
+                        <Grid item xs={5} ><p>{t('create_group_description')}</p></Grid>
                         <Grid item xs={5} ><TextField
                         margin="normal"
                         multiline
                         label="Description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        
                         /></Grid>
                     </Grid>
                     <Grid container padding={2} >
-                        <Grid item xs={6} ><Button onClick={props.closeModal}>Close</Button></Grid>
-                        <Grid item xs={6} ><Button onClick={createGroup}>Create group</Button></Grid>
+                        <Grid item xs={6} ><Button onClick={props.closeModal}>{t('create_group_button')}</Button></Grid>
+                        <Grid item xs={6} ><Button onClick={createGroup}>{t('close_button')}</Button></Grid>
                     </Grid>
                 </Grid>
             </div>

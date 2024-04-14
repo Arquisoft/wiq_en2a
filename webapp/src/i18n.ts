@@ -43,7 +43,12 @@ i18n
                     create_group_group_name: 'Group name:',
                     create_group_public_group: 'Public:',
                     create_group_max_members: 'Max members:',
-                    
+                    create_group_description: 'Description:',
+                    create_group_button: 'Create group',
+                    not_part_of_group: 'You are not part of a group...',
+                    join_group_button: 'Join a group',
+                    join_this_group_button: 'Join',
+                    close_button: 'Close',                   
                 }
             },
             es: {
@@ -79,7 +84,12 @@ i18n
                     create_group_group_name: 'Nombre del grupo:',
                     create_group_public_group: 'Público:',
                     create_group_max_members: 'Número máximo de miembros:',
-                    
+                    create_group_description: 'Descripción:',
+                    create_group_button: 'Crear grupo',
+                    not_part_of_group: 'No eres parte de un grupo...',
+                    join_group_button: 'Unirse a un grupo',
+                    join_this_group_button: 'Unirse',
+                    close_button: 'Cerar',      
                 }
             },
 
