@@ -44,9 +44,6 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
               <img src={"https://robohash.org/"+player.username+".png"} alt={player.username} />
               <p>{player.username}</p>
               <p>Total points: {player.points}</p>
-              {!player.isBot && (
-                <button className="delete-button" disabled>Delete</button>
-              )}
               {player.isBot && (
                 <button onClick={() => deletePlayer(index)} className="delete-button">Delete</button>
               )}
