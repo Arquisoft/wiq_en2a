@@ -38,6 +38,4 @@ return(
 
 )
 
-
-
 }; export default GameLayout; // Export the 'GameLayout' component

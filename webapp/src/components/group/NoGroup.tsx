@@ -4,7 +4,8 @@ import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CreationModal } from './GroupCreationModal';
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+const apiEndpoint = 'http://74.234.241.249:8000'
+//const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 interface Group  {
     groupName: string;
