@@ -114,7 +114,7 @@ const NoGroup = (props: ActionProps) =>
     return (
         <Container className="groups-container">
             <Stack className='groups-container'> 
-                <h3 style={{ marginBottom: '20px' }}>You are not part of a group yet...</h3>
+                <h2 style={{ marginBottom: '20px' }}>You are not part of a group yet...</h2>
                 <button className='group-button' onClick={toggleJoinModal}>Join a group</button>
                 <button className='group-button' onClick={toggleCreateModal}>Create a group</button>
             </Stack>
