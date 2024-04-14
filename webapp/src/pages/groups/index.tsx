@@ -38,7 +38,7 @@ export const GroupsPage: React.FC<{}> = () => {
   });
   
   return(
-    <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container" >
+    <Container className="groups-container" >
       {
         signedUp? (
           <GroupTable groupUUID={groupUUID} nowHasNoGroup={isSignedUp}/>
