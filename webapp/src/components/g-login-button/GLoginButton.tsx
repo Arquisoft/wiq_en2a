@@ -1,5 +1,5 @@
 import { GoogleLogin } from '@react-oauth/google';
-import './GLoginButton.scss';
+import './g-login-button.scss';
 
 const GLoginButton = () => 
 {

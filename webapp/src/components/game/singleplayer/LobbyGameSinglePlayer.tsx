@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react'
 import { Player } from './GameSinglePlayer';
-import '../LobbyGame.scss';
+import '../lobby-game.scss';
 
 interface LobbyGameProps {
   setPlayers: (players:Player[]) => void;

@@ -2,7 +2,7 @@ import { FC, useMemo, useState } from 'react'
 import { SocketProps } from './GameMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import axios from 'axios';
-import '../QuestionsGame.scss';
+import '../questions-game.scss';
 
 interface QuestionsMultiPlayerProps {
     socket: SocketProps;

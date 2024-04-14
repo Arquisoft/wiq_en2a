@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { SocketProps, UserPlayer } from './GameMultiPlayer';
-import '../LobbyGame.scss';
+import '../lobby-game.scss';
 import axios from 'axios';
 
 interface LobbyMultiPlayerProps {

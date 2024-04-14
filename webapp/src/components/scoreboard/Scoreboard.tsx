@@ -1,4 +1,4 @@
-import './Scoreboard.scss';
+import './scoreboard.scss';
 
 const Scoreboard = () => 
 {
