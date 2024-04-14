@@ -27,7 +27,15 @@ i18n
                     profile_points: 'Total points:',
                     profile_nwins: 'Number of victories:',
                     profile_n_correct_answers: 'Number of correct answers:',
-                    profile_n_wrong_answers: 'Number of wrong answers:'
+                    profile_n_wrong_answers: 'Number of wrong answers:',
+                    group_table_member: 'Member',
+                    group_table_leader: 'Leader',
+                    group_table_username: 'Username',
+                    group_table_role: 'Role',
+                    group_table_score: 'Score',
+                    create_group_group_name: 'Group name:',
+                    create_group_public_group: 'Public:',
+                    create_group_max_members: 'Max members:',
                 }
             },
             es: {
@@ -47,7 +55,15 @@ i18n
                     profile_points: 'Puntuación total:',
                     profile_nwins: 'Número de victorias:',
                     profile_n_correct_answers: 'Número de respuestas correctas:',
-                    profile_n_wrong_answers: 'Número de respuestas incorrectas:'
+                    profile_n_wrong_answers: 'Número de respuestas incorrectas:',
+                    group_table_member: 'Miembro',
+                    group_table_leader: 'Líder',
+                    group_table_username: 'Nombre de usuario',
+                    group_table_role: 'Rol',
+                    group_table_score: 'Puntuación',
+                    create_group_group_name: 'Nombre del grupo:',
+                    create_group_public_group: 'Público:',
+                    create_group_max_members: 'Número máximo de miembros:',
                 }
             },
 
