@@ -43,7 +43,7 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage, 
         <button onClick={createParty} className="create-party-button">
           Create Party
         </button>
-        <div className="join-party-container">
+        <div>
           <input className="join-party-input" placeholder="Code" onChange={(e) => setTypedCode(e.target.value)}></input>
           <button className="join-party-button" onClick={joinParty}>Join Party</button>
         </div>
