@@ -1,6 +1,6 @@
 import { FC} from 'react'
 import { Player } from './singleplayer/GameSinglePlayer';
-import './ScoreboardGame.css';
+import './scoreboard-game.scss';
 import { PlayerWithPoints } from './multiplayer/GameMultiPlayer';
 
 interface ScoreboardGameProps {

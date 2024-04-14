@@ -26,8 +26,8 @@ table {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    align-items: center; /* Vertically center the grid items */
-    justify-items: center; /* Horizontally center the grid items */
+    align-items: center;
+    justify-items: center;
     border-bottom: 1px solid #eee;
     padding: 10px;
   }
@@ -40,7 +40,7 @@ table {
   }
 
   img {
-    max-width: 100px; // Cambia el tamaño máximo de la imagen según sea necesario
+    max-width: 100px;
     height: auto;
     display: block;
   }
@@ -107,9 +107,9 @@ table {
   }
 
   .start-game-button:disabled {
-    background-color: #cccccc; /* Change background color for disabled state */
-    color: #666666; /* Change text color for disabled state */
-    cursor: not-allowed; /* Change cursor for disabled state */
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
   }
 
   .lobby-container {
