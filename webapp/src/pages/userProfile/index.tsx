@@ -194,19 +194,6 @@ const ProfilePage = () => {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-            <Typography
-              color="#ffffff"
-              variant="h4"
-              gutterBottom
-              className="profile-subheader"
-            >
-              Additional Information
-            </Typography>
-            {profileInfo && <ul className="white-list"></ul>}
-          </Paper>
-        </Grid>
       </Grid>
     </Container>
   );
