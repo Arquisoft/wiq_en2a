@@ -71,7 +71,7 @@ const NavBar: React.FC<{}> = () =>
                     justifyContent="space-between"
                     spacing={4}
                     >
-                        <Grid item spacing={2}>
+                        <Grid item>
                             <Stack direction="row" spacing={2}>
                                 <div className="logo">
                                     {t('app_name')}

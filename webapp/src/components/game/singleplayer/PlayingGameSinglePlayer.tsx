@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Player, Question4Answers } from './GameSinglePlayer'
 import axios from 'axios';
 
@@ -18,6 +18,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
@@ -32,7 +33,26 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       });
     }, [questions]);
 
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        if((currentQuestion+1) < questions.length){
+          if (seconds > 0) {
+            setSeconds(prevSeconds => prevSeconds - 1);
+          } else {
+            setCurrentQuestion(currentQuestion + 1);
+            setSelectedAnswer(null);
+            clearInterval(intervalId);
+            setSeconds(10);
+          }
+        }
+      }, 1000);
+      
+  
+      return () => clearInterval(intervalId);
+    }, [seconds, currentQuestion, questions]);
+
     const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
+      setSeconds(10);
       if(!isWaiting){
         setIsWaiting(true);
         setSelectedAnswer(answer);
@@ -47,9 +67,6 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
         setIsWaiting(false);
       }
       
-      // if(currentQuestion+2 === questions.length){
-      //   finishGame();
-      // }
     };
 
     const finishGame = async() => {
@@ -104,6 +121,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
         <>
           <h2>Question {currentQuestion + 1}</h2>
           <p>{questions[currentQuestion].question}</p>
+          <div>{seconds}</div>
           <div className="answer-grid">
             {getAnswers().map((answer) => {
               const isCorrect = questions[currentQuestion].correctAnswer === answer;
