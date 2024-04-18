@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { SocketProps } from './GameMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import axios from 'axios';
@@ -32,12 +32,30 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        if((currentQuestion+1) < questions.length){
+          if (seconds > 0) {
+            setSeconds(prevSeconds => prevSeconds - 1);
+          } else {
+            setCurrentQuestion(currentQuestion + 1);
+            setSelectedAnswer(null);
+            clearInterval(intervalId);
+            setSeconds(10);
+          }
+        }
+      }, 1000);
+      
+      return () => clearInterval(intervalId);
+    }, [seconds, currentQuestion, questions]);
+
 
     const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
-
+      setSeconds(10);
       if(!isWaiting){
         setIsWaiting(true);
         setSelectedAnswer(answer);
@@ -97,19 +115,20 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
           <div className="question-container">
             <h2 className="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
             <h4>{questions[currentQuestion].question}</h4>
-            </div>
-            <div className="answer-grid">
-              {getAnswers().map((answer) => {
-                  const isCorrect = questions[currentQuestion].correctAnswer === answer;
-                  const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
-                return (
-                <button key={answer} onClick={() => handleAnswerClick(answer, isCorrect)} 
-                  style={{ backgroundColor: buttonColor }}>
-                  {answer}
-                </button>
-              )}
-              )}
-            </div>
+            <h4>{seconds}</h4>
+          </div>
+          <div className="answer-grid">
+            {getAnswers().map((answer) => {
+                const isCorrect = questions[currentQuestion].correctAnswer === answer;
+                const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
+              return (
+              <button key={answer} onClick={() => handleAnswerClick(answer, isCorrect)} 
+                style={{ backgroundColor: buttonColor }}>
+                {answer}
+              </button>
+            )}
+            )}
+          </div>
         </>
       )}
       {currentQuestion+1 === questions.length && ( 

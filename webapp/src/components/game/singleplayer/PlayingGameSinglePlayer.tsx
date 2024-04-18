@@ -47,7 +47,6 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
         }
       }, 1000);
       
-  
       return () => clearInterval(intervalId);
     }, [seconds, currentQuestion, questions]);
 
@@ -119,9 +118,11 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       <div>
       {(currentQuestion+1) < questions.length && (
         <>
-          <h2>Question {currentQuestion + 1}</h2>
-          <p>{questions[currentQuestion].question}</p>
-          <div>{seconds}</div>
+          <div className='question-container'>
+            <h2 className='question-title'>Question {currentQuestion + 1} / {questions.length}</h2>
+            <h4>{questions[currentQuestion].question}</h4>
+            <h4>{seconds}</h4>
+          </div>
           <div className="answer-grid">
             {getAnswers().map((answer) => {
               const isCorrect = questions[currentQuestion].correctAnswer === answer;
