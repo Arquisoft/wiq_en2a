@@ -14,4 +14,20 @@ function populationQuestion(lang, city){
     }
 }
 
-module.exports = {capitalQuestion, populationQuestion}
+function chemicalQuestion(lang, chemical){
+    if(lang === "en"){
+        return `What is the chemical symbol of ${chemical}?`
+    }else{
+        return `¿Cual es el símbolo químico de ${chemical}?`
+    }
+}
+
+function monumentQuestion(lang, monument){
+    if(lang === "en"){
+        return `Where is ${monument}?`
+    }else{
+        return `¿Dónde está ${monument}?`
+    }
+}
+
+module.exports = {capitalQuestion, populationQuestion, chemicalQuestion, monumentQuestion}

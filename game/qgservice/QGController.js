@@ -49,7 +49,7 @@ let QGController = {
             const chemicalElement = bindChemicalResults(chemicalResult)
         
             for (let i = 0; i < nQuestions; i++) {
-            const question = generateQuestionChemical(chemicalElement);
+            const question = generateQuestionChemical(chemicalElement, lang);
             questions.push(question);
             }
 
@@ -59,7 +59,7 @@ let QGController = {
             const monument = bindMonumentResults(monumentResult)
         
             for (let i = 0; i < nQuestions; i++) {
-            const question = generateQuestionMonument(monument);
+            const question = generateQuestionMonument(monument, lang);
             questions.push(question);
             }
 

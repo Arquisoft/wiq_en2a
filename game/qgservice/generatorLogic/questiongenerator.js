@@ -1,7 +1,7 @@
 const Question4Answers = require('../Question4Answers');
 const mongoose = require('mongoose');
 const uuid = require('uuid');
-const { populationQuestion, capitalQuestion } = require('./questionLanguage');
+const { populationQuestion, capitalQuestion, chemicalQuestion, monumentQuestion } = require('./questionLanguage');
 
 function generateQuestionPopulation(cityPopulationMap, lang) {
   const cityPopulationArray = Array.from(cityPopulationMap);
@@ -78,7 +78,7 @@ function generateQuestionCapital(countryCapitalMap, lang) {
    return question;
  }
 
-  function generateQuestionChemical(chemicalElementMap) {
+  function generateQuestionChemical(chemicalElementMap, lang) {
     const chemicalElementArray = Array.from(chemicalElementMap);
   
     const randomIndex = Math.floor(Math.random() * chemicalElementArray.length);
@@ -96,7 +96,7 @@ function generateQuestionCapital(countryCapitalMap, lang) {
     // Create the question object
     const question = {
       uuid: uuid.v4(),
-      question: `What is the chemical symbol of ${chemical}?`,
+      question: chemicalQuestion(lang, chemical),
       correctAnswer: symbol,
       incorrectAnswer1: incorrectAnswers[0],
       incorrectAnswer2: incorrectAnswers[1],
@@ -116,7 +116,7 @@ function generateQuestionCapital(countryCapitalMap, lang) {
   return question;
 }
 
-function generateQuestionMonument(monumentMap) {
+function generateQuestionMonument(monumentMap, lang) {
   const monumentArray = Array.from(monumentMap);
 
   const randomIndex = Math.floor(Math.random() * monumentArray.length);
@@ -134,7 +134,7 @@ function generateQuestionMonument(monumentMap) {
   // Create the question object
   const question = {
     uuid: uuid.v4(),
-    question: `Where is ${monumentLabel}?`,
+    question: monumentQuestion(lang,monumentLabel),
     correctAnswer: countryLabel,
     incorrectAnswer1: incorrectAnswers[0],
     incorrectAnswer2: incorrectAnswers[1],
