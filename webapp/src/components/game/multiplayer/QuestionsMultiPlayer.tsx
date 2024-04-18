@@ -26,8 +26,8 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
     }, [questions]);
 
     const uuid = localStorage.getItem("userUUID");
-    const apiEndpoint = 'http://74.234.241.249:8000'
-    //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    //const apiEndpoint = 'http://74.234.241.249:8000'
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
