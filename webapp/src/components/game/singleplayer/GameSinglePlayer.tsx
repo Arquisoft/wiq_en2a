@@ -49,8 +49,8 @@ const GameSinglePlayer = () => {
           }],
         };
     
-        // TODO: pasarle el idioma
-        const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
+        const lang = localStorage.getItem("lang")
+        const response = await axios.post(`${apiEndpoint}/createGame/${lang}`, requestData);
     
         setQuestions(response.data);
         setCurrentStage(1);
