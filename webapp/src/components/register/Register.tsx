@@ -36,6 +36,7 @@ const Register = (props:ActionProps) => {
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
+      localStorage.setItem('lang','en')
 
       setOpenSnackbar(true);
       navigate("/game")

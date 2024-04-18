@@ -25,7 +25,9 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
       const requestData = {
         players: users.map((user) => ({uuid: user.uuid}))
       }
-      const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
+
+      const lang = localStorage.getItem("lang")
+      const response = await axios.post(`${apiEndpoint}/createGame/${lang}`, requestData);
   
       socket.emit('updateQuestions', partyCode, response.data);
       setFetched(true);

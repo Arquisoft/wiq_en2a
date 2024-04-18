@@ -8,6 +8,8 @@ const { createMathQuestions } = require('./generatorLogic/MathQuestions')
 let QGController = {
     getQuestions: async (req, res) => {
         try{
+            const lang = req.params.lang;
+
             let nQuestions;
             const questions = [];
 
@@ -17,7 +19,7 @@ let QGController = {
             const spainCapitals = bindCapitalsResults(spainQueryResult)
 
             for (let i = 0; i < nQuestions; i++) {
-                const question = generateQuestionCapital(spainCapitals);
+                const question = generateQuestionCapital(spainCapitals, lang);
                 questions.push(question);
             }
 
@@ -27,7 +29,7 @@ let QGController = {
             const worldCapitals = bindCapitalsResults(worldQueryResult)
         
             for (let i = 0; i < nQuestions; i++) {
-            const question = generateQuestionCapital(worldCapitals);
+            const question = generateQuestionCapital(worldCapitals, lang);
             questions.push(question);
             }
 
@@ -37,7 +39,7 @@ let QGController = {
             const worldPopulation = bindPopulationResults(worldPopulationResult)
         
             for (let i = 0; i < nQuestions; i++) {
-            const question = generateQuestionPopulation(worldPopulation);
+            const question = generateQuestionPopulation(worldPopulation, lang);
             questions.push(question);
             }
 
@@ -47,7 +49,7 @@ let QGController = {
             const chemicalElement = bindChemicalResults(chemicalResult)
         
             for (let i = 0; i < nQuestions; i++) {
-            const question = generateQuestionChemical(chemicalElement);
+            const question = generateQuestionChemical(chemicalElement, lang);
             questions.push(question);
             }
 
@@ -57,7 +59,7 @@ let QGController = {
             const monument = bindMonumentResults(monumentResult)
         
             for (let i = 0; i < nQuestions; i++) {
-            const question = generateQuestionMonument(monument);
+            const question = generateQuestionMonument(monument, lang);
             questions.push(question);
             }
 
