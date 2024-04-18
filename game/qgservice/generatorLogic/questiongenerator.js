@@ -1,8 +1,9 @@
 const Question4Answers = require('../Question4Answers');
 const mongoose = require('mongoose');
 const uuid = require('uuid');
+const { populationQuestion, capitalQuestion } = require('./questionLanguage');
 
-function generateQuestionPopulation(cityPopulationMap) {
+function generateQuestionPopulation(cityPopulationMap, lang) {
   const cityPopulationArray = Array.from(cityPopulationMap);
 
   const randomIndex = Math.floor(Math.random() * cityPopulationArray.length);
@@ -20,7 +21,7 @@ function generateQuestionPopulation(cityPopulationMap) {
   // Create the question object
   const question = {
     uuid: uuid.v4(), 
-    question: `What is the population of ${city}?`,
+    question: populationQuestion(lang,city),
     correctAnswer: population.toString(),
     incorrectAnswer1: incorrectAnswers[0].toString(),
     incorrectAnswer2: incorrectAnswers[1].toString(),
@@ -40,7 +41,7 @@ function generateQuestionPopulation(cityPopulationMap) {
   return question;
 }
 
-function generateQuestionCapital(countryCapitalMap) {
+function generateQuestionCapital(countryCapitalMap, lang) {
   const countryCapitalArray = Array.from(countryCapitalMap);
 
   const randomIndex = Math.floor(Math.random() * countryCapitalArray.length);
@@ -58,7 +59,7 @@ function generateQuestionCapital(countryCapitalMap) {
   // Create the question object
   const question = {
     uuid: uuid.v4(),
-    question: `What is the capital of ${country}?`,
+    question: capitalQuestion(lang, country),
     correctAnswer: capital,
     incorrectAnswer1: incorrectAnswers[0],
     incorrectAnswer2: incorrectAnswers[1],

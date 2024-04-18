@@ -58,10 +58,11 @@ app.post('/updateStats', async (req, res) => {
   }
 });
 
-app.post('/createGame', async (req, res) => {
+app.post('/createGame/:lang', async (req, res) => {
   try {
+    const lang = req.params.lang;
     const { players } = req.body;
-    const createGameResponse = await axios.get(qgServiceUrl+'/game');
+    const createGameResponse = await axios.get(qgServiceUrl+`/game/${lang}`);
     const questions = createGameResponse.data;
     const gameResponse = await axios.post(gameServiceUrl+'/createGame', {players, questions});
     const game = gameResponse.data;

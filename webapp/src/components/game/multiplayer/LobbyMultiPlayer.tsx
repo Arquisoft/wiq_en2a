@@ -25,6 +25,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
       const requestData = {
         players: users.map((user) => ({uuid: user.uuid}))
       }
+      // TODO: pasarle el idioma
       const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
   
       socket.emit('updateQuestions', partyCode, response.data);

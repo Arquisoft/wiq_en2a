@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/game', QGController.getQuestions);
+app.get('/game/:lang', QGController.getQuestions);
 app.post('/getQuestionsByIds', QGController.getQuestionsByIds)
 
 
