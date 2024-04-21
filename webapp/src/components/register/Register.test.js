@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { BrowserRouter as Router } from 'react-router-dom'; // Import Router
 import Register from './Register';
 
 const mockAxios = new MockAdapter(axios);
@@ -13,7 +14,11 @@ describe('Register component', () => {
   });
 
   it('should add user successfully', async () => {
-    render(<Register />);
+    render(
+      <Router> 
+        <Register />
+      </Router>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);
@@ -36,7 +41,11 @@ describe('Register component', () => {
   });
 
   it('should handle error when adding user', async () => {
-    render(<Register />);
+    render(
+      <Router> {/* Wrap Register component in Router */}
+        <Register />
+      </Router>
+    );
 
     const usernameInput = screen.getByLabelText(/Username/i);
     const passwordInput = screen.getByLabelText(/Password/i);

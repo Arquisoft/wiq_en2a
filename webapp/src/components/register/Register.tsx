@@ -41,7 +41,13 @@ const Register = (props:ActionProps) => {
       setOpenSnackbar(true);
       navigate("/game")
     } catch (error) {
-      setError(error.response.data.error);
+      // Check if error response contains data and error property
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        // Handle other types of errors
+        console.error('An error occurred:', error);
+      }
     }
   };
 
