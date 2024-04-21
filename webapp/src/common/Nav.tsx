@@ -73,16 +73,16 @@ const NavBar: React.FC<{}> = () =>
                     >
                         <Grid item>
                             <Stack direction="row" spacing={2}>
-                                <div className="logo">
+                                <div  data-testid="app_name" className="logo">
                                     {t('app_name')}
                                 </div>
-                                <Button variant="contained" onClick={() => navigate("/game")}>
+                                <Button variant="contained"  data-testid="nav_game" onClick={() => navigate("/game")}>
                                     {t('nav_game')}
                                 </Button>
-                                <Button variant="contained" onClick={() => navigate("/groups")}>
+                                <Button variant="contained"  data-testid="nav_groups" onClick={() => navigate("/groups")}>
                                     {t('nav_groups')}
                                 </Button>
-                                <Button variant="contained" onClick={() => navigate("/scoreboard")}>
+                                <Button variant="contained"   data-testid="nav_scoreboard" onClick={() => navigate("/scoreboard")}>
                                     {t('nav_scoreboard')}
                                 </Button>
                             </Stack>
