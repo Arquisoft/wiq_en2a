@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: 'http://conoceryvencer.xyz',
-    origin: 'http://localhost',
+    //origin: 'http://localhost',
     methods: ['GET', 'POST'],
     credentials: true
   }
