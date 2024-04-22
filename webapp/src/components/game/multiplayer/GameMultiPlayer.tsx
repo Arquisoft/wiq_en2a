@@ -81,9 +81,9 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     });
 
     newSocket.on('allPlayersFinished', async (playersWithPoints:PlayerWithPoints[]) => {
-      await new Promise<void>((resolve) => { // Specify void as the type argument
+      await new Promise<void>((resolve) => {
         setTimeout(() => {
-          resolve(); // Resolve the promise without any arguments
+          resolve();
         }, 1000);
       });
       setSortedUsersByPoints(playersWithPoints);
