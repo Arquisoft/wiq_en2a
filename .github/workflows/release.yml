@@ -51,7 +51,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       env:
-        API_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+        API_URI: http://conoceryvencer.xyz:8000
       with:
           name: arquisoft/wiq_en2a/webapp
           username: ${{ github.actor }}
@@ -131,6 +131,42 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: users/userservice
+  
+  docker-push-multiplayerservice:
+    name: Push multiplayer service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    #needs: [e2e-tests]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_en2a/multiplayerservice
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: multiplayerservice
+
+  docker-push-groupservice:
+    name: Push group service Docker Image to GitHub Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    #needs: [e2e-tests]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@v5
+      with:
+        name: arquisoft/wiq_en2a/groupservice
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        workdir: game/groupservice
 
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
@@ -149,10 +185,11 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: ghcr.io
         workdir: gatewayservice
+
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp, docker-push-qgservice, docker-push-gameservice]
+    needs: [docker-push-userservice, docker-push-authservice, docker-push-gatewayservice, docker-push-webapp, docker-push-qgservice, docker-push-gameservice, docker-push-multiplayerservice]
     steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
@@ -163,5 +200,5 @@ jobs:
         command: |
           wget https://raw.githubusercontent.com/arquisoft/wiq_en2a/master/docker-compose.yml -O docker-compose.yml
           wget https://raw.githubusercontent.com/arquisoft/wiq_en2a/master/.env -O .env
-          docker compose down
-          docker compose --profile prod up -d
+          docker compose --profile prod down
+          docker compose --profile prod up -d --pull always
