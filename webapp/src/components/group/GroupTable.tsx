@@ -75,16 +75,16 @@ export const GroupTable = (props: TableProps) => {
             { membersCharged && (
                 <Grid container padding={2} >
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{groupName}</h1>
+                        <h1 data-testid="group-name" style={{margin:'1em'}} >{groupName}</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{total} points</h1>
+                        <h1 data-testid="total-points" style={{margin:'1em'}} >{total} points</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{numberMembers} members</h1>
+                        <h1 data-testid="number-members" style={{margin:'1em'}} >{numberMembers} members</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <Button style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
+                        <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
                     </Grid>
                 </Grid>
             )}
