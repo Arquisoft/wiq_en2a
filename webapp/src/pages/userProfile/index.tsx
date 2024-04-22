@@ -89,7 +89,7 @@ const ProfilePage = () => {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={12} md={5} sx={{ marginLeft: '486px' }}>
+        <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
               {t('profile_last_game_questions')}
