@@ -1,6 +1,7 @@
 import { FC, useRef } from 'react'
 import { Player } from './GameSinglePlayer';
 import '../lobby-game.scss';
+import { useTranslation } from 'react-i18next';
 
 interface LobbyGameProps {
   setPlayers: (players:Player[]) => void;
@@ -19,7 +20,9 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
     }
     
   };
+
   const botGen = useRef(botCounter()); // Assign the function to the variable
+  const { t } = useTranslation();
 
   const addBotPlayer = () => {
     if (players.length < 4) { 
@@ -37,28 +40,28 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
 
   return (
     <div className='lobby-container'>
-      <h2 className='lobby-title'>Lobby - Single player</h2>
+      <h2 className='lobby-title'>{t('lobby_single_player_title')}</h2>
         <div>
           {players.map((player, index) => (
             <div key={player.username} className='player-item'>
               <img src={"https://robohash.org/"+player.username+".png"} alt={player.username} />
               <p>{player.username}</p>
-              <p>Total points: {player.points}</p>
+              <p>{t('lobby_single_player_total_points')}{player.points}</p>
               {player.isBot && (
-                <button onClick={() => deletePlayer(index)} className="delete-button">Delete</button>
+                <button onClick={() => deletePlayer(index)} className="delete-button">{t('lobby_single_player_delete')}</button>
               )}
             </div>
           ))}
         </div>
       <div className='button-container'>
         <button disabled={players.length === 4} onClick={addBotPlayer} className="add-bot-button">
-          Add Bot Player
+          {t('lobby_single_player_add_bot_player')}
         </button>
         {isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)}>
-            Start Game
+          {t('lobby_single_player_start_game')}
         </button>}
         {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled>
-            Loading questions...
+          {t('lobby_single_player_loading_questions')}
         </button>}
       </div>
     </div>
