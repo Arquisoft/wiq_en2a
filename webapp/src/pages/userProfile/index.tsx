@@ -30,12 +30,9 @@ const ProfilePage = () => {
   };
 
   return (
-    <Container sx={{ mt: 10, ml: 3 }} maxWidth="xl">
-      <Typography variant="h2" gutterBottom className="profile-header">
-        Profile
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+    <Container sx={{ mt: 13, width: '100%' }}>
+      <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center' }}>
+        <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography
               color="#ffffff"
@@ -77,7 +74,7 @@ const ProfilePage = () => {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography
               color="#ffffff"
@@ -121,7 +118,7 @@ const ProfilePage = () => {
             )}
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography
               color="#ffffff"
@@ -159,34 +156,34 @@ const ProfilePage = () => {
                         className="profile-subheader"
                       >
                         Question {index}
+                      </Typography>
                         <ul>
                           <li>
                             <Typography variant="body1" className="field">
-                              Question: {JSON.stringify(question.question)}
+                              Question: {JSON.stringify(question[0]["question"])}
                             </Typography>
                           </li>
                           <li>
                             <Typography variant="body1" className="field">
-                              Correct answer: {JSON.stringify(question.correctAnswer)}
+                              Correct answer: {JSON.stringify(question[0]["correctAnswer"])}
                             </Typography>
                           </li>
                           <li>
                             <Typography variant="body1" className="field">
-                              Incorrect answer 1: {JSON.stringify(question.incorrectAnswer1)}
+                              Incorrect answer 1: {JSON.stringify(question[0]["incorrectAnswer1"])}
                             </Typography>
                           </li>
                           <li>
                             <Typography variant="body1" className="field">
-                              Incorrect answer 2: {JSON.stringify(question.incorrectAnswer2)}
+                              Incorrect answer 2: {JSON.stringify(question[0]["incorrectAnswer2"])}
                             </Typography>
                           </li>
                           <li>
                             <Typography variant="body1" className="field">
-                              Incorrect answer 3: {JSON.stringify(question.incorrectAnswer3)}
+                              Incorrect answer 3: {JSON.stringify(question[0]["incorrectAnswer3"])}
                             </Typography>
                           </li>
                         </ul>
-                      </Typography>
                     </li>
                   ))}
                 </ul>
