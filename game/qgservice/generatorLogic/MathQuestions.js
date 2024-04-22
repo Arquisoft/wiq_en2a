@@ -37,11 +37,11 @@ function generateRandomMathQuestion() {
     };
   }
 
-  async function createMathQuestions(numberOfQuestions) {
+  async function createMathQuestions(numberOfQuestions, lang) {
     const questions = [];
   
     for (let i = 0; i < numberOfQuestions; i++) {
-      const mathQuestion = generateRandomMathQuestion();
+      const mathQuestion = generateRandomMathQuestion(lang);
       questions.push(mathQuestion);
     }
   

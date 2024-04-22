@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { SocketProps } from './GameMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import axios from 'axios';
@@ -32,12 +32,53 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
+    const endGame = useCallback(async () => {
+      const totalPoints = calculatePoints(correctAnswers, questions.length);
+      const requestData = {
+        "players": [{
+          "uuid": uuid,
+          "nCorrectAnswers": correctAnswers,
+          "nWrongAnswers": questions.length - correctAnswers,
+          "totalScore": totalPoints,
+          "isWinner": false
+        }]
+      };
+    
+      const previousScore = parseInt(localStorage.getItem("score"));
+      localStorage.setItem("score", (previousScore + totalPoints).toString());
+    
+      await axios.post(`${apiEndpoint}/updateStats`, requestData);
+      socket.emit('playerFinished', partyCode, totalPoints);
+
+    }, [correctAnswers, questions.length, uuid, apiEndpoint, socket, partyCode]);
+
+    useEffect(() => {
+      const intervalId = setInterval(async () => {
+        if((currentQuestion+1) < questions.length){
+          if (seconds > 0) {
+            setSeconds(prevSeconds => prevSeconds - 1);
+          } else {
+            setCurrentQuestion(currentQuestion + 1);
+            setSelectedAnswer(null);
+            clearInterval(intervalId);
+            setSeconds(10);
+            if(currentQuestion+2 === questions.length){
+              await endGame()
+            }
+          }
+        }
+      }, 1000);
+      
+      return () => clearInterval(intervalId);
+    }, [seconds, currentQuestion, questions, endGame]);
+
 
     const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
-
+      setSeconds(10);
       if(!isWaiting){
         setIsWaiting(true);
         setSelectedAnswer(answer);
@@ -53,24 +94,7 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
       }
       
       if(currentQuestion+2 === questions.length){
-        const totalPoints = calculatePoints(correctAnswers, questions.length);
-        // the player has finished the game
-        // update stats for each player
-        const requestData ={ "players": [{
-          "uuid": uuid,
-          "nCorrectAnswers": correctAnswers,
-          "nWrongAnswers": questions.length - correctAnswers,
-          "totalScore": totalPoints,
-          "isWinner": false
-        }]}
-
-        // update score in localstorage
-        const previousScore = parseInt(localStorage.getItem("score"))
-        localStorage.setItem("score", (previousScore + totalPoints).toString())
-
-        await axios.post(`${apiEndpoint}/updateStats`, requestData);
-        // pass the points obtained of each player to the socket
-        socket.emit('playerFinished', partyCode, totalPoints)
+        await endGame();
       }
     };
 
@@ -97,19 +121,20 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
           <div className="question-container">
             <h2 className="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
             <h4>{questions[currentQuestion].question}</h4>
-            </div>
-            <div className="answer-grid">
-              {getAnswers().map((answer) => {
-                  const isCorrect = questions[currentQuestion].correctAnswer === answer;
-                  const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
-                return (
-                <button key={answer} onClick={() => handleAnswerClick(answer, isCorrect)} 
-                  style={{ backgroundColor: buttonColor }}>
-                  {answer}
-                </button>
-              )}
-              )}
-            </div>
+            <h4>{seconds}</h4>
+          </div>
+          <div className="answer-grid">
+            {getAnswers().map((answer) => {
+                const isCorrect = questions[currentQuestion].correctAnswer === answer;
+                const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
+              return (
+              <button key={answer} onClick={() => handleAnswerClick(answer, isCorrect)} 
+                style={{ backgroundColor: buttonColor }}>
+                {answer}
+              </button>
+            )}
+            )}
+          </div>
         </>
       )}
       {currentQuestion+1 === questions.length && ( 

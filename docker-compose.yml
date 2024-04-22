@@ -119,15 +119,15 @@ services:
       GROUP_SERVICE_URL: http://groupservice:8005
       MULTIPLAYER_SERVICE_URL: http://multiplayerservice:8006
 
-  # webapp:
-  #   container_name: webapp-${teamname:-defaultASW}
-  #   image: ghcr.io/arquisoft/wiq_en2a/webapp:latest
-  #   profiles: ["dev", "prod"]
-  #   build: ./webapp
-  #   depends_on:
-  #     - gatewayservice
-  #   ports:
-  #     - "3000:3000" 
+  webapp:
+    container_name: webapp-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en2a/webapp:latest
+    profiles: ["dev", "prod"]
+    build: ./webapp
+    depends_on:
+      - gatewayservice
+    ports:
+      - "80:80" 
 
   prometheus:
     image: prom/prometheus
