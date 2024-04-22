@@ -32,7 +32,7 @@ const ProfilePage = () => {
   return (
     <Container sx={{ mt: 13, width: '100%' }}>
       <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
               Personal Information
