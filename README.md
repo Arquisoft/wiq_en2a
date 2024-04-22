@@ -6,7 +6,7 @@
 
 This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
 
-The application is deployed at: http://74.234.241.249:3000
+The application is deployed at: http://conoceryvencer.xyz:3000
 
 This repo is a basic application composed of several components.
 
