@@ -131,8 +131,8 @@ const NavBar: React.FC<{}> = () =>
                                     anchorEl={anchorEl}
                                     sx={{ marginTop: '5px' }}
                                     >
-                                        <MenuItem onClick={()=> navigate("/profile")}>Profile</MenuItem>
-                                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
+                                        <MenuItem onClick={()=> navigate("/profile")}>{t('nav_profile')}</MenuItem>
+                                        <MenuItem onClick={()=> navigate("/")}>{t('nav_logout')}</MenuItem>
                                     </Menu>
                                 </Grid>
                             </Grid>
