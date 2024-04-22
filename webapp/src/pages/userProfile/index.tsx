@@ -31,43 +31,27 @@ const ProfilePage = () => {
 
   return (
     <Container sx={{ mt: 13, width: '100%' }}>
-      <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center' }}>
+      <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-            <Typography
-              color="#ffffff"
-              variant="h4"
-              gutterBottom
-              className="profile-subheader"
-            >
+            <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
               Personal Information
             </Typography>
             {profileInfo && (
               <ul className="white-list">
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_uuid')}{' '}
-                    {JSON.stringify(profileInfo.userStats.uuid)
-                      .replace('"', '')
-                      .replace('"', '')}
+                    {t('profile_uuid')} {profileInfo.userStats.uuid}
                   </Typography>
                 </li>
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_name')}{' '}
-                    {JSON.stringify(profileInfo.userStats.username)
-                      .replace('"', '')
-                      .replace('"', '')}
+                    {t('profile_name')} {profileInfo.userStats.username}
                   </Typography>
                 </li>
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_created_at')}{' '}
-                    {formatDate(
-                      JSON.stringify(profileInfo.userStats.createdAt)
-                        .replace('"', '')
-                        .replace('"', '')
-                    )}
+                    {t('profile_created_at')} {formatDate(profileInfo.userStats.createdAt)}
                   </Typography>
                 </li>
               </ul>
@@ -76,56 +60,38 @@ const ProfilePage = () => {
         </Grid>
         <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-            <Typography
-              color="#ffffff"
-              variant="h4"
-              gutterBottom
-              className="profile-subheader"
-            >
+            <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
               Performance Statistics
             </Typography>
             {profileInfo && (
               <ul className="white-list">
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_points')}{' '}
-                    {JSON.stringify(Number(profileInfo.userStats.totalScore))}
+                    {t('profile_points')} {Number(profileInfo.userStats.totalScore)}
                   </Typography>
                 </li>
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_nwins')}{' '}
-                    {JSON.stringify(Number(profileInfo.userStats.nWins))}
+                    {t('profile_nwins')} {Number(profileInfo.userStats.nWins)}
                   </Typography>
                 </li>
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_n_correct_answers')}{' '}
-                    {JSON.stringify(
-                      Number(profileInfo.userStats.nCorrectAnswers)
-                    )}
+                    {t('profile_n_correct_answers')} {Number(profileInfo.userStats.nCorrectAnswers)}
                   </Typography>
                 </li>
                 <li>
                   <Typography variant="body1" className="field">
-                    {t('profile_n_wrong_answers')}{' '}
-                    {JSON.stringify(
-                      Number(profileInfo.userStats.nWrongAnswers)
-                    )}
+                    {t('profile_n_wrong_answers')} {Number(profileInfo.userStats.nWrongAnswers)}
                   </Typography>
                 </li>
               </ul>
             )}
           </Paper>
         </Grid>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={5} sx={{ marginLeft: '486px' }}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-            <Typography
-              color="#ffffff"
-              variant="h4"
-              gutterBottom
-              className="profile-subheader"
-            >
+            <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
               {t('profile_last_game_questions')}
             </Typography>
             {profileInfo && (
@@ -136,7 +102,7 @@ const ProfilePage = () => {
                   variant="body1"
                   className="field"
                 >
-                  Last game ID: {JSON.stringify(profileInfo.userStats.lastGameID)}
+                  Last game ID: {profileInfo.userStats.lastGameID}
                 </Typography>
                 <Typography
                   color="#ffffff"
@@ -146,7 +112,7 @@ const ProfilePage = () => {
                 >
                   Questions:
                 </Typography>
-                <ul className="white-list">
+                <ul className="white-list" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                   {profileInfo.lastGame.map((question, index) => (
                     <li key={index}>
                       <Typography
@@ -157,33 +123,33 @@ const ProfilePage = () => {
                       >
                         Question {index}
                       </Typography>
-                        <ul>
-                          <li>
-                            <Typography variant="body1" className="field">
-                              Question: {JSON.stringify(question[0]["question"])}
-                            </Typography>
-                          </li>
-                          <li>
-                            <Typography variant="body1" className="field">
-                              Correct answer: {JSON.stringify(question[0]["correctAnswer"])}
-                            </Typography>
-                          </li>
-                          <li>
-                            <Typography variant="body1" className="field">
-                              Incorrect answer 1: {JSON.stringify(question[0]["incorrectAnswer1"])}
-                            </Typography>
-                          </li>
-                          <li>
-                            <Typography variant="body1" className="field">
-                              Incorrect answer 2: {JSON.stringify(question[0]["incorrectAnswer2"])}
-                            </Typography>
-                          </li>
-                          <li>
-                            <Typography variant="body1" className="field">
-                              Incorrect answer 3: {JSON.stringify(question[0]["incorrectAnswer3"])}
-                            </Typography>
-                          </li>
-                        </ul>
+                      <ul>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            Question: {question[0].question}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            Correct answer: {question[0].correctAnswer}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            Incorrect answer 1: {question[0].incorrectAnswer1}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            Incorrect answer 2: {question[0].incorrectAnswer2}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            Incorrect answer 3: {question[0].incorrectAnswer3}
+                          </Typography>
+                        </li>
+                      </ul>
                     </li>
                   ))}
                 </ul>
