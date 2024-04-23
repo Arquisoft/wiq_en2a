@@ -35,19 +35,19 @@ const NavBar: React.FC<{}> = () =>
     useEffect(() => {
         switch (location.pathname) {
           case '/game':
-            document.title = 'Conocer y Vencer - Game';
+            document.title = t('app_name') + ' - ' + t('nav_game');
             break;
           case '/groups':
-            document.title = 'Conocer y Vencer - Groups';
+            document.title = t('app_name') + ' - ' + t('nav_groups');
             break;
           case '/scoreboard':
-            document.title = 'Conocer y Vencer - Scoreboard';
+            document.title = t('app_name') + ' - ' + t('nav_scoreboard');
             break;
           case '/profile':
-            document.title = 'Conocer y Vencer - Profile';
+            document.title = t('app_name') + ' - ' + t('nav_profile');
             break;
           default:
-            document.title = 'Conocer y Vencer';
+            document.title = t('app_name');
         }
       }, [location.pathname]);
 
