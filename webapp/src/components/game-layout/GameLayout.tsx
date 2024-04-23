@@ -15,7 +15,7 @@ return(
     <nav className="GameNav">
         <ul>
             <li>
-                <p>Game</p>
+                <p>{t('game_layout_game')}</p>
             </li>
             <li>
                 <button onClick={()=>setCurrentView("Game")}>{t('game_layout_game')}</button>
