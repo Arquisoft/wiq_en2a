@@ -2,11 +2,13 @@ import { useState } from "react";
 import Game from "../game/singleplayer/GameSinglePlayer";
 import {GroupsPage} from "../../pages/groups/index";
 import Scoreboard from "../scoreboard/Scoreboard";
+import { useTranslation } from 'react-i18next';
 
 
 const GameLayout = () => {
 
 const [currentView, setCurrentView] = useState("Game");
+const { t } = useTranslation();
 
 return(
     <head className="GameHead">
@@ -16,13 +18,13 @@ return(
                 <p>Game</p>
             </li>
             <li>
-                <button onClick={()=>setCurrentView("Game")}>Game</button>
+                <button onClick={()=>setCurrentView("Game")}>{t('game_layout_game')}</button>
             </li>
             <li>
-                <button onClick={()=>setCurrentView("Group")} >Groups</button>
+                <button onClick={()=>setCurrentView("Group")} >{t('game_layout_group')}</button>
             </li>
             <li>
-                <button onClick={()=>setCurrentView("Scoreboard")}>Scoreboard</button>
+                <button onClick={()=>setCurrentView("Scoreboard")}>{t('game_layout_scoreboard')}</button>
             </li>
         </ul>
     </nav>
