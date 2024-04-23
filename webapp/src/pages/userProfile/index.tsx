@@ -61,7 +61,7 @@ const ProfilePage = () => {
         <Grid item xs={12} md={5}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
             <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
-              Performance Statistics
+              {t('profile_performance_statistics')}
             </Typography>
             {profileInfo && (
               <ul className="white-list">
@@ -102,7 +102,7 @@ const ProfilePage = () => {
                   variant="body1"
                   className="field"
                 >
-                  Last game ID: {profileInfo.userStats.lastGameID}
+                  {t('profile_last_game_id')}{profileInfo.userStats.lastGameID}
                 </Typography>
                 <Typography
                   color="#ffffff"
@@ -110,7 +110,7 @@ const ProfilePage = () => {
                   gutterBottom
                   className="profile-subheader"
                 >
-                  Questions:
+                  {t('profile_questions')}
                 </Typography>
                 <ul className="white-list" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                   {profileInfo.lastGame.map((question, index) => (
@@ -121,32 +121,32 @@ const ProfilePage = () => {
                         gutterBottom
                         className="profile-subheader"
                       >
-                        Question {index}
+                        {t('profile_last_game_questions_question_blank')}{index}
                       </Typography>
                       <ul>
                         <li>
                           <Typography variant="body1" className="field">
-                            Question: {question[0].question}
+                            {t('profile_last_game_questions_question')}{question[0].question}
                           </Typography>
                         </li>
                         <li>
                           <Typography variant="body1" className="field">
-                            Correct answer: {question[0].correctAnswer}
+                            {t('profile_last_game_questions_correct_answer')}{question[0].correctAnswer}
                           </Typography>
                         </li>
                         <li>
                           <Typography variant="body1" className="field">
-                            Incorrect answer 1: {question[0].incorrectAnswer1}
+                            {t('profile_last_game_questions_incorrect_answer_1')}{question[0].incorrectAnswer1}
                           </Typography>
                         </li>
                         <li>
                           <Typography variant="body1" className="field">
-                            Incorrect answer 2: {question[0].incorrectAnswer2}
+                            {t('profile_last_game_questions_incorrect_answer_2')}{question[0].incorrectAnswer2}
                           </Typography>
                         </li>
                         <li>
                           <Typography variant="body1" className="field">
-                            Incorrect answer 3: {question[0].incorrectAnswer3}
+                            {t('profile_last_game_questions_incorrect_answer_3')}{question[0].incorrectAnswer3}
                           </Typography>
                         </li>
                       </ul>

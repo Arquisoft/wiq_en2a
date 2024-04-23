@@ -73,17 +73,20 @@ i18n
                     profile_uuid: 'User ID:',
                     profile_name: 'Name:',
                     profile_created_at: 'Account creation date:',
+                    profile_performance_statistics: 'Performance Statistics',
                     profile_points: 'Total points:',
                     profile_nwins: 'Number of victories:',
                     profile_n_correct_answers: 'Correct answers:',
                     profile_n_wrong_answers: 'Wrong answers:',
+                    profile_last_game_id: 'Last game ID: ',
+                    profile_questions: 'Questions:',
+                    profile_last_game_questions_question_blank: 'Question ',
                     profile_last_game_questions: 'Last Game',
-                    profile_last_game_questions_question: 'Question:',
-                    profile_last_game_questions_warning: 'You have not played any games yet',
-                    profile_last_game_questions_correct_answer: 'Correct answer:',
-                    profile_last_game_questions_incorrect_answer_1: 'Incorrect answer 1:',
-                    profile_last_game_questions_incorrect_answer_2: 'Incorrect answer 2:',
-                    profile_last_game_questions_incorrect_answer_3: 'Incorrect answer 3:'
+                    profile_last_game_questions_question: 'Question: ',
+                    profile_last_game_questions_correct_answer: 'Correct answer: ',
+                    profile_last_game_questions_incorrect_answer_1: 'Incorrect answer 1: ',
+                    profile_last_game_questions_incorrect_answer_2: 'Incorrect answer 2: ',
+                    profile_last_game_questions_incorrect_answer_3: 'Incorrect answer 3: '
                 }
             },
             es: {
@@ -149,17 +152,20 @@ i18n
                     profile_uuid: 'ID del jugador:',
                     profile_name: 'Nombre:',
                     profile_created_at: 'Fecha de creación de cuenta:',
+                    profile_performance_statistics: 'Estadísticas de Desempeño',
                     profile_points: 'Puntuación total:',
                     profile_nwins: 'Número de victorias:',
                     profile_n_correct_answers: 'Respuestas correctas:',
                     profile_n_wrong_answers: 'Respuestas incorrectas:',
+                    profile_last_game_id: 'ID de la última partida: ',
+                    profile_questions: 'Preguntas:',
+                    profile_last_game_questions_question_blank: 'Pregunta ',
                     profile_last_game_questions: 'Última Partida',
-                    profile_last_game_questions_warning: 'Todavía no has jugado ninguna partida',
-                    profile_last_game_questions_question: 'Pregunta:',
-                    profile_last_game_questions_correct_answer: 'Respuesta correcta:',
-                    profile_last_game_questions_incorrect_answer_1: 'Respuesta incorrecta 1:',
-                    profile_last_game_questions_incorrect_answer_2: 'Respuesta incorrecta 2:',
-                    profile_last_game_questions_incorrect_answer_3: 'Respuesta incorrecta 3:'
+                    profile_last_game_questions_question: 'Pregunta: ',
+                    profile_last_game_questions_correct_answer: 'Respuesta correcta: ',
+                    profile_last_game_questions_incorrect_answer_1: 'Respuesta incorrecta 1: ',
+                    profile_last_game_questions_incorrect_answer_2: 'Respuesta incorrecta 2: ',
+                    profile_last_game_questions_incorrect_answer_3: 'Respuesta incorrecta 3: '
                 }
             },
 
