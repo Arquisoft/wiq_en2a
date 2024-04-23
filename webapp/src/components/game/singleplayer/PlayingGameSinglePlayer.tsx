@@ -1,6 +1,7 @@
 import { FC, useMemo, useState } from 'react'
 import { Player, Question4Answers } from './GameSinglePlayer'
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 interface PlayingGameProps {
   questions: Question4Answers[]
@@ -20,6 +21,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     const answersShuffled = useMemo(() => {
       return questions.map((question) => {
@@ -122,9 +124,9 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       )}
       {currentQuestion+1 === questions.length && ( 
         <>
-          <p>You answered {correctAnswers} out of {questions.length} questions correctly.</p>
-          <p>You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
-          <button onClick={() => finishGame()}>Next</button>
+          <p>{t('playing_single_player_you_answered')}{correctAnswers}{t('playing_single_player_out_of')}{questions.length}{t('playing_single_player_questions_correctly')}</p>
+          <p>{t('playing_single_player_you_earned')}{calculatePoints(correctAnswers, questions.length)}{t('playing_single_player_points')}</p>
+          <button onClick={() => finishGame()}>{t('playing_single_player_next')}</button>
         </>
       )}
     </div>
