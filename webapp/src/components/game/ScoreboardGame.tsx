@@ -2,6 +2,7 @@ import { FC} from 'react'
 import { Player } from './singleplayer/GameSinglePlayer';
 import './scoreboard-game.scss';
 import { PlayerWithPoints } from './multiplayer/GameMultiPlayer';
+import { useTranslation } from 'react-i18next';
 
 interface ScoreboardGameProps {
     userScoresSinglePlayer?: Player[];
@@ -17,14 +18,15 @@ const ScoreboardGame:FC<ScoreboardGameProps> = ({userScoresSinglePlayer, userSco
   } else if (userScoresMultiPlayer){
     sorted = userScoresMultiPlayer.sort((a, b) => b.points - a.points);
   }
+  const { t } = useTranslation();
     return (
         <table>
-            <caption>Game Scoreboard</caption>
+            <caption>{t('scoreboard_game_game_scoreboard')}</caption>
           <thead>
             <tr>
-              <th scope="col" id="rankingHeader">Position</th>
-              <th scope="col" id="usernameHeader">Username</th>
-              <th scope="col" id="pointsHeader">Points</th>
+              <th scope="col" id="rankingHeader">{t('scoreboard_game_position')}</th>
+              <th scope="col" id="usernameHeader">{t('scoreboard_game_username')}</th>
+              <th scope="col" id="pointsHeader">{t('scoreboard_game_points')}</th>
             </tr>
           </thead>
           <tbody>
