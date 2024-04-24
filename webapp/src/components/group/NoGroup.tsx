@@ -2,6 +2,7 @@ import './group.scss';
 import { Button, Container, Snackbar, TextField, Grid, Stack, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import  { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const apiEndpoint = 'http://localhost:8000'
 //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
@@ -30,6 +31,7 @@ const NoGroup = (props: ActionProps) =>
     const [maxMembers, setMaxMembers] = useState(2);
     const [description, setDescription] = useState('');
     const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
+    const { t } = useTranslation();
     
 
     const toggleCreateModal = () => {
@@ -114,9 +116,9 @@ const NoGroup = (props: ActionProps) =>
     return (
         <Container className="groups-container">
             <Stack className='groups-container'> 
-                <h2 style={{ marginBottom: '20px' }}>You are not part of a group yet...</h2>
-                <button className='group-button' onClick={toggleJoinModal}>Join a group</button>
-                <button className='group-button' onClick={toggleCreateModal}>Create a group</button>
+                <h2 style={{ marginBottom: '20px' }}>{t('no_group_not_part')}</h2>
+                <button className='group-button' onClick={toggleJoinModal}>{t('no_group_join')}</button>
+                <button className='group-button' onClick={toggleCreateModal}>{t('no_group_create')}</button>
             </Stack>
             {error && (
             <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
@@ -124,10 +126,10 @@ const NoGroup = (props: ActionProps) =>
             {createModal && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h2>Create group</h2>
+                        <h2>{t('no_group_create_group')}</h2>
                         <Grid >
                             <Grid container padding={2} >
-                                <Grid item xs={5} ><p>Group name:</p></Grid>
+                                <Grid item xs={5} ><p>{t('no_group_group_name')}</p></Grid>
                                 <Grid item xs={5} ><TextField
                                 margin="normal"
                                 label="Group name"
@@ -136,7 +138,7 @@ const NoGroup = (props: ActionProps) =>
                                 /></Grid>
                             </Grid>
                             <Grid container padding={2} >
-                                <Grid item xs={5} ><p>Group name:</p></Grid>
+                                <Grid item xs={5} ><p>{t('no_group_group_name')}</p></Grid>
                                 <Grid item xs={5} ><RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 defaultValue="yes"
@@ -148,11 +150,11 @@ const NoGroup = (props: ActionProps) =>
                                 </RadioGroup></Grid>
                             </Grid>
                             <Grid container padding={2} >
-                                <Grid item xs={5} ><p>Max members:</p></Grid>
+                                <Grid item xs={5} ><p>{t('no_group_max_members')}</p></Grid>
                                 <Grid item xs={5} ><input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
                             </Grid>
                             <Grid container padding={2} >
-                                <Grid item xs={5} ><p>Description:</p></Grid>
+                                <Grid item xs={5} ><p>{t('no_group_description')}</p></Grid>
                                 <Grid item xs={5} ><TextField
                                 margin="normal"
                                 multiline
@@ -163,8 +165,8 @@ const NoGroup = (props: ActionProps) =>
                                 /></Grid>
                             </Grid>
                             <Grid container padding={2} >
-                                <Grid item xs={6} ><Button onClick={toggleCreateModal}>Close</Button></Grid>
-                                <Grid item xs={6} ><Button onClick={createGroup}>Create group</Button></Grid>
+                                <Grid item xs={6} ><Button onClick={toggleCreateModal}>{t('no_group_close')}</Button></Grid>
+                                <Grid item xs={6} ><Button onClick={createGroup}>{t('no_group_create_group')}</Button></Grid>
                             </Grid>
                         </Grid>
                     </div>
@@ -173,7 +175,7 @@ const NoGroup = (props: ActionProps) =>
             {joinModal && (groupsCharged && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h2>Join group</h2>
+                        <h2>{t('no_group_join_group')}</h2>
                         <Grid >
                             {groups.map((group) => (
                                 <Grid container key={group.uuid}>
@@ -184,12 +186,12 @@ const NoGroup = (props: ActionProps) =>
                                         <p style={{margin:'1em'}}>{group.numMembers}/{group.maxNumUsers}</p>
                                     </Grid>
                                     <Grid item xs={4} key={group.uuid}>
-                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)}>Join</Button>
+                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)}>{t('no_group_join_blank')}</Button>
                                     </Grid>
                                 </Grid>
                             ))}                        
                             <Stack direction="row" padding={1}>
-                                <Button variant="contained" onClick={toggleJoinModal}>Close</Button>
+                                <Button variant="contained" onClick={toggleJoinModal}>{t('no_group_close')}</Button>
                             </Stack>
                         </Grid>
                     </div>
