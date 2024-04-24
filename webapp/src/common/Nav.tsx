@@ -82,9 +82,6 @@ const NavBar: React.FC<{}> = () =>
                                 <Button variant="contained" onClick={() => navigate("/groups")}>
                                     {t('nav_groups')}
                                 </Button>
-                                <Button variant="contained" onClick={() => navigate("/scoreboard")}>
-                                    {t('nav_scoreboard')}
-                                </Button>
                             </Stack>
                         </Grid>
                         <Grid item>
