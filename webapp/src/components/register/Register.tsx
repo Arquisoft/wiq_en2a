@@ -49,7 +49,7 @@ const Register = (props:ActionProps) => {
   };
 
   const handleReturnButtonClick = () => {
-    document.title = "Conocer y Vencer";
+    document.title = t('app_name');
     props.goBack();
   };
 
@@ -90,7 +90,7 @@ const Register = (props:ActionProps) => {
           {t('return')}
         </Button>
       </Stack>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="You registered successfully" id='successUserAdd'/>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={`${t('register_message')}`} id='successUserAdd'/>
       {error && (
         <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
