@@ -30,7 +30,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <Container sx={{ mt: 13, width: '100%' }}>
+    <Container sx={{ mt: 15, width: '100%' }}>
       <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
@@ -112,7 +112,7 @@ const ProfilePage = () => {
                 >
                   {t('profile_questions')}
                 </Typography>
-                <ul className="white-list" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                <ul className="white-list" style={{ maxHeight: '350px', overflowY: 'auto' }}>
                   {profileInfo.lastGame.map((question, index) => (
                     <li key={index}>
                       <Typography
