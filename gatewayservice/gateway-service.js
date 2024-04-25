@@ -62,7 +62,8 @@ app.post('/createGame/:lang', async (req, res) => {
   try {
     const lang = req.params.lang;
     const { players } = req.body;
-    const createGameResponse = await axios.get(qgServiceUrl+`/game/${lang}`);
+    const url = new URL(`/game/${lang}`, qgServiceUrl);
+    const createGameResponse = await axios.get(url);
     const questions = createGameResponse.data;
     const gameResponse = await axios.post(gameServiceUrl+'/createGame', {players, questions});
     const game = gameResponse.data;
@@ -107,7 +108,8 @@ app.post('/createGroup', async (req, res) => {
     // create a group
     const groupResponse = await axios.post(groupServiceUrl+'/createGroup', req.body);
     // add group to user
-    const userResponse = await axios.put(userServiceUrl+'/addGroup/'+creatorUUID, {groupUUID: groupResponse.data.uuid});
+    const url = new URL(`/addGroup/${creatorUUID}`, userServiceUrl);
+    const userResponse = await axios.put(url.toString(), { groupUUID: groupResponse.data.uuid });
     // if user was in a group, leave it
     if(userResponse.data.previousGroup){
       const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
@@ -125,7 +127,8 @@ app.post('/joinGroup', async (req, res) => {
     // join an existing group
     const groupResponse = await axios.post(groupServiceUrl+'/joinGroup', req.body);
     // add group to user
-    const userResponse = await axios.put(userServiceUrl+'/addGroup/'+req.body.uuid, {groupUUID: groupResponse.data.uuid});
+    const url = new URL(`/addGroup/${uuid}`, userServiceUrl);
+    const userResponse = await axios.put(url.toString(), { groupUUID: groupResponse.data.uuid });
     // if user was in a group, leave it
     if(userResponse.data.previousGroup){
       const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
@@ -155,7 +158,8 @@ app.get('/getGroup/:uuid', async (req, res) => {
   try{
     const uuid = req.params.uuid
     // get group by uuid of the group
-    const groupResponse = await axios.get(groupServiceUrl+'/getGroup/'+uuid);
+    const url = new URL(`/getGroup/${uuid}`, groupServiceUrl);
+    const groupResponse = await axios.get(url.toString());
     // get admin
     const userResponseAdmin = await axios.get(userServiceUrl+'/getStatistics/'+groupResponse.data.admin);
     groupResponse.data.admin = userResponseAdmin.data

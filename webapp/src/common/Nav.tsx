@@ -40,9 +40,6 @@ const NavBar: React.FC<{}> = () =>
           case '/groups':
             document.title = 'Conocer y Vencer - Groups';
             break;
-          case '/scoreboard':
-            document.title = 'Conocer y Vencer - Scoreboard';
-            break;
           case '/profile':
             document.title = 'Conocer y Vencer - Profile';
             break;
@@ -81,9 +78,6 @@ const NavBar: React.FC<{}> = () =>
                                 </Button>
                                 <Button variant="contained" onClick={() => navigate("/groups")}>
                                     {t('nav_groups')}
-                                </Button>
-                                <Button variant="contained" onClick={() => navigate("/scoreboard")}>
-                                    {t('nav_scoreboard')}
                                 </Button>
                             </Stack>
                         </Grid>

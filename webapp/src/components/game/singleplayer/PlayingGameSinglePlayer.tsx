@@ -13,7 +13,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     
     const uuid = localStorage.getItem("userUUID");
     //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
-    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    const apiEndpoint = process.env.API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);

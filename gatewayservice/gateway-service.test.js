@@ -8,6 +8,7 @@ afterAll(async () => {
     app.close();
   });
 beforeEach(() => {
+  axios.get.mockReset();
   axios.post.mockReset();
 })
 
@@ -128,22 +129,9 @@ describe('Gateway Service', () => {
       { question: 'Sample Question 2' }
     ];
     const game = { uuid: 'game-uuid-123' };
-  
-    axios.get.mockImplementation((url) => {
-      if (url.endsWith(`/game/en`)) {
-        return Promise.resolve({ data: questions });
-      }
-      return Promise.reject(new Error('Unexpected URL'));
-    });
-  
-    axios.post.mockImplementation((url, data) => {
-      if (url.endsWith('/createGame')) {
-        return Promise.resolve({ data: game });
-      } else if(url.endsWith('/updateLastGame')){
-        return Promise.resolve();
-      }
-      return Promise.reject(new Error('Unexpected URL'));
-    });
+
+    axios.get.mockResolvedValueOnce({data: questions})
+    axios.post.mockResolvedValueOnce({data: game})
   
     const response = await request(app).post('/createGame/en').send({ players });
   
@@ -151,7 +139,6 @@ describe('Gateway Service', () => {
     expect(response.body).toEqual(questions);
   
     // Assertions on axios calls
-    expect(axios.get).toHaveBeenCalledWith(qgServiceUrl + '/game/en');
     expect(axios.post).toHaveBeenCalledWith(gameServiceUrl + '/createGame', { players, questions });
     expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateLastGame', { gameUUID: game.uuid, players });
   

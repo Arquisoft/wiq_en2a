@@ -4,7 +4,7 @@ import  { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
 //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+const apiEndpoint = process.env.API_ENDPOINT || 'http://localhost:8000';
 
 interface Group  {
     groupName: string;
