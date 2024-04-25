@@ -4,7 +4,6 @@ import { GamePage } from "./pages/game";
 import { GroupsPage } from "./pages/groups";
 import { RouterLayout } from "./common/RouterLayout";
 import { InitPage } from "./pages/init";
-import { ScoreboardPage } from "./pages/scoreboard";
 import ProfilePage from "./pages/userProfile";
 import GameSinglePlayer from "./components/game/singleplayer/GameSinglePlayer";
 import GameMultiPlayer from "./components/game/multiplayer/GameMultiPlayer";
@@ -19,7 +18,6 @@ export const AppRouter: React.FC<{}> = () => {
         <Route path="/game/single-player" element={<GameSinglePlayer />} />
         <Route path="/game/multi-player" element={<GameMultiPlayer />} />
         <Route path="/groups" element={<GroupsPage />} />
-        <Route path="/scoreboard" element={<ScoreboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
       <Route path="/" element={<InitPage/>} />
