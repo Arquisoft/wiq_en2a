@@ -21,8 +21,6 @@ describe('Gateway Service', () => {
       return Promise.resolve({ data: { token: 'mockedToken' } });
     } else if (url.endsWith('/adduser')) {
       return Promise.resolve({ data: { userId: 'mockedUserId' } });
-    } else if (url.endsWith('/createGame')) {
-      return Promise.resolve({ data: { questions: [] } });
     }
   });
 
@@ -34,6 +32,35 @@ describe('Gateway Service', () => {
 
 
     expect(response.body.userId).toBe('mockedUserId');
+  });
+
+  it('should forward login request to auth service', async () => {
+
+    const loginPayload = { username: 'testuser', password: 'testpassword' }
+    const authResponse = {data: {username: 'testuser'}}
+    const userResponse = {data: {
+      uuid: 'user-uuid',
+      username: 'testuser',
+      nCorrectAnswers: 30,
+      nWrongAnswers: 20,
+      lastGameId: 'game-uuid',
+      totalScore: 2500
+    }}
+
+    axios.post.mockResolvedValueOnce(authResponse);
+    
+    axios.get.mockResolvedValueOnce(userResponse);
+
+    const response = await request(app)
+      .post('/login')
+      .send(loginPayload);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(userResponse.data);
+
+    expect(axios.post).toHaveBeenCalledWith(authServiceUrl + '/login', loginPayload);
+
+    expect(axios.get).toHaveBeenCalledWith(userServiceUrl + '/getUser/' + authResponse.data.username);
   });
 
   it('fetches user stats successfuly', async () => {
