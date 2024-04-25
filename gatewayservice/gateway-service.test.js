@@ -175,5 +175,81 @@ describe('Gateway Service', () => {
     // Ensure axios post is called with the correct data
     expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateStatistics', { players });
   });
+  
 
 });
+
+describe('POST /createGroup', () => {
+  it('should create a group and add the user to it', async () => {
+    // Mock axios responses
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: null } });
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/createGroup')
+      .send({ creatorUUID: 'user-uuid' });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ uuid: 'group-uuid' });
+
+    // Ensure axios calls were made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/createGroup'),
+      { creatorUUID: 'user-uuid' }
+    );
+    expect(axios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/addGroup/user-uuid'),
+      { groupUUID: 'group-uuid' }
+    );
+  });
+
+  it('should remove user from previous group if they were in one', async () => {
+    // Mock axios responses
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: 'previous-group-uuid' } });
+    axios.get.mockResolvedValueOnce({ data: { groupName: 'Previous Group' } });
+    axios.post.mockResolvedValueOnce({});
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/createGroup')
+      .send({ creatorUUID: 'user-uuid' });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ uuid: 'group-uuid' });
+
+    // Ensure axios calls were made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/createGroup'),
+      { creatorUUID: 'user-uuid' }
+    );
+    expect(axios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/addGroup/user-uuid'),
+      { groupUUID: 'group-uuid' }
+    );
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/getGroup/previous-group-uuid')
+    );
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/leaveGroup'),
+      { expelledUUID: 'user-uuid', adminUUID: 'user-uuid', groupName: 'Previous Group' }
+    );
+  });
+
+  it('should handle errors', async () => {
+    // Mock axios responses to simulate an error
+    axios.post.mockRejectedValueOnce(new Error('Internal server error'));
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/createGroup')
+      .send({ creatorUUID: 'user-uuid' });
+
+    // Assertions
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+})
