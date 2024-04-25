@@ -31,11 +31,13 @@ export const GroupTable = (props: TableProps) => {
             members = new Array();
             numberMembers=0;
             total = 0;
+            console.log(res.data);
             for(let member of res.data.members){
                 let memberRole = "Member";
                 if(member.uuid == res.data.admin.uuid){
                     memberRole = "Leader";
                 }
+                console.log(memberRole);
                 members.push({
                     username : member.username,
                     totalScore : member.totalScore,
@@ -44,11 +46,13 @@ export const GroupTable = (props: TableProps) => {
                 total += +member.totalScore;
                 numberMembers++;
             }
-            
+            console.log(members);
             adminUUID = res.data.admin.uuid;
             groupName = res.data.groupName;
             members.sort((member) => (+member.totalScore));
+            console.log(membersCharged);
             membersCharged = true;
+            console.log(membersCharged);
         });        
         
     }    
@@ -75,16 +79,16 @@ export const GroupTable = (props: TableProps) => {
             { membersCharged && (
                 <Grid container padding={2} >
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{groupName}</h1>
+                        <h1 data-testid="group-name" style={{margin:'1em'}} >{groupName}</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{total} points</h1>
+                        <h1 data-testid="total-points" style={{margin:'1em'}} >{total} points</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <h1 style={{margin:'1em'}} >{numberMembers} members</h1>
+                        <h1 data-testid="number-members" style={{margin:'1em'}} >{numberMembers} members</h1>
                     </Grid>
                     <Grid item xs={3} >
-                        <Button style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
+                        <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
                     </Grid>
                 </Grid>
             )}
@@ -98,13 +102,16 @@ export const GroupTable = (props: TableProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {membersCharged && members.map((member) => (
-                            <TableRow key={props.groupUUID}>
-                                <TableCell>{member.username}</TableCell>
-                                <TableCell>{member.role}</TableCell>
-                                <TableCell>{member.totalScore}</TableCell>
-                            </TableRow>
-                        ))}
+                    {membersCharged && members.map((member) => {
+                        console.log(member + "added");
+                        return (
+                        <TableRow key={props.groupUUID}>
+                            <TableCell>{member.username}</TableCell>
+                            <TableCell>{member.role}</TableCell>
+                            <TableCell>{member.totalScore}</TableCell>
+                        </TableRow>
+                        );
+                    })}
                     </TableBody>
                 </Table>
             </TableContainer>
