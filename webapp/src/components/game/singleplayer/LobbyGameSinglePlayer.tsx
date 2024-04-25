@@ -36,7 +36,7 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
   };
 
   return (
-    <div className='lobby-container'>
+    <div className='lobby-container' data-testid="lobby-screen">
       <h2 className='lobby-title'>Lobby - Single player</h2>
         <div>
           {players.map((player, index) => (
