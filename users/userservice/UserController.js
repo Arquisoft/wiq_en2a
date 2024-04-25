@@ -125,13 +125,6 @@ let UserController = {
       }
       res.json(response);
     },
-    getUserById: async (req, res) => {
-      console.log(req.params)
-      const userId = req.params.id;
-      console.log(userId)
-      const user = await User.findOne({ uuid: userId });
-      res.json(user);
-    },
     getUsersByIds: async (req, res) => {
       const userIds = req.body.userIds;
       const users = [];

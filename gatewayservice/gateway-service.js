@@ -163,7 +163,7 @@ app.get('/getGroup/:uuid', async (req, res) => {
     const uuid = req.params.uuid
     const groupResponse = await axios.get(groupServiceUrl+'/getGroup/'+uuid);
     console.log(groupResponse.data.members)
-    const userResponseAdmin = await axios.get(userServiceUrl+'/getUserById/'+groupResponse.data.admin);
+    const userResponseAdmin = await axios.get(userServiceUrl+'/getStatistics/'+groupResponse.data.admin);
     groupResponse.data.admin = userResponseAdmin.data
     const userIds = groupResponse.data.members
     const userResponseMembers = await axios.post(userServiceUrl+'/getUsersByIds', {userIds});
