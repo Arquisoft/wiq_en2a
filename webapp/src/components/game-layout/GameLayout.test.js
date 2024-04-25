@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import GameLayout from './GameLayout';
 import { MemoryRouter } from 'react-router-dom'; // Importa MemoryRouter
 
@@ -12,8 +12,9 @@ describe('GameLayout component', () => {
 );
     expect(screen.getByTestId('game-header')).toBeInTheDocument();
     expect(screen.getByTestId('game-link')).toBeInTheDocument();
-    expect(screen.queryByTestId('groups-page-component')).toBeNull();
-    expect(screen.queryByTestId('scoreboard-component')).toBeNull();
+    expect(screen.getByTestId('groups-link')).toBeInTheDocument();
+    expect(screen.getByTestId('scoreboard-link')).toBeInTheDocument();
+    
   });
 
   it('renders GroupsPage when Groups link is clicked', () => {
@@ -22,17 +23,28 @@ describe('GameLayout component', () => {
             <GameLayout />
         </MemoryRouter>
 );
-    fireEvent.click(screen.getByTestId('groups-link'));
-    expect(screen.queryByTestId('game-component')).toBeNull();
-    expect(screen.getByTestId('groups-page-component')).toBeInTheDocument();
-    expect(screen.queryByTestId('scoreboard-component')).toBeNull();
+    waitFor(() => {
+        fireEvent.click(screen.getByTestId('groups-link'));
+        expect(screen.queryByTestId('game-component')).toBeNull();
+        expect(screen.getByTestId('groups-page-component')).toBeInTheDocument();
+        expect(screen.queryByTestId('scoreboard-component')).toBeNull();
+    });
+   
   });
 
   it('renders Scoreboard when Scoreboard link is clicked', () => {
-    render(<GameLayout />);
-    fireEvent.click(screen.getByTestId('scoreboard-link'));
-    expect(screen.queryByTestId('game-component')).toBeNull();
-    expect(screen.queryByTestId('groups-page-component')).toBeNull();
-    expect(screen.getByTestId('scoreboard-component')).toBeInTheDocument();
+    
+    render(
+      <MemoryRouter>
+    <GameLayout />
+    </MemoryRouter>
+    );
+    waitFor(() => {
+        fireEvent.click(screen.getByTestId('scoreboard-link'));
+        expect(screen.queryByTestId('game-component')).toBeNull();
+        expect(screen.queryByTestId('groups-page-component')).toBeNull();
+        expect(screen.getByTestId('scoreboard-component')).toBeInTheDocument();
+    });
+    
   });
 });

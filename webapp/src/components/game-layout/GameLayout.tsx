@@ -33,7 +33,8 @@ const GameLayout = () => {
         </nav>
       </header>
       <main>
-        {currentView === "Game" ? <Game /> : currentView === "Group" ? <GroupsPage /> : <Scoreboard />}
+        {currentView === "Game" ? <Game /> : currentView === "Group" ? <GroupsPage data-testid="groups-page-component" /> : 
+        <Scoreboard data-testid="scoreboard-component"/>}
       </main>
     </div>
   );
