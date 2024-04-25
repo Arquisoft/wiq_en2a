@@ -122,15 +122,15 @@ app.post('/createGroup', async (req, res) => {
 app.post('/joinGroup', async (req, res) => {
   try{
     const { uuid } = req.body
+    // join an existing group
     const groupResponse = await axios.post(groupServiceUrl+'/joinGroup', req.body);
+    // add group to user
     const userResponse = await axios.put(userServiceUrl+'/addGroup/'+req.body.uuid, {groupUUID: groupResponse.data.uuid});
+    // if user was in a group, leave it
     if(userResponse.data.previousGroup){
       const getGroupResponse = await axios.get(groupServiceUrl+'/getGroup/'+userResponse.data.previousGroup);
-      console.log(getGroupResponse.data)
-      const exitGroupResponse = await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: uuid, adminUUID: uuid, groupName: getGroupResponse.data.groupName});
-      console.log(exitGroupResponse.data)
+      await axios.post(groupServiceUrl+'/leaveGroup', {expelledUUID: uuid, adminUUID: uuid, groupName: getGroupResponse.data.groupName});
     }
-    console.log(groupResponse.data)
     res.json(groupResponse.data);
   } catch(error){
     res.status(500).json({ error: error.message });
@@ -140,10 +140,10 @@ app.post('/joinGroup', async (req, res) => {
 // leave group
 app.post('/leaveGroup', async (req, res) => {
   try{
+    // leave an existing group
     const groupResponse = await axios.post(groupServiceUrl+'/leaveGroup', req.body);
-    console.log("---- GROUP LEFT SUCCESFULLY ----")
-    console.log(groupResponse.data)
-    const userResponse = await axios.delete(userServiceUrl+'/leaveGroup/'+req.body.expelledUUID);
+    // remove group from user
+    await axios.delete(userServiceUrl+'/leaveGroup/'+req.body.expelledUUID);
     res.json(groupResponse.data);
   } catch(error){
     res.status(500).json({ error: error.message });

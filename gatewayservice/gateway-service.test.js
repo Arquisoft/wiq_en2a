@@ -253,3 +253,118 @@ describe('POST /createGroup', () => {
     expect(response.body).toEqual({ error: 'Internal server error' });
   });
 })
+
+describe('POST /joinGroup', () => {
+  it('should join a group and add the user to it', async () => {
+    // Mock axios responses
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: null } });
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/joinGroup')
+      .send({ uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ uuid: 'group-uuid' });
+
+    // Ensure axios calls were made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/joinGroup'),
+      { uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' }
+    );
+    expect(axios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/addGroup/user-uuid'),
+      { groupUUID: 'group-uuid' }
+    );
+  });
+
+  it('should remove user from previous group if they were in one', async () => {
+    // Mock axios responses
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: 'previous-group-uuid' } });
+    axios.get.mockResolvedValueOnce({ data: { groupName: 'Previous Group' } });
+    axios.post.mockResolvedValueOnce({});
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/joinGroup')
+      .send({ uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ uuid: 'group-uuid' });
+
+    // Ensure axios calls were made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/joinGroup'),
+      { uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' }
+    );
+    expect(axios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/addGroup/user-uuid'),
+      { groupUUID: 'group-uuid' }
+    );
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/getGroup/previous-group-uuid')
+    );
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/leaveGroup'),
+      { expelledUUID: 'user-uuid', adminUUID: 'user-uuid', groupName: 'Previous Group' }
+    );
+  });
+
+  it('should handle errors', async () => {
+    // Mock axios responses to simulate an error
+    axios.post.mockRejectedValueOnce(new Error('Internal server error'));
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/joinGroup')
+      .send({ uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' });
+
+    // Assertions
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+});
+
+describe('POST /leaveGroup', () => {
+  it('should leave a group and remove the user from it', async () => {
+    // Mock axios responses
+    axios.post.mockResolvedValueOnce({ data: { message: 'Left group successfully' } });
+    axios.delete.mockResolvedValueOnce();
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/leaveGroup')
+      .send({ expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'Left group successfully' });
+
+    // Ensure axios calls were made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/leaveGroup'),
+      { expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' }
+    );
+    expect(axios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/leaveGroup/user-uuid')
+    );
+  });
+
+  it('should handle errors', async () => {
+    // Mock axios responses to simulate an error
+    axios.post.mockRejectedValueOnce(new Error('Internal server error'));
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/leaveGroup')
+      .send({ expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' });
+
+    // Assertions
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+});
