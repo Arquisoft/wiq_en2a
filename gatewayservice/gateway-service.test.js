@@ -215,9 +215,9 @@ describe('POST /createGroup', () => {
 
   it('should remove user from previous group if they were in one', async () => {
     // Mock axios responses
-    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
-    axios.put.mockResolvedValueOnce({ data: { previousGroup: 'previous-group-uuid' } });
-    axios.get.mockResolvedValueOnce({ data: { groupName: 'Previous Group' } });
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'groupNew-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: 'prev-group-uuid' } });
+    axios.get.mockResolvedValueOnce({ data: { groupName: 'Prev Group' } });
     axios.post.mockResolvedValueOnce({});
 
     // Make request to the endpoint
@@ -227,7 +227,7 @@ describe('POST /createGroup', () => {
 
     // Assertions
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ uuid: 'group-uuid' });
+    expect(response.body).toEqual({ uuid: 'groupNew-uuid' });
 
     // Ensure axios calls were made with the correct parameters
     expect(axios.post).toHaveBeenCalledWith(
@@ -239,11 +239,11 @@ describe('POST /createGroup', () => {
       { groupUUID: 'group-uuid' }
     );
     expect(axios.get).toHaveBeenCalledWith(
-      expect.stringContaining('/getGroup/previous-group-uuid')
+      expect.stringContaining('/getGroup/prev-group-uuid')
     );
     expect(axios.post).toHaveBeenCalledWith(
       expect.stringContaining('/leaveGroup'),
-      { expelledUUID: 'user-uuid', adminUUID: 'user-uuid', groupName: 'Previous Group' }
+      { expelledUUID: 'user-uuid', adminUUID: 'user-uuid', groupName: 'Prev Group' }
     );
   });
 
