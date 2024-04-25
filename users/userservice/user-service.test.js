@@ -10,13 +10,8 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  let mockUser; 
   app = require('./user-service');
 });
-
-afterEach(async () => {
-  //jest.clearAllMocks();
-})
 
 afterAll(async () => {
   app.close()
