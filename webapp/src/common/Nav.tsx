@@ -123,13 +123,17 @@ const NavBar: React.FC<{}> = () =>
                                     <Menu 
                                     id="menu" 
                                     open={open} 
-                                    MenuListProps={{'aria-labelledby':'menu-button'}} 
-                                    onClose={()=>handleClose()} 
+                                    MenuListProps={{ 'aria-labelledby': 'menu-button' }} 
+                                    onClose={() => handleClose()} 
                                     anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
                                     sx={{ marginTop: '5px' }}
                                     >
-                                        <MenuItem onClick={()=> navigate("/profile")}>{t('nav_profile')}</MenuItem>
-                                        <MenuItem onClick={()=> navigate("/")}>{t('nav_logout')}</MenuItem>
+                                        <MenuItem onClick={() => navigate("/profile")}>{t('nav_profile')}</MenuItem>
+                                        <MenuItem onClick={() => navigate("/")}>{t('nav_logout')}</MenuItem>
                                     </Menu>
                                 </Grid>
                             </Grid>
