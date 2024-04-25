@@ -7,7 +7,6 @@ const isValidUuidV4 = require('./util/ValidateUUID');
 let UserController = {
     updateLastGame: async (req, res) => {
       const { gameUUID, players } = req.body;
-    
       for (const p of players) {
         try {
           const isValid = isValidUuidV4(p.uuid);
@@ -20,9 +19,8 @@ let UserController = {
           if (missingFields.length > 0) {
             throw new Error(`Missing required fields in player object: ${missingFields.join(', ')}`);
           }
-          
           const user = await User.findOne({ uuid: p.uuid }); 
-    
+
           if (user) {
             user.lastGameId = gameUUID;
             await user.save();

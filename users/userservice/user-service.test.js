@@ -10,23 +10,12 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-
-  mockUser = new User({
-    uuid: '3c68688e-84e7-4d29-b7c7-09474d42b669', // Valid v4 UUID
-    username: 'mockUser',
-    password: 'testpassword',
-    createdAt: '2022-01-01T00:00:00.000Z',
-    nCorrectAnswers: 10,
-    nWrongAnswers: 5,
-    totalScore: 15,
-    nWins: 2,
-  });
-
+  let mockUser; 
   app = require('./user-service');
 });
 
 afterEach(async () => {
-  jest.clearAllMocks();
+  //jest.clearAllMocks();
 })
 
 afterAll(async () => {
@@ -43,6 +32,7 @@ describe('User Service', () => {
     };
 
     const response = await request(app).post('/adduser').send(newUser);
+    mockUser = response.body;
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('username', 'testuser');
   });
@@ -57,7 +47,7 @@ describe('User Service', () => {
         isWinner: true,
       },
       {
-        uuid: '3c68688e-84e7-4d29-b7c7-09474d42b669', // Valid UUID with extra spaces (trimmed)
+        uuid: '3c68688e-84e7-4d29-b7c7-09474d42b669',
         nCorrectAnswers: 5,
         nWrongAnswers: 3,
         totalScore: 8,
@@ -107,21 +97,15 @@ it('updates last game for valid players', async () => {
   const gameUUID = '123e4567-e89b-12d3-a456-426655440001';
   const players = [
     {
-      uuid: '3c68688e-84e7-4d29-b7c7-09474d42b669',
+      uuid: mockUser.uuid
     },
   ];
-  mockUser.lastGameId = undefined; // Reset lastGameId for testing
-  jest.spyOn(User, 'findOne').mockResolvedValueOnce(mockUser);
 
   const response = await request(app).post('/updateLastGame').send({ gameUUID, players });
 
   expect(response.statusCode).toBe(200);
   expect(response.body.message).toEqual('Last game updated for 1 users.');
 
-  // Assertions on User model interactions (mock calls)
-
-  expect(User.findOne).toHaveBeenCalledTimes(1); // User.findOne called twice (once per player)
-  expect(mockUser.lastGameId).toEqual(gameUUID); // Updated lastGameId on mock user
 });
 
 it('returns error for invalid UUID in request', async () => {
@@ -137,8 +121,6 @@ it('returns error for invalid UUID in request', async () => {
   expect(response.statusCode).toBe(500); // Simulate internal server error
   expect(response.body.error).toEqual('Invalid UUID provided');
 
-  // Assertions on validation and User model interactions
-  expect(User.findOne).not.toHaveBeenCalled(); // User.findOne not called due to validation failure
 });
 
 it('returns informative error for user not found', async () => {
@@ -149,7 +131,6 @@ it('returns informative error for user not found', async () => {
     },
   ];
 
-  jest.spyOn(User, 'findOne').mockResolvedValue(null); // Simulate user not found
 
   const response = await request(app).post('/updateLastGame').send({ gameUUID, players });
 
@@ -160,16 +141,27 @@ it('returns informative error for user not found', async () => {
 it('retrieves user by username and returns user data without password field', async () => {
   const mockUserWithoutPassword = { ...mockUser };
   delete mockUserWithoutPassword.password;
-
-  jest.spyOn(User, 'findOne').mockImplementation((filter) => ({
-    select: jest.fn().mockResolvedValueOnce(mockUserWithoutPassword)
-  }));
+  mockUserWithoutPassword.lastGameId = '123e4567-e89b-12d3-a456-426655440001'
   
   // Make request to the endpoint
   const response = await request(app)
     .get(`/getUser/${mockUser.username}`);
 
   expect(response.status).toBe(200);
+  console.log(response.body)
+  expect(response.body).toEqual(mockUserWithoutPassword);
 });
+
+it('gets the statistics for a player given its uuid', async () => {
+  const mockUserWithoutPassword = { ...mockUser };
+  delete mockUserWithoutPassword.password;
+  mockUserWithoutPassword.lastGameId = '123e4567-e89b-12d3-a456-426655440001'
+
+  const response = await request(app)
+    .get(`/getStatistics/${mockUserWithoutPassword.uuid}`);
+
+  expect(response.status).toBe(200);
+  expect(response.body).toEqual(mockUserWithoutPassword);
+})
 
 });
