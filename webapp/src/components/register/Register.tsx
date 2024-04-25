@@ -6,7 +6,7 @@ import './Register.scss';
 import { useNavigate } from "react-router-dom";
 
 //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
-const apiEndpoint = process.env.API_ENDPOINT || 'http://localhost:8000';
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 type ActionProps = {
   goBack:()=> void;
