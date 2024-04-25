@@ -6,6 +6,9 @@ const axiosRequest = require('axios');
 afterAll(async () => {
     app.close();
   });
+beforeEach(() => {
+  axios.post.mockReset();
+})
 
 jest.mock('axios');
 
@@ -16,22 +19,27 @@ const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8004';
 
 describe('Gateway Service', () => {
   // Mock responses from external services
-  axios.post.mockImplementation((url, data) => {
-    if (url.endsWith('/login')) {
-      return Promise.resolve({ data: { token: 'mockedToken' } });
-    } else if (url.endsWith('/adduser')) {
-      return Promise.resolve({ data: { userId: 'mockedUserId' } });
-    }
-  });
 
   // Test /adduser endpoint
-  it('should forward add user request to user service', async () => {
+  it('should add a user successfully', async () => {
+    // Mock axios response for successful user creation
+    const userData = { username: 'testuser' };
+    axios.post.mockResolvedValueOnce({ data: userData });
+
+    // Make request to the endpoint
     const response = await request(app)
       .post('/adduser')
-      .send({ username: 'newuser', password: 'newpassword' });
+      .send({ username: 'testuser', password: 'testpassword' });
 
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(userData);
 
-    expect(response.body.userId).toBe('mockedUserId');
+    // Ensure axios call was made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/adduser'),
+      { username: 'testuser', password: 'testpassword' }
+    );
   });
 
   it('should forward login request to auth service', async () => {
@@ -362,6 +370,64 @@ describe('POST /leaveGroup', () => {
     const response = await request(app)
       .post('/leaveGroup')
       .send({ expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' });
+
+    // Assertions
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+});
+
+describe('GET /getGroup/:uuid', () => {
+  it('should return group information with admin and members', async () => {
+    // Mock axios responses
+    const groupResponseData = {
+      uuid: 'group-uuid',
+      admin: 'admin-uuid',
+      members: ['member-uuid-1', 'member-uuid-2']
+    };
+    const adminResponseData = {
+      username: 'admin-username'
+    };
+    const membersResponseData = [
+      { username: 'member-1-username' },
+      { username: 'member-2-username' }
+    ];
+
+    axios.get.mockResolvedValueOnce({ data: groupResponseData });
+    axios.get.mockResolvedValueOnce({ data: adminResponseData });
+    axios.post.mockResolvedValueOnce({ data: membersResponseData });
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .get('/getGroup/group-uuid');
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      uuid: 'group-uuid',
+      admin: adminResponseData,
+      members: membersResponseData
+    });
+
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/getGroup/group-uuid')
+    );
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/getStatistics/admin-uuid')
+    );
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/getUsersByIds'),
+      { userIds: ['member-uuid-1', 'member-uuid-2'] }
+    );
+  });
+
+  it('should handle errors', async () => {
+    // Mock axios responses to simulate an error
+    axios.get.mockRejectedValueOnce(new Error('Internal server error'));
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .get('/getGroup/group-uuid');
 
     // Assertions
     expect(response.status).toBe(500);

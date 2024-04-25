@@ -154,14 +154,15 @@ app.post('/leaveGroup', async (req, res) => {
 app.get('/getGroup/:uuid', async (req, res) => {
   try{
     const uuid = req.params.uuid
+    // get group by uuid of the group
     const groupResponse = await axios.get(groupServiceUrl+'/getGroup/'+uuid);
-    console.log(groupResponse.data.members)
+    // get admin
     const userResponseAdmin = await axios.get(userServiceUrl+'/getStatistics/'+groupResponse.data.admin);
     groupResponse.data.admin = userResponseAdmin.data
     const userIds = groupResponse.data.members
+    // get members
     const userResponseMembers = await axios.post(userServiceUrl+'/getUsersByIds', {userIds});
     groupResponse.data.members = userResponseMembers.data
-    console.log(groupResponse.data)
     res.json(groupResponse.data);
   }catch(error){
     res.status(500).json({ error: error.message });
