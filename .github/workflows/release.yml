@@ -52,6 +52,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@v5
       env:
         API_URI: http://conoceryvencer.xyz:8000
+        MULTIPLAYER_URI: http://conoceryvencer.xyz:8006
       with:
           name: arquisoft/wiq_en2a/webapp
           username: ${{ github.actor }}
@@ -139,6 +140,8 @@ jobs:
       contents: read
       packages: write
     #needs: [e2e-tests]
+    env:
+      WEBAPP_URI: http://conoceryvencer.xyz
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry

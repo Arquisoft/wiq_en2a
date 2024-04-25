@@ -8,6 +8,8 @@ RUN npm install
 
 ARG API_URI="http://localhost:8000"
 ENV API_ENDPOINT=$API_URI
+ARG MULTIPLAYER_URI="http://localhost:8006"
+ENV MULTIPLAYER_ENDPOINT=$MULTIPLAYER_URI
 ENV PORT=80
 
 #Create an optimized version of the webapp
