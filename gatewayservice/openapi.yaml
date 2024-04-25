@@ -142,3 +142,22 @@ paths:
                     type: string
                     description: Error information.
                     example: Internal Server Error
+  /updateStats:
+    post:
+      summary: Updates the statistics.
+      operationId: updateStats
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User ID.
+                  example: student
+                password:
+                  type: string
+                  description: User password.
+                  example: pass
