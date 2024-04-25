@@ -26,18 +26,6 @@ describe('Gateway Service', () => {
     }
   });
 
-  // Test /login endpoint
-  /*
-  it('should forward login request to auth service', async () => {
-    const response = await request(app)
-      .post('/login')
-      .send({ username: 'testuser', password: 'testpassword' });
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body.token).toBe('mockedToken');
-  });
-  */
-
   // Test /adduser endpoint
   it('should forward add user request to user service', async () => {
     const response = await request(app)
@@ -107,7 +95,7 @@ describe('Gateway Service', () => {
     const game = { uuid: 'game-uuid-123' };
   
     axios.get.mockImplementation((url) => {
-      if (url.endsWith(`/game`)) {
+      if (url.endsWith(`/game/en`)) {
         return Promise.resolve({ data: questions });
       }
       return Promise.reject(new Error('Unexpected URL'));
@@ -122,17 +110,43 @@ describe('Gateway Service', () => {
       return Promise.reject(new Error('Unexpected URL'));
     });
   
-    const response = await request(app).post('/createGame').send({ players });
+    const response = await request(app).post('/createGame/en').send({ players });
   
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(questions);
   
     // Assertions on axios calls
-    expect(axios.get).toHaveBeenCalledWith(qgServiceUrl + '/game');
+    expect(axios.get).toHaveBeenCalledWith(qgServiceUrl + '/game/en');
     expect(axios.post).toHaveBeenCalledWith(gameServiceUrl + '/createGame', { players, questions });
     expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateLastGame', { gameUUID: game.uuid, players });
   
   });
 
+  it('updates statistics for players and returns response from statistics service', async () => {
+    const players = [
+      { 
+        uuid: 'player2-uuid',
+        nCorrectAnswers: 12,
+        nWrongAnswers: 2,
+        totalScore: 800,
+        isWinner: true
+       },
+    ];
+
+    const statisticsResponse = { /* Mocked statistics response */ };
+
+    axios.post.mockResolvedValueOnce({ data: statisticsResponse });
+
+    const response = await request(app)
+      .post('/updateStats')
+      .send({ players });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(statisticsResponse);
+
+    // Ensure axios post is called with the correct data
+    expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateStatistics', { players });
+  });
 
 });
