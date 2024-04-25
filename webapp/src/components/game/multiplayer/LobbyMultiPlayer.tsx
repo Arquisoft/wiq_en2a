@@ -18,7 +18,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({socket, handleCurrentStage
 
   const fetchQuestions = async () => {
     setFetched(false)
-    //const apiEndpoint = 'http://74.234.241.249:8000'
+    //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     try {
