@@ -31,11 +31,13 @@ export const GroupTable = (props: TableProps) => {
             members = new Array();
             numberMembers=0;
             total = 0;
+            console.log(res.data);
             for(let member of res.data.members){
                 let memberRole = "Member";
                 if(member.uuid == res.data.admin.uuid){
                     memberRole = "Leader";
                 }
+                console.log(memberRole);
                 members.push({
                     username : member.username,
                     totalScore : member.totalScore,
@@ -44,11 +46,13 @@ export const GroupTable = (props: TableProps) => {
                 total += +member.totalScore;
                 numberMembers++;
             }
-            
+            console.log(members);
             adminUUID = res.data.admin.uuid;
             groupName = res.data.groupName;
             members.sort((member) => (+member.totalScore));
+            console.log(membersCharged);
             membersCharged = true;
+            console.log(membersCharged);
         });        
         
     }    
@@ -98,13 +102,16 @@ export const GroupTable = (props: TableProps) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {membersCharged && members.map((member) => (
-                            <TableRow key={props.groupUUID}>
-                                <TableCell>{member.username}</TableCell>
-                                <TableCell>{member.role}</TableCell>
-                                <TableCell>{member.totalScore}</TableCell>
-                            </TableRow>
-                        ))}
+                    {membersCharged && members.map((member) => {
+                        console.log(member + "added");
+                        return (
+                        <TableRow key={props.groupUUID}>
+                            <TableCell>{member.username}</TableCell>
+                            <TableCell>{member.role}</TableCell>
+                            <TableCell>{member.totalScore}</TableCell>
+                        </TableRow>
+                        );
+                    })}
                     </TableBody>
                 </Table>
             </TableContainer>

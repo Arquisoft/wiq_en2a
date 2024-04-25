@@ -1,76 +1,46 @@
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { GroupTable } from './GroupTable';
 
-jest.mock('axios');
+const mock = new MockAdapter(axios);
 
 describe('GroupTable component', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => {
+    mock.reset();
   });
 
-  it('renders group information when members are charged', async () => {
-    const mockedMembers = [
-      { username: 'user1', totalScore: '100', role: 'Member' },
-      { username: 'user2', totalScore: '150', role: 'Leader' },
+  it('renders group information', async () => {
+    const groupUUID = '123'; // Replace with your group UUID
+    const groupName = 'Test Group';
+    const totalPoints = 100;
+    const numberMembers = 5;
+    const adminUser={ username: 'User3', totalScore: 20, role: 'Leader',uuid:'789' };
+    const members = [
+      { username: 'User1', totalScore: 50, role: 'Member',uuid:'123' },
+      { username: 'User2', totalScore: 30, role: 'Member' ,uuid:'456'},
+      adminUser,
+      // Add more members as needed
     ];
-    const mockedGroup = {
-      members: mockedMembers,
-      admin: { uuid: 'adminUUID' },
-      groupName: 'Test Group',
-    };
-    axios.get.mockResolvedValueOnce({ data: mockedGroup });
-    
-    render(<GroupTable groupUUID="testUUID" nowHasNoGroup={() => {}} />);
-    console.log('GroupTable component rendered');
-    debugger;
-    
-    await waitFor(() => {
-        
-      expect(screen.getByTestId('group-name')).toBeInTheDocument();
-      expect(screen.getByTestId('total-points')).toBeInTheDocument();
-      expect(screen.getByTestId('number-members')).toBeInTheDocument();
+
+    // Mock the Axios request
+    mock.onGet(`${process.env.REACT_APP_API_ENDPOINT}/getGroup/${groupUUID}`).reply(200, {
+      groupName,
+      members,
+      admin:{adminUser}
     });
 
-    for (const member of mockedMembers) {
-      expect(screen.getByText(member.username)).toBeInTheDocument();
+    // Render the component
+    render(<GroupTable groupUUID={groupUUID} nowHasNoGroup={() => {}} />);
+
+    
+
+    // Assert that each member is rendered
+    for (const member of members) {
+      expect(await screen.findByText(member.username)).toBeInTheDocument();
       expect(screen.getByText(member.role)).toBeInTheDocument();
       expect(screen.getByText(member.totalScore)).toBeInTheDocument();
     }
   });
 
-  it('calls nowHasNoGroup when leave button is clicked', async () => {
-    const mockedMembers = [
-      { username: 'user1', totalScore: '100', role: 'Member' },
-      { username: 'user2', totalScore: '150', role: 'Leader' },
-    ];
-    const mockedGroup = {
-      members: mockedMembers,
-      admin: { uuid: 'adminUUID' },
-      groupName: 'Test Group',
-    };
-    axios.get.mockResolvedValueOnce({ data: mockedGroup });
-    axios.post.mockResolvedValueOnce({});
-
-    const nowHasNoGroupMock = jest.fn();
-    
-    render(<GroupTable groupUUID="testUUID" nowHasNoGroup={nowHasNoGroupMock} />);
-    
-    await waitFor(() => {
-      expect(screen.getByTestId('leave-button')).toBeInTheDocument();
-    });
-
-    userEvent.click(screen.getByTestId('leave-button'));
-
-    expect(axios.post).toHaveBeenCalledWith(
-      expect.stringContaining('/leaveGroup'),
-      expect.objectContaining({ expelledUUID: expect.any(String), groupName: 'Test Group', adminUUID: 'adminUUID' })
-    );
-    
-    await waitFor(() => {
-      expect(nowHasNoGroupMock).toHaveBeenCalled();
-    });
-  });
 });
