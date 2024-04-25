@@ -2,10 +2,14 @@ const request = require('supertest');
 const axios = require('axios');
 const app = require('./gateway-service');
 const axiosRequest = require('axios');
+const testGroupMembershipChange = require('./util/testGroupMembershipChange');
 
 afterAll(async () => {
     app.close();
   });
+beforeEach(() => {
+  axios.post.mockReset();
+})
 
 jest.mock('axios');
 
@@ -15,37 +19,56 @@ const qgServiceUrl = process.env.QG_SERVICE_URL || 'http://localhost:8003';
 const gameServiceUrl = process.env.GAME_SERVICE_URL || 'http://localhost:8004';
 
 describe('Gateway Service', () => {
-  // Mock responses from external services
-  axios.post.mockImplementation((url, data) => {
-    if (url.endsWith('/login')) {
-      return Promise.resolve({ data: { token: 'mockedToken' } });
-    } else if (url.endsWith('/adduser')) {
-      return Promise.resolve({ data: { userId: 'mockedUserId' } });
-    } else if (url.endsWith('/createGame')) {
-      return Promise.resolve({ data: { questions: [] } });
-    }
-  });
-
-  // Test /login endpoint
-  /*
-  it('should forward login request to auth service', async () => {
-    const response = await request(app)
-      .post('/login')
-      .send({ username: 'testuser', password: 'testpassword' });
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body.token).toBe('mockedToken');
-  });
-  */
 
   // Test /adduser endpoint
-  it('should forward add user request to user service', async () => {
+  it('should add a user successfully', async () => {
+    // Mock axios response for successful user creation
+    const userData = { username: 'testuser' };
+    axios.post.mockResolvedValueOnce({ data: userData });
+
+    // Make request to the endpoint
     const response = await request(app)
       .post('/adduser')
-      .send({ username: 'newuser', password: 'newpassword' });
+      .send({ username: 'testuser', password: 'testpassword' });
 
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(userData);
 
-    expect(response.body.userId).toBe('mockedUserId');
+    // Ensure axios call was made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/adduser'),
+      { username: 'testuser', password: 'testpassword' }
+    );
+  });
+
+  it('should forward login request to auth service', async () => {
+
+    const loginPayload = { username: 'testuser', password: 'testpassword' }
+    const authResponse = {data: {username: 'testuser'}}
+    const userResponse = {data: {
+      uuid: 'user-uuid',
+      username: 'testuser',
+      nCorrectAnswers: 30,
+      nWrongAnswers: 20,
+      lastGameId: 'game-uuid',
+      totalScore: 2500
+    }}
+
+    axios.post.mockResolvedValueOnce(authResponse);
+    
+    axios.get.mockResolvedValueOnce(userResponse);
+
+    const response = await request(app)
+      .post('/login')
+      .send(loginPayload);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(userResponse.data);
+
+    expect(axios.post).toHaveBeenCalledWith(authServiceUrl + '/login', loginPayload);
+
+    expect(axios.get).toHaveBeenCalledWith(userServiceUrl + '/getUser/' + authResponse.data.username);
   });
 
   it('fetches user stats successfuly', async () => {
@@ -107,7 +130,7 @@ describe('Gateway Service', () => {
     const game = { uuid: 'game-uuid-123' };
   
     axios.get.mockImplementation((url) => {
-      if (url.endsWith(`/game`)) {
+      if (url.endsWith(`/game/en`)) {
         return Promise.resolve({ data: questions });
       }
       return Promise.reject(new Error('Unexpected URL'));
@@ -122,17 +145,249 @@ describe('Gateway Service', () => {
       return Promise.reject(new Error('Unexpected URL'));
     });
   
-    const response = await request(app).post('/createGame').send({ players });
+    const response = await request(app).post('/createGame/en').send({ players });
   
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual(questions);
   
     // Assertions on axios calls
-    expect(axios.get).toHaveBeenCalledWith(qgServiceUrl + '/game');
+    expect(axios.get).toHaveBeenCalledWith(qgServiceUrl + '/game/en');
     expect(axios.post).toHaveBeenCalledWith(gameServiceUrl + '/createGame', { players, questions });
     expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateLastGame', { gameUUID: game.uuid, players });
   
   });
 
+  it('updates statistics for players and returns response from statistics service', async () => {
+    const players = [
+      { 
+        uuid: 'player2-uuid',
+        nCorrectAnswers: 12,
+        nWrongAnswers: 2,
+        totalScore: 800,
+        isWinner: true
+       },
+    ];
 
+    const statisticsResponse = { /* Mocked statistics response */ };
+
+    axios.post.mockResolvedValueOnce({ data: statisticsResponse });
+
+    const response = await request(app)
+      .post('/updateStats')
+      .send({ players });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(statisticsResponse);
+
+    // Ensure axios post is called with the correct data
+    expect(axios.post).toHaveBeenCalledWith(userServiceUrl + '/updateStatistics', { players });
+  });
+  
+
+});
+
+describe('POST /createGroup', () => {
+  it('should create a group and add the user to it', async () => {
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: null } });
+
+    const response = await request(app)
+      .post('/createGroup')
+      .send({ creatorUUID: 'user-uuid' });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ uuid: 'group-uuid' });
+
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/createGroup'),
+      { creatorUUID: 'user-uuid' }
+    );
+    expect(axios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/addGroup/user-uuid'),
+      { groupUUID: 'group-uuid' }
+    );
+  });
+
+  it('when creating a group, remove user from previous group if they where in one', async () => {
+    await testGroupMembershipChange(app,'/createGroup', { creatorUUID: 'user-uuid', uuid: 'user-uuid' }, 'Prev Group');
+  })
+
+  it('should handle errors', async () => {
+    axios.post.mockRejectedValueOnce(new Error('Internal server error'));
+
+    const response = await request(app)
+      .post('/createGroup')
+      .send({ creatorUUID: 'user-uuid' });
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+})
+
+describe('POST /joinGroup', () => {
+  it('should join a group and add the user to it', async () => {
+    axios.post.mockResolvedValueOnce({ data: { uuid: 'group-uuid' } });
+    axios.put.mockResolvedValueOnce({ data: { previousGroup: null } });
+
+    const response = await request(app)
+      .post('/joinGroup')
+      .send({ uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ uuid: 'group-uuid' });
+
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/joinGroup'),
+      { uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' }
+    );
+    expect(axios.put).toHaveBeenCalledWith(
+      expect.stringContaining('/addGroup/user-uuid'),
+      { groupUUID: 'group-uuid' }
+    );
+  });
+
+  it('when joining a group, remove user from previous group if they where in one', async () => {
+    await testGroupMembershipChange(app,'/joinGroup', { uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' }, 'Previous Group');
+  })
+
+  it('should handle errors', async () => {
+    axios.post.mockRejectedValueOnce(new Error('Internal server error'));
+
+    const response = await request(app)
+      .post('/joinGroup')
+      .send({ uuid: 'user-uuid', groupName: 'Test Group', joinCode: '123456' });
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+});
+
+describe('POST /leaveGroup', () => {
+  it('should leave a group and remove the user from it', async () => {
+    // Mock axios responses
+    axios.post.mockResolvedValueOnce({ data: { message: 'Left group successfully' } });
+    axios.delete.mockResolvedValueOnce();
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/leaveGroup')
+      .send({ expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' });
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({ message: 'Left group successfully' });
+
+    // Ensure axios calls were made with the correct parameters
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/leaveGroup'),
+      { expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' }
+    );
+    expect(axios.delete).toHaveBeenCalledWith(
+      expect.stringContaining('/leaveGroup/user-uuid')
+    );
+  });
+
+  it('should handle errors', async () => {
+    // Mock axios responses to simulate an error
+    axios.post.mockRejectedValueOnce(new Error('Internal server error'));
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .post('/leaveGroup')
+      .send({ expelledUUID: 'user-uuid', adminUUID: 'admin-uuid', groupName: 'Test Group' });
+
+    // Assertions
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+});
+
+describe('GET /getGroup/:uuid', () => {
+  it('should return group information with admin and members', async () => {
+    // Mock axios responses
+    const groupResponseData = {
+      uuid: 'group-uuid',
+      admin: 'admin-uuid',
+      members: ['member-uuid-1', 'member-uuid-2']
+    };
+    const adminResponseData = {
+      username: 'admin-username'
+    };
+    const membersResponseData = [
+      { username: 'member-1-username' },
+      { username: 'member-2-username' }
+    ];
+
+    axios.get.mockResolvedValueOnce({ data: groupResponseData });
+    axios.get.mockResolvedValueOnce({ data: adminResponseData });
+    axios.post.mockResolvedValueOnce({ data: membersResponseData });
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .get('/getGroup/group-uuid');
+
+    // Assertions
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      uuid: 'group-uuid',
+      admin: adminResponseData,
+      members: membersResponseData
+    });
+
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/getGroup/group-uuid')
+    );
+    expect(axios.get).toHaveBeenCalledWith(
+      expect.stringContaining('/getStatistics/admin-uuid')
+    );
+    expect(axios.post).toHaveBeenCalledWith(
+      expect.stringContaining('/getUsersByIds'),
+      { userIds: ['member-uuid-1', 'member-uuid-2'] }
+    );
+  });
+
+  it('should handle errors', async () => {
+    // Mock axios responses to simulate an error
+    axios.get.mockRejectedValueOnce(new Error('Internal server error'));
+
+    // Make request to the endpoint
+    const response = await request(app)
+      .get('/getGroup/group-uuid');
+
+    // Assertions
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Internal server error' });
+  });
+});
+
+describe('GET /getGroups', () => {
+  beforeEach(() => {
+    axios.get.mockReset();
+  });
+
+  it('should retrieve groups successfully', async () => {
+    const groupsData = [{ name: 'group1' }, { name: 'group2' }];
+    axios.get.mockResolvedValueOnce({ data: groupsData });
+
+    const response = await request(app).get('/getGroups');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(groupsData);
+
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/getGroups'));
+  });
+
+  it('should handle errors properly', async () => {
+    const error = new Error('Group service error');
+    error.response = { status: 500, data: { error: 'Internal server error' } };
+    axios.get.mockRejectedValueOnce(error);
+
+    const response = await request(app).get('/getGroups');
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Group service error' });
+
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/getGroups'));
+  });
 });
