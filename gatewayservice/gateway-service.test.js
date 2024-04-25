@@ -434,3 +434,34 @@ describe('GET /getGroup/:uuid', () => {
     expect(response.body).toEqual({ error: 'Internal server error' });
   });
 });
+
+describe('GET /getGroups', () => {
+  beforeEach(() => {
+    axios.get.mockReset();
+  });
+
+  it('should retrieve groups successfully', async () => {
+    const groupsData = [{ name: 'group1' }, { name: 'group2' }];
+    axios.get.mockResolvedValueOnce({ data: groupsData });
+
+    const response = await request(app).get('/getGroups');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(groupsData);
+
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/getGroups'));
+  });
+
+  it('should handle errors properly', async () => {
+    const error = new Error('Group service error');
+    error.response = { status: 500, data: { error: 'Internal server error' } };
+    axios.get.mockRejectedValueOnce(error);
+
+    const response = await request(app).get('/getGroups');
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Group service error' });
+
+    expect(axios.get).toHaveBeenCalledWith(expect.stringContaining('/getGroups'));
+  });
+});
