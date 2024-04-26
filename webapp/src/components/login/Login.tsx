@@ -21,6 +21,8 @@ const Login = (props: ActionProps) => {
   //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 
+  console.log(apiEndpoint);
+
   const handleReturnButtonClick = () => { 
     document.title = "Conocer y Vencer";
     props.goBack();
