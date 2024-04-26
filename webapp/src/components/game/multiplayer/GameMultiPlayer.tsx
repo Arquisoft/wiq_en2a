@@ -31,7 +31,7 @@ export interface PlayerWithPoints {
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
   //const SERVER_URL = 'http://conoceryvencer.xyz:8006';
-  const SERVER_URL = process.env.MULTIPLAYER_ENDPOINT || 'http://localhost:8006';
+  const SERVER_URL = process.env.REACT_APP_MULTIPLAYER_ENDPOINT || 'http://localhost:8006';
 
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
