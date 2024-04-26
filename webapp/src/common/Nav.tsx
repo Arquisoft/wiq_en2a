@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const NavBar: React.FC<{}> = () => 
 {
     const location = useLocation();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
     const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
@@ -26,6 +26,18 @@ const NavBar: React.FC<{}> = () =>
         setAnchorEl(null);
         setOpen(false);
         setChevronRotated(false);
+    };
+
+    const handleSwitch = () => {
+        const language = localStorage.getItem("lang");
+        if(language === "es"){
+            localStorage.setItem("lang", "en");
+            i18n.changeLanguage("en");
+        }
+        else{
+            localStorage.setItem("lang", "es");
+            i18n.changeLanguage("es");
+        }
     };
 
     if(value === "false"){
@@ -49,7 +61,9 @@ const NavBar: React.FC<{}> = () =>
           default:
             document.title = t('app_name');
         }
-      }, [location.pathname]);
+      }, [location.pathname, t]);
+
+    
 
     return (
         <AppBar className="nav-appBar" sx={
@@ -144,7 +158,11 @@ const NavBar: React.FC<{}> = () =>
                                         >
                                             {t('nav_logout')}
                                         </MenuItem>
-                                        <MenuItem><Typography>EN</Typography><Switch></Switch><Typography>ES</Typography></MenuItem>
+                                        <MenuItem>
+                                            <Typography>EN</Typography>
+                                                <Switch onChange={handleSwitch} />
+                                            <Typography>ES</Typography>
+                                        </MenuItem>
                                     </Menu>
                                 </Grid>
                             </Grid>
