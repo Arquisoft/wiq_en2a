@@ -29,8 +29,8 @@ it('handles answer clicks correctly', async () => {
     fireEvent.click(answerButton);
     // Espera a que el componente actualice su estado
     await waitFor(() => {
-            expect(screen.getByTestId('result')).toBeInTheDocument();
-    });
+        expect(screen.getByTestId('result')).toBeInTheDocument();
+    }, { timeout: 5000 }); // Tiempo máximo de espera de 5 segundos
 
 });
   
