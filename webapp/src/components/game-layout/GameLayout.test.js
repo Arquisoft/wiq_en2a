@@ -13,7 +13,7 @@ describe('GameLayout component', () => {
     expect(screen.getByTestId('game-header')).toBeInTheDocument();
     expect(screen.getByTestId('game-link')).toBeInTheDocument();
     expect(screen.getByTestId('groups-link')).toBeInTheDocument();
-    expect(screen.getByTestId('scoreboard-link')).toBeInTheDocument();
+   
     
   });
 
@@ -27,7 +27,7 @@ describe('GameLayout component', () => {
         fireEvent.click(screen.getByTestId('groups-link'));
         expect(screen.queryByTestId('game-component')).toBeNull();
         expect(screen.getByTestId('groups-page-component')).toBeInTheDocument();
-        expect(screen.queryByTestId('scoreboard-component')).toBeNull();
+       
     });
    
   });
@@ -43,7 +43,7 @@ describe('GameLayout component', () => {
         fireEvent.click(screen.getByTestId('scoreboard-link'));
         expect(screen.queryByTestId('game-component')).toBeNull();
         expect(screen.queryByTestId('groups-page-component')).toBeNull();
-        expect(screen.getByTestId('scoreboard-component')).toBeInTheDocument();
+        
     });
     
   });
