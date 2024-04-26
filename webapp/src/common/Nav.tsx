@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './nav.scss';
 import { useTranslation } from 'react-i18next';
-import {AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem, Switch, Typography} from "@mui/material";
+import { AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem, Switch } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const NavBar: React.FC<{}> = () => 
@@ -163,9 +163,9 @@ const NavBar: React.FC<{}> = () =>
                                             {t('nav_logout')}
                                         </MenuItem>
                                         <MenuItem>
-                                            <Typography>EN</Typography>
-                                                <Switch onChange={handleSwitch} />
-                                            <Typography>ES</Typography>
+                                            <img className='flag' src='british-flag.png' alt='British flag' />
+                                            <Switch onChange={handleSwitch} />
+                                            <img className='flag' src='spanish-flag.png' alt='Spanish flag' />
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
