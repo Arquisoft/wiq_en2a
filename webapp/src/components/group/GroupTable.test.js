@@ -1,65 +1,50 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import axios from 'axios'; // Mockear axios
-import NoGroup from './NoGroup';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { GroupTable } from './GroupTable';
 
-jest.mock('axios');
+const mock = new MockAdapter(axios);
 
-describe('NoGroup component', () => {
+describe('GroupTable component', () => {
   beforeEach(() => {
-    axios.get.mockResolvedValue({
-      data: [
-        {
-          groupName: 'Group 1',
-          maxNumUsers: '10',
-          numMembers: '5',
-          uuid: '1'
-        },
-        {
-          groupName: 'Group 2',
-          maxNumUsers: '20',
-          numMembers: '15',
-          uuid: '2'
-        }
-      ]
+    mock.reset();
+  });
+
+  it('renders group information', async () => {
+    const groupUUID = '123'; // Replace with your group UUID
+    const groupName = 'Test Group';
+    const totalPoints = 100;
+    const numberMembers = 5;
+    const adminUser={ username: 'User3', totalScore: 20, role: 'Leader',uuid:'789' };
+    const members = [
+      { username: 'User1', totalScore: 50, role: 'Member',uuid:'123' },
+      { username: 'User2', totalScore: 30, role: 'Member' ,uuid:'456'},
+      adminUser,
+      // Add more members as needed
+    ];
+
+    // Mock the Axios request
+    mock.onGet(`${process.env.REACT_APP_API_ENDPOINT}/getGroup/${groupUUID}`).reply(200, {
+      groupName,
+      members,
+      admin:{adminUser}
     });
+
+    // Render the component
+    render(<GroupTable groupUUID={groupUUID} nowHasNoGroup={() => {}} />);
+
+    
+
+    setTimeout(function(){
+      for (const member of members) {
+        expect(screen.findByText(member.username)).toBeInTheDocument();
+        expect(screen.getByText(member.role)).toBeInTheDocument();
+        expect(screen.getByText(member.totalScore)).toBeInTheDocument();
+      }
+    }, 1000);
+    // Assert that each member is rendered
+    console.log('Waiting for members to charge');
   });
 
-  test('renders the component properly', async () => {
-    render(<NoGroup />);
-    
-    // Verifica que el contenedor del componente esté presente en el DOM
-    expect(screen.getByTestId('no-group-container')).toBeInTheDocument();
-    
-    // Verifica que el botón "Join a group" esté presente en el DOM
-    expect(screen.getByTestId('join-group-button')).toBeInTheDocument();
-
-    // Verifica que el botón "Create a group" esté presente en el DOM
-    expect(screen.getByTestId('create-group-button')).toBeInTheDocument();
-  });
-
-  test('clicking on "Join a group" button opens the join modal', async () => {
-    render(<NoGroup />);
-    
-    // Simula hacer clic en el botón "Join a group"
-    fireEvent.click(screen.getByTestId('join-group-button'));
-
-    // Verifica que el modal de join group se muestre en el DOM
-    await waitFor(() => {
-      expect(screen.getByTestId('join-group-modal')).toBeInTheDocument();
-    });
-  });
-
-  test('clicking on "Create a group" button opens the create modal', async () => {
-    render(<NoGroup />);
-    
-    // Simula hacer clic en el botón "Create a group"
-    fireEvent.click(screen.getByTestId('create-group-button'));
-
-    // Verifica que el modal de create group se muestre en el DOM
-    await waitFor(() => {
-      expect(screen.getByTestId('create-group-modal')).toBeInTheDocument();
-    });
-  });
 });
 
