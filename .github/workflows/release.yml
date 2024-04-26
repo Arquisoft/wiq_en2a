@@ -59,7 +59,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: webapp
-          buildargs: API_URI
+          buildargs: API_URI,MULTIPLAYER_URI
   
   docker-push-qgservice:
     name: Push question generator service Docker Image to GitHub Packages
@@ -152,6 +152,7 @@ jobs:
         password: ${{ secrets.GH_PAT }}
         registry: ghcr.io
         workdir: multiplayerservice
+        buildargs: WEBAPP_URI
 
   docker-push-groupservice:
     name: Push group service Docker Image to GitHub Packages
