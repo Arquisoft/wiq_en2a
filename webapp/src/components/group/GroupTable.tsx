@@ -14,7 +14,6 @@ interface Member  {
 }
 
 let members: Member[] = new Array();
-let membersCharged = false;
 
 let adminUUID = "";
 let groupName = "";
@@ -51,9 +50,6 @@ export const GroupTable = (props: TableProps) => {
             adminUUID = res.data.admin.uuid;
             groupName = res.data.groupName;
             members.sort((member) => (+member.totalScore));
-            console.log(membersCharged);
-            membersCharged = true;
-            console.log(membersCharged);
             setLoading(false);
         });        
         
