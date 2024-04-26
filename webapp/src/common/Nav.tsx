@@ -106,15 +106,19 @@ const NavBar: React.FC<{}> = () =>
                             >
                                 <Grid item>
                                     <Button
-                                    variant="text"
+                                    variant="contained"
                                     id="menu-button" 
-                                    color='inherit' 
                                     onClick={handleClick} 
                                     aria-controls={open? 'menu' : undefined}  
                                     aria-expanded={open? 'true' : undefined}
                                     aria-haspopup='true'
-                                    sx={{ textTransform: 'none', padding: '0' }}
+                                    sx={{ textTransform: 'none', color: '' }}
                                     >
+                                        <img
+                                        className="nav-profile-picture"
+                                        src={"https://robohash.org/"+user+".png"} 
+                                        alt={user} 
+                                        />
                                         {user}
                                         <svg 
                                         fill="#ffffff" 

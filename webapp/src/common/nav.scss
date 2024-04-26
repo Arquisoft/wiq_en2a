@@ -11,6 +11,16 @@
   position: fixed;
 }
 
+.nav-profile-picture{
+  max-width: none;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  border: 2px white solid;
+  margin-bottom: 2px;
+  margin-right: 5px;
+}
+
 .logo{
   font-weight: 500;
   font-size: xx-large;
