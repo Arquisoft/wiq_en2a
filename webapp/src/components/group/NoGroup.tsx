@@ -55,9 +55,11 @@ const NoGroup = (props: ActionProps) =>
                 // new array here so in case it is chared twice it doesn't contain dupllicate data
                 groups = new Array();
                 for(let group of res.data){
+                    console.log("Group:"+JSON.stringify(group));
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
                      // add only groups that are public
                     if(isPublic === "true"){
+                        console.log(group.members);
                         let theNumMembers = group.members.length;
                         groups.push({
                             groupName : group.groupName,
@@ -71,6 +73,7 @@ const NoGroup = (props: ActionProps) =>
                
             })
         } catch (error:any) {
+            console.log("error: "+error);
         setError(error.response.data.error);
         }
     }
@@ -89,21 +92,25 @@ const NoGroup = (props: ActionProps) =>
 
     
     return (
-        <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container">
+        <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container" data-testid="no-group-container">
             <Stack direction="column" padding={1} style={{display: 'flex', justifyContent: 'center'}}> 
-                <h3>{t('not_part_of_group')}</h3>
-                <Button style={{margin:'1em'}} variant="contained" onClick={toggleJoinModal}>{t('join_group_button')}</Button>
-                <Button style={{margin:'1em'}} variant="contained" onClick={toggleCreateModal}>{t('create_group_button')}</Button>
+
+                <h3 data-testid="no-group-message">You are not part of a group...</h3>
+                <Button style={{margin:'1em'}} variant="contained" onClick={toggleJoinModal} data-testid="join-group-button">Join a group</Button>
+                <Button style={{margin:'1em'}} variant="contained" onClick={toggleCreateModal} data-testid="create-group-button">Create a group</Button>
+
             </Stack>
                 
             {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar" />
             )}
-            {createModal &&
-                (<CreationModal nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
+
+            {createModal && 
+                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
             }
+
             {joinModal && (groupsCharged && (
-                <div className="modal">
+                <div className="modal" data-testid="join-group-modal">
                     <div className="modal-content">
                         <h2>{t('join_group_button')}</h2>
                         <Grid >
@@ -116,12 +123,16 @@ const NoGroup = (props: ActionProps) =>
                                         <p style={{margin:'1em'}}>{group.numMembers}/{group.maxNumUsers}</p>
                                     </Grid>
                                     <Grid item xs={4} key={group.uuid}>
-                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)}>{t('join_this_group_button')}</Button>
+
+                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)} data-testid={`join-group-button-${group.uuid}`}>Join</Button>
+
                                     </Grid>
                                 </Grid>
                             ))}                        
                             <Stack direction="row" padding={1}>
-                                <Button variant="contained" onClick={toggleJoinModal}>{t('close_button')}</Button>
+
+                                <Button variant="contained" onClick={toggleJoinModal} data-testid="close-join-modal-button">Close</Button>
+
                             </Stack>
                         </Grid>
                     </div>

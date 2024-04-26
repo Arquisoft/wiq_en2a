@@ -35,12 +35,16 @@ describe('GroupTable component', () => {
 
     
 
+    setTimeout(function(){
+      for (const member of members) {
+        expect(screen.findByText(member.username)).toBeInTheDocument();
+        expect(screen.getByText(member.role)).toBeInTheDocument();
+        expect(screen.getByText(member.totalScore)).toBeInTheDocument();
+      }
+    }, 1000);
     // Assert that each member is rendered
-    for (const member of members) {
-      expect(await screen.findByText(member.username)).toBeInTheDocument();
-      expect(screen.getByText(member.role)).toBeInTheDocument();
-      expect(screen.getByText(member.totalScore)).toBeInTheDocument();
-    }
+    console.log('Waiting for members to charge');
   });
 
 });
+

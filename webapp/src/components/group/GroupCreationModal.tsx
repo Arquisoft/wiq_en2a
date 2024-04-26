@@ -45,7 +45,7 @@ export const CreationModal = (props: ActionProps) => {
     };
 
     return (
-        <div className="modal">
+        <div className="modal" data-testid="create-group-modal">
             <div className="modal-content">
                 <h2>Create group</h2>
                 <Grid >
