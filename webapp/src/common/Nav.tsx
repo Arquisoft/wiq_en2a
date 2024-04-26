@@ -63,8 +63,6 @@ const NavBar: React.FC<{}> = () =>
         }
       }, [location.pathname, t]);
 
-    
-
     return (
         <AppBar className="nav-appBar" sx={
             { 
@@ -163,9 +161,9 @@ const NavBar: React.FC<{}> = () =>
                                             {t('nav_logout')}
                                         </MenuItem>
                                         <MenuItem>
-                                            <img className='flag' src='british-flag.png' alt='British flag' />
+                                            <img className='flag' src={process.env.PUBLIC_URL + '/british-flag.png'} alt='British flag' />
                                             <Switch onChange={handleSwitch} />
-                                            <img className='flag' src='spanish-flag.png' alt='Spanish flag' />
+                                            <img className='flag' src={process.env.PUBLIC_URL + '/spanish-flag.png'} alt='Spanish flag' />
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
