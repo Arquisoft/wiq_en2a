@@ -9,11 +9,13 @@ require('dotenv').config();
 const io = socketIo(server, {
   cors: {
     //origin: 'http://conoceryvencer.xyz',
-    origin: process.env.WEBAPP_ENPOINT || 'http://localhost:3000',
+    origin: process.env.WEBAPP_ENPOINT || 'http://localhost',
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
+
+console.log(process.env.WEBAPP_ENPOINT)
 const parties = {};
 
 const lobby = {};
