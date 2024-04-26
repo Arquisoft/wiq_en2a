@@ -106,7 +106,7 @@ const NoGroup = (props: ActionProps) =>
             )}
 
             {createModal && 
-                (<CreationModal nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
+                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
             }
 
             {joinModal && (groupsCharged && (
