@@ -5,8 +5,8 @@ import "./groups-page.scss";
 import NoGroup from 'src/components/group/NoGroup';
 import { GroupTable } from 'src/components/group/GroupTable';
 
-const apiEndpoint = 'http://74.234.241.249:8000'
-//const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+//const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+const apiEndpoint = process.env.REACT_APPAPI_ENDPOINT || 'http://localhost:8000'; 
 let groupUUID: string = "";
 
 export const GroupsPage: React.FC<{}> = () => {

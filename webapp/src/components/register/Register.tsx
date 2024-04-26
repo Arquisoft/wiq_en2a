@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import './Register.scss';
 import { useNavigate } from "react-router-dom";
 
-const apiEndpoint = 'http://74.234.241.249:8000'
-//const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+//const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 type ActionProps = {
   goBack:()=> void;
@@ -36,11 +36,18 @@ const Register = (props:ActionProps) => {
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
+      localStorage.setItem('lang','en')
 
       setOpenSnackbar(true);
       navigate("/game")
     } catch (error) {
-      setError(error.response.data.error);
+      // Check if error response contains data and error property
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+      } else {
+        // Handle other types of errors
+        console.error('An error occurred:', error);
+      }
     }
   };
 

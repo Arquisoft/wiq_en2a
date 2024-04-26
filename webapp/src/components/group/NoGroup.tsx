@@ -5,8 +5,8 @@ import axios from 'axios';
 import { CreationModal } from './GroupCreationModal';
 import { useTranslation } from 'react-i18next';
 
-const apiEndpoint = 'http://74.234.241.249:8000'
-//const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+//const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 interface Group  {
     groupName: string;

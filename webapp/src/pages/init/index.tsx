@@ -33,7 +33,7 @@ export const InitPage: React.FC<{}> = () =>{
   localStorage.clear();
   localStorage.setItem("isAuthenticated", JSON.stringify(false));
   return (
-    <Container component="main" maxWidth="xs">
+    <Container data-testid="init" component="main" maxWidth="xs">
       <CssBaseline />
       <Box sx={
         {
@@ -48,14 +48,15 @@ export const InitPage: React.FC<{}> = () =>{
             {t('app_name')}
           </Typography>
           {showInit ?
-            <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ />
+            <Init changeView={handleLoginRegisterToggleView}/*  changeGoogleView={handleGoogleViewChange} */ 
+            data-testid="init-view"/>
             /* : showGoogleLM ?
             <GoogleLoginMenu goBack={handleGoogleViewChange} /> */
             : showLogin ?
-            <Login goBack={handleLoginRegisterToggleView} />
-            : <Register goBack={handleLoginRegisterToggleView} />}
-      </Box>
-    </Container>
+            <Login goBack={handleLoginRegisterToggleView} data-testid="login-view"/>
+            : <Register goBack={handleLoginRegisterToggleView} data-testid="register-view" />}
+          </Box>
+        </Container>
     /* changed the login button to /components/Init.tsx (where the other buttons are)*/
   );
 }

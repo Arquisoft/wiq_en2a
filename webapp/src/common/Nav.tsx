@@ -40,9 +40,6 @@ const NavBar: React.FC<{}> = () =>
           case '/groups':
             document.title = 'Conocer y Vencer - Groups';
             break;
-          case '/scoreboard':
-            document.title = 'Conocer y Vencer - Scoreboard';
-            break;
           case '/profile':
             document.title = 'Conocer y Vencer - Profile';
             break;
@@ -71,20 +68,18 @@ const NavBar: React.FC<{}> = () =>
                     justifyContent="space-between"
                     spacing={4}
                     >
-                        <Grid item spacing={2}>
+                        <Grid item>
                             <Stack direction="row" spacing={2}>
-                                <div className="logo">
+                                <div  data-testid="app_name" className="logo">
                                     {t('app_name')}
                                 </div>
-                                <Button variant="contained" onClick={() => navigate("/game")}>
+                                <Button variant="contained"  data-testid="nav_game" onClick={() => navigate("/game")}>
                                     {t('nav_game')}
                                 </Button>
-                                <Button variant="contained" onClick={() => navigate("/groups")}>
+                                <Button variant="contained"  data-testid="nav_groups" onClick={() => navigate("/groups")}>
                                     {t('nav_groups')}
                                 </Button>
-                                <Button variant="contained" onClick={() => navigate("/scoreboard")}>
-                                    {t('nav_scoreboard')}
-                                </Button>
+
                             </Stack>
                         </Grid>
                         <Grid item>
