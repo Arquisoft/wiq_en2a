@@ -90,10 +90,10 @@ const NavBar: React.FC<{}> = () =>
                                 <div className="logo" onClick={() => navigate("/game")}>
                                     {t('app_name')}
                                 </div>
-                                <Button variant="contained" onClick={() => navigate("/game")}>
+                                <Button sx={{ width: '80px' }} variant="contained" onClick={() => navigate("/game")}>
                                     {t('nav_game')}
                                 </Button>
-                                <Button variant="contained" onClick={() => navigate("/groups")}>
+                                <Button sx={{ width: '80px' }} variant="contained" onClick={() => navigate("/groups")}>
                                     {t('nav_groups')}
                                 </Button>
                             </Stack>
