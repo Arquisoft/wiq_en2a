@@ -1,6 +1,7 @@
 import  {  useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Grid, Button } from "@mui/material"
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 type TableProps = {
     groupUUID: string,
@@ -25,6 +26,7 @@ let numberMembers = 0;
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 export const GroupTable = (props: TableProps) => {
+    const { t } = useTranslation();
     const aFunction = async ()=>{
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
             console.log(res.data);
@@ -33,9 +35,9 @@ export const GroupTable = (props: TableProps) => {
             total = 0;
             console.log(res.data);
             for(let member of res.data.members){
-                let memberRole = "Member";
+                let memberRole = t('group_table_member');
                 if(member.uuid == res.data.admin.uuid){
-                    memberRole = "Leader";
+                    memberRole = t('group_table_leader');
                 }
                 console.log(memberRole);
                 members.push({
@@ -96,9 +98,9 @@ export const GroupTable = (props: TableProps) => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Username</TableCell>
-                            <TableCell>Role</TableCell>
-                            <TableCell>Score</TableCell>
+                            <TableCell>{t('group_table_username')}</TableCell>
+                            <TableCell>{t('group_table_role')}</TableCell>
+                            <TableCell>{t('group_table_score')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
