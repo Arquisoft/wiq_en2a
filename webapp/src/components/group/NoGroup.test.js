@@ -54,7 +54,7 @@ describe('NoGroup component', () => {
     });
   });
 
-  test('clicking on "Create a group" button opens the create modal', async () => {
+ test('clicking on "Create a group" button opens the create modal', async () => {
     render(<NoGroup />);
     
     // Simula hacer clic en el botón "Create a group"
