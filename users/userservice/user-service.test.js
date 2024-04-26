@@ -1,6 +1,7 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const User = require('./user-model');
+const createMultipleUsers = require('./util/test/createMultipleUsers');
 
 let mongoServer;
 let app;
@@ -143,7 +144,6 @@ it('retrieves user by username and returns user data without password field', as
     .get(`/getUser/${mockUser.username}`);
 
   expect(response.status).toBe(200);
-  console.log(response.body)
   expect(response.body).toEqual(mockUserWithoutPassword);
 });
 
@@ -158,5 +158,57 @@ it('gets the statistics for a player given its uuid', async () => {
   expect(response.status).toBe(200);
   expect(response.body).toEqual(mockUserWithoutPassword);
 })
+
+it('adds group to user successfully', async () => {
+  const userUUID = mockUser.uuid;
+  const groupUUID1 = '3c68688e-84e7-4d29-b7c7-09474d42b670';
+  const groupUUID2 = '3c68688e-84e7-4d29-b7c7-09474d42b675';
+
+  const response1 = await request(app)
+    .put(`/addGroup/${userUUID}`)
+    .send({ groupUUID: groupUUID1 });
+
+  // Check if the response status is 200
+  expect(response1.status).toBe(200);
+
+  const response2 = await request(app)
+  .put(`/addGroup/${userUUID}`)
+  .send({ groupUUID: groupUUID2 });
+
+  expect(response2.status).toBe(200);
+  expect(response2.body).toHaveProperty("previousGroup")
+  expect(response2.body.previousGroup).toEqual(groupUUID1);
+
+  const updatedUser = await User.findOne({ uuid: mockUser.uuid });
+  expect(updatedUser.groupId).toEqual(groupUUID2);
+});
+
+it('retrieves users by IDs successfully', async () => {
+  const mockUsers = await createMultipleUsers(3);
+  const userIds = mockUsers.map(user => user.uuid);
+
+  const response = await request(app)
+    .post(`/getUsersByIds`)
+    .send({ userIds });
+
+  expect(response.status).toBe(200);
+  expect(Array.isArray(response.body)).toBe(true);
+  expect(response.body.length).toEqual(userIds.length);
+
+  response.body.forEach((user, index) => {
+    expect(user.uuid).toEqual(userIds[index]);
+  });
+});
+
+it('removes user from group successfully', async () => {
+  const userUUID = mockUser.uuid;
+  const response = await request(app)
+    .delete(`/leaveGroup/${userUUID}`);
+
+  expect(response.status).toBe(200);
+
+  const updatedUser = await User.findOne({ uuid: userUUID });
+  expect(updatedUser.groupId).toBeNull();
+});
 
 });
