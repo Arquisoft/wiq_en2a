@@ -127,10 +127,7 @@ services:
     depends_on:
       - gatewayservice
     ports:
-      - "80:80" 
-    environment:
-      REACT_APP_API_ENDPOINT: http://conoceryvencer.xyz:8000
-      REACT_APP_MULTIPLAYER_ENDPOINT: http://${WIQ_EXTERNAL_DNS_NAME_OR_IP:-localhost}:8006
+      - "80:80"
 
   prometheus:
     image: prom/prometheus

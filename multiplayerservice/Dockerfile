@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 8006
 
 # Define the command to run your app
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start:prod"]

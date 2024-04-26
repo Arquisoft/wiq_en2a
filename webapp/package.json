@@ -11,6 +11,7 @@
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
     "axios": "^1.6.5",
+    "cross-env": "^7.0.3",
     "gapi-script": "^1.2.0",
     "i18next": "^23.10.0",
     "jwt-decode": "^4.0.0",
@@ -26,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prod": "serve -s build 80",
+    "prod": "cross-env REACT_APP_API_ENDPOINT=http://conoceryvencer.xyz:8000 REACT_APP_MULTIPLAYER_ENDPOINT=http://conoceryvencer.xyz:8006 serve -s build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios)/'",
     "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject",
