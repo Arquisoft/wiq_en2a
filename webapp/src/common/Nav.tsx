@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './nav.scss';
 import { useTranslation } from 'react-i18next';
-import {AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem} from "@mui/material";
+import {AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem, Switch, Typography} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const NavBar: React.FC<{}> = () => 
@@ -132,8 +132,19 @@ const NavBar: React.FC<{}> = () =>
                                     }}
                                     sx={{ marginTop: '5px' }}
                                     >
-                                        <MenuItem onClick={() => navigate("/profile")}>{t('nav_profile')}</MenuItem>
-                                        <MenuItem onClick={() => navigate("/")}>{t('nav_logout')}</MenuItem>
+                                        <MenuItem 
+                                        onClick={() => navigate("/profile")} 
+                                        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                        >
+                                            {t('nav_profile')}
+                                        </MenuItem>
+                                        <MenuItem 
+                                        onClick={() => navigate("/")}
+                                        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                        >
+                                            {t('nav_logout')}
+                                        </MenuItem>
+                                        <MenuItem><Typography>EN</Typography><Switch></Switch><Typography>ES</Typography></MenuItem>
                                     </Menu>
                                 </Grid>
                             </Grid>
