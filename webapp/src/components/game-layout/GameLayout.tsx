@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Game from "../game/singleplayer/GameSinglePlayer";
 import { GroupsPage } from "../../pages/groups/index";
-import Scoreboard from "../scoreboard/Scoreboard";
 import { useTranslation } from 'react-i18next';
 
 const GameLayout = () => {
@@ -22,15 +21,11 @@ const GameLayout = () => {
               <li>
                   <button data-testid="groups-link" onClick={()=>setCurrentView("Group")} >{t('game_layout_group')}</button>
               </li>
-              <li>
-                  <button data-testid="scoreboard-link" onClick={()=>setCurrentView("Scoreboard")}>{t('game_layout_scoreboard')}</button>
-              </li>
             </ul>
         </nav>
       </header>
       <main>
-        {currentView === "Game" ? <Game /> : currentView === "Group" ? <GroupsPage data-testid="groups-page-component" /> : 
-        <Scoreboard data-testid="scoreboard-component"/>}
+        {currentView === "Game" ? <Game /> : <GroupsPage data-testid="groups-page-component" /> }
       </main>
     </div>
   );
