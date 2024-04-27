@@ -25,7 +25,6 @@ const Register = (props:ActionProps) => {
       // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
-      localStorage.clear();
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   
       console.log(user.data);
@@ -36,7 +35,6 @@ const Register = (props:ActionProps) => {
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
-      localStorage.setItem('lang','en')
 
       setOpenSnackbar(true);
       navigate("/game")

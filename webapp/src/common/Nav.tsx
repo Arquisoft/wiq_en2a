@@ -15,7 +15,6 @@ const NavBar: React.FC<{}> = () =>
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
     const [open, setOpen] = useState<boolean>(false);
     const [chevronRotated, setChevronRotated] = useState<boolean>(true);
-    const [checked, setChecked] = useState<boolean>(navigator.language==="es-ES");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
         setAnchorEl(event.currentTarget);
@@ -31,15 +30,13 @@ const NavBar: React.FC<{}> = () =>
 
     const handleSwitch = () => {
         const language = localStorage.getItem("lang");
-        if(language === "es" || language === null){
+        if(language === "es"){
             localStorage.setItem("lang", "en");
             i18n.changeLanguage("en");
-            setChecked(false);
         }
         else{
             localStorage.setItem("lang", "es");
             i18n.changeLanguage("es");
-            setChecked(true)
         }
     };
 
@@ -168,7 +165,12 @@ const NavBar: React.FC<{}> = () =>
                                             src={process.env.PUBLIC_URL + '/british-flag.png'} 
                                             alt='British flag' 
                                             />
-                                            <Switch checked={checked} onChange={handleSwitch} />
+                                            {localStorage.getItem("lang") === 'en' && (
+                                                <Switch checked={false} onChange={handleSwitch} />
+                                            )}
+                                            {localStorage.getItem("lang") === 'es' && (
+                                                <Switch checked={true} onChange={handleSwitch} />
+                                            )}
                                             <img 
                                             className='flag' 
                                             src={process.env.PUBLIC_URL + '/spanish-flag.png'} 
