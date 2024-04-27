@@ -118,10 +118,10 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       <div>
       {(currentQuestion+1) < questions.length && (
         <>
-          <div className='question-container'>
-            <h2 className='question-title'>Question {currentQuestion + 1} / {questions.length}</h2>
-            <h4>{questions[currentQuestion].question}</h4>
-            <h4>{seconds}</h4>
+          <div className='question-container' data-testid="question-container">
+            <h2 className='question-title' data-testid="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
+            <h4 data-testid="question">{questions[currentQuestion].question}</h4>
+            <h4 data-testid="seconds">{seconds}</h4>
           </div>
           <div className="answer-grid">
             {getAnswers().map((answer) => {
@@ -132,6 +132,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
                 key={answer}
                 onClick={() => handleAnswerClick(answer, isCorrect)}
                 style={{ backgroundColor: buttonColor }}
+                data-testid={`answer-${answer}`}
               >
                 {answer}
               </button>
@@ -141,9 +142,9 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       )}
       {currentQuestion+1 === questions.length && ( 
         <>
-          <p>You answered {correctAnswers} out of {questions.length} questions correctly.</p>
-          <p>You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
-          <button onClick={() => finishGame()}>Next</button>
+          <p data-testid="result">You answered {correctAnswers} out of {questions.length} questions correctly.</p>
+          <p data-testid="points">You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
+          <button onClick={() => finishGame()} data-testid="next-button">Next</button>
         </>
       )}
     </div>
