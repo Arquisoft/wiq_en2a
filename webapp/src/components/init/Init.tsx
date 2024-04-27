@@ -15,7 +15,7 @@ const Init = (props:ActionProps) =>{
   const handleViewChange = (isLoginView: boolean) => {
     setCurrentView(isLoginView ? 'login' : 'register');
     props.changeView(isLoginView);
-    document.title = isLoginView ? t('Conocer y Vencer - Login') : t('Conocer y Vencer - Register');
+    document.title = isLoginView ? (t('app_name') + '-' + t('login')) : (t('app_name') + '-' + t('register'));
   };
 
   return (

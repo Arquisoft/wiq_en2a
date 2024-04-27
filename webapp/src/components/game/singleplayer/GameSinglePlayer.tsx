@@ -4,6 +4,7 @@ import LobbyGame from './LobbyGameSinglePlayer';
 import PlayingGame from '../PlayingGame';
 import ScoreboardGame from '../ScoreboardGame';
 import { Container } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export interface Question4Answers {
   uuid: string
@@ -29,11 +30,12 @@ const GameSinglePlayer = () => {
   const username = localStorage.getItem("username");
   const uuid = localStorage.getItem("userUUID");
   const [fetched, setFetched] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
-      const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+     //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
       try {
         setPlayers([
@@ -65,7 +67,7 @@ const GameSinglePlayer = () => {
     }
   }, [questions.length, uuid, username, fetched]);
 
-  if (!username) return <p>Error</p>;
+  if (!username) return <p data-testid="game_single_player_error">{t('game_single_player_error')}</p>;
 
   const handlePlayers = (Players:Player[]) => {
     setPlayers(Players);

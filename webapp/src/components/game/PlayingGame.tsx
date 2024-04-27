@@ -1,10 +1,11 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { Player, Question4Answers } from './singleplayer/GameSinglePlayer'
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import shuffleAnswers from './util/SuffleAnswers';
 import calculatePoints from './util/CalculatePoints';  
 import { SocketProps } from './multiplayer/GameMultiPlayer';
-import "./QuestionsGame.scss"
+import "./questions-game.scss"
 
 interface PlayingGameProps {
   questions: Question4Answers[]
@@ -27,6 +28,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
+    const { t } = useTranslation();
 
     const answersShuffled = useMemo(() => shuffleAnswers(questions), [questions]);
 
@@ -143,10 +145,10 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       )}
       {currentQuestion+1 === questions.length && ( 
         <>
-          <p data-testid="result">You answered {correctAnswers} out of {questions.length} questions correctly.</p>
-          <p data-testid="points">You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
+          <p data-testid="result">{t('playing_single_player_you_answered')}{correctAnswers}{t('playing_single_player_out_of')}{questions.length}{t('playing_single_player_questions_correctly')}</p>
+          <p data-testid="points">{t('playing_single_player_you_earned')}{calculatePoints(correctAnswers, questions.length)}{t('playing_single_player_points')}</p>
           {partyCode && <p data-testid="waiting">Waiting for the rest of the players to finish...</p>}
-          {players &&<button onClick={() => endGame()} data-testid="next-button">Next</button>}
+          {players &&<button onClick={() => endGame()} data-testid="next-button">{t('playing_single_player_next')}</button>}
         </>
       )}
     </div>

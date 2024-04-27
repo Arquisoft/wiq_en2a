@@ -1,5 +1,5 @@
 import './Group.scss';
-import { Button, Container, Snackbar, TextField, Grid, Stack, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { Button, Container, Snackbar, Grid, Stack } from "@mui/material";
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CreationModal } from './GroupCreationModal';
@@ -19,16 +19,16 @@ type ActionProps = {
     nowHasGroup:()=> void;
 }
 
-let groups: Group[] = new Array();
+let groups: Group[] = [];
 let groupsCharged = false;
 
 const NoGroup = (props: ActionProps) => 
 {
-    const { t } = useTranslation();
     const [error, setError] = useState('');
     const [createModal, setCreateModal] = useState(false);
     const [joinModal, setJoinModal] = useState(false);
-   
+    const { t } = useTranslation();
+
     const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
     
     const toggleCreateModal = () => {
@@ -53,13 +53,11 @@ const NoGroup = (props: ActionProps) =>
         try{
             await axios.get(`${apiEndpoint}/getGroups`).then( res => {
                 // new array here so in case it is chared twice it doesn't contain dupllicate data
-                groups = new Array();
+                groups = [];
                 for(let group of res.data){
-                    console.log("Group:"+JSON.stringify(group));
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
                      // add only groups that are public
                     if(isPublic === "true"){
-                        console.log(group.members);
                         let theNumMembers = group.members.length;
                         groups.push({
                             groupName : group.groupName,
@@ -70,11 +68,9 @@ const NoGroup = (props: ActionProps) =>
                     }
                 }
                 groupsCharged = true;
-               
             })
         } catch (error:any) {
-            console.log("error: "+error);
-        setError(error.response.data.error);
+            setError(error.response.data.error);
         }
     }
 
@@ -92,27 +88,22 @@ const NoGroup = (props: ActionProps) =>
 
     
     return (
-        <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container" data-testid="no-group-container">
-            <Stack direction="column" padding={1} style={{display: 'flex', justifyContent: 'center'}}> 
-
-                <h3 data-testid="no-group-message">You are not part of a group...</h3>
-                <Button style={{margin:'1em'}} variant="contained" onClick={toggleJoinModal} data-testid="join-group-button">Join a group</Button>
-                <Button style={{margin:'1em'}} variant="contained" onClick={toggleCreateModal} data-testid="create-group-button">Create a group</Button>
-
+        <Container className="groups-container" data-testid="no-group-container">
+            <Stack className='groups-container'> 
+                <h2 style={{ marginBottom: '20px' }}>{t('no_group_not_part')}</h2>
+                <button className='group-button' onClick={toggleJoinModal} data-testid="join-group-button">{t('no_group_join')}</button>
+                <button className='group-button' onClick={toggleCreateModal} data-testid="create-group-button">{t('no_group_create')}</button>
             </Stack>
-                
             {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar" />
+                <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar"/>
             )}
-
             {createModal && 
                 (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
             }
-
             {joinModal && (groupsCharged && (
                 <div className="modal" data-testid="join-group-modal">
                     <div className="modal-content">
-                        <h2>{t('join_group_button')}</h2>
+                        <h2>{t('no_group_join_group')}</h2>
                         <Grid >
                             {groups.map((group) => (
                                 <Grid container key={group.uuid}>
@@ -123,16 +114,12 @@ const NoGroup = (props: ActionProps) =>
                                         <p style={{margin:'1em'}}>{group.numMembers}/{group.maxNumUsers}</p>
                                     </Grid>
                                     <Grid item xs={4} key={group.uuid}>
-
-                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)} data-testid={`join-group-button-${group.uuid}`}>Join</Button>
-
+                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)} data-testid={`join-group-button-${group.uuid}`}>{t('no_group_join_blank')}</Button>
                                     </Grid>
                                 </Grid>
                             ))}                        
                             <Stack direction="row" padding={1}>
-
-                                <Button variant="contained" onClick={toggleJoinModal} data-testid="close-join-modal-button">Close</Button>
-
+                                <Button variant="contained" onClick={toggleJoinModal} data-testid="close-join-modal-button">{t('no_group_close')}</Button>
                             </Stack>
                         </Grid>
                     </div>

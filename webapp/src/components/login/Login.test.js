@@ -41,7 +41,7 @@ describe('Login component', () => {
 
     // Wait for the Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/Login successful/i)).toBeInTheDocument();
+      expect(screen.getByTestId("login-successfull-snackbar")).toBeInTheDocument();
     });
 
     // Verify local storage is set correctly
@@ -77,7 +77,7 @@ describe('Login component', () => {
 
     // Wait for the error Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/Error: Internal Server Error/i)).toBeInTheDocument();
+      expect(screen.getByTestId('login-error-snackbar')).toBeInTheDocument();
     });
 
     // Verify local storage is not set when there's an error

@@ -1,83 +1,176 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Grid, Paper, Typography } from '@mui/material';
-import axios from 'axios';
 import './profile-page.scss';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const ProfilePage = () => {
-    const { t } = useTranslation();
-    const user =  JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
-    const email =  JSON.stringify(localStorage.getItem("email")).replace("\"", "").replace("\"", "");
-    const createdAt = localStorage.getItem("createdAt");
-    const score = localStorage.getItem("totalScore");
-    const nwins =  localStorage.getItem("nwins");
-    const nCorrectAnswers =  localStorage.getItem("nCorrectAnswers");
-    const nWrongAnswers =  localStorage.getItem("nWrongAnswers");
-    const [gameInfo, setGameInfo] = useState(null);
-    const uuid = localStorage.getItem('uuid');
+  const { t } = useTranslation();
+  const apiEndpoint = 'http://localhost:8000';
+  const uuid = localStorage.getItem('uuid');
+  const [profileInfo, setProfileInfo] = useState(null);
 
-    useEffect(() => {
-      const fetchGameInfo = async () => {
-          try {
-              const response = await axios.get(`http://localhost:8000/getStats/${uuid}`);
-              setGameInfo(response.data);
-          } catch (error) {
-              console.error('Error fetching game information:', error);
-          }
-      };
-      fetchGameInfo();
-    }, [uuid]);
-
-    const formatDate = (date: any) => {
-      if (!date) return "";
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return date.toLocaleDateString(undefined, options);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${apiEndpoint}/getStats/${uuid}`);
+        setProfileInfo(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
+    fetchData();
+  }, [apiEndpoint, uuid]);
 
-    return(
-      <Container sx={{ mt: 10, ml: 3 }} maxWidth="xl">
-        <Typography variant="h2" gutterBottom className='profile-header'>Profile</Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Personal Information</Typography>
-              <ul className="white-list">
-                <li><Typography variant="body1" className='field'>{t('profile_uuid')} { uuid }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_name')} { user }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_created_at')} {formatDate(createdAt) }</Typography></li>
-              </ul>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Performance Statistics</Typography>
-              <ul className="white-list">
-                <li><Typography variant="body1" className='field'>{t('profile_points')} { JSON.stringify(Number(score)) }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_nwins')} { JSON.stringify(Number(nwins)) }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_n_correct_answers')} { JSON.stringify(Number(nCorrectAnswers)) }</Typography></li>
-                <li><Typography variant="body1" className='field'>{t('profile_n_wrong_answers')} { JSON.stringify(Number(nWrongAnswers)) }</Typography></li>
-              </ul>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>{t('profile_last_game_questions')}</Typography>
-              {gameInfo ? (
-                <ul className="white-list">
-                </ul>
-               ) : (
-                <Typography color="#ffffff" variant="body1" className='field'>{t('profile_last_game_questions_warning')}</Typography>
-               )}
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
-              <Typography color="#ffffff" variant="h4" gutterBottom className='profile-subheader'>Additional Information</Typography>
-            </Paper>
-          </Grid>
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
+  return (
+    <Container sx={{ mt: 11, width: '100%' }}>
+      <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid item>
+          {profileInfo && (
+            <img
+            className="profile-picture"
+            src={"https://robohash.org/"+profileInfo.userStats.username+".png"} 
+            alt={profileInfo.userStats.username} 
+            />
+          )}
         </Grid>
-      </Container>
-    )
-}
+      </Grid>
+      <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
+            <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
+              Personal Information
+            </Typography>
+            {profileInfo && (
+              <ul className="white-list">
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_uuid')} {profileInfo.userStats.uuid}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_name')} {profileInfo.userStats.username}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_created_at')} {formatDate(profileInfo.userStats.createdAt)}
+                  </Typography>
+                </li>
+              </ul>
+            )}
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
+            <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
+              {t('profile_performance_statistics')}
+            </Typography>
+            {profileInfo && (
+              <ul className="white-list">
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_points')} {Number(profileInfo.userStats.totalScore)}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_nwins')} {Number(profileInfo.userStats.nWins)}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_n_correct_answers')} {Number(profileInfo.userStats.nCorrectAnswers)}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="body1" className="field">
+                    {t('profile_n_wrong_answers')} {Number(profileInfo.userStats.nWrongAnswers)}
+                  </Typography>
+                </li>
+              </ul>
+            )}
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} sx={{ p: 3, backgroundColor: '#1976d2' }}>
+            <Typography color="#ffffff" variant="h4" gutterBottom className="profile-subheader">
+              {t('profile_last_game_questions')}
+            </Typography>
+            {profileInfo && (
+              <div>
+                <Typography
+                  marginBottom={1}
+                  color="#ffffff"
+                  variant="body1"
+                  className="field"
+                >
+                  {t('profile_last_game_id')}{profileInfo.userStats.lastGameId}
+                </Typography>
+                <Typography
+                  color="#ffffff"
+                  variant="h5"
+                  gutterBottom
+                  className="profile-subheader"
+                >
+                  {t('profile_questions')}
+                </Typography>
+                <ul className="white-list" style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                  {profileInfo.lastGame.map((question, index) => (
+                    <li key={index}>
+                      <Typography
+                        color="#ffffff"
+                        variant="h6"
+                        gutterBottom
+                        className="profile-subheader"
+                      >
+                        {t('profile_last_game_questions_question_blank')}{index}
+                      </Typography>
+                      <ul>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            {t('profile_last_game_questions_question')}{question[0].question}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            {t('profile_last_game_questions_correct_answer')}{question[0].correctAnswer}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            {t('profile_last_game_questions_incorrect_answer_1')}{question[0].incorrectAnswer1}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            {t('profile_last_game_questions_incorrect_answer_2')}{question[0].incorrectAnswer2}
+                          </Typography>
+                        </li>
+                        <li>
+                          <Typography variant="body1" className="field">
+                            {t('profile_last_game_questions_incorrect_answer_3')}{question[0].incorrectAnswer3}
+                          </Typography>
+                        </li>
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
 export default ProfilePage;

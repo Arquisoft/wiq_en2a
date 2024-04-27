@@ -21,8 +21,6 @@ export const CreationModal = (props: ActionProps) => {
 
     const createGroup = async () =>{
         try{
-            console.log("Public?");
-            console.log(isPublic);
             await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic }).then( res => {
                 props.nowHasGroup();
             });
