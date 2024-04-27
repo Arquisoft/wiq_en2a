@@ -30,17 +30,14 @@ export const GroupTable = (props: TableProps) => {
     const { t } = useTranslation();
     const aFunction = async ()=>{
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
-            console.log(res.data);
             members = [];
             numberMembers=0;
             total = 0;
-            console.log(res.data);
             for(let member of res.data.members){
                 let memberRole = t('group_table_member');
                 if(member.uuid === res.data.admin.uuid){
                     memberRole = t('group_table_leader');
                 }
-                console.log(memberRole);
                 members.push({
                     username : member.username,
                     totalScore : member.totalScore,
@@ -49,7 +46,6 @@ export const GroupTable = (props: TableProps) => {
                 total += +member.totalScore;
                 numberMembers++;
             }
-            console.log(members);
             adminUUID = res.data.admin.uuid;
             groupName = res.data.groupName;
             members.sort((member) => (+member.totalScore));
@@ -62,7 +58,6 @@ export const GroupTable = (props: TableProps) => {
             const expelledUUID = JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
             await axios.post(`${apiEndpoint}/leaveGroup`, { expelledUUID, groupName, adminUUID}).then( res => {
                 props.nowHasNoGroup();
-                console.log(res);
                 // add only groups that are public
             })
         } catch (error:any) {

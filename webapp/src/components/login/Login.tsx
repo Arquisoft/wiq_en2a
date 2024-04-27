@@ -20,8 +20,6 @@ const Login = (props: ActionProps) => {
   //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 
-  console.log(apiEndpoint);
-
   const handleReturnButtonClick = () => { 
     document.title = "Conocer y Vencer";
     props.goBack();
@@ -33,7 +31,6 @@ const Login = (props: ActionProps) => {
       localStorage.clear();
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   
-      console.log(user);
       localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
       localStorage.setItem("nWins", user.data.nWins);

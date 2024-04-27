@@ -45,7 +45,7 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
           {players.map((player, index) => (
             <div key={player.username} className='player-item' data-testid="player-item">
               <img src={"https://robohash.org/"+player.username+".png"} alt={player.username} />
-              <p>{player.username}</p>
+              <p >{player.username}</p>
               <p>{t('lobby_single_player_total_points')}{player.points}</p>
               {player.isBot && (
                 <button data-testid="delete-button" onClick={() => deletePlayer(index)} className="delete-button">{t('lobby_single_player_delete')}</button>

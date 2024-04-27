@@ -67,7 +67,7 @@ const GameSinglePlayer = () => {
     }
   }, [questions.length, uuid, username, fetched]);
 
-  if (!username) return <p>{t('game_single_player_error')}</p>;
+  if (!username) return <p data-testid="game_single_player_error">{t('game_single_player_error')}</p>;
 
   const handlePlayers = (Players:Player[]) => {
     setPlayers(Players);

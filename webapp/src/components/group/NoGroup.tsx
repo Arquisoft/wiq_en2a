@@ -55,11 +55,9 @@ const NoGroup = (props: ActionProps) =>
                 // new array here so in case it is chared twice it doesn't contain dupllicate data
                 groups = [];
                 for(let group of res.data){
-                    console.log("Group:"+JSON.stringify(group));
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
                      // add only groups that are public
                     if(isPublic === "true"){
-                        console.log(group.members);
                         let theNumMembers = group.members.length;
                         groups.push({
                             groupName : group.groupName,
@@ -72,8 +70,7 @@ const NoGroup = (props: ActionProps) =>
                 groupsCharged = true;
             })
         } catch (error:any) {
-            console.log("error: "+error);
-        setError(error.response.data.error);
+            setError(error.response.data.error);
         }
     }
 

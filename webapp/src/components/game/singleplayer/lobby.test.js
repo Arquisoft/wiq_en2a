@@ -43,7 +43,7 @@ describe('LobbyGame component', () => {
   });
 
   it('adds a bot player correctly', () => {
-    const { getByTestId, getAllByText } = render(
+    const { getByTestId, getAllByTestId } = render(
       <LobbyGame
         setPlayers={mockSetPlayers}
         players={mockPlayers}
@@ -57,7 +57,7 @@ describe('LobbyGame component', () => {
     fireEvent.click(addBotButton);
 
     // Find all elements that contain the text "Bot"
-  const botElements = getByTestId('player');
+  const botElements = getAllByTestId('player-item');
 
   // Check if at least one element containing "Bot" text is found
   expect(botElements.length).toBeGreaterThan(1);
