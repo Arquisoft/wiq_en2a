@@ -66,14 +66,14 @@ const Login = (props: ActionProps) => {
           <TextField
             margin="normal"
             fullWidth
-            label="Username"
+            label={t('label_username')}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             margin="normal"
             fullWidth
-            label="Password"
+            label={t('label_password')}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
