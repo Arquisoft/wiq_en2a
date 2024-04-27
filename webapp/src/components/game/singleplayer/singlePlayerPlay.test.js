@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor,screen } from '@testing-library/react';
-import PlayingGame from './PlayingGameSinglePlayer';
+import PlayingGame from '../PlayingGame';
 
 // Mock de las props necesarias para el componente
 const mockProps = {
