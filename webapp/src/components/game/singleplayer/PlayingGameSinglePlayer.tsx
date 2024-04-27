@@ -1,6 +1,8 @@
 import { FC, useEffect, useMemo, useState } from 'react'
 import { Player, Question4Answers } from './GameSinglePlayer'
 import axios from 'axios';
+import shuffleAnswers from '../util/SuffleAnswers';
+import calculatePoints from '../util/CalculatePoints';  
 
 interface PlayingGameProps {
   questions: Question4Answers[]
@@ -22,16 +24,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
-    const answersShuffled = useMemo(() => {
-      return questions.map((question) => {
-        const answers = [question.correctAnswer, question.incorrectAnswer1, question.incorrectAnswer2, question.incorrectAnswer3];
-        for (let i = answers.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [answers[i], answers[j]] = [answers[j], answers[i]];
-        }
-        return answers;
-      });
-    }, [questions]);
+    const answersShuffled = useMemo(() => shuffleAnswers(questions), [questions]);
 
     useEffect(() => {
       const intervalId = setInterval(() => {
@@ -96,12 +89,6 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       localStorage.setItem("score", (previousScore + totalPoints).toString())
       setCurrentStage(3);
       await axios.post(`${apiEndpoint}/updateStats`, requestData);
-    }
-
-    const calculatePoints = (correctAnswers: number, totalQuestions: number) => {
-      const incorrectQuestions = totalQuestions - correctAnswers;
-      const points = correctAnswers * 100 - incorrectQuestions * 25;
-      return points;
     }
 
     const getAnswers = () => {

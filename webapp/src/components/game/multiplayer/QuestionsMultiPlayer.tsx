@@ -3,6 +3,8 @@ import { SocketProps } from './GameMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
 import axios from 'axios';
 import '../QuestionsGame.scss';
+import shuffleAnswers from '../util/SuffleAnswers';
+import calculatePoints from '../util/CalculatePoints';
 
 interface QuestionsMultiPlayerProps {
     socket: SocketProps;
@@ -14,19 +16,9 @@ interface QuestionsMultiPlayerProps {
 
 const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions, partyCode}) => {
 
-    const answersShuffled = useMemo(() => {
-      return questions.map((question) => {
-        const answers = [question.correctAnswer, question.incorrectAnswer1, question.incorrectAnswer2, question.incorrectAnswer3];
-        for (let i = answers.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [answers[i], answers[j]] = [answers[j], answers[i]];
-        }
-        return answers;
-      });
-    }, [questions]);
+    const answersShuffled = useMemo(() => shuffleAnswers(questions), [questions]);
 
     const uuid = localStorage.getItem("userUUID");
-    //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -97,12 +89,6 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
         await endGame();
       }
     };
-
-    const calculatePoints = (correctAnswers: number, totalQuestions: number) => {
-      const incorrectQuestions = totalQuestions - correctAnswers;
-      const points = correctAnswers * 100 - incorrectQuestions * 25;
-      return points;
-    }
 
     const getAnswers = () => {
       const answers = answersShuffled[currentQuestion];
