@@ -1,4 +1,4 @@
-import './group.scss';
+import './Group.scss';
 import { Button, Container, Snackbar, Grid, Stack } from "@mui/material";
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
