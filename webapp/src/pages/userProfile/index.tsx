@@ -7,6 +7,7 @@ import axios from 'axios';
 const ProfilePage = () => {
   const { t } = useTranslation();
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+  console.log(process.env.REACT_APP_API_ENDPOINT)
   const uuid = localStorage.getItem('uuid');
   const [profileInfo, setProfileInfo] = useState(null);
 
