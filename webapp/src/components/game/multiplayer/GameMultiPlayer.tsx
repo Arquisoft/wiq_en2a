@@ -4,8 +4,8 @@ import MenuMultiplayer from './MenuMultiplayer';
 import { Container } from '@mui/material';
 import LobbyMultiPlayer from './LobbyMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
-import QuestionsMultiPlayer from './QuestionsMultiPlayer';
 import ScoreboardGame from '../ScoreboardGame';
+import PlayingGame from '../PlayingGame';
 
 interface GameMultiPlayerProps {
   
@@ -114,7 +114,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     <Container>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
-      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
+      {stage === 3 && <PlayingGame socket={socket} setCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
       {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
     </Container>
   )

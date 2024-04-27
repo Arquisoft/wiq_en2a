@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import LobbyGame from './LobbyGameSinglePlayer';
-import PlayingGame from './PlayingGameSinglePlayer';
+import PlayingGame from '../PlayingGame';
 import ScoreboardGame from '../ScoreboardGame';
 import { Container } from '@mui/material';
 import { useTranslation } from 'react-i18next';
