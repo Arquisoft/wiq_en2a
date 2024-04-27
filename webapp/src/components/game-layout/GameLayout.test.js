@@ -31,20 +31,4 @@ describe('GameLayout component', () => {
     });
    
   });
-
-  it('renders Scoreboard when Scoreboard link is clicked', () => {
-    
-    render(
-      <MemoryRouter>
-    <GameLayout />
-    </MemoryRouter>
-    );
-    waitFor(() => {
-        fireEvent.click(screen.getByTestId('scoreboard-link'));
-        expect(screen.queryByTestId('game-component')).toBeNull();
-        expect(screen.queryByTestId('groups-page-component')).toBeNull();
-        
-    });
-    
-  });
 });

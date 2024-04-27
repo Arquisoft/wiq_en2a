@@ -1,4 +1,3 @@
-// src/components/Login.js
 import { useState, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Button, Stack } from '@mui/material';
@@ -21,8 +20,6 @@ const Login = (props: ActionProps) => {
   //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 
-  console.log(apiEndpoint);
-
   const handleReturnButtonClick = () => { 
     document.title = "Conocer y Vencer";
     props.goBack();
@@ -34,7 +31,6 @@ const Login = (props: ActionProps) => {
       localStorage.clear();
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   
-      console.log(user);
       localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
       localStorage.setItem("nWins", user.data.nWins);
@@ -70,14 +66,14 @@ const Login = (props: ActionProps) => {
           <TextField
             margin="normal"
             fullWidth
-            label="Username"
+            label={t('label_username')}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             margin="normal"
             fullWidth
-            label="Password"
+            label={t('label_password')}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -91,9 +87,9 @@ const Login = (props: ActionProps) => {
               {t('return')}
             </Button>
           </Stack>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
+          <Snackbar data-testid="login-successfull-snackbar" open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={`${t('login_message')}`} />
           {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            <Snackbar data-testid="login-error-snackbar" open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
     </Container>

@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 import { SocketProps, UserPlayer } from './GameMultiPlayer';
-import './MenuMultiplayer.css'
+import './menu-multiplayer.scss'
+import { useTranslation } from 'react-i18next';
 
 interface MenuMultiplayerProps {
   socket: SocketProps;
@@ -14,6 +15,7 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage, 
     const totalPoints = localStorage.getItem('score');
     const uuid = localStorage.getItem('uuid');
     const [typedCode, setTypedCode] = useState<string>();
+    const { t } = useTranslation();
 
     const createParty = () => {
       handleCurrentStage(2);
@@ -39,13 +41,13 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage, 
 
     return (
       <div className="container">
-        <h1>Create a party or join one!</h1>
+        <h1>{t('menu_multiplayer_create_or_join')}</h1>
         <button onClick={createParty} className="create-party-button">
-          Create Party
+          {t('menu_multiplayer_create')}
         </button>
-        <div className="join-party-container">
+        <div>
           <input className="join-party-input" placeholder="Code" onChange={(e) => setTypedCode(e.target.value)}></input>
-          <button className="join-party-button" onClick={joinParty}>Join Party</button>
+          <button className="join-party-button" onClick={joinParty}>{t('menu_multiplayer_join')}</button>
         </div>
       </div>
     )

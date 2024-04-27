@@ -1,8 +1,11 @@
 import { GoogleLogin } from '@react-oauth/google';
-import './GLoginButton.scss';
+import './g-login-button.scss';
+import { useTranslation } from 'react-i18next';
 
 const GLoginButton = () => 
 {
+    const { t } = useTranslation();
+
     return(
       <GoogleLogin
          onSuccess={(credentialResponse) => 
@@ -11,7 +14,7 @@ const GLoginButton = () =>
             }}
          onError={() => 
             {
-                console.log('Login Failed');
+                console.log(t('g_login_button_login_failed'));
             }}
     />)
 }
