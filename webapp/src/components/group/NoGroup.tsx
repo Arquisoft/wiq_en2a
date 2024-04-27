@@ -98,7 +98,7 @@ const NoGroup = (props: ActionProps) =>
                 <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar"/>
             )}
             {createModal && 
-                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
+                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} toggleCreateModal={toggleCreateModal}/>)
             }
             {joinModal && (groupsCharged && (
                 <div className="modal" data-testid="join-group-modal">
