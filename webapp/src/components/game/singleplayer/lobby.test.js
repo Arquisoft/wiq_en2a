@@ -57,7 +57,7 @@ describe('LobbyGame component', () => {
     fireEvent.click(addBotButton);
 
     // Find all elements that contain the text "Bot"
-  const botElements = getAllByText(/Bot/);
+  const botElements = getAllByText('Bot');
 
   // Check if at least one element containing "Bot" text is found
   expect(botElements.length).toBeGreaterThan(0);
