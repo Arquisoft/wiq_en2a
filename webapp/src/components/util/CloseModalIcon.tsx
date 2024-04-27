@@ -1,10 +1,5 @@
-import { FC } from 'react'
 
-interface CloseModalIconProps {
-  
-}
-
-const CloseModalIcon: FC<CloseModalIconProps> = ({}) => {
+const CloseModalIcon = () => {
     return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
