@@ -36,7 +36,7 @@ describe('Register component', () => {
 
     // Wait for the Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/You registered successfully/i)).toBeInTheDocument();
+      expect(screen.getByTestId('register-successfull-snackbar')).toBeInTheDocument();
     });
   });
 
@@ -63,7 +63,7 @@ describe('Register component', () => {
 
     // Wait for the error Snackbar to be open
     await waitFor(() => {
-      expect(screen.getByText(/Error: Internal Server Error/i)).toBeInTheDocument();
+      expect(screen.getByTestId('register-error-snackbar')).toBeInTheDocument();
     });
   });
 });

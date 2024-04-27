@@ -90,9 +90,9 @@ const Login = (props: ActionProps) => {
               {t('return')}
             </Button>
           </Stack>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={`${t('login_message')}`} />
+          <Snackbar data-testid="login-successfull-snackbar" open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={`${t('login_message')}`} />
           {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            <Snackbar data-testid="login-error-snackbar" open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
           )}
         </div>
     </Container>

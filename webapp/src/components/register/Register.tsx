@@ -97,9 +97,9 @@ const Register = (props:ActionProps) => {
           {t('return')}
         </Button>
       </Stack>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={`${t('register_message')}`} id='successUserAdd'/>
+      <Snackbar data-testid='register-successfull-snackbar' open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message={`${t('register_message')}`} id='successUserAdd'/>
       {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+        <Snackbar data-testid='register-error-snackbar' open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
       )}
     </Container>
   );
