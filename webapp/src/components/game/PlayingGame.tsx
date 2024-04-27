@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import shuffleAnswers from './util/SuffleAnswers';
 import calculatePoints from './util/CalculatePoints';  
 import { SocketProps } from './multiplayer/GameMultiPlayer';
-import "./QuestionsGame.scss"
+import "./questions-game.scss"
 
 interface PlayingGameProps {
   questions: Question4Answers[]
