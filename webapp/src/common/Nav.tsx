@@ -14,7 +14,8 @@ const NavBar: React.FC<{}> = () =>
     const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
     const [open, setOpen] = useState<boolean>(false);
-    const [chevronRotated, setChevronRotated] = useState<boolean>(false);
+    const [chevronRotated, setChevronRotated] = useState<boolean>(true);
+    const [checked, setChecked] = useState<boolean>(navigator.language==="es-ES");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
         setAnchorEl(event.currentTarget);
@@ -30,13 +31,15 @@ const NavBar: React.FC<{}> = () =>
 
     const handleSwitch = () => {
         const language = localStorage.getItem("lang");
-        if(language === "es"){
+        if(language === "es" || language === null){
             localStorage.setItem("lang", "en");
             i18n.changeLanguage("en");
+            setChecked(false);
         }
         else{
             localStorage.setItem("lang", "es");
             i18n.changeLanguage("es");
+            setChecked(true)
         }
     };
 
@@ -161,9 +164,17 @@ const NavBar: React.FC<{}> = () =>
                                             {t('nav_logout')}
                                         </MenuItem>
                                         <MenuItem>
-                                            <img className='flag' src={process.env.PUBLIC_URL + '/british-flag.png'} alt='British flag' />
-                                            <Switch onChange={handleSwitch} />
-                                            <img className='flag' src={process.env.PUBLIC_URL + '/spanish-flag.png'} alt='Spanish flag' />
+                                            <img 
+                                            className='flag' 
+                                            src={process.env.PUBLIC_URL + '/british-flag.png'} 
+                                            alt='British flag' 
+                                            />
+                                            <Switch checked={checked} onChange={handleSwitch} />
+                                            <img 
+                                            className='flag' 
+                                            src={process.env.PUBLIC_URL + '/spanish-flag.png'} 
+                                            alt='Spanish flag' 
+                                            />
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
