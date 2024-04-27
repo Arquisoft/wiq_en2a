@@ -113,7 +113,7 @@ const ProfilePage = () => {
                   variant="body1"
                   className="field"
                 >
-                  {t('profile_last_game_id')}{profileInfo.userStats.lastGameID}
+                  {t('profile_last_game_id')}{profileInfo.userStats.lastGameId}
                 </Typography>
                 <Typography
                   color="#ffffff"
