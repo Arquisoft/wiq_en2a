@@ -71,7 +71,9 @@ const NavBar: React.FC<{}> = () =>
                 flexWrap: 'nowrap', 
                 alignItems: 'flex-start', 
                 justifyContent: 'flex-start',
-                width: '100%' 
+                width: '100%',
+                position: 'inherit',
+                marginBottom: '10px'
             }
         }>
             <Toolbar sx={{ width: '100%' }}>
