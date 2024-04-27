@@ -78,7 +78,7 @@ const GameSinglePlayer = () => {
   };
 
   return (
-    <Container  sx={{ mt: 9 }}>
+    <Container>
       {currentStage === 1 && (<LobbyGame  players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage} isFetched={fetched}/>)}
       {currentStage === 2 && (<PlayingGame questions={questions} setCurrentStage={handleCurrentStage} setPlayers={handlePlayers} players={players}/>)}
       {currentStage === 3 && (<ScoreboardGame userScoresSinglePlayer={players}/> )}
