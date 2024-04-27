@@ -14,7 +14,7 @@ interface Member  {
     role: string;
 }
 
-let members: Member[] = new Array();
+let members: Member[] = [];
 
 let adminUUID = "";
 let groupName = "";
@@ -30,17 +30,14 @@ export const GroupTable = (props: TableProps) => {
     const { t } = useTranslation();
     const aFunction = async ()=>{
         await axios.get(`${apiEndpoint}/getGroup/`+props.groupUUID).then(res => {
-            console.log(res.data);
-            members = new Array();
+            members = [];
             numberMembers=0;
             total = 0;
-            console.log(res.data);
             for(let member of res.data.members){
                 let memberRole = t('group_table_member');
-                if(member.uuid == res.data.admin.uuid){
+                if(member.uuid === res.data.admin.uuid){
                     memberRole = t('group_table_leader');
                 }
-                console.log(memberRole);
                 members.push({
                     username : member.username,
                     totalScore : member.totalScore,
@@ -49,7 +46,6 @@ export const GroupTable = (props: TableProps) => {
                 total += +member.totalScore;
                 numberMembers++;
             }
-            console.log(members);
             adminUUID = res.data.admin.uuid;
             groupName = res.data.groupName;
             members.sort((member) => (+member.totalScore));
@@ -62,7 +58,6 @@ export const GroupTable = (props: TableProps) => {
             const expelledUUID = JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
             await axios.post(`${apiEndpoint}/leaveGroup`, { expelledUUID, groupName, adminUUID}).then( res => {
                 props.nowHasNoGroup();
-                console.log(res);
                 // add only groups that are public
             })
         } catch (error:any) {
@@ -80,16 +75,16 @@ export const GroupTable = (props: TableProps) => {
                 <Container>
                     <Grid container padding={2} >
                         <Grid item xs={3} >
-                            <h1 data-testid="group-name" style={{margin:'1em'}} >{groupName}</h1>
+                            <h1 data-testid="group-name" style={{margin:'1em'}}>{groupName}</h1>
                         </Grid>
                         <Grid item xs={3} >
-                            <h1 data-testid="total-points" style={{margin:'1em'}} >{total} points</h1>
+                            <h1 data-testid="total-points" style={{margin:'1em'}}>{total}{t('group_table_points')}</h1>
                         </Grid>
                         <Grid item xs={3} >
-                            <h1 data-testid="number-members" style={{margin:'1em'}} >{numberMembers} members</h1>
+                            <h1 data-testid="number-members" style={{margin:'1em'}}>{numberMembers}{t('group_table_members')}</h1>
                         </Grid>
                         <Grid item xs={3} >
-                            <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >Leave</Button>
+                            <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >{t('group_table_leave')}</Button>
                         </Grid>
                     </Grid>
                     <TableContainer>
@@ -118,6 +113,5 @@ export const GroupTable = (props: TableProps) => {
                 </Container>
             )}
         </Container>
-        
     )
 }

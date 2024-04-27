@@ -100,7 +100,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     return () => {
       newSocket.close();
     };
-  }, []);
+  }, [SERVER_URL]);
 
   const handleCurrentStage = (n:number) => {
     setStage(n);
@@ -111,12 +111,14 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
   };
 
   return (
-    <Container sx={{ mt: 9 }}>
+    <>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
-      {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
-      {stage === 3 && <PlayingGame socket={socket} setCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
-      {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
-    </Container>
+      <Container>
+        {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
+        {stage === 3 && <PlayingGame socket={socket} setCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
+        {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
+      </Container>
+    </>
   )
 }
 

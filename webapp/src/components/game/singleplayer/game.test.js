@@ -55,9 +55,9 @@ describe('GameSinglePlayer component', () => {
     };
     Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
-    const { getByText } = render(<GameSinglePlayer />);
+    const { getByTestId } = render(<GameSinglePlayer />);
 
     // Expect error message to be rendered
-    expect(getByText('Error')).toBeInTheDocument();
+    expect(getByTestId("game_single_player_error")).toBeInTheDocument();
   });
 });

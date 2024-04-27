@@ -142,12 +142,12 @@ jobs:
       contents: read
       packages: write
     #needs: [e2e-tests]
-    env:
-      WEBAPP_URI: http://conoceryvencer.xyz
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
+      env:
+        WEBAPP_URI: http://conoceryvencer.xyz
       with:
         name: arquisoft/wiq_en2a/multiplayerservice
         username: ${{ github.actor }}
