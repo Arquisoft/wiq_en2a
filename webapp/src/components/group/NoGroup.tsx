@@ -91,18 +91,35 @@ const NoGroup = (props: ActionProps) =>
         <Container className="groups-container" data-testid="no-group-container">
             <Stack className='groups-container'> 
                 <h2 style={{ marginBottom: '20px' }}>{t('no_group_not_part')}</h2>
-                <button className='group-button' onClick={toggleJoinModal} data-testid="join-group-button">{t('no_group_join')}</button>
-                <button className='group-button' onClick={toggleCreateModal} data-testid="create-group-button">{t('no_group_create')}</button>
+                <button className='group-button' 
+                    onClick={() => {
+                        toggleJoinModal();
+                        if(createModal)
+                            toggleCreateModal();
+                        
+                        }}
+                    data-testid="join-group-button">
+                        {t('no_group_join')}
+                </button>
+                <button className='group-button'
+                    onClick={() => {
+                        toggleCreateModal();
+                        if(joinModal)
+                            toggleJoinModal();
+                    }} 
+                    data-testid="create-group-button">
+                        {t('no_group_create')}
+                </button>
             </Stack>
             {error && (
                 <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar"/>
             )}
             {createModal && 
-                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
+                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} toggleCreateModal={toggleCreateModal}/>)
             }
             {joinModal && (groupsCharged && (
-                <div className="modal" data-testid="join-group-modal">
-                    <div className="modal-content">
+                <div className="modal-overlay" data-testid="join-group-modal">
+                    <div className="modal">
                         <h2>{t('no_group_join_group')}</h2>
                         <Grid >
                             {groups.map((group) => (
