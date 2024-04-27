@@ -21,15 +21,17 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
 
   const fetchQuestions = async () => {
     setFetched(false)
-    const apiEndpoint = 'http://localhost:8000'
-    //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     try {
       const requestData = {
         players: users.map((user) => ({ uuid: user.uuid }))
       }
-      const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
 
+      const lang = localStorage.getItem("lang")
+      const response = await axios.post(`${apiEndpoint}/createGame/${lang}`, requestData);
+  
       socket.emit('updateQuestions', partyCode, response.data);
       setFetched(true);
     } catch (error) {

@@ -34,8 +34,8 @@ const GameSinglePlayer = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const apiEndpoint = 'http://localhost:8000'
-      //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+     //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
       try {
         setPlayers([
@@ -51,7 +51,8 @@ const GameSinglePlayer = () => {
           }],
         };
     
-        const response = await axios.post(`${apiEndpoint}/createGame`, requestData);
+        const lang = localStorage.getItem("lang")
+        const response = await axios.post(`${apiEndpoint}/createGame/${lang}`, requestData);
     
         setQuestions(response.data);
         setCurrentStage(1);
@@ -77,8 +78,8 @@ const GameSinglePlayer = () => {
   };
 
   return (
-    <Container sx={{ mt: 9 }}>
-      {currentStage === 1 && (<LobbyGame players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage} isFetched={fetched}/>)}
+    <Container  sx={{ mt: 9 }}>
+      {currentStage === 1 && (<LobbyGame  players={players} setPlayers={handlePlayers} setCurrentStage={handleCurrentStage} isFetched={fetched}/>)}
       {currentStage === 2 && (<PlayingGame questions={questions} setCurrentStage={handleCurrentStage} setPlayers={handlePlayers} players={players}/>)}
       {currentStage === 3 && (<ScoreboardGame userScoresSinglePlayer={players}/> )}
     </Container>

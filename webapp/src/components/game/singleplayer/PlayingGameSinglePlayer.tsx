@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Player, Question4Answers } from './GameSinglePlayer'
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -13,12 +13,13 @@ interface PlayingGameProps {
 const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players}) => {
     
     const uuid = localStorage.getItem("userUUID");
-    const apiEndpoint = 'http://localhost:8000'
-    //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
     const { t } = useTranslation();
@@ -34,7 +35,25 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       });
     }, [questions]);
 
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        if((currentQuestion+1) < questions.length){
+          if (seconds > 0) {
+            setSeconds(prevSeconds => prevSeconds - 1);
+          } else {
+            setCurrentQuestion(currentQuestion + 1);
+            setSelectedAnswer(null);
+            clearInterval(intervalId);
+            setSeconds(10);
+          }
+        }
+      }, 1000);
+      
+      return () => clearInterval(intervalId);
+    }, [seconds, currentQuestion, questions]);
+
     const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
+      setSeconds(10);
       if(!isWaiting){
         setIsWaiting(true);
         setSelectedAnswer(answer);
@@ -49,9 +68,6 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
         setIsWaiting(false);
       }
       
-      // if(currentQuestion+2 === questions.length){
-      //   finishGame();
-      // }
     };
 
     const finishGame = async() => {
@@ -104,8 +120,11 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       <div>
       {(currentQuestion+1) < questions.length && (
         <>
-          <h2>Question {currentQuestion + 1}</h2>
-          <p>{questions[currentQuestion].question}</p>
+          <div className='question-container' data-testid="question-container">
+            <h2 className='question-title' data-testid="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
+            <h4 data-testid="question">{questions[currentQuestion].question}</h4>
+            <h4 data-testid="seconds">{seconds}</h4>
+          </div>
           <div className="answer-grid">
             {getAnswers().map((answer) => {
               const isCorrect = questions[currentQuestion].correctAnswer === answer;
@@ -115,6 +134,7 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
                 key={answer}
                 onClick={() => handleAnswerClick(answer, isCorrect)}
                 style={{ backgroundColor: buttonColor }}
+                data-testid={`answer-${answer}`}
               >
                 {answer}
               </button>
@@ -124,9 +144,9 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       )}
       {currentQuestion+1 === questions.length && ( 
         <>
-          <p>{t('playing_single_player_you_answered')}{correctAnswers}{t('playing_single_player_out_of')}{questions.length}{t('playing_single_player_questions_correctly')}</p>
-          <p>{t('playing_single_player_you_earned')}{calculatePoints(correctAnswers, questions.length)}{t('playing_single_player_points')}</p>
-          <button onClick={() => finishGame()}>{t('playing_single_player_next')}</button>
+          <p data-testid="result">{t('playing_single_player_you_answered')}{correctAnswers}{t('playing_single_player_out_of')}{questions.length}{t('playing_single_player_questions_correctly')}</p>
+          <p data-testid="points">{t('playing_single_player_you_earned')}{calculatePoints(correctAnswers, questions.length)}{t('playing_single_player_points')}</p>
+          <button onClick={() => finishGame()} data-testid="next-button">{t('playing_single_player_next')}</button>
         </>
       )}
     </div>

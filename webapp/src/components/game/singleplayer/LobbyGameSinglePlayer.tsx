@@ -39,28 +39,28 @@ const LobbyGame: FC<LobbyGameProps> = ({setPlayers, players, setCurrentStage, is
   };
 
   return (
-    <div className='lobby-container'>
+    <div className='lobby-container' data-testid="lobby-screen">
       <h2 className='lobby-title'>{t('lobby_single_player_title')}</h2>
         <div>
           {players.map((player, index) => (
-            <div key={player.username} className='player-item'>
+            <div key={player.username} className='player-item' data-testid="player-item">
               <img src={"https://robohash.org/"+player.username+".png"} alt={player.username} />
               <p>{player.username}</p>
               <p>{t('lobby_single_player_total_points')}{player.points}</p>
               {player.isBot && (
-                <button onClick={() => deletePlayer(index)} className="delete-button">{t('lobby_single_player_delete')}</button>
+                <button data-testid="delete-button" onClick={() => deletePlayer(index)} className="delete-button">{t('lobby_single_player_delete')}</button>
               )}
             </div>
           ))}
         </div>
       <div className='button-container'>
-        <button disabled={players.length === 4} onClick={addBotPlayer} className="add-bot-button">
+        <button disabled={players.length === 4} onClick={addBotPlayer} className="add-bot-button" data-testid="add-bot-button">
           {t('lobby_single_player_add_bot_player')}
         </button>
-        {isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)}>
+        {isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} data-testid="start-game-button">
           {t('lobby_single_player_start_game')}
         </button>}
-        {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled>
+        {!isFetched && <button className="start-game-button" onClick={() => setCurrentStage(2)} disabled data-testid="start-game-button">
           {t('lobby_single_player_loading_questions')}
         </button>}
       </div>

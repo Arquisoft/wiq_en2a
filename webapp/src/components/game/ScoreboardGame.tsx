@@ -20,29 +20,35 @@ const ScoreboardGame:FC<ScoreboardGameProps> = ({userScoresSinglePlayer, userSco
   }
   const { t } = useTranslation();
     return (
-        <table>
-            <caption>{t('scoreboard_game_game_scoreboard')}</caption>
+        <table data-testid="scoreboard-table">
+            <caption data-testid="scoreboard-caption">{t('scoreboard_game_game_scoreboard')}</caption>
           <thead>
             <tr>
-              <th scope="col" id="rankingHeader">{t('scoreboard_game_position')}</th>
-              <th scope="col" id="usernameHeader">{t('scoreboard_game_username')}</th>
-              <th scope="col" id="pointsHeader">{t('scoreboard_game_points')}</th>
+              <th scope="col" id="rankingHeader" data-testid="ranking-header">{t('scoreboard_game_position')}</th>
+              <th scope="col" id="usernameHeader" data-testid="username-header">{t('scoreboard_game_username')}</th>
+              <th scope="col" id="pointsHeader" data-testid="points-header">{t('scoreboard_game_points')}</th>
             </tr>
           </thead>
           <tbody>
             {sorted.map((score, index) => {
               if(score.username === username) return(
                 <tr key={score.username} className='selected'>
-                  <td headers="rankingHeader">{index+1}</td>
-                  <td headers="usernameHeader">{score.username}</td>
-                  <td headers="pointsHeader">{score.points}</td>
+                  <td headers="rankingHeader" data-testid={`position-${index}`}>
+                    {index+1}</td>
+                  <td headers="usernameHeader" data-testid={`username-${index}`}>
+                    {score.username}</td>
+                  <td headers="pointsHeader" data-testid={`points-${index}`}>
+                    {score.points}</td>
                 </tr>
               );
               return (
                 <tr key={score.username} >
-                  <td headers="rankingHeader">{index+1}</td>
-                  <td headers="usernameHeader">{score.username}</td>
-                  <td headers="pointsHeader">{score.points}</td>
+                  <td headers="rankingHeader" data-testid={`position-${index}`}>
+                    {index+1}</td>
+                  <td headers="usernameHeader" data-testid={`username-${index}`}>
+                    {score.username}</td>
+                  <td headers="pointsHeader" data-testid={`points-${index}`}>
+                    {score.points}</td>
                 </tr>
               );
             })}

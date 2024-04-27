@@ -20,10 +20,10 @@ const Init = (props:ActionProps) =>{
 
   return (
     <Stack direction="column">
-      <Button onClick={() => handleViewChange(false)} size='large'>
+      <Button  onClick={() => handleViewChange(false)} size='large' data-testid="register">
         {t('register')}
       </Button>
-      <Button onClick={() => handleViewChange(true)} size='large' sx={{ marginBottom: 2 }}>
+      <Button  onClick={() => handleViewChange(true)} size='large' data-testid="login" sx={{ marginBottom: 2 }}>
         {t('login')}
       </Button>
       <GLoginButton />

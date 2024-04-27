@@ -17,10 +17,12 @@ const Login = (props: ActionProps) => {
   const [error, setError] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const apiEndpoint = 'http://localhost:8000'
-  //const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+  //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 
-  const handleReturnButtonClick = () => {
+  console.log(apiEndpoint);
+
+  const handleReturnButtonClick = () => { 
     document.title = "Conocer y Vencer";
     props.goBack();
   };
@@ -39,6 +41,7 @@ const Login = (props: ActionProps) => {
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
+      localStorage.setItem('lang','en')
 
       setOpenSnackbar(true);
       navigate("/game")

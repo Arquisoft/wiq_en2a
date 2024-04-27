@@ -4,13 +4,18 @@ const socketIo = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
+require('dotenv').config();
+
 const io = socketIo(server, {
   cors: {
-    origin: 'http://74.234.241.249:3000',
+    //origin: 'http://conoceryvencer.xyz',
+    origin: process.env.WEBAPP_ENPOINT || 'http://localhost',
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
+
+console.log(process.env.WEBAPP_ENPOINT)
 const parties = {};
 
 const lobby = {};

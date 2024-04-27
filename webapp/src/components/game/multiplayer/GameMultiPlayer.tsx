@@ -30,7 +30,8 @@ export interface PlayerWithPoints {
 
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
-  const SERVER_URL = 'http://74.234.241.249:8006';
+  //const SERVER_URL = 'http://conoceryvencer.xyz:8006';
+  const SERVER_URL = process.env.REACT_APP_MULTIPLAYER_ENDPOINT || 'http://localhost:8006';
 
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
@@ -59,6 +60,14 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     });
   };
 
+  const handleAllPlayersFinished = async (playersWithPoints: PlayerWithPoints[]) => {
+    await new Promise<void>((resolve) => {
+        setTimeout(resolve, 1000); // Using resolve directly as the callback
+    });
+    setSortedUsersByPoints(playersWithPoints);
+    setStage(4);
+};
+
   useEffect(() => {
     const newSocket = io(SERVER_URL);
     setSocket(newSocket);
@@ -80,15 +89,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
       console.log('Party not found');
     });
 
-    newSocket.on('allPlayersFinished', async (playersWithPoints:PlayerWithPoints[]) => {
-      await new Promise<void>((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 1000);
-      });
-      setSortedUsersByPoints(playersWithPoints);
-      setStage(4);
-    })
+    newSocket.on('allPlayersFinished', handleAllPlayersFinished);
 
     newSocket.on('questionsUpdated', (questions: Question4Answers[]) => {
       const shuffledquestions = shuffleQuestions(questions);

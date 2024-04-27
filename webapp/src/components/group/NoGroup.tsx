@@ -1,11 +1,12 @@
 import './group.scss';
 import { Button, Container, Snackbar, TextField, Grid, Stack, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import  { ChangeEvent, useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
+import { CreationModal } from './GroupCreationModal';
 import { useTranslation } from 'react-i18next';
 
-const apiEndpoint = 'http://localhost:8000'
-//const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+//const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 interface Group  {
     groupName: string;
@@ -23,17 +24,14 @@ let groupsCharged = false;
 
 const NoGroup = (props: ActionProps) => 
 {
+    const { t } = useTranslation();
     const [error, setError] = useState('');
     const [createModal, setCreateModal] = useState(false);
     const [joinModal, setJoinModal] = useState(false);
-    const [groupName, setGroupName] = useState('');
-    const [isPublic, setPublic] = useState(true);
-    const [maxMembers, setMaxMembers] = useState(2);
-    const [description, setDescription] = useState('');
+   
     const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
     const { t } = useTranslation();
     
-
     const toggleCreateModal = () => {
         setCreateModal(!createModal);
     };
@@ -44,31 +42,26 @@ const NoGroup = (props: ActionProps) =>
             findGroups();
         }
     };
-
-    const createGroup = async () =>{
-        try{
-            console.log("Public?");
-            console.log(isPublic);
-            await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic }).then( res => {
-                props.nowHasGroup();
-            });
-        }catch (error:any) {
-        setError(error.response.data.error);
-        }
-    }
-
+    
+    // the 'useEffect' method is accessed every time the page is rendered
     useEffect(() => {
-        findGroups();
+        // finds the groups first of all so when clicking on finding the groups they are already charged
+        // otherwise it wont charge by the time the modal is open.
+        findGroups(); 
     })
 
     const findGroups = async () =>{
         try{
             await axios.get(`${apiEndpoint}/getGroups`).then( res => {
-                groups = [];
+                // new array here so in case it is chared twice it doesn't contain dupllicate data
+                groups = new Array();
+              
                 for(let group of res.data){
+                    console.log("Group:"+JSON.stringify(group));
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
-                    let comprobacion = isPublic === "true";
+                     // add only groups that are public
                     if(isPublic === "true"){
+                        console.log(group.members);
                         let theNumMembers = group.members.length;
                         groups.push({
                             groupName : group.groupName,
@@ -77,12 +70,12 @@ const NoGroup = (props: ActionProps) =>
                             uuid: group.uuid
                         })
                     }
-                    console.log(comprobacion);
                 }
                 groupsCharged = true;
-                // add only groups that are public
+               
             })
         } catch (error:any) {
+            console.log("error: "+error);
         setError(error.response.data.error);
         }
     }
@@ -91,37 +84,24 @@ const NoGroup = (props: ActionProps) =>
         try{
             const uuid = creatorUUID;
             await axios.post(`${apiEndpoint}/joinGroup`, { uuid, groupName}).then( res => {
+                // alerts that now it has group and changes the page to the group table
                 props.nowHasGroup();
-                // add only groups that are public
             })
         } catch (error:any) {
             setError(error.response.data.error);
         }
     }
 
-    const handleChange = ({ currentTarget: { value } }: ChangeEvent<HTMLInputElement>) => {
-        setMaxMembers(curr => {
-            if (!Boolean(value)) { return 0; }
-            const numeric = parseInt(value, 10);
-
-            if (value.length > 100) {
-                return curr;
-            }
-
-            return (value.length <= 100 ? numeric : curr);
-        });
-    };
-    
     
     return (
-        <Container className="groups-container">
+        <Container className="groups-container" data-testid="no-group-container">
             <Stack className='groups-container'> 
                 <h2 style={{ marginBottom: '20px' }}>{t('no_group_not_part')}</h2>
-                <button className='group-button' onClick={toggleJoinModal}>{t('no_group_join')}</button>
-                <button className='group-button' onClick={toggleCreateModal}>{t('no_group_create')}</button>
+                <button className='group-button' onClick={toggleJoinModal} data-testid="join-group-button">{t('no_group_join')}</button>
+                <button className='group-button' onClick={toggleCreateModal} data-testid="create-group-button">{t('no_group_create')}</button>
             </Stack>
             {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
+            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar"/>
             )}
             {createModal && (
                 <div className="modal">
@@ -172,8 +152,13 @@ const NoGroup = (props: ActionProps) =>
                     </div>
                 </div>
             )}
+
+            {createModal && 
+                (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
+            }
+
             {joinModal && (groupsCharged && (
-                <div className="modal">
+                <div className="modal" data-testid="join-group-modal">
                     <div className="modal-content">
                         <h2>{t('no_group_join_group')}</h2>
                         <Grid >
@@ -186,12 +171,12 @@ const NoGroup = (props: ActionProps) =>
                                         <p style={{margin:'1em'}}>{group.numMembers}/{group.maxNumUsers}</p>
                                     </Grid>
                                     <Grid item xs={4} key={group.uuid}>
-                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)}>{t('no_group_join_blank')}</Button>
+                                        <Button variant="contained" style={{margin:'1em'}} onClick={() => joinGroup(group.groupName)} data-testid={`join-group-button-${group.uuid}`}>{t('no_group_join_blank')}</Button>
                                     </Grid>
                                 </Grid>
                             ))}                        
                             <Stack direction="row" padding={1}>
-                                <Button variant="contained" onClick={toggleJoinModal}>{t('no_group_close')}</Button>
+                                <Button variant="contained" onClick={toggleJoinModal} data-testid="close-join-modal-button">{t('no_group_close')}</Button>
                             </Stack>
                         </Grid>
                     </div>
