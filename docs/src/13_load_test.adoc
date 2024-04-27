@@ -1,0 +1,15 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-load_test]]
+== Anex I: Load test
+
+image::ResponsTimeNRequest.png[Response Time and Number of requests]
+image::RequestsAndErrors.png[Requests and results]
+
+When performing a the load test for the login and single player game with 1000 users conecting over a minute, we found that less than a 5% of the response end in a KO. This KO are due to the creation and start of the game.
+
+
+image::CreationOfQuestionsGraph.png[Creating the game]
+
+When we create the game we also create all the questions with wikidata query service. 
+To solve this problem we could look for more optimiced queries or change when the questions are created, once a day we could create a bunch of questions and sav e them in the database, with this approach, when creating a new game the questions would be selected from our local database.
