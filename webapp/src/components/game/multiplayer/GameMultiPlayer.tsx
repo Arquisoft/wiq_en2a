@@ -100,7 +100,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     return () => {
       newSocket.close();
     };
-  }, []);
+  }, [SERVER_URL]);
 
   const handleCurrentStage = (n:number) => {
     setStage(n);

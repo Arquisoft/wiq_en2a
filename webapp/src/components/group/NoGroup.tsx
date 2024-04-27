@@ -1,5 +1,5 @@
 import './group.scss';
-import { Button, Container, Snackbar, TextField, Grid, Stack, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { Button, Container, Snackbar, Grid, Stack } from "@mui/material";
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CreationModal } from './GroupCreationModal';
@@ -24,13 +24,12 @@ let groupsCharged = false;
 
 const NoGroup = (props: ActionProps) => 
 {
-    const { t } = useTranslation();
     const [error, setError] = useState('');
     const [createModal, setCreateModal] = useState(false);
     const [joinModal, setJoinModal] = useState(false);
-   
-    const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
     const { t } = useTranslation();
+
+    const creatorUUID =  JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
     
     const toggleCreateModal = () => {
         setCreateModal(!createModal);
@@ -54,8 +53,7 @@ const NoGroup = (props: ActionProps) =>
         try{
             await axios.get(`${apiEndpoint}/getGroups`).then( res => {
                 // new array here so in case it is chared twice it doesn't contain dupllicate data
-                groups = new Array();
-              
+                groups = [];
                 for(let group of res.data){
                     console.log("Group:"+JSON.stringify(group));
                     let isPublic = JSON.stringify(group.isPublic).replace("\"", "").replace("\"", "");
@@ -72,7 +70,6 @@ const NoGroup = (props: ActionProps) =>
                     }
                 }
                 groupsCharged = true;
-               
             })
         } catch (error:any) {
             console.log("error: "+error);
@@ -101,62 +98,11 @@ const NoGroup = (props: ActionProps) =>
                 <button className='group-button' onClick={toggleCreateModal} data-testid="create-group-button">{t('no_group_create')}</button>
             </Stack>
             {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar"/>
+                <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} data-testid="error-snackbar"/>
             )}
-            {createModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>{t('no_group_create_group')}</h2>
-                        <Grid >
-                            <Grid container padding={2} >
-                                <Grid item xs={5} ><p>{t('no_group_group_name')}</p></Grid>
-                                <Grid item xs={5} ><TextField
-                                margin="normal"
-                                label="Group name"
-                                value={groupName}
-                                onChange={(e) => setGroupName(e.target.value)}
-                                /></Grid>
-                            </Grid>
-                            <Grid container padding={2} >
-                                <Grid item xs={5} ><p>{t('no_group_group_name')}</p></Grid>
-                                <Grid item xs={5} ><RadioGroup
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                defaultValue="yes"
-                                name="radio-buttons-group"
-                                onChange={(e) => setPublic(e.target.value === "yes")}
-                                >
-                                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                                    <FormControlLabel value="no" control={<Radio />} label="No" />
-                                </RadioGroup></Grid>
-                            </Grid>
-                            <Grid container padding={2} >
-                                <Grid item xs={5} ><p>{t('no_group_max_members')}</p></Grid>
-                                <Grid item xs={5} ><input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
-                            </Grid>
-                            <Grid container padding={2} >
-                                <Grid item xs={5} ><p>{t('no_group_description')}</p></Grid>
-                                <Grid item xs={5} ><TextField
-                                margin="normal"
-                                multiline
-                                label="Description"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                
-                                /></Grid>
-                            </Grid>
-                            <Grid container padding={2} >
-                                <Grid item xs={6} ><Button onClick={toggleCreateModal}>{t('no_group_close')}</Button></Grid>
-                                <Grid item xs={6} ><Button onClick={createGroup}>{t('no_group_create_group')}</Button></Grid>
-                            </Grid>
-                        </Grid>
-                    </div>
-                </div>
-            )}
-
             {createModal && 
                 (<CreationModal data-testid="create-group-modal" nowHasGroup={props.nowHasGroup} setError={setError} closeModal={toggleCreateModal}/>)
             }
-
             {joinModal && (groupsCharged && (
                 <div className="modal" data-testid="join-group-modal">
                     <div className="modal-content">

@@ -14,7 +14,7 @@ interface Member  {
     role: string;
 }
 
-let members: Member[] = new Array();
+let members: Member[] = [];
 
 let adminUUID = "";
 let groupName = "";
@@ -37,7 +37,7 @@ export const GroupTable = (props: TableProps) => {
             console.log(res.data);
             for(let member of res.data.members){
                 let memberRole = t('group_table_member');
-                if(member.uuid == res.data.admin.uuid){
+                if(member.uuid === res.data.admin.uuid){
                     memberRole = t('group_table_leader');
                 }
                 console.log(memberRole);
@@ -56,8 +56,7 @@ export const GroupTable = (props: TableProps) => {
             setLoading(false);
         });        
         
-    }
-
+    }    
     const leaveGroup = async () => {
         try{
             const expelledUUID = JSON.stringify(localStorage.getItem("userUUID")).replace("\"", "").replace("\"", "");
@@ -77,42 +76,47 @@ export const GroupTable = (props: TableProps) => {
     
     return(
         <Container>
-            { membersCharged && (
-                <Grid container padding={2} >
-                    <Grid item xs={3} >
-                        <h1 data-testid="group-name" style={{margin:'1em'}}>{groupName}</h1>
+           {loading ? <CircularProgress /> : (
+                <Container>
+                    <Grid container padding={2} >
+                        <Grid item xs={3} >
+                            <h1 data-testid="group-name" style={{margin:'1em'}}>{groupName}</h1>
+                        </Grid>
+                        <Grid item xs={3} >
+                            <h1 data-testid="total-points" style={{margin:'1em'}}>{total}{t('group_table_points')}</h1>
+                        </Grid>
+                        <Grid item xs={3} >
+                            <h1 data-testid="number-members" style={{margin:'1em'}}>{numberMembers}{t('group_table_members')}</h1>
+                        </Grid>
+                        <Grid item xs={3} >
+                            <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >{t('group_table_leave')}</Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={3} >
-                        <h1 data-testid="total-points" style={{margin:'1em'}}>{total}{t('group_table_points')}</h1>
-                    </Grid>
-                    <Grid item xs={3} >
-                        <h1 data-testid="number-members" style={{margin:'1em'}}>{numberMembers}{t('group_table_members')}</h1>
-                    </Grid>
-                    <Grid item xs={3} >
-                        <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >{t('group_table_leave')}</Button>
-                    </Grid>
-                </Grid>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Username</TableCell>
+                                    <TableCell>Role</TableCell>
+                                    <TableCell>Score</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {members.map((member) => {
+                                console.log(member + "added");
+                                return (
+                                <TableRow key={props.groupUUID}>
+                                    <TableCell>{member.username}</TableCell>
+                                    <TableCell>{member.role}</TableCell>
+                                    <TableCell>{member.totalScore}</TableCell>
+                                </TableRow>
+                                );
+                            })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Container>
             )}
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>{t('group_table_username')}</TableCell>
-                            <TableCell>{t('group_table_role')}</TableCell>
-                            <TableCell>{t('group_table_score')}</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {membersCharged && members.map((member) => (
-                            <TableRow key={props.groupUUID}>
-                                <TableCell>{member.username}</TableCell>
-                                <TableCell>{member.role}</TableCell>
-                                <TableCell>{member.totalScore}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
         </Container>
     )
 }

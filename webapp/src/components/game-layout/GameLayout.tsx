@@ -9,8 +9,9 @@ const GameLayout = () => {
   const { t } = useTranslation();
 
   return(
-      <head className="GameHead">
-      <nav className="GameNav">
+    <div>
+      <header className="GameHead">
+        <nav className="GameNav">
           <ul>
               <li>
                   <p data-testid="game-header">{t('game_layout_game')}</p>
@@ -25,15 +26,15 @@ const GameLayout = () => {
                   <button data-testid="scoreboard-link" onClick={()=>setCurrentView("Scoreboard")}>{t('game_layout_scoreboard')}</button>
               </li>
             </ul>
-          </nav>
-        </header>
-        <main>
-          {currentView === "Game" ? <Game /> : currentView === "Group" ? <GroupsPage data-testid="groups-page-component" /> : 
-          <Scoreboard data-testid="scoreboard-component"/>}
-        </main>
-      </div>
-    );
-  };
+        </nav>
+      </header>
+      <main>
+        {currentView === "Game" ? <Game /> : currentView === "Group" ? <GroupsPage data-testid="groups-page-component" /> : 
+        <Scoreboard data-testid="scoreboard-component"/>}
+      </main>
+    </div>
+  );
+};
 
 export default GameLayout;
 

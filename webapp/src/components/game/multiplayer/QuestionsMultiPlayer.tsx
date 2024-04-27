@@ -6,39 +6,39 @@ import '../questions-game.scss';
 import { useTranslation } from 'react-i18next';
 
 interface QuestionsMultiPlayerProps {
-  socket: SocketProps;
-  handleCurrentStage: (n: number) => void
-  questions: Question4Answers[]
-  partyCode: string
+    socket: SocketProps;
+    handleCurrentStage: (n: number) => void
+    questions: Question4Answers[]
+    partyCode: string
 }
 
 
-const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({ socket, questions, partyCode }) => {
+const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions, partyCode}) => {
 
-  const answersShuffled = useMemo(() => {
-    return questions.map((question) => {
-      const answers = [question.correctAnswer, question.incorrectAnswer1, question.incorrectAnswer2, question.incorrectAnswer3];
-      for (let i = answers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [answers[i], answers[j]] = [answers[j], answers[i]];
-      }
-      return answers;
-    });
-  }, [questions]);
+    const answersShuffled = useMemo(() => {
+      return questions.map((question) => {
+        const answers = [question.correctAnswer, question.incorrectAnswer1, question.incorrectAnswer2, question.incorrectAnswer3];
+        for (let i = answers.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [answers[i], answers[j]] = [answers[j], answers[i]];
+        }
+        return answers;
+      });
+    }, [questions]);
 
-  const uuid = localStorage.getItem("userUUID");
-  //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
-  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+    const uuid = localStorage.getItem("userUUID");
+    //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
+    const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [seconds, setSeconds] = useState(10);
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const [seconds, setSeconds] = useState(10);
+    const { t } = useTranslation();
 
- const [isWaiting, setIsWaiting] = useState<boolean>(false);
+    const [isWaiting, setIsWaiting] = useState<boolean>(false);
 
- const { t } = useTranslation();
- const endGame = useCallback(async () => {
+    const endGame = useCallback(async () => {
       const totalPoints = calculatePoints(correctAnswers, questions.length);
       const requestData = {
         "players": [{
@@ -98,39 +98,30 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({ socket, questions
       if(currentQuestion+2 === questions.length){
         await endGame();
       }
+    };
 
-      // update score in localstorage
-      const previousScore = parseInt(localStorage.getItem("score"))
-      localStorage.setItem("score", (previousScore + totalPoints).toString())
-
-      await axios.post(`${apiEndpoint}/updateStats`, requestData);
-      // pass the points obtained of each player to the socket
-      socket.emit('playerFinished', partyCode, totalPoints)
+    const calculatePoints = (correctAnswers: number, totalQuestions: number) => {
+      const incorrectQuestions = totalQuestions - correctAnswers;
+      const points = correctAnswers * 100 - incorrectQuestions * 25;
+      return points;
     }
-  };
 
-  const calculatePoints = (correctAnswers: number, totalQuestions: number) => {
-    const incorrectQuestions = totalQuestions - correctAnswers;
-    const points = correctAnswers * 100 - incorrectQuestions * 25;
-    return points;
-  }
+    const getAnswers = () => {
+      const answers = answersShuffled[currentQuestion];
+      if (answers.length > 4) {
+        console.log(answers)
+        const removeCount = answers.length - 4;
+        answers.splice(0, removeCount);
+      }
+      return answersShuffled[currentQuestion];
+    };
 
-  const getAnswers = () => {
-    const answers = answersShuffled[currentQuestion];
-    if (answers.length > 4) {
-      console.log(answers)
-      const removeCount = answers.length - 4;
-      answers.splice(0, removeCount);
-    }
-    return answersShuffled[currentQuestion];
-  };
-
-  return (
-    <div>
-      {(currentQuestion + 1) < questions.length && (
+    return (
+      <div>
+      {(currentQuestion+1) < questions.length && (
         <>
           <div className="question-container">
-            <h2 className="question-title">{t('questions_multiplayer_question')}{currentQuestion + 1} / {questions.length}</h2>
+            <h2 className="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
             <h4>{questions[currentQuestion].question}</h4>
             <h4>{seconds}</h4>
           </div>
@@ -148,7 +139,7 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({ socket, questions
           </div>
         </>
       )}
-      {currentQuestion + 1 === questions.length && (
+      {currentQuestion+1 === questions.length && ( 
         <>
           <p>{t('questions_multiplayer_you_answered')}{correctAnswers}{t('questions_multiplayer_out_of')}{questions.length}{t('questions_multiplayer_questions_correctly')}</p>
           <p>{t('questions_multiplayer_you_earned')}{calculatePoints(correctAnswers, questions.length)}{t('questions_multiplayer_points')}</p>
@@ -156,7 +147,7 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({ socket, questions
         </>
       )}
     </div>
-  )
+    )
 }
 
 export default QuestionsMultiPlayer
