@@ -1,23 +1,23 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
-import { SocketProps } from './GameMultiPlayer';
-import { Question4Answers } from '../singleplayer/GameSinglePlayer';
+import { Player, Question4Answers } from './singleplayer/GameSinglePlayer'
 import axios from 'axios';
-import '../QuestionsGame.scss';
-import shuffleAnswers from '../util/SuffleAnswers';
-import calculatePoints from '../util/CalculatePoints';
+import shuffleAnswers from './util/SuffleAnswers';
+import calculatePoints from './util/CalculatePoints';  
+import { SocketProps } from './multiplayer/GameMultiPlayer';
+import "./QuestionsGame.scss"
 
-interface QuestionsMultiPlayerProps {
-    socket: SocketProps;
-    handleCurrentStage: (n: number) => void
-    questions: Question4Answers[]
-    partyCode: string
+interface PlayingGameProps {
+  questions: Question4Answers[]
+  setCurrentStage: (n: number) => void;
+
+  setPlayers?: (players:Player[]) => void;
+  players?: Player[];
+  socket?: SocketProps;
+  partyCode?: string;
 }
 
-
-const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions, partyCode}) => {
-
-    const answersShuffled = useMemo(() => shuffleAnswers(questions), [questions]);
-
+const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players, socket, partyCode}) => {
+    
     const uuid = localStorage.getItem("userUUID");
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
@@ -27,6 +27,8 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
     const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
+
+    const answersShuffled = useMemo(() => shuffleAnswers(questions), [questions]);
 
     const endGame = useCallback(async () => {
       const totalPoints = calculatePoints(correctAnswers, questions.length);
@@ -44,9 +46,23 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
       localStorage.setItem("score", (previousScore + totalPoints).toString());
     
       await axios.post(`${apiEndpoint}/updateStats`, requestData);
-      socket.emit('playerFinished', partyCode, totalPoints);
+      if(players){
+        players.map(player => {
+          const randomPoints = Math.floor(Math.random() * (1000 - 100 + 1) / 50) * 50 + 100;
+          if(player.isBot){
+            player.points += randomPoints;
+          }else {
+            player.points += calculatePoints(correctAnswers, questions.length);
+          }
+          return player;
+        })
+        setPlayers(players);
+        setCurrentStage(3);
+      }
+      if(socket)
+        socket.emit('playerFinished', partyCode, totalPoints);
 
-    }, [correctAnswers, questions.length, uuid, apiEndpoint, socket, partyCode]);
+    }, [correctAnswers, questions.length, uuid, apiEndpoint, socket, partyCode, players, setPlayers, setCurrentStage]);
 
     useEffect(() => {
       const intervalId = setInterval(async () => {
@@ -58,7 +74,7 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
             setSelectedAnswer(null);
             clearInterval(intervalId);
             setSeconds(10);
-            if(currentQuestion+2 === questions.length){
+            if(currentQuestion+2 === questions.length && partyCode){ // is multiplayer
               await endGame()
             }
           }
@@ -66,8 +82,7 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
       }, 1000);
       
       return () => clearInterval(intervalId);
-    }, [seconds, currentQuestion, questions, endGame]);
-
+    }, [seconds, currentQuestion, questions, partyCode, endGame]);
 
     const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
       setSeconds(10);
@@ -84,10 +99,10 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
           }, 1000);
         setIsWaiting(false);
       }
-      
-      if(currentQuestion+2 === questions.length){
+      if(currentQuestion+2 === questions.length && partyCode){
         await endGame();
       }
+      
     };
 
     const getAnswers = () => {
@@ -97,41 +112,45 @@ const QuestionsMultiPlayer: FC<QuestionsMultiPlayerProps> = ({socket, questions,
         const removeCount = answers.length - 4;
         answers.splice(0, removeCount);
       }
-      return answersShuffled[currentQuestion];
+      return answers;
     };
 
     return (
       <div>
       {(currentQuestion+1) < questions.length && (
         <>
-          <div className="question-container">
-            <h2 className="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
-            <h4>{questions[currentQuestion].question}</h4>
-            <h4>{seconds}</h4>
+          <div className='question-container' data-testid="question-container">
+            <h2 className='question-title' data-testid="question-title">Question {currentQuestion + 1} / {questions.length}</h2>
+            <h4 data-testid="question">{questions[currentQuestion].question}</h4>
+            <h4 data-testid="seconds">{seconds}</h4>
           </div>
           <div className="answer-grid">
             {getAnswers().map((answer) => {
-                const isCorrect = questions[currentQuestion].correctAnswer === answer;
-                const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
+              const isCorrect = questions[currentQuestion].correctAnswer === answer;
+              const buttonColor = (selectedAnswer === answer && !isWaiting) ? (isCorrect ? '#66ff66' : '#ff6666') : '#89c3ff';
               return (
-              <button key={answer} onClick={() => handleAnswerClick(answer, isCorrect)} 
-                style={{ backgroundColor: buttonColor }}>
+              <button
+                key={answer}
+                onClick={() => handleAnswerClick(answer, isCorrect)}
+                style={{ backgroundColor: buttonColor }}
+                data-testid={`answer-${answer}`}
+              >
                 {answer}
               </button>
-            )}
-            )}
+            )})}
           </div>
         </>
       )}
       {currentQuestion+1 === questions.length && ( 
         <>
-          <p>You answered {correctAnswers} out of {questions.length} questions correctly.</p>
-          <p>You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
-          <p>Waiting for the rest of the players to finish...</p>
+          <p data-testid="result">You answered {correctAnswers} out of {questions.length} questions correctly.</p>
+          <p data-testid="points">You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
+          {partyCode && <p data-testid="waiting">Waiting for the rest of the players to finish...</p>}
+          {players &&<button onClick={() => endGame()} data-testid="next-button">Next</button>}
         </>
       )}
     </div>
     )
 }
 
-export default QuestionsMultiPlayer
+export default PlayingGame
