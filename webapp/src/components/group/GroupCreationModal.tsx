@@ -58,7 +58,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                         <Grid item xs={5} ><p>{t('create_group_group_name')}</p></Grid>
                         <Grid item xs={5} ><TextField
                         margin="normal"
-                        label="Group name"
+                        label={t('create_group_group_name_label')}
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
                         /></Grid>
@@ -71,8 +71,8 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                         name="radio-buttons-group"
                         onChange={(e) => setPublic(e.target.value === "yes")}
                         >
-                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                            <FormControlLabel value="no" control={<Radio />} label="No" />
+                            <FormControlLabel value="yes" control={<Radio />} label={t('create_group_yes')} />
+                            <FormControlLabel value="no" control={<Radio />} label={t('create_group_no')} />
                         </RadioGroup></Grid>
                     </Grid>
                     <Grid container padding={2} >
