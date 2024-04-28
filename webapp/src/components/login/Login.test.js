@@ -13,6 +13,42 @@ describe('Login component', () => {
     mockAxios.reset();
   });
 
+  it('should handle error when logging in user', async () => {
+    render(
+      <MemoryRouter>
+        <Login goBack={() => {}} />
+      </MemoryRouter>
+    );
+
+    const usernameInput = screen.getByLabelText(/Username/i);
+    const passwordInput = screen.getByLabelText(/Password/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
+    // Mock the axios.post request to simulate an error response
+    mockAxios.onPost('http://localhost:8000/login').reply(500, { error: 'Internal Server Error' });
+
+    // Simulate user input
+    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
+
+    // Trigger the login button click
+    fireEvent.click(loginButton);
+
+    // Wait for the error Snackbar to be open
+    await waitFor(() => {
+      expect(screen.getByTestId('login-error-snackbar')).toBeInTheDocument();
+    });
+
+    // Verify local storage is not set when there's an error
+    expect(localStorage.getItem('username')).toBeNull();
+    expect(localStorage.getItem('score')).toBeNull();
+    expect(localStorage.getItem('nWins')).toBeNull();
+    expect(localStorage.getItem('uuid')).toBeNull();
+    expect(localStorage.getItem('isAuthenticated')).toBeNull();
+    expect(localStorage.getItem('userUUID')).toBeNull();
+    expect(localStorage.getItem('lang')).toBeNull();
+  });
+
   it('should login user successfully', async () => {
     render(
       <MemoryRouter>
@@ -54,39 +90,5 @@ describe('Login component', () => {
     expect(localStorage.getItem('lang')).toBe('en');
   });
 
-  it('should handle error when logging in user', async () => {
-    render(
-      <MemoryRouter>
-        <Login goBack={() => {}} />
-      </MemoryRouter>
-    );
-
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /login/i });
-
-    // Mock the axios.post request to simulate an error response
-    mockAxios.onPost('http://localhost:8000/login').reply(500, { error: 'Internal Server Error' });
-
-    // Simulate user input
-    fireEvent.change(usernameInput, { target: { value: 'testUser' } });
-    fireEvent.change(passwordInput, { target: { value: 'testPassword' } });
-
-    // Trigger the login button click
-    fireEvent.click(loginButton);
-
-    // Wait for the error Snackbar to be open
-    await waitFor(() => {
-      expect(screen.getByTestId('login-error-snackbar')).toBeInTheDocument();
-    });
-
-    // Verify local storage is not set when there's an error
-    expect(localStorage.getItem('username')).toBeNull();
-    expect(localStorage.getItem('score')).toBeNull();
-    expect(localStorage.getItem('nWins')).toBeNull();
-    expect(localStorage.getItem('uuid')).toBeNull();
-    expect(localStorage.getItem('isAuthenticated')).toBeNull();
-    expect(localStorage.getItem('userUUID')).toBeNull();
-    expect(localStorage.getItem('lang')).toBeNull();
-  });
+  
 });

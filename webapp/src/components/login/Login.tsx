@@ -29,6 +29,7 @@ const Login = (props: ActionProps) => {
 
     try {
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
+      console.log(user.data);
   
       localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
@@ -37,6 +38,7 @@ const Login = (props: ActionProps) => {
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
+      localStorage.setItem("lang", navigator.language.slice(0, 2));
 
       setOpenSnackbar(true);
       navigate("/game")
