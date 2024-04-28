@@ -59,7 +59,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: webapp
-          buildargs: API_URI,MULTIPLAYER_URI
+          buildargs: |
+            API_URI
+            MULTIPLAYER_URI
   
   docker-push-qgservice:
     name: Push question generator service Docker Image to GitHub Packages
@@ -140,12 +142,12 @@ jobs:
       contents: read
       packages: write
     #needs: [e2e-tests]
-    env:
-      WEBAPP_URI: http://conoceryvencer.xyz
     steps:
     - uses: actions/checkout@v4
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
+      env:
+        WEBAPP_URI: http://conoceryvencer.xyz
       with:
         name: arquisoft/wiq_en2a/multiplayerservice
         username: ${{ github.actor }}

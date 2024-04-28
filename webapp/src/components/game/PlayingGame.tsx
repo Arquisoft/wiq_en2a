@@ -1,18 +1,25 @@
-import { FC, useEffect, useMemo, useState } from 'react'
-import { Player, Question4Answers } from './GameSinglePlayer'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { Player, Question4Answers } from './singleplayer/GameSinglePlayer'
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import shuffleAnswers from './util/SuffleAnswers';
+import calculatePoints from './util/CalculatePoints';  
+import { SocketProps } from './multiplayer/GameMultiPlayer';
+import "./questions-game.scss"
 
 interface PlayingGameProps {
   questions: Question4Answers[]
   setCurrentStage: (n: number) => void;
-  setPlayers: (players:Player[]) => void;
-  players: Player[];
+
+  setPlayers?: (players:Player[]) => void;
+  players?: Player[];
+  socket?: SocketProps;
+  partyCode?: string;
 }
 
-const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players}) => {
+const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlayers, players, socket, partyCode}) => {
     
     const uuid = localStorage.getItem("userUUID");
-    //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -21,20 +28,46 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     const [seconds, setSeconds] = useState(10);
 
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
+    const { t } = useTranslation();
 
-    const answersShuffled = useMemo(() => {
-      return questions.map((question) => {
-        const answers = [question.correctAnswer, question.incorrectAnswer1, question.incorrectAnswer2, question.incorrectAnswer3];
-        for (let i = answers.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [answers[i], answers[j]] = [answers[j], answers[i]];
-        }
-        return answers;
-      });
-    }, [questions]);
+    const answersShuffled = useMemo(() => shuffleAnswers(questions), [questions]);
+
+    const endGame = useCallback(async () => {
+      const totalPoints = calculatePoints(correctAnswers, questions.length);
+      const requestData = {
+        "players": [{
+          "uuid": uuid,
+          "nCorrectAnswers": correctAnswers,
+          "nWrongAnswers": questions.length - correctAnswers,
+          "totalScore": totalPoints,
+          "isWinner": false
+        }]
+      };
+    
+      const previousScore = parseInt(localStorage.getItem("score"));
+      localStorage.setItem("score", (previousScore + totalPoints).toString());
+    
+      await axios.post(`${apiEndpoint}/updateStats`, requestData);
+      if(players){
+        players.map(player => {
+          const randomPoints = Math.floor(Math.random() * (1000 - 100 + 1) / 50) * 50 + 100;
+          if(player.isBot){
+            player.points += randomPoints;
+          }else {
+            player.points += calculatePoints(correctAnswers, questions.length);
+          }
+          return player;
+        })
+        setPlayers(players);
+        setCurrentStage(3);
+      }
+      if(socket)
+        socket.emit('playerFinished', partyCode, totalPoints);
+
+    }, [correctAnswers, questions.length, uuid, apiEndpoint, socket, partyCode, players, setPlayers, setCurrentStage]);
 
     useEffect(() => {
-      const intervalId = setInterval(() => {
+      const intervalId = setInterval(async () => {
         if((currentQuestion+1) < questions.length){
           if (seconds > 0) {
             setSeconds(prevSeconds => prevSeconds - 1);
@@ -43,12 +76,15 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
             setSelectedAnswer(null);
             clearInterval(intervalId);
             setSeconds(10);
+            if(currentQuestion+2 === questions.length && partyCode){ // is multiplayer
+              await endGame()
+            }
           }
         }
       }, 1000);
       
       return () => clearInterval(intervalId);
-    }, [seconds, currentQuestion, questions]);
+    }, [seconds, currentQuestion, questions, partyCode, endGame]);
 
     const handleAnswerClick = async (answer: string, isCorrect:boolean) => {
       setSeconds(10);
@@ -65,44 +101,11 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
           }, 1000);
         setIsWaiting(false);
       }
+      if(currentQuestion+2 === questions.length && partyCode){
+        await endGame();
+      }
       
     };
-
-    const finishGame = async() => {
-      const totalPoints = calculatePoints(correctAnswers, questions.length);
-      // the player has finished the game
-      // update stats for each player
-      players.map(player => {
-        const randomPoints = Math.floor(Math.random() * (1000 - 100 + 1) / 50) * 50 + 100;
-        if(player.isBot){
-          player.points += randomPoints;
-        }else {
-          player.points += calculatePoints(correctAnswers, questions.length);
-        }
-        return player;
-      })
-      setPlayers(players);
-
-      const requestData ={ "players": [{
-        "uuid": uuid,
-        "nCorrectAnswers": correctAnswers,
-        "nWrongAnswers": questions.length - correctAnswers,
-        "totalScore": totalPoints,
-        "isWinner": false
-      }]}
-
-      // update score in localstorage
-      const previousScore = parseInt(localStorage.getItem("score"))
-      localStorage.setItem("score", (previousScore + totalPoints).toString())
-      setCurrentStage(3);
-      await axios.post(`${apiEndpoint}/updateStats`, requestData);
-    }
-
-    const calculatePoints = (correctAnswers: number, totalQuestions: number) => {
-      const incorrectQuestions = totalQuestions - correctAnswers;
-      const points = correctAnswers * 100 - incorrectQuestions * 25;
-      return points;
-    }
 
     const getAnswers = () => {
       const answers = answersShuffled[currentQuestion];
@@ -142,9 +145,10 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
       )}
       {currentQuestion+1 === questions.length && ( 
         <>
-          <p data-testid="result">You answered {correctAnswers} out of {questions.length} questions correctly.</p>
-          <p data-testid="points">You earned {calculatePoints(correctAnswers, questions.length)} points.</p>
-          <button onClick={() => finishGame()} data-testid="next-button">Next</button>
+          <p data-testid="result">{t('playing_single_player_you_answered')}{correctAnswers}{t('playing_single_player_out_of')}{questions.length}{t('playing_single_player_questions_correctly')}</p>
+          <p data-testid="points">{t('playing_single_player_you_earned')}{calculatePoints(correctAnswers, questions.length)}{t('playing_single_player_points')}</p>
+          {partyCode && <p data-testid="waiting">Waiting for the rest of the players to finish...</p>}
+          {players &&<button onClick={() => endGame()} data-testid="next-button">{t('playing_single_player_next')}</button>}
         </>
       )}
     </div>

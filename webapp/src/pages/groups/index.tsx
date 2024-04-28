@@ -1,12 +1,12 @@
 import  { useState, useEffect } from 'react';
-import { Button, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import axios from 'axios';
 import "./groups-page.scss";
 import NoGroup from 'src/components/group/NoGroup';
 import { GroupTable } from 'src/components/group/GroupTable';
 
 //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
-const apiEndpoint = process.env.REACT_APPAPI_ENDPOINT || 'http://localhost:8000'; 
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000'; 
 let groupUUID: string = "";
 
 export const GroupsPage: React.FC<{}> = () => {
@@ -21,7 +21,7 @@ export const GroupsPage: React.FC<{}> = () => {
         for(var group of groups.data){
           for(var member of group.members){
             const uuid = JSON.stringify(member).replace("\"", "").replace("\"", "");
-            if(userUuid == uuid){
+            if(userUuid === uuid){
               inGroup = true;
               groupUUID = JSON.stringify(group.uuid).replace("\"", "").replace("\"", "");
             } 
@@ -38,7 +38,7 @@ export const GroupsPage: React.FC<{}> = () => {
   });
   
   return(
-    <Container sx={{ mt: 9 }} maxWidth="xl" className="groups-container" >
+    <Container className="groups-container" >
       {
         signedUp? (
           <GroupTable groupUUID={groupUUID} nowHasNoGroup={isSignedUp}/>

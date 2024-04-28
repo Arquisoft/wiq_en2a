@@ -4,8 +4,8 @@ import MenuMultiplayer from './MenuMultiplayer';
 import { Container } from '@mui/material';
 import LobbyMultiPlayer from './LobbyMultiPlayer';
 import { Question4Answers } from '../singleplayer/GameSinglePlayer';
-import QuestionsMultiPlayer from './QuestionsMultiPlayer';
 import ScoreboardGame from '../ScoreboardGame';
+import PlayingGame from '../PlayingGame';
 
 interface GameMultiPlayerProps {
   
@@ -31,7 +31,7 @@ export interface PlayerWithPoints {
 const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
 
   //const SERVER_URL = 'http://conoceryvencer.xyz:8006';
-  const SERVER_URL = process.env.MULTIPLAYER_ENDPOINT || 'http://localhost:8006';
+  const SERVER_URL = process.env.REACT_APP_MULTIPLAYER_ENDPOINT || 'http://localhost:8006';
 
   const [socket, setSocket] = useState<SocketProps | null>(null);
   const [stage, setStage] = useState<number>(1)
@@ -100,7 +100,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     return () => {
       newSocket.close();
     };
-  }, []);
+  }, [SERVER_URL]);
 
   const handleCurrentStage = (n:number) => {
     setStage(n);
@@ -111,12 +111,14 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
   };
 
   return (
-    <Container sx={{ mt: 9 }}>
+    <>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
-      {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
-      {stage === 3 && <QuestionsMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
-      {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
-    </Container>
+      <Container>
+        {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
+        {stage === 3 && <PlayingGame socket={socket} setCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
+        {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
+      </Container>
+    </>
   )
 }
 

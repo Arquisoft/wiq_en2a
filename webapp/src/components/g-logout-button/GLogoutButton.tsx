@@ -1,1 +1,1 @@
-import './GLogoutButton.scss';
+import './g-logout-button.scss';

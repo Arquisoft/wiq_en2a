@@ -1,17 +1,19 @@
-import  { useState, ChangeEvent } from 'react';
+import  { useState, ChangeEvent, FC } from 'react';
 import axios from 'axios';
 import { Button, TextField, Grid, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { useTranslation } from 'react-i18next';
+import "./Group.scss"
+import CloseModalIcon from '../util/CloseModalIcon';
 
 const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 type ActionProps = {
     nowHasGroup:()=> void;
     setError:(error:any) => void;
-    closeModal:() => void;
+    toggleCreateModal: () => void
 }
 
-export const CreationModal = (props: ActionProps) => {
+export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCreateModal}) => {
     const { t } = useTranslation();
     const [isPublic, setPublic] = useState(true);
     const [groupName, setGroupName] = useState('');
@@ -21,13 +23,11 @@ export const CreationModal = (props: ActionProps) => {
 
     const createGroup = async () =>{
         try{
-            console.log("Public?");
-            console.log(isPublic);
             await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic }).then( res => {
-                props.nowHasGroup();
+                nowHasGroup();
             });
         }catch (error:any) {
-            props.setError(error.response.data.error);
+            setError(error.response.data.error);
         }
     }
 
@@ -45,9 +45,14 @@ export const CreationModal = (props: ActionProps) => {
     };
 
     return (
-        <div className="modal" data-testid="create-group-modal">
-            <div className="modal-content">
-                <h2>Create group</h2>
+        <div className="modal-overlay" data-testid="create-group-modal">
+            <div className="modal">
+                <div className="modal-header">
+                    <h2>Create group</h2>
+                    <button className="close-button" onClick={toggleCreateModal}>
+                        <CloseModalIcon />
+                    </button>
+                </div>
                 <Grid >
                     <Grid container padding={2} >
                         <Grid item xs={5} ><p>{t('create_group_group_name')}</p></Grid>
@@ -85,8 +90,7 @@ export const CreationModal = (props: ActionProps) => {
                         /></Grid>
                     </Grid>
                     <Grid container padding={2} >
-                        <Grid item xs={6} ><Button onClick={props.closeModal}>{t('create_group_button')}</Button></Grid>
-                        <Grid item xs={6} ><Button onClick={createGroup}>{t('close_button')}</Button></Grid>
+                        <Grid item xs={6} ><Button onClick={createGroup}>{t('create_group_button')}</Button></Grid>
                     </Grid>
                 </Grid>
             </div>

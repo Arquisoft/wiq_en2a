@@ -10,7 +10,7 @@ COPY package*.json ./
 # Install app dependencies
 RUN npm install
 
-ARG WEBAPP_URI="http://localhost:3000"
+ARG WEBAPP_URI="http://localhost:80"
 ENV WEBAPP_ENDPOINT=$WEBAPP_URI
 
 # Copy the app source code to the working directory
@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 8006
 
 # Define the command to run your app
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start:prod"]

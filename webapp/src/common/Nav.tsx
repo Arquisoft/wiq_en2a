@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './nav.scss';
 import { useTranslation } from 'react-i18next';
-import {AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem} from "@mui/material";
+import { AppBar, Container, Toolbar, Grid, Stack, Button, Menu, MenuItem, Switch } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const NavBar: React.FC<{}> = () => 
 {
     const location = useLocation();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
     const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
     const [open, setOpen] = useState<boolean>(false);
-    const [chevronRotated, setChevronRotated] = useState<boolean>(false);
+    const [chevronRotated, setChevronRotated] = useState<boolean>(true);
+    const [checked, setChecked] = useState<boolean>(navigator.language==="es-ES");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
         setAnchorEl(event.currentTarget);
@@ -28,6 +29,20 @@ const NavBar: React.FC<{}> = () =>
         setChevronRotated(false);
     };
 
+    const handleSwitch = () => {
+        const language = localStorage.getItem("lang");
+        if(language === "es" || language === null){
+            localStorage.setItem("lang", "en");
+            i18n.changeLanguage("en");
+            setChecked(false);
+        }
+        else{
+            localStorage.setItem("lang", "es");
+            i18n.changeLanguage("es");
+            setChecked(true)
+        }
+    };
+
     if(value === "false"){
         navigate("/");
     }
@@ -35,18 +50,18 @@ const NavBar: React.FC<{}> = () =>
     useEffect(() => {
         switch (location.pathname) {
           case '/game':
-            document.title = 'Conocer y Vencer - Game';
+            document.title = t('app_name') + ' - ' + t('nav_game');
             break;
           case '/groups':
-            document.title = 'Conocer y Vencer - Groups';
+            document.title = t('app_name') + ' - ' + t('nav_groups');
             break;
           case '/profile':
-            document.title = 'Conocer y Vencer - Profile';
+            document.title = t('app_name') + ' - ' + t('nav_profile');
             break;
           default:
-            document.title = 'Conocer y Vencer';
+            document.title = t('app_name');
         }
-      }, [location.pathname]);
+      }, [location.pathname, t]);
 
     return (
         <AppBar className="nav-appBar" sx={
@@ -56,7 +71,9 @@ const NavBar: React.FC<{}> = () =>
                 flexWrap: 'nowrap', 
                 alignItems: 'flex-start', 
                 justifyContent: 'flex-start',
-                width: '100%' 
+                width: '100%',
+                position: 'inherit',
+                marginBottom: '10px'
             }
         }>
             <Toolbar sx={{ width: '100%' }}>
@@ -70,16 +87,15 @@ const NavBar: React.FC<{}> = () =>
                     >
                         <Grid item>
                             <Stack direction="row" spacing={2}>
-                                <div  data-testid="app_name" className="logo">
+                                <div data-testid="app_name" className="logo" onClick={() => navigate("/game")}>
                                     {t('app_name')}
                                 </div>
-                                <Button variant="contained"  data-testid="nav_game" onClick={() => navigate("/game")}>
+                                <Button data-testid="nav_game" sx={{ width: '80px' }} variant="contained" onClick={() => navigate("/game")}>
                                     {t('nav_game')}
                                 </Button>
-                                <Button variant="contained"  data-testid="nav_groups" onClick={() => navigate("/groups")}>
+                                <Button data-testid="nav_groups" sx={{ width: '80px' }} variant="contained" onClick={() => navigate("/groups")}>
                                     {t('nav_groups')}
                                 </Button>
-
                             </Stack>
                         </Grid>
                         <Grid item>
@@ -90,15 +106,19 @@ const NavBar: React.FC<{}> = () =>
                             >
                                 <Grid item>
                                     <Button
-                                    variant="text"
+                                    variant="contained"
                                     id="menu-button" 
-                                    color='inherit' 
                                     onClick={handleClick} 
                                     aria-controls={open? 'menu' : undefined}  
                                     aria-expanded={open? 'true' : undefined}
                                     aria-haspopup='true'
-                                    sx={{ textTransform: 'none', padding: '0' }}
+                                    sx={{ textTransform: 'none', color: '' }}
                                     >
+                                        <img
+                                        className="nav-profile-picture"
+                                        src={"https://robohash.org/"+user+".png"} 
+                                        alt={user} 
+                                        />
                                         {user}
                                         <svg 
                                         fill="#ffffff" 
@@ -121,13 +141,40 @@ const NavBar: React.FC<{}> = () =>
                                     <Menu 
                                     id="menu" 
                                     open={open} 
-                                    MenuListProps={{'aria-labelledby':'menu-button'}} 
-                                    onClose={()=>handleClose()} 
+                                    MenuListProps={{ 'aria-labelledby': 'menu-button' }} 
+                                    onClose={() => handleClose()} 
                                     anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                    }}
                                     sx={{ marginTop: '5px' }}
                                     >
-                                        <MenuItem onClick={()=> navigate("/profile")}>Profile</MenuItem>
-                                        <MenuItem onClick={()=> navigate("/")}>Logout</MenuItem>
+                                        <MenuItem 
+                                        onClick={() => navigate("/profile")} 
+                                        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                        >
+                                            {t('nav_profile')}
+                                        </MenuItem>
+                                        <MenuItem 
+                                        onClick={() => navigate("/")}
+                                        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                                        >
+                                            {t('nav_logout')}
+                                        </MenuItem>
+                                        <MenuItem>
+                                            <img 
+                                            className='flag' 
+                                            src={process.env.PUBLIC_URL + '/british-flag.png'} 
+                                            alt='British flag' 
+                                            />
+                                            <Switch checked={checked} onChange={handleSwitch} />
+                                            <img 
+                                            className='flag' 
+                                            src={process.env.PUBLIC_URL + '/spanish-flag.png'} 
+                                            alt='Spanish flag' 
+                                            />
+                                        </MenuItem>
                                     </Menu>
                                 </Grid>
                             </Grid>
