@@ -13,6 +13,7 @@ interface LobbyMultiPlayerProps {
 
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStage, partyCode, users }) => {
 
+  console.log("Lobby multiplayer");
   const [isFetched, setFetched] = useState<boolean>(true);
 
   const uuid = localStorage.getItem("uuid");
@@ -24,13 +25,19 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
     
     const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
+    console.log("before try");
+    
     try {
+      console.log("try");
       const requestData = {
         players: users.map((user) => ({ uuid: user.uuid }))
       }
 
       const lang = localStorage.getItem("lang")
+      console.log("Before response");
       const response = await axios.post(`${apiEndpoint}/createGame/${lang}`, requestData);
+      console.log("after response");
+      console.log(response);
   
       socket.emit('updateQuestions', partyCode, response.data);
       setFetched(true);
@@ -39,6 +46,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
     }
   };
 
+  console.log("after try");
   const exitLobby = () => {
     socket.emit('exitParty', partyCode)
     handleCurrentStage(1)
@@ -49,7 +57,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
   }
 
   return (
-    <div className='lobby-container'>
+    <div className='lobby-container' data-testid="lobby-multiplayer">
       <div className='lobby-title-container'>
         <h2 className='lobby-title'>{t('lobby_multiplayer_title')}</h2>
         <p>{t('lobby_multiplayer_party_code')}<b>{partyCode}</b></p>
