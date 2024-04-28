@@ -12,10 +12,10 @@ interface LobbyMultiPlayerProps {
 }
 
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStage, partyCode, users }) => {
-
   const [isFetched, setFetched] = useState<boolean>(true);
 
   const uuid = localStorage.getItem("uuid");
+  console.log(uuid);
 
   const { t } = useTranslation();
 
@@ -31,6 +31,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
 
       const lang = localStorage.getItem("lang")
       const response = await axios.post(`${apiEndpoint}/createGame/${lang}`, requestData);
+      console.log(response);
   
       socket.emit('updateQuestions', partyCode, response.data);
       setFetched(true);
@@ -49,13 +50,13 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
   }
 
   return (
-    <div className='lobby-container'>
+    <div className='lobby-container' data-testid="lobby-multiplayer">
       <div className='lobby-title-container'>
         <h2 className='lobby-title'>{t('lobby_multiplayer_title')}</h2>
         <p>{t('lobby_multiplayer_party_code')}<b>{partyCode}</b></p>
       </div>
       {users.map((player) => (
-        <div key={player.uuid} className='player-item'>
+        <div key={player.uuid} className='player-item' data-testid="player-item">
           <img src={"https://robohash.org/" + player.username + ".png"} alt={player.uuid} />
           <p>{player.username}</p>
           {player.isAdmin && <p>{t('lobby_multiplayer_admin')}</p>}
@@ -64,9 +65,9 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
         </div>
       ))}
       <div className='button-container'>
-        <button className="exit-lobby-button" onClick={exitLobby}>{t('lobby_multiplayer_exit')}</button>
-        {isFetched && isAdmin() && <button className="start-game-button" onClick={fetchQuestions}>{t('lobby_multiplayer_start_game')}</button>}
-        {isFetched && !isAdmin() && <button className="start-game-button" onClick={fetchQuestions} disabled>{t('lobby_multiplayer_start_game')}</button>}
+        <button data-testid="exit-lobby-button" className="exit-lobby-button" onClick={exitLobby}>{t('lobby_multiplayer_exit')}</button>
+        {isFetched && isAdmin() && <button data-testid="start-game-button" className="start-game-button" onClick={fetchQuestions}>{t('lobby_multiplayer_start_game')}</button>}
+        {isFetched && !isAdmin() && <button data-testid="start-game-button" className="start-game-button" onClick={fetchQuestions} disabled>{t('lobby_multiplayer_start_game')}</button>}
         {!isFetched && <button className="start-game-button" disabled>{t('lobby_multiplayer_loading_questions')}</button>}
       </div>
     </div>
