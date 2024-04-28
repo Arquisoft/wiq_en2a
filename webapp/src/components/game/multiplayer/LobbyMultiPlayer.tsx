@@ -67,7 +67,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
       <div className='button-container'>
         <button data-testid="exit-lobby-button" className="exit-lobby-button" onClick={exitLobby}>{t('lobby_multiplayer_exit')}</button>
         {isFetched && isAdmin() && <button data-testid="start-game-button" className="start-game-button" onClick={fetchQuestions}>{t('lobby_multiplayer_start_game')}</button>}
-        {isFetched && !isAdmin() && <button className="start-game-button" onClick={fetchQuestions} disabled>{t('lobby_multiplayer_start_game')}</button>}
+        {isFetched && !isAdmin() && <button data-testid="start-game-button" className="start-game-button" onClick={fetchQuestions} disabled>{t('lobby_multiplayer_start_game')}</button>}
         {!isFetched && <button className="start-game-button" disabled>{t('lobby_multiplayer_loading_questions')}</button>}
       </div>
     </div>

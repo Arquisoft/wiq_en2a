@@ -40,4 +40,35 @@ describe('LobbyMultiPlayer component', () => {
     expect(mockProps.handleCurrentStage).toHaveBeenCalledWith(1);
   });
 
+  it('clicking start game button emits updateQuestions event', async () => {
+    const mockResponse = { data: [
+      {
+        uuid: '1',
+        question: '56*54-3',
+        correctAnswer: '3021',
+        incorrectAnswer1: '3000',
+        incorrectAnswer2: '3022',
+        incorrectAnswer3: '3031',
+      }
+  ] };
+  mockAxios.onPost('http://localhost:8000/createGame/en').reply(200, mockResponse);
+    Object.defineProperty(window, 'localStorage', { value: {
+      getItem: jest.fn((key) => {
+          return key === 'uuid' ? "1" : key === 'lang' ? "en" : null;
+      }),
+  } });
+
+    render(<LobbyMultiPlayer {...mockProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("start-game-button")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByTestId("start-game-button"));
+
+    await waitFor(() => {
+      expect(mockProps.socket.emit).toHaveBeenCalledWith('updateQuestions', '123456', expect.any(Object));
+    });
+  });
+
 });
