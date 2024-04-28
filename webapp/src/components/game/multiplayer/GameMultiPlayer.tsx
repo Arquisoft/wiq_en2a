@@ -78,14 +78,11 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     });
 
     newSocket.on('joinedParty', (user: UserPlayer) => {
-      console.log('joined party');
       setStage(2);
     })
 
     newSocket.on('lobbyUsers', (users: UserPlayer[]) => {
-      console.log("lobby users 1");
       setUsers(users);
-      console.log("lobby users 1");
     });
 
     newSocket.on('partyNotFound', () => {

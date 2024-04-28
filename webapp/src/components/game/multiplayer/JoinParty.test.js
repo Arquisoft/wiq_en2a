@@ -6,7 +6,7 @@ import GameMultiPlayer from './GameMultiPlayer';
 
 const mockAxios = new MockAdapter(axios);
 
-describe('Multiplayer Manu component', () => {
+describe('Multiplayer Lobby component', () => {
   
   beforeEach(() => {
     mockAxios.reset();
