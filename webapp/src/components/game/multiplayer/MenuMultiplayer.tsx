@@ -41,7 +41,7 @@ const MenuMultiplayer: FC<MenuMultiplayerProps> = ({socket, handleCurrentStage, 
 
     return (
       <div className="container" data-testid="menu-multiplayer">
-        <h1>{t('menu_multiplayer_create_or_join')}</h1>
+        <h1 data-testid="title-menu-multiplayer">{t('menu_multiplayer_create_or_join')}</h1>
         <button onClick={createParty} className="create-party-button" data-testid="multiplayer-create-party-button">
           {t('menu_multiplayer_create')}
         </button>
