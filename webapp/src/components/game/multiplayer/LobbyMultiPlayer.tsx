@@ -55,7 +55,7 @@ const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStag
         <p>{t('lobby_multiplayer_party_code')}<b>{partyCode}</b></p>
       </div>
       {users.map((player) => (
-        <div key={player.uuid} className='player-item'>
+        <div key={player.uuid} className='player-item' data-testid="player-item">
           <img src={"https://robohash.org/" + player.username + ".png"} alt={player.uuid} />
           <p>{player.username}</p>
           {player.isAdmin && <p>{t('lobby_multiplayer_admin')}</p>}

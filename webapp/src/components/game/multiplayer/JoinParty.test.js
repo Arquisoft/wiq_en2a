@@ -13,28 +13,25 @@ describe('Multiplayer Lobby component', () => {
   });
 
   it('user creates a party', async () => {
-
-    const mockQuestions = [
+  
+    const mockResponse = { data: [
         {
           uuid: '1',
-          question: 'What is the capital of France?',
-          correctAnswer: 'Paris',
-          incorrectAnswer1: 'London',
-          incorrectAnswer2: 'Berlin',
-          incorrectAnswer3: 'Madrid',
+          question: '56*54-3',
+          correctAnswer: '3021',
+          incorrectAnswer1: '3000',
+          incorrectAnswer2: '3022',
+          incorrectAnswer3: '3031',
         }
-    ];
-  
-    const mockResponse = { data: mockQuestions };
+    ] };
     mockAxios.onPost('http://localhost:8000/createGame/en').reply(200, mockResponse);
 
     // Mock local storage
-    const localStorageMock = {
+    Object.defineProperty(window, 'localStorage', { value: {
         getItem: jest.fn((key) => {
-            return key === 'username' ? 'testUser' : key === 'score' ? '100' : key === 'uuid' ? '111111' : null;
+            return key === 'username' ? 'userForTest' : key === 'score' ? '0' : key === 'uuid' ? '2222' : null;
         }),
-    };
-    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+    } });
 
     const multiplayer = render(
         <GameMultiPlayer/>
@@ -49,6 +46,5 @@ describe('Multiplayer Lobby component', () => {
 
     expect(screen.getByTestId("lobby-multiplayer")).toBeInTheDocument();
   });
-
   
 })
