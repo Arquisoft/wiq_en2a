@@ -47,7 +47,8 @@ describe('PlayingGame component', () => {
     await waitFor(() => {
       expect(getByTestId('question-title')).toBeInTheDocument();
       expect(getByTestId('question')).toBeInTheDocument();
-      expect(getByTestId('seconds')).toBeInTheDocument();
+      expect(getByTestId('seconds')).toHaveTextContent('10');
+      
     });
 
     // Simulate answering question 2
@@ -55,7 +56,7 @@ describe('PlayingGame component', () => {
     jest.advanceTimersByTime(10000);
     await waitFor(() => {
       expect(getByTestId('question')).toBeInTheDocument();
-      expect(getByTestId('seconds')).toBeInTheDocument();
+      expect(getByTestId('seconds')).toHaveTextContent('10');
     });
 
     // Simulate answering question 3
@@ -64,7 +65,7 @@ describe('PlayingGame component', () => {
     await waitFor(() => {
       expect(queryByTestId('question-container')).toBeNull();
       expect(getByTestId('result')).toBeInTheDocument();
-      expect(getByTestId('points')).toBeInTheDocument();
+      expect(getByTestId('points')).toHaveTextContent('playing_single_player_you_earned50playing_single_player_points');
     });
   });
 
