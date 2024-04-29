@@ -15,6 +15,7 @@
     "gapi-script": "^1.2.0",
     "i18next": "^23.10.0",
     "jwt-decode": "^4.0.0",
+    "next-i18next": "^15.3.0",
     "puppeteer": "^22.7.1",
     "react": "^18.2.0",
     "react-admin": "^4.16.16",
@@ -31,7 +32,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "prod": "cross-env REACT_APP_API_ENDPOINT=http://localhost:8000 REACT_APP_MULTIPLAYER_ENDPOINT=http://localhost:8006 serve -s build -l 80",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios)/'",
+    "test": "react-scripts test --silent --transformIgnorePatterns 'node_modules/(?!axios)/'",
     "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject",
     "test-only:e2e": "cd e2e && jest"
