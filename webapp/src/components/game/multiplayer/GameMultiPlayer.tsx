@@ -114,7 +114,7 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     <>
       {stage === 1 && <MenuMultiplayer socket={socket} handleCurrentStage={handleCurrentStage} handlePartyCode={handlePartyCode}/>}
       <Container>
-        {stage === 2 && <LobbyMultiPlayer socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
+        {stage === 2 && <LobbyMultiPlayer data-testid="lobby-multiplayer" socket={socket} handleCurrentStage={handleCurrentStage} partyCode={partyCode} users={users}/>}
         {stage === 3 && <PlayingGame socket={socket} setCurrentStage={handleCurrentStage} questions={questions} partyCode={partyCode}/>}
         {stage === 4 && <ScoreboardGame userScoresMultiPlayer={sortedUsersByPoints}/>}
       </Container>
