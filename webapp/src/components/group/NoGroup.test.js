@@ -77,9 +77,6 @@ describe('NoGroup component', () => {
         expect(screen.getByTestId('join-group-modal')).toBeInTheDocument();
     });
 
-    // Simula un nombre de grupo ficticio
-    const groupName = 'TestGroup';
-
     // Simula la llamada a joinGroup
     await act(async () => {
         await fireEvent.click(screen.getByTestId(`join-group-button`));
