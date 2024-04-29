@@ -1,6 +1,5 @@
 .navbar {
   width:100%;
-  height: 50px;
   display: flex;
   align-items: center;
 }
@@ -20,6 +19,13 @@
 }
 
 .logo{
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  height: 40px;
   font-weight: 500;
   font-size: xx-large;
   margin-right: 15px !important;

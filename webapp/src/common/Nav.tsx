@@ -64,8 +64,7 @@ const NavBar: React.FC<{}> = () =>
         <AppBar className="nav-appBar" sx={
             { 
                 display: 'flex', 
-                flexDirection: 'row',
-                flexWrap: 'nowrap', 
+                flexDirection: 'row', 
                 alignItems: 'flex-start', 
                 justifyContent: 'flex-start',
                 width: '100%',
@@ -77,6 +76,7 @@ const NavBar: React.FC<{}> = () =>
                 <Container sx={{ maxWidth: '100% !important' }}>
                     <Grid
                     container
+                    flexWrap={'nowrap'}
                     direction="row"
                     alignItems="center"
                     justifyContent="space-between"
