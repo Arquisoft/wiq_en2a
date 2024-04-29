@@ -604,7 +604,7 @@ paths:
                   message:
                     type: string
                     example: "There is no group with that UUID."
-  /getGroups:
+  getGroups:
     get:
       summary: Get all groups
       description: This endpoint retrieves all the groups.
@@ -618,6 +618,40 @@ paths:
                 items: 
                   type: object
                   description: Group object
+                  properties:
+                    _id:
+                      type: string
+                      example: "662aa993f1fae005e7d458b1"
+                    uuid:
+                      type: string
+                      example: "25051714-b1de-4601-a834-a5c53604a31b"
+                    groupName:
+                      type: string
+                      example: "12345"
+                    admin:
+                      type: string
+                      example: "09d12a28-0a2d-4370-9126-730f1de57aa9"
+                    members:
+                      type: array
+                      items:
+                        type: string
+                      example: ["09d12a28-0a2d-4370-9126-730f1de57aa9"]
+                    maxNumUsers:
+                      type: integer
+                      example: 30
+                    description:
+                      type: string
+                      example: "12345"
+                    isPublic:
+                      type: boolean
+                      example: true
+                    creationDate:
+                      type: string
+                      format: date-time
+                      example: "2024-04-25T19:05:55.000Z"
+                    __v:
+                      type: integer
+                      example: 0
         '500':
           description: Internal server error
           content:
