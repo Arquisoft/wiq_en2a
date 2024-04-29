@@ -126,20 +126,15 @@ let UserController = {
       res.json(response);
     },
     getUsersByIds: async (req, res) => {
-      try{
+      try {
         const userIds = req.body.userIds;
-        const users = [];
-        for(const id of userIds){
-          if(!isValidUuidV4(id)){
-            throw new Error(`Invalid UUID provided`);
-          } else {
-            const user = await User.findOne({ uuid: id });
-            users.push(user);
-          }
-        }
+        // Fetch all users from the database
+        const allUsers = await User.find();
+        // Filter users based on provided UUIDs
+        const users = allUsers.filter(user => userIds.includes(user.uuid));
         res.json(users);
-      } catch(error){
-        console.log(error)
+      } catch(error) {
+        console.log(error);
         res.status(500).json({ error: error.message });
       }
     },
