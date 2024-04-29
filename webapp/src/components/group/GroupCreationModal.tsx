@@ -82,7 +82,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                     </Grid>
                     <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_description')}</p></Grid>
-                        <Grid item xs={5} ><TextField
+                        <Grid item xs={7} ><TextField
                         margin="normal"
                         multiline
                         label={t('create_group_description_label')}
