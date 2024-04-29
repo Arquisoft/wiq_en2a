@@ -223,10 +223,17 @@ paths:
                   error:
                     type: string
                     example: "Internal server error"
-  /createGame/:lang:
+  /createGame/{lang}:
     post:
-      summary: Creates a game with the specified language.
-      operationId: createGame
+      summary: Create a new game
+      description: This endpoint creates a new game for a list of players in a specific language.
+      parameters:
+        - in: path
+          name: lang
+          schema:
+            type: string
+          required: true
+          description: Language of the game
       requestBody:
         required: true
         content:
@@ -234,10 +241,81 @@ paths:
             schema:
               type: object
               properties:
-                player:
+                players:
                   type: array
-                  description: array with Players ID
-                  example: student
+                  description: array with Players
+                  items: 
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        description: Player ID
+                        example: "6a63ca40-3f17-4a5d-9ed5-f756433c4bb1"
+      responses:
+        '200':
+          description: Game created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  players:
+                    type: array
+                    description: array with Players
+                    items: 
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          description: Player ID
+                          example: "6a63ca40-3f17-4a5d-9ed5-f756433c4bb1"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+  /getStats/{id}:
+    get:
+      summary: Get player statistics
+      description: This endpoint retrieves the statistics for a player by their ID. If the player has a last game ID, it also retrieves the questions from the last game.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Player ID
+      responses:
+        '200':
+          description: Player statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userStats:
+                    type: object
+                    description: Player statistics
+                  lastGame:
+                    type: array
+                    description: Questions from the last game
+                    items: 
+                      type: object
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
   /createGroup:
     post:
       summary: Create a new group, given a group name, description, whether it is public, and the id of the creator
