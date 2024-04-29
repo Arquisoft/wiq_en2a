@@ -1,6 +1,6 @@
 global:
   scrape_interval: 5s
 scrape_configs:
-  - job_name: "example-nodejs-app"
+  - job_name: "conoceryvencer-nodejs-app"
     static_configs:
-      - targets: ["gatewayservice:8000"]
+      - targets: ["gatewayservice:8000","userservice:8001","queryservice:8002","gatewayservice:8003","gameservice:8004"]

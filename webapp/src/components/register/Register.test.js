@@ -14,6 +14,24 @@ describe('Register component', () => {
   });
 
   it('should add user successfully', async () => {
+    var localStorageMock = (function() {
+      var store = {};
+      return {
+        getItem: function(key) {
+          return store[key];
+        },
+        setItem: function(key, value) {
+          store[key] = value.toString();
+        },
+        clear: function() {
+          store = {};
+        },
+        removeItem: function(key) {
+          delete store[key];
+        }
+      };
+    })();
+    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
     render(
       <Router> 
         <Register />
@@ -26,6 +44,12 @@ describe('Register component', () => {
 
     // Mock the axios.post request to simulate a successful response
     mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+    mockAxios.onPost('http://localhost:8000/login').reply(200, {
+      username: 'testUser',
+      totalScore: 0,
+      nWins: 0,
+      uuid: '123'
+    });
 
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
@@ -37,6 +61,14 @@ describe('Register component', () => {
     // Wait for the Snackbar to be open
     await waitFor(() => {
       expect(screen.getByTestId('register-successfull-snackbar')).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(localStorageMock.getItem('username')).toBe('testUser');
+      expect(localStorageMock.getItem('score')).toBe('0');
+      expect(localStorageMock.getItem('isAuthenticated')).toBe('true');
+      expect(localStorageMock.getItem('userUUID')).toBe('123');
+      
     });
   });
 
@@ -66,4 +98,18 @@ describe('Register component', () => {
       expect(screen.getByTestId('register-error-snackbar')).toBeInTheDocument();
     });
   });
+
+  it('should handle return button click', () => {
+    const goBackMock = jest.fn();
+    const { getByTestId } = render(
+      <Router> 
+        <Register goBack={goBackMock}/>
+      </Router>);
+
+    // Click on the return button
+    fireEvent.click(getByTestId("return-button"));
+
+    expect(goBackMock).toHaveBeenCalled();
+  });
+
 });
