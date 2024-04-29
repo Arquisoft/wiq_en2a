@@ -2,7 +2,7 @@ import  { useState, KeyboardEvent } from 'react';
 import axios from 'axios';
 import { Container, Typography, TextField, Snackbar, Stack, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import './register.scss';
+import './Register.scss';
 import { useNavigate } from "react-router-dom";
 
 //const apiEndpoint = 'http://conoceryvencer.xyz:8000'
