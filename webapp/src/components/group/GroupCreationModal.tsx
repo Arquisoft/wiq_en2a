@@ -26,7 +26,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
             await axios.post(`${apiEndpoint}/createGroup`, { groupName, creatorUUID, description, isPublic }).then( res => {
                 nowHasGroup();
             });
-        }catch (error:any) {
+        }catch (error: any) {
             setError(error.response.data.error);
         }
     }
@@ -57,6 +57,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                     <Grid container padding={2} sx={{ display: 'flex', width: '400px' , justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_group_name')}</p></Grid>
                         <Grid item xs={6} ><TextField
+                        data-testid="group-name-input"
                         margin="normal"
                         label={t('create_group_group_name_label')}
                         value={groupName}
@@ -72,8 +73,8 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                         sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}
                         onChange={(e) => setPublic(e.target.value === "yes")}
                         >
-                            <FormControlLabel value="yes" control={<Radio />} label={t('create_group_yes')} />
-                            <FormControlLabel value="no" control={<Radio />} label={t('create_group_no')} />
+                            <FormControlLabel data-testid="yes-button" value="yes" control={<Radio />} label={t('create_group_yes')} />
+                            <FormControlLabel data-testid="no-button" value="no" control={<Radio />} label={t('create_group_no')} />
                         </RadioGroup></Grid>
                     </Grid>
                     <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
@@ -83,6 +84,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                     <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_description')}</p></Grid>
                         <Grid item xs={7} ><TextField
+                        data-testid="description-input"
                         margin="normal"
                         multiline
                         label={t('create_group_description_label')}
@@ -91,7 +93,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                         /></Grid>
                     </Grid>
                     <Grid container padding={2} >
-                        <Grid item xs={6} ><Button variant="contained" onClick={createGroup} sx={{ width: '140px' }}>{t('create_group_button')}</Button></Grid>
+                        <Grid item xs={6} ><Button data-testid="create-button" variant="contained" onClick={createGroup} sx={{ width: '140px' }}>{t('create_group_button')}</Button></Grid>
                     </Grid>
                 </Grid>
             </div>
