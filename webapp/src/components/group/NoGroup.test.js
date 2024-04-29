@@ -52,6 +52,12 @@ describe('NoGroup component', () => {
     await waitFor(() => {
       expect(screen.getByTestId('join-group-modal')).toBeInTheDocument();
     });
+     // Simula la llamada a joinGroup
+     await act(async () => {
+      await fireEvent.click(screen.getByTestId(`join-group-button`));
+  });
+  // Simula una respuesta exitosa de la API
+  axios.post.mockResolvedValueOnce({});
   });
 
  test('clicking on "Create a group" button opens the create modal', async () => {
@@ -64,27 +70,6 @@ describe('NoGroup component', () => {
     await waitFor(() => {
       expect(screen.getByTestId('create-group-modal')).toBeInTheDocument();
     });
-  });
-
-  test('joining a group calls the joinGroup API', async () => {
-    render(<NoGroup />);
-    
-    // Simula hacer clic en el botón "Join a group" para abrir el modal
-    fireEvent.click(screen.getByTestId('join-group-button'));
-
-    // Verifica que el modal de join group se muestre en el DOM
-    await waitFor(() => {
-        expect(screen.getByTestId('join-group-modal')).toBeInTheDocument();
-    });
-
-    // Simula la llamada a joinGroup
-    await act(async () => {
-        await fireEvent.click(screen.getByTestId(`join-group-button`));
-    });
-    // Simula una respuesta exitosa de la API
-    axios.post.mockResolvedValueOnce({});
-
-  
   });
 
 });
