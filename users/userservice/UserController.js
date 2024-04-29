@@ -126,14 +126,21 @@ let UserController = {
       res.json(response);
     },
     getUsersByIds: async (req, res) => {
-      const userIds = req.body.userIds;
-      const users = [];
-      for(const id of userIds){
-        console.log(id)
-        const user = await User.findOne({ uuid: id });
-        users.push(user);
+      try{
+        const userIds = req.body.userIds;
+        const users = [];
+        for(const id of userIds){
+          if(!isValidUuidV4(id)){
+            throw new Error(`Invalid UUID provided`);
+          }
+          const user = await User.findOne({ uuid: id });
+          users.push(user);
+        }
+        res.json(users);
+      } catch(error){
+        console.log(error)
+        res.status(500).json({ error: error.message });
       }
-      res.json(users);
     },
     leaveGroup: async (req, res) => {
       const id = req.params.id;
