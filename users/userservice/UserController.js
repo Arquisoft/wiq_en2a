@@ -132,9 +132,10 @@ let UserController = {
         for(const id of userIds){
           if(!isValidUuidV4(id)){
             throw new Error(`Invalid UUID provided`);
+          } else {
+            const user = await User.findOne({ uuid: id });
+            users.push(user);
           }
-          const user = await User.findOne({ uuid: id });
-          users.push(user);
         }
         res.json(users);
       } catch(error){
