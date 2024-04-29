@@ -474,4 +474,157 @@ paths:
                     example: "Internal Server Error"
                   message:
                     type: string
-                    example: "The group does not exist!
+                    example: "The group does not exist!"
+  /getGroup/{uuid}:
+    get:
+      summary: Get group information by UUID
+      parameters:
+        - in: path
+          name: uuid
+          required: true
+          schema:
+            type: string
+          description: UUID of the group to retrieve
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "662fac0d76479bb08f1a4a35"
+                  uuid:
+                    type: string
+                    example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  groupName:
+                    type: string
+                    example: "Example Group"
+                  admin:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: "6614d4be5bccd1b3f21836e0"
+                      uuid:
+                        type: string
+                        example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                      username:
+                        type: string
+                        example: "juan"
+                      nCorrectAnswers:
+                        type: integer
+                        example: 0
+                      nWrongAnswers:
+                        type: integer
+                        example: 0
+                      totalScore:
+                        type: integer
+                        example: 0
+                      nWins:
+                        type: integer
+                        example: 0
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2024-04-09T05:40:14.820Z"
+                      __v:
+                        type: integer
+                        example: 0
+                      groupId:
+                        type: string
+                        example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: "6614d4be5bccd1b3f21836e0"
+                        uuid:
+                          type: string
+                          example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                        username:
+                          type: string
+                          example: "juan"
+                        nCorrectAnswers:
+                          type: integer
+                          example: 0
+                        nWrongAnswers:
+                          type: integer
+                          example: 0
+                        totalScore:
+                          type: integer
+                          example: 0
+                        nWins:
+                          type: integer
+                          example: 0
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2024-04-09T05:40:14.820Z"
+                        __v:
+                          type: integer
+                          example: 0
+                        groupId:
+                          type: string
+                          example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  maxNumUsers:
+                    type: integer
+                    example: 30
+                  description:
+                    type: string
+                    example: "Description of the group"
+                  isPublic:
+                    type: boolean
+                    example: false
+                  joinCode:
+                    type: string
+                    example: "KB8L"
+                  creationDate:
+                    type: string
+                    format: date-time
+                    example: "2024-04-29T14:17:49.000Z"
+                  __v:
+                    type: integer
+                    example: 1
+        '500':
+          description: Internal Server Error. There is no group with that UUID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: string
+                    example: "There is no group with that UUID."
+  /getGroups:
+    get:
+      summary: Get all groups
+      description: This endpoint retrieves all the groups.
+      responses:
+        '200':
+          description: Groups retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  description: Group object
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
