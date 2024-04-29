@@ -20,10 +20,21 @@ const Init = (props:ActionProps) =>{
 
   return (
     <Stack direction="column">
-      <Button  onClick={() => handleViewChange(false)} size='large' data-testid="register">
+      <Button 
+      variant="contained"  
+      onClick={() => handleViewChange(false)} 
+      size='large' 
+      data-testid="register"
+      sx={{ marginBottom: '5px' }}
+      >
         {t('register')}
       </Button>
-      <Button  onClick={() => handleViewChange(true)} size='large' data-testid="login" sx={{ marginBottom: 2 }}>
+      <Button 
+      variant="contained"  
+      onClick={() => handleViewChange(true)} 
+      size='large' 
+      data-testid="login" 
+      sx={{ marginBottom: '50px' }}>
         {t('login')}
       </Button>
       <GLoginButton />

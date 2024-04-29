@@ -86,12 +86,13 @@ const Register = (props:ActionProps) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         onKeyDown={handleKeyPress}
+        sx={{ marginBottom: '30px' }}
       />
-      <Stack direction="column">
-        <Button color="primary" onClick={addUser}>
+      <Stack direction="column" spacing={0.5}>
+        <Button variant='contained' color="primary" onClick={addUser}>
           {t('register')}
         </Button>
-        <Button color="primary" onClick={handleReturnButtonClick}>
+        <Button variant='contained' color="primary" onClick={handleReturnButtonClick}>
           {t('return')}
         </Button>
       </Stack>
