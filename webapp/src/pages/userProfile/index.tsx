@@ -31,7 +31,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <Container sx={{ mt: 11, width: '100%' }}>
+    <Container sx={{ mt: 2, width: '100%' }}>
       <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
         <Grid item>
           {profileInfo && (
@@ -124,7 +124,7 @@ const ProfilePage = () => {
                 >
                   {t('profile_questions')}
                 </Typography>
-                <ul className="white-list" style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                <ul className="white-list" style={{ maxHeight: '220px', overflowY: 'auto' }}>
                   {profileInfo.lastGame.map((question, index) => (
                     <li key={index}>
                       <Typography

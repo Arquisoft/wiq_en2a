@@ -54,43 +54,44 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                     </button>
                 </div>
                 <Grid >
-                    <Grid container padding={2} >
+                    <Grid container padding={2} sx={{ display: 'flex', width: '400px' , justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_group_name')}</p></Grid>
-                        <Grid item xs={5} ><TextField
+                        <Grid item xs={6} ><TextField
                         margin="normal"
-                        label="Group name"
+                        label={t('create_group_group_name_label')}
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
                         /></Grid>
                     </Grid>
-                    <Grid container padding={2} >
+                    <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_public_group')}</p></Grid>
-                        <Grid item xs={5} ><RadioGroup
+                        <Grid item xs={5}><RadioGroup
                         aria-labelledby="demo-radio-buttons-group-label"
                         defaultValue="yes"
                         name="radio-buttons-group"
+                        sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}
                         onChange={(e) => setPublic(e.target.value === "yes")}
                         >
-                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                            <FormControlLabel value="no" control={<Radio />} label="No" />
+                            <FormControlLabel value="yes" control={<Radio />} label={t('create_group_yes')} />
+                            <FormControlLabel value="no" control={<Radio />} label={t('create_group_no')} />
                         </RadioGroup></Grid>
                     </Grid>
-                    <Grid container padding={2} >
-                        <Grid item xs={5} ><p>{t('create_group_max_members')}</p></Grid>
-                        <Grid item xs={5} ><input type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
+                    <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
+                        <Grid item xs={6} ><p>{t('create_group_max_members')}</p></Grid>
+                        <Grid item xs={1} ><input style={{ width: '25px' }} type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
                     </Grid>
-                    <Grid container padding={2} >
+                    <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_description')}</p></Grid>
-                        <Grid item xs={5} ><TextField
+                        <Grid item xs={7} ><TextField
                         margin="normal"
                         multiline
-                        label="Description"
+                        label={t('create_group_description_label')}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         /></Grid>
                     </Grid>
                     <Grid container padding={2} >
-                        <Grid item xs={6} ><Button onClick={createGroup}>{t('create_group_button')}</Button></Grid>
+                        <Grid item xs={6} ><Button variant="contained" onClick={createGroup} sx={{ width: '140px' }}>{t('create_group_button')}</Button></Grid>
                     </Grid>
                 </Grid>
             </div>
