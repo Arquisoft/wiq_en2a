@@ -135,7 +135,7 @@ const NoGroup = (props: ActionProps) =>
                                     </Grid>
                                 </Grid>
                             ))}                        
-                            <Stack direction="row" padding={1}>
+                            <Stack direction="row">
                                 <Button variant="contained" onClick={toggleJoinModal} data-testid="close-join-modal-button">{t('no_group_close')}</Button>
                             </Stack>
                         </Grid>

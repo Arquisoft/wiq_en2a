@@ -10,10 +10,9 @@ function App() {
   const { i18n } = useTranslation();
 
   React.useEffect(() => {
-    localStorage.setItem("lang", navigator.language);
-    i18n.changeLanguage(navigator.language);
+    localStorage.setItem("lang", navigator.language.slice(0, 2));
+    i18n.changeLanguage(navigator.language.slice(0, 2));
   }, [i18n]);
-
   
   return (
         <BrowserRouter>

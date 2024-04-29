@@ -73,7 +73,6 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     setSocket(newSocket);
 
     newSocket.on('partyCreated', (partyCode: string) => {
-      console.log(`Party created: ${partyCode}`);
       setPartyCode(partyCode);
     });
 
@@ -86,7 +85,6 @@ const GameMultiPlayer: FC<GameMultiPlayerProps> = () => {
     });
 
     newSocket.on('partyNotFound', () => {
-      console.log('Party not found');
     });
 
     newSocket.on('allPlayersFinished', handleAllPlayersFinished);

@@ -25,18 +25,13 @@ const Register = (props:ActionProps) => {
       // checkear que el username no exista (tiene que ser unico)
       await axios.post(`${apiEndpoint}/adduser`, { username, password });
       setOpenSnackbar(true);
-      localStorage.clear();
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
   
-      console.log(user.data);
       localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
-      localStorage.setItem("nWins", user.data.nWins);
-      localStorage.setItem("uuid", user.data.uuid);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
-      localStorage.setItem('lang','en')
 
       setOpenSnackbar(true);
       navigate("/game")
@@ -88,12 +83,13 @@ const Register = (props:ActionProps) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         onKeyDown={handleKeyPress}
+        sx={{ marginBottom: '30px' }}
       />
-      <Stack direction="column">
-        <Button color="primary" onClick={addUser}>
+      <Stack direction="column" spacing={0.5}>
+        <Button variant='contained' color="primary" onClick={addUser}>
           {t('register')}
         </Button>
-        <Button color="primary" onClick={handleReturnButtonClick}>
+        <Button variant='contained' color="primary" onClick={handleReturnButtonClick}>
           {t('return')}
         </Button>
       </Stack>

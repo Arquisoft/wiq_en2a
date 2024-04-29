@@ -1,0 +1,664 @@
+openapi: 3.0.0
+info:
+  title: Gatewayservice API
+  description: Gateway OpenAPI specification.
+  version: 0.2.0
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: http://conoceryvencer.xyz:8000
+    description: Production server
+paths:
+  /adduser:
+    post:
+      summary: Add a new user to the database.
+      operationId: addUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User ID.
+                  example: student
+                password:
+                  type: string
+                  description: User password.
+                  example: pass
+      responses:
+        '200':
+          description: User added successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: User ID
+                  password:
+                    type: string
+                    description: Hashed password
+                    example: $2b$10$ZKdNYLWFQxzt5Rei/YTc/OsZNi12YiWz30JeUFHNdAt7MyfmkTuvC
+                  _id:
+                    type: string
+                    description: Identification
+                    example: 65f756db3fa22d227a4b7c7d
+                  createdAt:
+                    type: string
+                    description: Creation date.
+                    example: '2024-03-17T20:47:23.935Z'
+                  ___v:
+                    type: integer
+                    example: '0'                                        
+        '400':
+          description: Failed to add user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: getaddrinfo EAI_AGAIN mongodb
+  /health:
+    get:
+      summary: Check the health status of the service.
+      operationId: checkHealth
+      responses:
+        '200':
+          description: Service is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Health status.
+                    example: OK
+  /login:
+    post:
+      summary: Log in to the system.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User ID.
+                  example: student
+                password:
+                  type: string
+                  description: User password.
+                  example: pass
+      responses:
+        '200':
+          description: Login successful. Returns user token, username, and creation date.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: User token.
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWY3NTZkYjNmYTIyZDIyN2E0YjdjN2QiLCJpYXQiOjE3MTA3MDg3NDUsImV4cCI6MTcxMDcxMjM0NX0.VMG_5DOyQ4GYlJQRcu1I6ICG1IGzuo2Xuei093ONHxw
+                  username:
+                    type: string
+                    description: Username.
+                    example: student
+                  createdAt:
+                    type: string
+                    description: Creation date.
+                    example: '2024-03-17T20:47:23.935Z'
+        '401':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Shows the error info..
+                    example: Invalid credentials
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Internal Server Error
+  /updateStats:
+    post:
+      summary: Updates the statistics.
+      operationId: updateStats
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                players:
+                  type: array
+                  description: array with Players
+                  items: 
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        description: Player ID
+                        example: "3c68688e-84e7-4d29-b7c7-09474d42b669"
+                      nCorrectAnswers:
+                        type: integer
+                        description: number of correct answers
+                        example: 12
+                      nIncorrectAnswers:
+                        type: integer
+                        description: number of incorrect answers
+                        example: 3
+                      totalScore:
+                        type: integer
+                        description: total score
+                        example: 500
+                      isWinner:
+                        type: boolean
+                        description: if the player is the winner
+                        example: true
+      responses:
+        '200':
+          description: Player statistics updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  players:
+                    type: array
+                    description: array with Players
+                    items: 
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          description: Player ID
+                          example: "3c68688e-84e7-4d29-b7c7-09474d42b669"
+                        nCorrectAnswers:
+                          type: integer
+                          description: number of correct answers
+                          example: 12
+                        nIncorrectAnswers:
+                          type: integer
+                          description: number of incorrect answers
+                          example: 3
+                        totalScore:
+                          type: integer
+                          description: total score
+                          example: 500
+                        isWinner:
+                          type: boolean
+                          description: if the player is the winner
+                          example: true
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+  /createGame/{lang}:
+    post:
+      summary: Create a new game
+      description: This endpoint creates a new game for a list of players in a specific language.
+      parameters:
+        - in: path
+          name: lang
+          schema:
+            type: string
+          required: true
+          description: Language of the game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                players:
+                  type: array
+                  description: array with Players
+                  items: 
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        description: Player ID
+                        example: "6a63ca40-3f17-4a5d-9ed5-f756433c4bb1"
+      responses:
+        '200':
+          description: Game created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  players:
+                    type: array
+                    description: array with Players
+                    items: 
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                          description: Player ID
+                          example: "6a63ca40-3f17-4a5d-9ed5-f756433c4bb1"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+  /getStats/{id}:
+    get:
+      summary: Get player statistics
+      description: This endpoint retrieves the statistics for a player by their ID. If the player has a last game ID, it also retrieves the questions from the last game.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Player ID
+      responses:
+        '200':
+          description: Player statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userStats:
+                    type: object
+                    description: Player statistics
+                  lastGame:
+                    type: array
+                    description: Questions from the last game
+                    items: 
+                      type: object
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
+  /createGroup:
+    post:
+      summary: Create a new group, given a group name, description, whether it is public, and the id of the creator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                creatorUUID:
+                  type: string
+                  example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                groupName:
+                  type: string
+                  example: "Example Group"
+                description:
+                  type: string
+                  example: "Description of the group"
+                isPublic:
+                  type: boolean
+                  example: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  groupName:
+                    type: string
+                    example: "Example Group"
+                  admin:
+                    type: string
+                    example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                  members:
+                    type: array
+                    items:
+                      type: string
+                      example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                  maxNumUsers:
+                    type: integer
+                    example: 30
+                  description:
+                    type: string
+                    example: "Description of the group"
+                  isPublic:
+                    type: boolean
+                    example: false
+                  joinCode:
+                    type: string
+                    example: "KB8L"
+                  creationDate:
+                    type: string
+                    format: date-time
+                    example: "2024-04-29T14:17:49.000Z"
+                  _id:
+                    type: string
+                    example: "662fac0d76479bb08f1a4a35"
+                  __v:
+                    type: integer
+                    example: 0
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error. There is already a group with that name!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: string
+                    example: "There is already a group with that name!"
+  /joinGroup:
+    post:
+      summary: Join an existing group, given a group name, a join code and the id of the user to join
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  example: "a1b50b65-e2fe-4a92-87ea-d16154c5584b"
+                groupName:
+                  type: string
+                  example: "Example Group"
+                joinCode:
+                  type: string
+                  example: "KB8L"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "662fac0d76479bb08f1a4a35"
+                  uuid:
+                    type: string
+                    example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  groupName:
+                    type: string
+                    example: "Example Group"
+                  admin:
+                    type: string
+                    example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                  members:
+                    type: array
+                    items:
+                      type: string
+                      example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                  maxNumUsers:
+                    type: integer
+                    example: 30
+                  description:
+                    type: string
+                    example: "Description of the group"
+                  isPublic:
+                    type: boolean
+                    example: false
+                  joinCode:
+                    type: string
+                    example: "KB8L"
+                  creationDate:
+                    type: string
+                    format: date-time
+                    example: "2024-04-29T14:17:49.000Z"
+                  __v:
+                    type: integer
+                    example: 1
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error. The group does not exist!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: string
+                    example: "The group does not exist!"
+  /getGroup/{uuid}:
+    get:
+      summary: Get group information by UUID
+      parameters:
+        - in: path
+          name: uuid
+          required: true
+          schema:
+            type: string
+          description: UUID of the group to retrieve
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "662fac0d76479bb08f1a4a35"
+                  uuid:
+                    type: string
+                    example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  groupName:
+                    type: string
+                    example: "Example Group"
+                  admin:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: "6614d4be5bccd1b3f21836e0"
+                      uuid:
+                        type: string
+                        example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                      username:
+                        type: string
+                        example: "juan"
+                      nCorrectAnswers:
+                        type: integer
+                        example: 0
+                      nWrongAnswers:
+                        type: integer
+                        example: 0
+                      totalScore:
+                        type: integer
+                        example: 0
+                      nWins:
+                        type: integer
+                        example: 0
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: "2024-04-09T05:40:14.820Z"
+                      __v:
+                        type: integer
+                        example: 0
+                      groupId:
+                        type: string
+                        example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  members:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          example: "6614d4be5bccd1b3f21836e0"
+                        uuid:
+                          type: string
+                          example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                        username:
+                          type: string
+                          example: "juan"
+                        nCorrectAnswers:
+                          type: integer
+                          example: 0
+                        nWrongAnswers:
+                          type: integer
+                          example: 0
+                        totalScore:
+                          type: integer
+                          example: 0
+                        nWins:
+                          type: integer
+                          example: 0
+                        createdAt:
+                          type: string
+                          format: date-time
+                          example: "2024-04-09T05:40:14.820Z"
+                        __v:
+                          type: integer
+                          example: 0
+                        groupId:
+                          type: string
+                          example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  maxNumUsers:
+                    type: integer
+                    example: 30
+                  description:
+                    type: string
+                    example: "Description of the group"
+                  isPublic:
+                    type: boolean
+                    example: false
+                  joinCode:
+                    type: string
+                    example: "KB8L"
+                  creationDate:
+                    type: string
+                    format: date-time
+                    example: "2024-04-29T14:17:49.000Z"
+                  __v:
+                    type: integer
+                    example: 1
+        '500':
+          description: Internal Server Error. There is no group with that UUID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: string
+                    example: "There is no group with that UUID."
+  getGroups:
+    get:
+      summary: Get all groups
+      description: This endpoint retrieves all the groups.
+      responses:
+        '200':
+          description: Groups retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  type: object
+                  description: Group object
+                  properties:
+                    _id:
+                      type: string
+                      example: "662aa993f1fae005e7d458b1"
+                    uuid:
+                      type: string
+                      example: "25051714-b1de-4601-a834-a5c53604a31b"
+                    groupName:
+                      type: string
+                      example: "12345"
+                    admin:
+                      type: string
+                      example: "09d12a28-0a2d-4370-9126-730f1de57aa9"
+                    members:
+                      type: array
+                      items:
+                        type: string
+                      example: ["09d12a28-0a2d-4370-9126-730f1de57aa9"]
+                    maxNumUsers:
+                      type: integer
+                      example: 30
+                    description:
+                      type: string
+                      example: "12345"
+                    isPublic:
+                      type: boolean
+                      example: true
+                    creationDate:
+                      type: string
+                      format: date-time
+                      example: "2024-04-25T19:05:55.000Z"
+                    __v:
+                      type: integer
+                      example: 0
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
