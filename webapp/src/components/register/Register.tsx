@@ -89,7 +89,7 @@ const Register = (props:ActionProps) => {
         <Button variant='contained' color="primary" onClick={addUser}>
           {t('register')}
         </Button>
-        <Button variant='contained' color="primary" onClick={handleReturnButtonClick}>
+        <Button data-testid="return-button" variant='contained' color="primary" onClick={handleReturnButtonClick}>
           {t('return')}
         </Button>
       </Stack>
