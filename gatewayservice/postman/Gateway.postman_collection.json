@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"players\":[\r\n        {\"uuid\":\"af4c5a65-7768-47b8-aa05-4aff34b62391\"}\r\n    ]\r\n}",
+					"raw": "{\r\n    \"players\":[\r\n        {\"uuid\":\"6a63ca40-3f17-4a5d-9ed5-f756433c4bb1\"}\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -21,14 +21,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/createGame",
+					"raw": "http://localhost:8000/createGame/en",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"createGame"
+						"createGame",
+						"en"
 					]
 				}
 			},
@@ -66,7 +67,19 @@
 			"name": "Get statistics",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/getStats/6a63ca40-3f17-4a5d-9ed5-f756433c4bb1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"getStats",
+						"6a63ca40-3f17-4a5d-9ed5-f756433c4bb1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -77,7 +90,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"creatorUUID\": \"905aa11b-fd0c-4567-8fe4-e64dac7d96e8\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
+					"raw": "{\r\n    \"creatorUUID\": \"7d0eef6d-9997-4388-932c-ecf6df2a1454\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"description\": \"grupo tekila oleole\",\r\n    \"isPublic\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -105,7 +118,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"uuid\": \"58cd0585-e578-4f97-bfe9-eacdaee33ddc\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"joinCode\": \"bxUs\"\r\n}",
+					"raw": "{\r\n    \"uuid\": \"6a63ca40-3f17-4a5d-9ed5-f756433c4bb1\",\r\n    \"groupName\": \"GrupoMESSI\",\r\n    \"joinCode\": \"qRwL\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -178,7 +191,46 @@
 			"name": "Get groups",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/getGroups",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"getGroups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"mbappe\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"login"
+					]
+				}
 			},
 			"response": []
 		}
