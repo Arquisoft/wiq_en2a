@@ -29,12 +29,9 @@ const Login = (props: ActionProps) => {
 
     try {
       const user = await axios.post(`${apiEndpoint}/login`, { username, password });
-      console.log(user.data);
   
       localStorage.setItem("username", user.data.username);
       localStorage.setItem("score", user.data.totalScore);
-      localStorage.setItem("nWins", user.data.nWins);
-      localStorage.setItem("uuid", user.data.uuid);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
       localStorage.setItem('userUUID', user.data.uuid);
