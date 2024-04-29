@@ -9,12 +9,8 @@ export const GamePage: React.FC<{}> = () => {
 
   return (
     <div className="game-page-container">
-      <button className="game-page-button">
-        <Link to="/game/single-player">{t('game_single_player')}</Link>
-      </button>
-      <button className="game-page-button">
-        <Link to="/game/multi-player">{t('game_multiplayer')}</Link>
-      </button>
+      <Link className="game-page-button" to="/game/single-player">{t('game_single_player')}</Link>
+      <Link className="game-page-button" to="/game/multi-player">{t('game_multiplayer')}</Link>
     </div>
   );
 };
