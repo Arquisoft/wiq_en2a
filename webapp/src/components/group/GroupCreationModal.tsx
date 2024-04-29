@@ -78,7 +78,7 @@ export const CreationModal: FC<ActionProps> = ({nowHasGroup, setError, toggleCre
                     </Grid>
                     <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={6} ><p>{t('create_group_max_members')}</p></Grid>
-                        <Grid item xs={1} ><input style={{ width: '25px' }} type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
+                        <Grid item xs={1} ><input style={{ width: '37px' }} type="number" step={1} value={maxMembers} onChange={handleChange} max={200} min={2} /></Grid>
                     </Grid>
                     <Grid container padding={2} sx={{ display: 'flex', width: '400px', justifyContent: 'space-evenly', alignItems: 'center' }}>
                         <Grid item xs={5} ><p>{t('create_group_description')}</p></Grid>
