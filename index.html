@@ -513,6 +513,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-technical-risks">11. Risks and Technical Debts</a></li>
 <li><a href="#section-glossary">12. Glossary</a></li>
+<li><a href="#section-load_test">13. Anex I: Load test</a></li>
 </ul>
 </div>
 </div>
@@ -1556,13 +1557,41 @@ Azure provides powerful analytics and AI services that can be integrated into ou
 </tr>
 </tbody>
 </table>
+<div style="page-break-after: always;"></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="section-load_test">13. Anex I: Load test</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="./images/ResponsTimeNRequest.png" alt="Response Time and Number of requests">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/RequestsAndErrors.png" alt="Requests and results">
+</div>
+</div>
+<div class="paragraph">
+<p>When performing a the load test for the login and single player game with 1000 users conecting over a minute, we found that less than a 5% of the response end in a KO. This KO are due to the creation and start of the game.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/CreationOfQuestionsGraph.png" alt="Creating the game">
+</div>
+</div>
+<div class="paragraph">
+<p>When we create the game we also create all the questions with wikidata query service.
+To solve this problem we could look for more optimiced queries or change when the questions are created, once a day we could create a bunch of questions and sav e them in the database, with this approach, when creating a new game the questions would be selected from our local database.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-09 02:08:20 +0200
+Last updated 2024-04-29 09:13:31 +0200
 </div>
 </div>
 </body>
