@@ -29,8 +29,6 @@ export const InitPage: React.FC<{}> = () =>{
     setShowGoogleLM(!showGoogleLM);
     setShowInit(!showInit);
   } */
-
-  localStorage.clear();
   localStorage.setItem("isAuthenticated", JSON.stringify(false));
   return (
     <Container data-testid="init" component="main" maxWidth="xs">

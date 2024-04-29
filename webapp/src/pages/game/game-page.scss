@@ -7,6 +7,10 @@
 }
 
 .game-page-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 290px;
   font-size: 1.5em;
   padding: 15px 30px;
