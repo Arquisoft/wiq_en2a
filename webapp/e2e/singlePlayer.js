@@ -36,10 +36,10 @@ function delay(time) {
     // Esperar a que aparezca el botón de inicio de sesión y hacer clic en él
     await page.waitForSelector('button.MuiButtonBase-root:nth-child(1)');
     await page.click('button.MuiButtonBase-root:nth-child(1)');
-
+    
     // Esperar a que aparezca el botón de juego individual y hacer clic en él
-    await page.waitForSelector('button.game-page-button:nth-child(1)');
-    await page.click('button.game-page-button:nth-child(1)');
+    await page.waitForSelector('a.game-page-button:nth-child(1)');
+    await page.click('a.game-page-button:nth-child(1)');
 
     // Esperar a que aparezca el botón "add bot" y hacer clic en él
     await page.waitForSelector('.add-bot-button');
