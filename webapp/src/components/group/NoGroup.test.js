@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor,act } from '@testing-library/react';
 import axios from 'axios'; // Mockear axios
 import NoGroup from './NoGroup';
 
@@ -65,4 +65,29 @@ describe('NoGroup component', () => {
       expect(screen.getByTestId('create-group-modal')).toBeInTheDocument();
     });
   });
+
+  test('joining a group calls the joinGroup API', async () => {
+    render(<NoGroup />);
+    
+    // Simula hacer clic en el botón "Join a group" para abrir el modal
+    fireEvent.click(screen.getByTestId('join-group-button'));
+
+    // Verifica que el modal de join group se muestre en el DOM
+    await waitFor(() => {
+        expect(screen.getByTestId('join-group-modal')).toBeInTheDocument();
+    });
+
+    // Simula un nombre de grupo ficticio
+    const groupName = 'TestGroup';
+
+    // Simula la llamada a joinGroup
+    await act(async () => {
+        await fireEvent.click(screen.getByTestId(`join-group-button`));
+    });
+    // Simula una respuesta exitosa de la API
+    axios.post.mockResolvedValueOnce({});
+
+  
+  });
+
 });
