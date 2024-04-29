@@ -98,7 +98,6 @@ export const GroupTable = (props: TableProps) => {
                             </TableHead>
                             <TableBody>
                             {members.map((member) => {
-                                console.log(member + "added");
                                 return (
                                 <TableRow key={props.groupUUID}>
                                     <TableCell>{member.username}</TableCell>

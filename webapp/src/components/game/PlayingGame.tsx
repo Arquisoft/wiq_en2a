@@ -110,7 +110,6 @@ const PlayingGame: FC<PlayingGameProps> = ({questions, setCurrentStage, setPlaye
     const getAnswers = () => {
       const answers = answersShuffled[currentQuestion];
       if (answers.length > 4) {
-        console.log(answers)
         const removeCount = answers.length - 4;
         answers.splice(0, removeCount);
       }
