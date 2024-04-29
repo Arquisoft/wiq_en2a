@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://localhost:8000
     description: Development server
-  - url: http://SOMEIP:8000
+  - url: http://conoceryvencer.xyz:8000
     description: Production server
 paths:
   /adduser:
@@ -153,11 +153,138 @@ paths:
             schema:
               type: object
               properties:
-                username:
+                players:
+                  type: array
+                  description: array with Players
+                  items: 
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        description: Player ID
+                        example: "3c68688e-84e7-4d29-b7c7-09474d42b669"
+                      nCorrectAnswers:
+                        type: integer
+                        description: number of correct answers
+                        example: 12
+                      nIncorrectAnswers:
+                        type: integer
+                        description: number of incorrect answers
+                        example: 3
+                      totalScore:
+                        type: integer
+                        description: total score
+                        example: 500
+                      isWinner:
+                        type: boolean
+                        description: if the player is the winner
+                        example: true
+      responses:
+        '200':
+          description: Statistics updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message.
+                    example: Statistics updated successfully
+        '500':
+          description: Failed to update statistics.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error information.
+                    example: Failed to update statistics
+
+
+ 
+
+
+  /createGroup:
+    post:
+      summary: Create a new group, given a group name, description, whether it is public, and the id of the creator
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                creatorUUID:
                   type: string
-                  description: User ID.
-                  example: student
-                password:
+                  example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                groupName:
                   type: string
-                  description: User password.
-                  example: pass
+                  example: "Example Group"
+                description:
+                  type: string
+                  example: "Description of the group"
+                isPublic:
+                  type: boolean
+                  example: false
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    example: "7db83f24-eb3c-4d20-804c-3b966e084520"
+                  groupName:
+                    type: string
+                    example: "Example Group"
+                  admin:
+                    type: string
+                    example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                  members:
+                    type: array
+                    items:
+                      type: string
+                      example: "7d0eef6d-9997-4388-932c-ecf6df2a1454"
+                  maxNumUsers:
+                    type: integer
+                    example: 30
+                  description:
+                    type: string
+                    example: "Description of the group"
+                  isPublic:
+                    type: boolean
+                    example: false
+                  joinCode:
+                    type: string
+                    example: "KB8L"
+                  creationDate:
+                    type: string
+                    format: date-time
+                    example: "2024-04-29T14:17:49.000Z"
+                  _id:
+                    type: string
+                    example: "662fac0d76479bb08f1a4a35"
+                  __v:
+                    type: integer
+                    example: 0
+        '400':
+          description: Bad request
+        '500':
+          description: Internal Server Error. There is already a group with that name!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal Server Error"
+                  message:
+                    type: string
+                    example: "There is already a group with that name!"
