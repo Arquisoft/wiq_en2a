@@ -14,8 +14,7 @@ interface LobbyMultiPlayerProps {
 const LobbyMultiPlayer: FC<LobbyMultiPlayerProps> = ({ socket, handleCurrentStage, partyCode, users }) => {
   const [isFetched, setFetched] = useState<boolean>(true);
 
-  const uuid = localStorage.getItem("userUUID");
-  console.log(uuid);
+  const uuid = localStorage.getItem("uuid");
 
   const { t } = useTranslation();
 

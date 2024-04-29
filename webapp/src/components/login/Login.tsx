@@ -34,7 +34,7 @@ const Login = (props: ActionProps) => {
       localStorage.setItem("score", user.data.totalScore);
       localStorage.setItem("isAuthenticated", JSON.stringify(true));
       // Extract data from the response
-      localStorage.setItem('userUUID', user.data.uuid);
+      localStorage.setItem('uuid', user.data.uuid);
       localStorage.setItem("lang", navigator.language.slice(0, 2));
 
       setOpenSnackbar(true);
