@@ -73,18 +73,18 @@ export const GroupTable = (props: TableProps) => {
         <Container>
            {loading ? <CircularProgress /> : (
                 <Container>
-                    <Grid container padding={2} >
-                        <Grid item xs={3} >
-                            <h1 data-testid="group-name" style={{margin:'1em'}}>{groupName}</h1>
+                    <Grid container padding={2} sx={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }} >
+                        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <h1 data-testid="group-name">{groupName}</h1>
                         </Grid>
-                        <Grid item xs={3} >
-                            <h1 data-testid="total-points" style={{margin:'1em'}}>{total}{t('group_table_points')}</h1>
+                        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <h1 data-testid="total-points">{total}{t('group_table_points')}</h1>
                         </Grid>
-                        <Grid item xs={3} >
-                            <h1 data-testid="number-members" style={{margin:'1em'}}>{numberMembers}{t('group_table_members')}</h1>
+                        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <h1 data-testid="number-members">{numberMembers}{t('group_table_members')}</h1>
                         </Grid>
-                        <Grid item xs={3} >
-                            <Button data-testid="leave-button" style={{maxWidth: '250px', maxHeight: '50px', minWidth: '250px', minHeight: '50px', float: 'right', margin:'1em'}} variant="contained" onClick={leaveGroup} >{t('group_table_leave')}</Button>
+                        <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Button data-testid="leave-button" style={{ width: '200px' }} variant="contained" onClick={leaveGroup} >{t('group_table_leave')}</Button>
                         </Grid>
                     </Grid>
                     <TableContainer>
