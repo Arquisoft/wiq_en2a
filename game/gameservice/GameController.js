@@ -10,10 +10,14 @@ let GameController = {
         res.json(response);
     },*/
     create: async (req, res) => {
+        try{
         const { questions, players } = req.body;
         console.log(questions, players)
         const game = await createGame(questions, players);
         res.json(game);
+        } catch(error){
+            res.status(500).json({ message: error.message });
+        }
     },
     delete: async (req, res) => {
         await Game.findOneAndDelete({uuid: req.params.id});

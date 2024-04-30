@@ -6,6 +6,12 @@ async function createGame(questions, players) {
     try {
         // Create a new Game instance
         console.log(players)
+        if(players.length == 0){
+          throw new Error('No players found')
+        }
+        if(players[0].uuid == null || players[0].uuid == undefined){
+          throw new Error('No players found')
+        }
         const game = new Game({
           uuid: uuid.v4(),
           players: players.map(user => user.uuid),
