@@ -27,7 +27,7 @@ jobs:
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
-    - run: npm --prefix game/gameservice test -- --coverage 
+    - run: npm --prefix game/gameservice test -- --coverage --detectOpenHandles
     
     - run: npm --prefix game/qgservice test -- --coverage 
     - run: npm --prefix multiplayerservice test -- --coverage 
