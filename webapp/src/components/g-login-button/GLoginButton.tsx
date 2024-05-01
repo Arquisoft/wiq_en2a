@@ -7,7 +7,7 @@ const GLoginButton = () =>
     const { t } = useTranslation();
 
     return(
-      <GoogleLogin
+      <GoogleLogin data-testid="google-login"
          onSuccess={(credentialResponse) => 
             {
                 console.log(credentialResponse);

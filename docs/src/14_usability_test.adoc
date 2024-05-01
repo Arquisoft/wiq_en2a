@@ -1,0 +1,21 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[[section-load_test]]
+== Anex II: Usability test
+The tests were carried out with a sample of 10 users with different backgrounds. Being 3 of them students from Software Engineering.
+
+=== Effectiveness
+
+* 100% of users completed the tasks on the first try.
+* 80% of users did not need extra help to navigate the web.
+
+=== Efficiency
+
+* All users did each task in less than 10 seconds, including answering the questions of the game.
+* 80% of users did not need extra help to navigate the web.
+
+=== Satisfaction
+
+* 1 user though the questions should be harder.
+* 2 users found a bug that is now fixed: when you play, close session, login again and go to profile, the last questions do not appear. 
+* 6 users tried to login with google, but it only works with test users. 
