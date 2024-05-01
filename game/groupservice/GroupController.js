@@ -76,12 +76,12 @@ let GroupController = {
       createGroup: async (req,res) =>{
         try{
       
-          requiredFields =['groupName','creatorUUID','description','isPublic']
+          let requiredFields =['groupName','creatorUUID','description','isPublic']
           validateRequiredFields(req,requiredFields);
-
+          console.log(req.body)
           let newGroup;
-          if(req.body.isPublic){
 
+          if(req.body.isPublic){
             newGroup = new Group({
               admin: req.body.creatorUUID,
               members: [req.body.creatorUUID],
@@ -92,25 +92,24 @@ let GroupController = {
               groupName: req.body.groupName,
               uuid: uuid.v4(),
             })
-            await newGroup.save();
-      
-          } else {
-          const joinCode = generateJoinCode();
-      
-          newGroup = new Group({
-            groupName: req.body.groupName,
-            admin: req.body.creatorUUID,
-            members: [req.body.creatorUUID],
-            maxNumUsers: maxNumUsers,
-            description: req.body.description,
-            isPublic: false,
-            joinCode: joinCode,
-            creationDate: Date(),
-            uuid: uuid.v4(),
-          });
-          await newGroup.save();
-        }
-          res.json(newGroup);
+            } else {
+            const joinCode = generateJoinCode();
+            newGroup = new Group({
+              groupName: req.body.groupName,
+              admin: req.body.creatorUUID,
+              members: [req.body.creatorUUID],
+              maxNumUsers: maxNumUsers,
+              description: req.body.description,
+              isPublic: false,
+              joinCode: joinCode,
+              creationDate: Date(),
+              uuid: uuid.v4(),
+            });
+          }
+          console.log(newGroup)
+          const savedGroup = await newGroup.save()
+          console.log(savedGroup)
+          res.json(savedGroup);
       
         } catch(error){
           res.status(500).json({error: error.message})
