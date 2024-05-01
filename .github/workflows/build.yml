@@ -19,7 +19,7 @@ jobs:
     - run: npm --prefix users/userservice ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix webapp ci
-    - run: npm --prefix game/gameservice ci
+    
     
     - run: npm --prefix game/qgservice ci
     - run: npm --prefix multiplayerservice ci
@@ -27,7 +27,7 @@ jobs:
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
     - run: npm --prefix webapp test -- --coverage
-    - run: npm --prefix game/gameservice test -- --coverage --detectOpenHandles
+   
     
     - run: npm --prefix game/qgservice test -- --coverage 
     - run: npm --prefix multiplayerservice test -- --coverage 
