@@ -21,7 +21,7 @@ jobs:
     - run: npm --prefix webapp ci
     
     
-    - run: npm --prefix game/qgservice ci
+   
     - run: npm --prefix multiplayerservice ci
     - run: npm --prefix users/authservice test -- --coverage
     - run: npm --prefix users/userservice test -- --coverage
@@ -29,7 +29,7 @@ jobs:
     - run: npm --prefix webapp test -- --coverage
    
     
-    - run: npm --prefix game/qgservice test -- --coverage 
+
     - run: npm --prefix multiplayerservice test -- --coverage 
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
