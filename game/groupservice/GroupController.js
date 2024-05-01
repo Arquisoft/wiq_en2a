@@ -35,20 +35,17 @@ let GroupController = {
           res.json(response);
       
         }catch(error){
-          console.log(error)
-          res.status(400).json({error: error.message})
+          res.status(500).json({error: error.message})
         }
       
       },
       leaveGroup: async (req,res) => {
         try{
-          console.log(req.body)
           requiredFields = ['expelledUUID','groupName', 'adminUUID']
           validateRequiredFields(req, requiredFields);
           const group = await getGroupByName(req.body.groupName);
-          console.log(req.body.adminUUID +" - "+ req.body.expelledUUID)
+
           if(req.body.adminUUID != group.admin && req.body.adminUUID != req.body.expelledUUID){
-            console.log("entra en la condicion")
             res.json({ message: 'User is unable to perform this operation' });
             return;
           }
@@ -76,12 +73,11 @@ let GroupController = {
       createGroup: async (req,res) =>{
         try{
       
-          requiredFields =['groupName','creatorUUID','description','isPublic']
+          let requiredFields =['groupName','creatorUUID','description','isPublic']
           validateRequiredFields(req,requiredFields);
-
           let newGroup;
-          if(req.body.isPublic){
 
+          if(req.body.isPublic){
             newGroup = new Group({
               admin: req.body.creatorUUID,
               members: [req.body.creatorUUID],
@@ -92,25 +88,22 @@ let GroupController = {
               groupName: req.body.groupName,
               uuid: uuid.v4(),
             })
-            await newGroup.save();
-      
-          } else {
-          const joinCode = generateJoinCode();
-      
-          newGroup = new Group({
-            groupName: req.body.groupName,
-            admin: req.body.creatorUUID,
-            members: [req.body.creatorUUID],
-            maxNumUsers: maxNumUsers,
-            description: req.body.description,
-            isPublic: false,
-            joinCode: joinCode,
-            creationDate: Date(),
-            uuid: uuid.v4(),
-          });
-          await newGroup.save();
-        }
-          res.json(newGroup);
+            } else {
+            const joinCode = generateJoinCode();
+            newGroup = new Group({
+              groupName: req.body.groupName,
+              admin: req.body.creatorUUID,
+              members: [req.body.creatorUUID],
+              maxNumUsers: maxNumUsers,
+              description: req.body.description,
+              isPublic: false,
+              joinCode: joinCode,
+              creationDate: Date(),
+              uuid: uuid.v4(),
+            });
+          }
+          const savedGroup = await newGroup.save()
+          res.json(savedGroup);
       
         } catch(error){
           res.status(500).json({error: error.message})
@@ -144,9 +137,8 @@ let GroupController = {
 async function getGroupByName(name) {
     try {
         const group = await Group.findOne({ groupName: name });
-
         if (!group) {
-        throw new Error('This group does not exist');
+          throw new Error('This group does not exist');
         }
 
         return group;
@@ -164,4 +156,4 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-module.exports = GroupController;
+module.exports = {GroupController, getGroupByName};
