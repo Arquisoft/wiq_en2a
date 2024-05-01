@@ -1,6 +1,7 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const Group = require('./group-model');
+const { getGroupByName } = require('./GroupController')
 
 let mongoServer;
 let app;
@@ -11,6 +12,11 @@ describe('Group Service API Tests', () => {
     const mongoUri = mongoServer.getUri();
     process.env.MONGODB_URI = mongoUri;
     app = require('./group-service'); 
+  });
+
+  afterEach(async () => {
+    jest.restoreAllMocks();
+    await Group.deleteMany({});
   });
 
   afterAll(async () => {
@@ -122,7 +128,7 @@ it('should return message when group is full', async () => {
       uuid: 'full_group_uuid',
       groupName: 'Full group Test Group',
       members: Array(30).fill("member_uuid"),
-      admin: 'admin_id',
+      admin: 'admin_id2',
       maxNumUsers: 30,
       isPublic: true,
   });
@@ -141,7 +147,7 @@ it('should return message when join code is incorrect for a private group', asyn
   const group = await Group.create({
       uuid: 'incorrect_join_code_group_uuid',
       groupName: 'Test Group Incorrect Join Code',
-      members: ['admin_id'],
+      members: ['admin_id3'],
       maxNumUsers: 5,
       admin: 'admin_id',
       isPublic: false,
@@ -159,6 +165,223 @@ it('should return message when join code is incorrect for a private group', asyn
   expect(response.status).toBe(200);
   expect(response.body).toEqual({ message: 'Invalid join code' });
 });
+it('should return status 500 and error message when an error occurs', async () => {
+  const mockError = new Error('Internal server error');
+  jest.spyOn(Group, 'findOne').mockRejectedValue(mockError);
+  const requestBody = {
+      uuid: 'user_id',
+      groupName: 'Test Group Failure'
+  };
+  const response = await request(app).post('/joingroup').send(requestBody);
 
+  expect(response.status).toBe(500);
+  expect(response.body).toEqual({ error: 'Internal server error' });
+});
+
+it('should successfully remove user from the group', async () => {
+  const group = await Group.create({
+      uuid: 'successfully_remove_member_group_uuid',
+      groupName: 'Succesfully remove member from Test Group',
+      members: ['user_id', 'admin_id4'],
+      admin: 'admin_id4',
+      isPublic: true,
+      maxNumUsers: 5
+  });
+
+  const requestBody = {
+      expelledUUID: 'user_id',
+      groupName: 'Succesfully remove member from Test Group',
+      adminUUID: 'admin_id4'
+  };
+
+  const response = await request(app).post('/leaveGroup').send(requestBody);
+  expect(response.status).toBe(200);
+  expect(response.body).toHaveProperty('members');
+  expect(response.body.members).not.toContain(requestBody.expelledUUID);
+});
+
+it('should successfully remove user from the group and remove the group when nobody is left', async () => {
+  const group = await Group.create({
+      uuid: 'successfully_remove_member_group_and_remove_group_uuid',
+      groupName: 'Succesfully remove member, and group Test Group',
+      members: ['admin_id'],
+      admin: 'admin_id',
+      isPublic: true,
+      maxNumUsers: 5
+  });
+
+  const requestBody = {
+      expelledUUID: 'admin_id',
+      groupName: 'Succesfully remove member, and group Test Group',
+      adminUUID: 'admin_id'
+  };
+
+  const response = await request(app).post('/leaveGroup').send(requestBody);
+  expect(response.status).toBe(200);
+  expect(response.body).toHaveProperty('message');
+  expect(response.body.message).toEqual('Group deleted');
+});
+
+it('should successfully remove user from the group and remove the group when nobody is left', async () => {
+  const group = await Group.create({
+      uuid: 'successfully_remove_member_group_and_remove_group_uuid',
+      groupName: 'Succesfully remove member, and change admin group Test Group',
+      members: ['admin_id','user_id'],
+      admin: 'admin_id',
+      isPublic: true,
+      maxNumUsers: 5
+  });
+
+  const requestBody = {
+      expelledUUID: 'admin_id',
+      groupName: 'Succesfully remove member, and change admin group Test Group',
+      adminUUID: 'admin_id'
+  };
+
+  const response = await request(app).post('/leaveGroup').send(requestBody);
+  expect(response.status).toBe(200);
+  expect(response.body).toHaveProperty('members');
+  expect(response.body.members).not.toContain(requestBody.expelledUUID);
+  expect(response.body.admin).toBe('user_id');
+});
+
+it('should return message when user is unable to perform the operation leaveGroup', async () => {
+  const group = await Group.create({
+      uuid: 'group_uuid',
+      groupName: 'Test Group',
+      members: ['user_id'],
+      admin: 'different_admin_id',
+      isPublic: true,
+      maxNumUsers: 5
+  });
+  const requestBody = {
+      expelledUUID: 'user_id',
+      groupName: 'Test Group',
+      adminUUID: 'admin_id'
+  };
+
+  const response = await request(app).post('/leavegroup').send(requestBody);
+  expect(response.status).toBe(200);
+  expect(response.body).toEqual({ message: 'User is unable to perform this operation' });
+});
+
+it('should return status 500 and error message when an error occurs', async () => {
+  const mockError = new Error('Internal server error');
+  jest.spyOn(Group, 'findOne').mockRejectedValue(mockError);
+
+  const requestBody = {
+      expelledUUID: 'user_id',
+      groupName: 'Test Group',
+      adminUUID: 'admin_id'
+  };
+
+  const response = await request(app).post('/leavegroup').send(requestBody);
+  expect(response.status).toBe(500);
+  expect(response.body).toEqual({ error: 'Internal server error' });
+});
+
+it('should return the group when it exists', async () => {
+  const group = {
+      uuid: 'group_uuid',
+      groupName: 'Test Group',
+      members: ['user_id'],
+      admin: 'different_admin_id',
+      isPublic: true,
+      maxNumUsers: 5
+  };
+
+  const savedGroup = await Group.create(group);
+  const expectedResponse = {
+    _id: savedGroup._id.toString(),
+    __v: savedGroup.__v,
+    uuid: savedGroup.uuid,
+    groupName: savedGroup.groupName,
+    members: savedGroup.members,
+    admin: savedGroup.admin,
+    isPublic: savedGroup.isPublic,
+    maxNumUsers: savedGroup.maxNumUsers,
+    creationDate: savedGroup.creationDate.toISOString(),
+  }; 
+
+  const response = await request(app).get(`/getGroup/${group.uuid}`);
+  expect(response.status).toBe(200);
+  expect(response.body).toEqual(expectedResponse);
+});
+
+it('should return status 404 and error message when group is not found', async () => {
+  const response = await request(app).get('/getGroup/non_existent_uuid');
+  expect(response.status).toBe(404);
+  expect(response.body).toEqual({ error: 'Group not found' });
+});
+
+it('should return all groups', async () => {
+  // Create some groups in the database
+  const groups = [
+      {
+        uuid: 'group_uuid1',
+        groupName: 'Test Group1',
+        members: ['user_id1'],
+        admin: 'admin_id1',
+        isPublic: true,
+        maxNumUsers: 5
+      },
+      { 
+        uuid: 'group_uuid2',
+        groupName: 'Test Group2',
+        members: ['user_id2'],
+        admin: 'admin_id2',
+        isPublic: true,
+        maxNumUsers: 5
+      },
+      {
+        uuid: 'group_uuid3',
+        groupName: 'Test Group3',
+        members: ['user_id3'],
+        admin: 'admin_id3',
+        isPublic: true,
+        maxNumUsers: 5
+      }
+  ];
+  await Group.create(groups);
+
+  const response = await request(app).get('/getGroups');
+  expect(response.status).toBe(200);
+  expect(response.body).toBeInstanceOf(Array);
+  expect(response.body.length).toBe(3);
+
+  // Assert that the names of the groups in the response match the expected names
+  expect(response.body.map(group => group.groupName)).toEqual(
+    expect.arrayContaining(groups.map(group => group.groupName))
+  );
+});
+
+it('should return status 500 and error message when an error occurs', async () => {
+  const mockError = new Error('Internal server error');
+  jest.spyOn(Group, 'find').mockRejectedValue(mockError);
+  const response = await request(app).get('/getGroups');
+  expect(response.status).toBe(500);
+  expect(response.body).toEqual({ error: 'Internal server error' });
+});
+
+it('should return status 500 and error message when an error occurs', async () => {
+  // Mock the behavior of the findOne function to throw an error
+  const mockError = new Error('Internal server error');
+  jest.spyOn(Group, 'findOne').mockRejectedValue(mockError);
+
+  // Send request to get a group
+  const response = await request(app).get('/getGroup/group_uuid');
+
+  // Expect response status to be 500
+  expect(response.status).toBe(500);
+
+  // Expect response body to contain the error message
+  expect(response.body).toEqual({ error: 'Internal server error' });
+});
+
+it('should throw an error with the message "This group does not exist"', async () => {
+  jest.spyOn(Group, 'findOne').mockResolvedValue(null);
+
+  await expect(getGroupByName('NonExistentGroup')).rejects.toThrow('This group does not exist');
+});
 
 })

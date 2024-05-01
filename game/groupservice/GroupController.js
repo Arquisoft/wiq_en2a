@@ -35,20 +35,17 @@ let GroupController = {
           res.json(response);
       
         }catch(error){
-          console.log(error)
-          res.status(400).json({error: error.message})
+          res.status(500).json({error: error.message})
         }
       
       },
       leaveGroup: async (req,res) => {
         try{
-          console.log(req.body)
           requiredFields = ['expelledUUID','groupName', 'adminUUID']
           validateRequiredFields(req, requiredFields);
           const group = await getGroupByName(req.body.groupName);
-          console.log(req.body.adminUUID +" - "+ req.body.expelledUUID)
+
           if(req.body.adminUUID != group.admin && req.body.adminUUID != req.body.expelledUUID){
-            console.log("entra en la condicion")
             res.json({ message: 'User is unable to perform this operation' });
             return;
           }
@@ -78,7 +75,6 @@ let GroupController = {
       
           let requiredFields =['groupName','creatorUUID','description','isPublic']
           validateRequiredFields(req,requiredFields);
-          console.log(req.body)
           let newGroup;
 
           if(req.body.isPublic){
@@ -106,9 +102,7 @@ let GroupController = {
               uuid: uuid.v4(),
             });
           }
-          console.log(newGroup)
           const savedGroup = await newGroup.save()
-          console.log(savedGroup)
           res.json(savedGroup);
       
         } catch(error){
@@ -143,9 +137,8 @@ let GroupController = {
 async function getGroupByName(name) {
     try {
         const group = await Group.findOne({ groupName: name });
-
         if (!group) {
-        throw new Error('This group does not exist');
+          throw new Error('This group does not exist');
         }
 
         return group;
@@ -163,4 +156,4 @@ function validateRequiredFields(req, requiredFields) {
     }
 }
 
-module.exports = GroupController;
+module.exports = {GroupController, getGroupByName};

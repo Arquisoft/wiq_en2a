@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const GroupController = require('./GroupController');
+const {GroupController} = require('./GroupController');
 
 const app = express();
 const port = 8005; 
