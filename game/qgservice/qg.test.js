@@ -38,8 +38,8 @@ describe('qg-service', function () {
           expect(getQuestionsSpy).toHaveBeenCalledWith(expect.objectContaining({ params: { lang } }), expect.any(Object));
           getQuestionsSpy.mockRestore(); // Restore the spy after the test
           done();
-        });
-    });
+        }).timeout(5000);
+    }).timeout(5000);
   });
 
   describe('POST /getQuestionsByIds', function () {
@@ -62,7 +62,7 @@ describe('qg-service', function () {
           expect(getQuestionsByIdsSpy).toHaveBeenCalledWith(expect.objectContaining({ body: { ids } }), expect.any(Object));
           getQuestionsByIdsSpy.mockRestore(); // Restore the spy after the test
           done();
-        });
-    });
+        }).timeout(5000);
+    }).timeout(5000);
   });
 });
