@@ -1,7 +1,5 @@
-const assert = require('chai').assert;
-const sinon = require('sinon');
 const request = require('supertest');
-const app = require('../qg-service'); // Ajusta la ruta según la estructura de tu proyecto
+const app = require('../qg-service'); // Adjust the path based on your project structure
 const QGController = require('../QGController');
 
 describe('qg-service', function () {
@@ -13,7 +11,9 @@ describe('qg-service', function () {
         .expect(200)
         .end(function (err, res) {
           if (err) return done(err);
-          assert.deepEqual(res.body, expectedResponse);
+          if (JSON.stringify(res.body) !== JSON.stringify(expectedResponse)) {
+            return done(new Error('Unexpected response'));
+          }
           done();
         });
     });
@@ -22,22 +22,21 @@ describe('qg-service', function () {
   describe('GET /game/:lang', function () {
     it('should call QGController.getQuestions with the correct language', function (done) {
       const lang = 'english';
-      const req = { params: { lang } };
-      const res = {
-        json: sinon.stub(),
-        status: sinon.stub().returnsThis(),
-      };
-
       const fakeQuestions = [{ question: 'What is the capital of Spain?' }];
-      sinon.stub(QGController, 'getQuestions').resolves(fakeQuestions);
+      const QGControllerStub = {
+        getQuestions: (req, res) => {
+          res.json(fakeQuestions);
+        }
+      };
+      const getQuestionsSpy = jest.spyOn(QGControllerStub, 'getQuestions');
 
       request(app)
         .get(`/game/${lang}`)
         .expect(200)
         .end(function (err, res) {
           if (err) return done(err);
-          sinon.assert.calledOnceWithExactly(QGController.getQuestions, req, res);
-          sinon.restore(); // Restaurar el controlador QGController después de la prueba
+          expect(getQuestionsSpy).toHaveBeenCalledWith(expect.objectContaining({ params: { lang } }), expect.any(Object));
+          getQuestionsSpy.mockRestore(); // Restore the spy after the test
           done();
         });
     });
@@ -46,14 +45,13 @@ describe('qg-service', function () {
   describe('POST /getQuestionsByIds', function () {
     it('should call QGController.getQuestionsByIds with the correct IDs', function (done) {
       const ids = [1, 2, 3];
-      const req = { body: { ids } };
-      const res = {
-        json: sinon.stub(),
-        status: sinon.stub().returnsThis(),
-      };
-
       const fakeQuestions = [{ id: 1, question: 'Question 1' }];
-      sinon.stub(QGController, 'getQuestionsByIds').resolves(fakeQuestions);
+      const QGControllerStub = {
+        getQuestionsByIds: (req, res) => {
+          res.json(fakeQuestions);
+        }
+      };
+      const getQuestionsByIdsSpy = jest.spyOn(QGControllerStub, 'getQuestionsByIds');
 
       request(app)
         .post('/getQuestionsByIds')
@@ -61,8 +59,8 @@ describe('qg-service', function () {
         .expect(200)
         .end(function (err, res) {
           if (err) return done(err);
-          sinon.assert.calledOnceWithExactly(QGController.getQuestionsByIds, req, res);
-          sinon.restore(); // Restaurar el controlador QGController después de la prueba
+          expect(getQuestionsByIdsSpy).toHaveBeenCalledWith(expect.objectContaining({ body: { ids } }), expect.any(Object));
+          getQuestionsByIdsSpy.mockRestore(); // Restore the spy after the test
           done();
         });
     });
