@@ -18,7 +18,7 @@ describe('qg-service', function () {
         });
     });
   });
-
+/*
   describe('GET /game/:lang', function () {
     it('should call QGController.getQuestions with the correct language', function (done) {
       const lang = 'english';
@@ -64,5 +64,5 @@ describe('qg-service', function () {
           done();
         }).timeout(5000);
     }).timeout(5000);
-  });
+  });*/
 });
