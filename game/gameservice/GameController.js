@@ -1,6 +1,5 @@
 let Game = require('./game-model');
 const { createGame } = require('./queries/CreateGame');
-const mongoose = require('mongoose');
 
 let GameController = {
     /* HACER EN USER - GET LAST GAME BY USER
@@ -11,10 +10,9 @@ let GameController = {
     },*/
     create: async (req, res) => {
         try{
-        const { questions, players } = req.body;
-        console.log(questions, players)
-        const game = await createGame(questions, players);
-        res.json(game);
+            const { questions, players } = req.body;
+            const game = await createGame(questions, players);
+            res.json(game);
         } catch(error){
             res.status(500).json({ message: error.message });
         }

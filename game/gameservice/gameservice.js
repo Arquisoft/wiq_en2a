@@ -1,15 +1,13 @@
 // gameservice.js
 const express = require('express');
-const axios = require('axios');
 const mongoose = require('mongoose');
-const { createGame } = require('./queries/CreateGame');
+const bodyParser = require('body-parser');
 const GameController = require('./GameController');
 
 const app = express();
 const port = 8004;
 
-// app.use(bodyParser.json());
-app.use(express.json());
+app.use(bodyParser.json());
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/userdb';
 mongoose.connect(mongoUri);
@@ -27,6 +25,10 @@ app.get('/getGame/:id', GameController.getById);
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);
+});
+
+server.on('close', () => {
+  mongoose.connection.close();
 });
 
 module.exports = server;
