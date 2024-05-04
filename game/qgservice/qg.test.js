@@ -1,6 +1,6 @@
 const request = require('supertest');
-const app = require('../qg-service'); // Adjust the path based on your project structure
-const QGController = require('../QGController');
+const app = require('./qg-service'); // Adjust the path based on your project structure
+const QGController = require('./QGController');
 
 describe('qg-service', function () {
   describe('GET /', function () {
