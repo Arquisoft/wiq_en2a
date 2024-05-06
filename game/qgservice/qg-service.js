@@ -14,7 +14,7 @@ mongoose.connect(mongoUri);
 
 app.get('/', (req, res) => {
   res.json({
-    "hi": "question generator"
+    "message": "Welcome to question generator service module"
   });
 });
 
@@ -24,6 +24,10 @@ app.post('/getQuestionsByIds', QGController.getQuestionsByIds)
 
 const server = app.listen(port, () => {
   console.log(`Question generator Service listening at http://localhost:${port}`);
+});
+
+server.on('close', () => {
+  mongoose.connection.close();
 });
 
 module.exports = server;

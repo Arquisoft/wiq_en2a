@@ -54,4 +54,4 @@ function generateRandomMathQuestion() {
     }
   }
 
-module.exports = { createMathQuestions };
+module.exports = { createMathQuestions, generateRandomMathQuestion };
