@@ -29,8 +29,8 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user', async () => {
-      username = "pablo"
-      password = "pabloasw"
+      username = "conoceryvenceruser"
+      password = "conoceryvencerpass"
       await page.waitFor('button')
       await page.click("button", {id: "registerButton"});
     });
@@ -41,11 +41,9 @@ defineFeature(feature, test => {
       await page.click('button', { text: 'Add User' }) 
     });
 
-   then('A confirmation message should be shown in the screen', async () => {
-      const confirmationMessage = await page.waitForSelector('div',"#successUserAdd");
-
-      const messageText = await page.evaluate(confirmationMessage => confirmationMessage.innerText, confirmationMessage);
-      expect(messageText).toContain('User added successfully');
+   then('Should be inside the game route', async () => {
+      await page.waitForSelector('div', '.game-container');
+      expect(page.url()).toContain('/game');
     });
   })
 
