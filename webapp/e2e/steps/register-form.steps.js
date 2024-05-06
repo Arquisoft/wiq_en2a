@@ -32,14 +32,14 @@ defineFeature(feature, test => {
       username = "conoceryvenceruser"
       password = "conoceryvencerpass"
       await page.waitForSelector('button')
-      await page.click("button", {id: "registerButton"});
+      await page.click("button", {text: "REGISTRARSE"});
     });
 
     when('I fill the data in the form and press submit', async () => {
       await page.type('input[name="username"]', username);
       await page.type('input[name="password"]', password);
       await page.waitForSelector('button')
-      await page.click('button', { text: 'Registrarse' }) 
+      await page.click('button', { text: 'REGISTRARSE' }) 
     });
 
    then('Should be inside the game route', async () => {

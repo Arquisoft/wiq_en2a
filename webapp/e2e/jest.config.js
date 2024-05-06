@@ -3,5 +3,5 @@ module.exports = {
     testTimeout: 30000,
     setupFilesAfterEnv: ["expect-puppeteer"],
     verbose: true,
-    testURL: "http://localhost/",
+    //testURL: "http://localhost/",
 }
