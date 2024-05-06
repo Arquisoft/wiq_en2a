@@ -11,7 +11,7 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
       ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 100 });
+      : await puppeteer.launch({ slowMo: 100 });
     page = await browser.newPage();
     //Way of setting up the timeout
     setDefaultOptions({ timeout: 10000 })
@@ -38,7 +38,8 @@ defineFeature(feature, test => {
     when('I fill the data in the form and press submit', async () => {
       await page.type('input[name="username"]', username);
       await page.type('input[name="password"]', password);
-      await page.click('button', { text: 'Add User' }) 
+      await page.waitForSelector('button')
+      await page.click('button', { text: 'Registrarse' }) 
     });
 
    then('Should be inside the game route', async () => {
