@@ -82,6 +82,7 @@ let QGController = {
                 const question = await Question4Answers.find({uuid: id})
                 questions.push(question);
             }
+            res.json(questions);
         } catch (error) {
             res.status(500).json({ error: 'Internal Server Error' });
         }

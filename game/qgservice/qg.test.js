@@ -3,11 +3,15 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 //const QGController = require('./QGController');
 const Question4Answers = require('./Question4Answers');
 const { generateQuestionCapital } = require('./generatorLogic/questiongenerator')
+const { executeSparqlQuery } = require('./generatorLogic/SparqlQuery')
+const { bindCapitalsResults } = require('./generatorLogic/BindResults')
+const { createMathQuestions, generateRandomMathQuestion } = require('./generatorLogic/MathQuestions')
+const axios = require('axios');
 
 let app;
 let mongoServer;
 
-describe('Group Service API Tests', () => {
+describe('Question generator Service API Tests', () => {
   beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
@@ -17,12 +21,13 @@ describe('Group Service API Tests', () => {
 
   afterEach(async () => {
     jest.restoreAllMocks();
+    await Question4Answers.deleteMany({});
   });
 
   afterAll(async () => {
     app.close();
     await mongoServer.stop();
-    });
+  });
 
     it('GET / should return welcome message', async () => {
       const response = await request(app).get('/');
@@ -31,12 +36,20 @@ describe('Group Service API Tests', () => {
     });
 
     it('should return questions by their IDs', async () => {
-      const questions = [
+
+      const findMock = jest.spyOn(Question4Answers, 'find');
+  
+      // Mock the return values for the find method
+      findMock.mockReturnValueOnce(
+        Promise.resolve([
           { uuid: 'question_uuid1', question: 'Question 1', correctAnswer: 'Answer 1', incorrectAnswer1: 'Answer 2', incorrectAnswer2: 'Answer 3', incorrectAnswer3: 'Answer 4' },
-          { uuid: 'question_uuid1', question: 'Question 2', correctAnswer: 'Answer 1', incorrectAnswer1: 'Answer 2', incorrectAnswer2: 'Answer 3', incorrectAnswer3: 'Answer 4' },
-          { uuid: 'question_uuid1', question: 'Question 3', correctAnswer: 'Answer 1', incorrectAnswer1: 'Answer 2', incorrectAnswer2: 'Answer 3', incorrectAnswer3: 'Answer 4' },
-      ];
-      await Question4Answers.create(questions);
+        ])
+      );
+      findMock.mockReturnValueOnce(
+        Promise.resolve([
+          { uuid: 'question_uuid2', question: 'Question 2', correctAnswer: 'Answer 1', incorrectAnswer1: 'Answer 2', incorrectAnswer2: 'Answer 3', incorrectAnswer3: 'Answer 4' },
+        ])
+      );
 
       const requestBody = {
           ids: ['question_uuid1', 'question_uuid2']
@@ -47,7 +60,32 @@ describe('Group Service API Tests', () => {
       expect(response.status).toBe(200);
       expect(response.body).toBeInstanceOf(Array);
       expect(response.body.length).toBe(2);
-  });
+      
+      // Assert properties of the first question
+      expect(response.body[0]).toHaveLength(1); // Nested array with one question
+      expect(response.body[0][0]).toEqual({
+        uuid: 'question_uuid1',
+        question: 'Question 1',
+        correctAnswer: 'Answer 1',
+        incorrectAnswer1: 'Answer 2',
+        incorrectAnswer2: 'Answer 3',
+        incorrectAnswer3: 'Answer 4'
+      });
+
+      // Assert properties of the second question
+      expect(response.body[1]).toHaveLength(1); // Nested array with one question
+      expect(response.body[1][0]).toEqual({
+        uuid: 'question_uuid2',
+        question: 'Question 2',
+        correctAnswer: 'Answer 1',
+        incorrectAnswer1: 'Answer 2',
+        incorrectAnswer2: 'Answer 3',
+        incorrectAnswer3: 'Answer 4'
+      });
+      
+      // Restore the original implementation of the find method
+      findMock.mockRestore();
+    });
 
   it('should return status 500 and error message when an error occurs', async () => {
       const mockError = new Error('Internal server error');
@@ -63,46 +101,81 @@ describe('Group Service API Tests', () => {
       expect(response.body).toEqual({ error: 'Internal Server Error' });
   });
 
-//   it('should generate a question object with correct properties', () => {
-//     const countryCapitalMap = new Map([
-//         ['France', 'Paris'],
-//         ['Germany', 'Berlin'],
-//         ['Italy', 'Rome']
-//     ]);
-//     const lang = 'en';
-//     const question = generateQuestionCapital(countryCapitalMap, lang);
-//     expect(question).toHaveProperty('uuid');
-//     expect(question).toHaveProperty('question');
-//     expect(question).toHaveProperty('correctAnswer');
-//     expect(question).toHaveProperty('incorrectAnswer1');
-//     expect(question).toHaveProperty('incorrectAnswer2');
-//     expect(question).toHaveProperty('incorrectAnswer3');
-// });
+  it('should execute SPARQL query and return response data', async () => {
+    const responseData = { results: { bindings: [{ label: { value: 'Example Label' } }] } };
+    const axiosGetMock = jest.spyOn(axios, 'get').mockResolvedValue({ data: responseData });
 
-// it('should save the generated question to MongoDB', async () => {
-//     // Mock the behavior of the save function to return a promise resolved with the question object
-//     const question = {
-//         uuid: 'question_uuid',
-//         question: 'What is the capital of France?',
-//         correctAnswer: 'Paris',
-//         incorrectAnswer1: 'Berlin',
-//         incorrectAnswer2: 'Rome',
-//         incorrectAnswer3: 'Madrid'
-//     };
-//     const saveMock = jest.fn().mockResolvedValue(question);
-//     jest.spyOn(Question4Answers.prototype, 'save').mockImplementation(saveMock);
+    const query = 'SELECT ?label WHERE { wd:Q42 rdfs:label ?label }';
+    const response = await executeSparqlQuery(query);
 
-//     const countryCapitalMap = new Map([
-//         ['France', 'Paris']
-//     ]);
-//     const lang = 'en';
+    expect(axiosGetMock).toHaveBeenCalledWith('https://query.wikidata.org/sparql', {
+        headers: {
+            'User-Agent': 'Your User Agent',
+            'Accept': 'application/json',
+        },
+        params: {
+            query: query,
+            format: 'json',
+        },
+    });
 
-//     const generatedQuestion = generateQuestionCapital(countryCapitalMap, lang);
+    expect(response).toEqual(responseData);
+});
 
-//     // Expect the save function to have been called with the question object
-//     expect(saveMock).toHaveBeenCalledWith();
+it('should throw an error when an error occurs during execution', async () => {
+    const errorMessage = 'Network Error';
+    const axiosGetMock = jest.spyOn(axios, 'get').mockRejectedValue(new Error(errorMessage));
 
-//     // Expect the generated question to match the returned question object from the save function
-//     expect(generatedQuestion).toEqual(question);
-// });
+    const query = 'SELECT ?label WHERE { wd:Q42 rdfs:label ?label }';
+
+    await expect(executeSparqlQuery(query)).rejects.toThrow(errorMessage);
+
+    expect(axiosGetMock).toHaveBeenCalledWith('https://query.wikidata.org/sparql', {
+        headers: {
+            'User-Agent': 'Your User Agent',
+            'Accept': 'application/json',
+        },
+        params: {
+            query: query,
+            format: 'json',
+        },
+    });
+});
+
+it('should bind query results to a Map of capitals', () => {
+  // Mock query result
+  const queryResult = {
+    results: {
+      bindings: [
+        { countryLabel: { value: 'France' }, capitalLabel: { value: 'Paris' } },
+        { countryLabel: { value: 'Germany' }, capitalLabel: { value: 'Berlin' } }
+      ]
+    }
+  };
+
+  // Call the function with the mocked query result
+  const capitalsMap = bindCapitalsResults(queryResult);
+
+  // Assertions
+  expect(capitalsMap).toBeInstanceOf(Map);
+  expect(capitalsMap.size).toBe(2);
+  expect(capitalsMap.get('France')).toBe('Paris');
+  expect(capitalsMap.get('Germany')).toBe('Berlin');
+});
+
+it('should handle empty query result', () => {
+  const lang = 'en';
+  // Mock empty query result
+  const queryResult = {
+    results: { bindings: [] }
+  };
+
+  // Call the function with the empty query result
+  const capitalsMap = bindCapitalsResults(queryResult);
+
+  // Assertions
+  expect(capitalsMap).toBeInstanceOf(Map);
+  expect(capitalsMap.size).toBe(0);
+});
+
 })
