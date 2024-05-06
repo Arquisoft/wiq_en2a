@@ -12,20 +12,33 @@ const NavBar: React.FC<{}> = () =>
     const navigate = useNavigate();
     const value:string= JSON.stringify(localStorage.getItem("isAuthenticated")).replace("\"","").replace("\"","");
     const user = JSON.stringify(localStorage.getItem("username")).replace("\"", "").replace("\"", "");
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
-    const [open, setOpen] = useState<boolean>(false);
-    const [chevronRotated, setChevronRotated] = useState<boolean>(true);
+    const [profileAnchorEl, setProfileAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
+    const [languageAnchorEl, setLanguageAnchorEl] = useState<null | HTMLElement | SVGSVGElement>(null);
+    const [profileOpen, setProfileOpen] = useState<boolean>(false);
+    const [languageOpen, setLanguageOpen] = useState<boolean>(false);
+    const [profileChevronRotated, setProfileChevronRotated] = useState<boolean>(false);
+    const [languageChevronRotated, setLanguageChevronRotated] = useState<boolean>(false);
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
-        setAnchorEl(event.currentTarget);
-        setOpen(!open);
-        setChevronRotated(!chevronRotated);
+
+    const handleProfileClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
+        setProfileAnchorEl(event.currentTarget);
+        setProfileOpen(!profileOpen);
+        setProfileChevronRotated(!profileChevronRotated);
+    };
+
+    const handleLanguageClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
+        setLanguageAnchorEl(event.currentTarget);
+        setLanguageOpen(!languageOpen);
+        setLanguageChevronRotated(!languageChevronRotated);
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
-        setOpen(false);
-        setChevronRotated(false);
+        setProfileAnchorEl(null);
+        setLanguageAnchorEl(null);
+        setProfileOpen(false);
+        setLanguageOpen(false);
+        setProfileChevronRotated(false);
+        setLanguageChevronRotated(false);
     };
 
     if(value === "false"){
@@ -86,18 +99,20 @@ const NavBar: React.FC<{}> = () =>
                         <Grid item>
                             <Grid 
                             container 
+                            display="flex"
                             direction="row" 
                             justifyContent="flex-end"
+                            alignItems="center"
                             >
                                 <Grid item>
                                     <Button
                                     variant="contained"
-                                    id="menu-button" 
-                                    onClick={handleClick} 
-                                    aria-controls={open? 'menu' : undefined}  
-                                    aria-expanded={open? 'true' : undefined}
+                                    id="profile-button" 
+                                    onClick={handleProfileClick} 
+                                    aria-controls={profileOpen? 'profile-menu' : undefined}  
+                                    aria-expanded={profileOpen? 'true' : undefined}
                                     aria-haspopup='true'
-                                    sx={{ textTransform: 'none', color: '' }}
+                                    sx={{ textTransform: 'none', marginRight: '15px' }}
                                     >
                                         <img
                                         className="nav-profile-picture"
@@ -109,12 +124,12 @@ const NavBar: React.FC<{}> = () =>
                                         fill="#ffffff" 
                                         width="24" 
                                         height="24"
-                                        onClick={handleClick}
+                                        onClick={handleProfileClick}
                                         viewBox="0 0 24 24" 
                                         xmlns="http://www.w3.org/2000/svg"
                                         className={`
                                             chevron
-                                            ${chevronRotated ? 'chevron--rotated' : ''}
+                                            ${profileChevronRotated ? 'chevron--rotated' : ''}
                                         `}
                                         >
                                             <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
@@ -123,15 +138,42 @@ const NavBar: React.FC<{}> = () =>
                                     </Button>
                                 </Grid>
                                 <Grid item>
+                                    <Button
+                                    id="language-button"
+                                    onClick={handleLanguageClick}
+                                    aria-controls={languageOpen ? 'menu' : undefined}
+                                    aria-expanded={languageOpen ? 'true' : undefined}
+                                    aria-haspopup='true'
+                                    sx={{ textTransform: 'none', color: 'white' }}
+                                    >
+                                        {t('nav_language')}
+                                        <svg
+                                            fill="#ffffff"
+                                            width="24"
+                                            height="24"
+                                            onClick={handleLanguageClick}
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className={`
+                                                chevron
+                                                ${languageChevronRotated ? 'chevron--rotated' : ''}
+                                            `}
+                                        >
+                                            <path d="M12 15.713L18.01 9.70299L16.597 8.28799L12 12.888L7.40399 
+                                                8.28799L5.98999 9.70199L12 15.713Z" />
+                                        </svg>
+                                    </Button>
+                                </Grid>
+                                <Grid item>
                                     <Menu 
                                     id="menu" 
-                                    open={open} 
+                                    open={profileOpen} 
                                     MenuListProps={{ 'aria-labelledby': 'menu-button' }} 
                                     onClose={() => handleClose()} 
-                                    anchorEl={anchorEl}
+                                    anchorEl={profileAnchorEl}
                                     anchorOrigin={{
                                         vertical: 'bottom',
-                                        horizontal: 'right',
+                                        horizontal: 180,
                                     }}
                                     sx={{ marginTop: '5px' }}
                                     >
@@ -146,6 +188,27 @@ const NavBar: React.FC<{}> = () =>
                                         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                                         >
                                             {t('nav_logout')}
+                                        </MenuItem>
+                                    </Menu>
+                                </Grid>
+                                <Grid item>
+                                    <Menu
+                                    id="menu"
+                                    open={languageOpen}
+                                    MenuListProps={{ 'aria-labelledby': 'menu-button' }}
+                                    onClose={() => handleClose()}
+                                    anchorEl={languageAnchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    sx={{ marginTop: '5px' }}
+                                    >
+                                        <MenuItem>
+                                            English
+                                        </MenuItem>
+                                        <MenuItem>
+                                            Español
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
