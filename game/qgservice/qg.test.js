@@ -4,7 +4,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const Question4Answers = require('./Question4Answers');
 const { generateQuestionCapital } = require('./generatorLogic/questiongenerator')
 const { executeSparqlQuery } = require('./generatorLogic/SparqlQuery')
-const { bindCapitalsResults } = require('./generatorLogic/BindResults')
+const { bindCapitalsResults, bindPopulationResults, bindChemicalResults, bindMonumentResults } = require('./generatorLogic/BindResults')
 const { createMathQuestions, generateRandomMathQuestion } = require('./generatorLogic/MathQuestions')
 const axios = require('axios');
 const uuid = require('uuid');
@@ -229,6 +229,117 @@ it('should create math questions and return them', async () => {
     expect(typeof question.question).toBe('string');
     expect(typeof question.uuid).toBe('string');
   });
+});
+
+it('should bind query results to a Map of populations', () => {
+  // Mock query result
+  const queryResult = {
+    results: {
+      bindings: [
+        { cityLabel: { value: 'New York' }, population: { value: '8623000' } },
+        { cityLabel: { value: 'Los Angeles' }, population: { value: '3990456' } },
+        { cityLabel: { value: 'Chicago' }, population: { value: '2716000' } }
+      ]
+    }
+  };
+
+  // Call the function with the mocked query result
+  const populationMap = bindPopulationResults(queryResult);
+
+  // Assertions
+  expect(populationMap).toBeInstanceOf(Map);
+  expect(populationMap.size).toBe(3);
+  expect(populationMap.get('New York')).toBe(8623000);
+  expect(populationMap.get('Los Angeles')).toBe(3990456);
+  expect(populationMap.get('Chicago')).toBe(2716000);
+});
+
+it('should handle empty query result', () => {
+  // Mock empty query result
+  const queryResult = {
+    results: { bindings: [] }
+  };
+
+  // Call the function with the empty query result
+  const populationMap = bindPopulationResults(queryResult);
+
+  // Assertions
+  expect(populationMap).toBeInstanceOf(Map);
+  expect(populationMap.size).toBe(0);
+});
+
+it('should bind query results to a Map of chemical elements', () => {
+  // Mock query result
+  const queryResult = {
+    results: {
+      bindings: [
+        { elementLabel: { value: 'Hydrogen' }, symbol: { value: 'H' } },
+        { elementLabel: { value: 'Oxygen' }, symbol: { value: 'O' } },
+        { elementLabel: { value: 'Carbon' }, symbol: { value: 'C' } }
+      ]
+    }
+  };
+
+  // Call the function with the mocked query result
+  const chemicalElementMap = bindChemicalResults(queryResult);
+
+  // Assertions
+  expect(chemicalElementMap).toBeInstanceOf(Map);
+  expect(chemicalElementMap.size).toBe(3);
+  expect(chemicalElementMap.get('H')).toBe('Hydrogen');
+  expect(chemicalElementMap.get('O')).toBe('Oxygen');
+  expect(chemicalElementMap.get('C')).toBe('Carbon');
+});
+
+it('should handle empty query result', () => {
+  // Mock empty query result
+  const queryResult = {
+    results: { bindings: [] }
+  };
+
+  // Call the function with the empty query result
+  const chemicalElementMap = bindChemicalResults(queryResult);
+
+  // Assertions
+  expect(chemicalElementMap).toBeInstanceOf(Map);
+  expect(chemicalElementMap.size).toBe(0);
+});
+
+it('should bind query results to a Map of monuments', () => {
+  // Mock query result
+  const queryResult = {
+    results: {
+      bindings: [
+        { monumentLabel: { value: 'Statue of Liberty' }, countryLabel: { value: 'USA' } },
+        { monumentLabel: { value: 'Eiffel Tower' }, countryLabel: { value: 'France' } },
+        { monumentLabel: { value: 'Taj Mahal' }, countryLabel: { value: 'India' } }
+      ]
+    }
+  };
+
+  // Call the function with the mocked query result
+  const monumentMap = bindMonumentResults(queryResult);
+
+  // Assertions
+  expect(monumentMap).toBeInstanceOf(Map);
+  expect(monumentMap.size).toBe(3);
+  expect(monumentMap.get('Statue of Liberty')).toBe('USA');
+  expect(monumentMap.get('Eiffel Tower')).toBe('France');
+  expect(monumentMap.get('Taj Mahal')).toBe('India');
+});
+
+it('should handle empty query result', () => {
+  // Mock empty query result
+  const queryResult = {
+    results: { bindings: [] }
+  };
+
+  // Call the function with the empty query result
+  const monumentMap = bindMonumentResults(queryResult);
+
+  // Assertions
+  expect(monumentMap).toBeInstanceOf(Map);
+  expect(monumentMap.size).toBe(0);
 });
 
 })
