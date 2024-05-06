@@ -14,7 +14,7 @@ mongoose.connect(mongoUri);
 
 app.get('/', (req, res) => {
   res.json({
-    "hi": "question generator"
+    "message": "Welcome to question generator service module"
   });
 });
 
