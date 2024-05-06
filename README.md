@@ -1,4 +1,4 @@
-# wiq_en2a
+# Conocer y Vencer
 
 [![Deploy on release](https://github.com/Arquisoft/wiq_en2a/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_en2a/actions/workflows/release.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en2a&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en2a)
@@ -14,9 +14,9 @@ This repo is a basic application composed of several components:
 - **Group service**. Express service responsible for the management of user groups.
 - **Question generation service**. Express service that generates the question for the new game by retrieving data from Wikidata.
 - **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones. It is also in charge of the application's monitoring process.
-- **User service**. Express service that handles the insertion of new users in the system.
-- **Auth service**. Express service that handles the authentication of users.
-- **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
+- **User service**. Express service handling the insertion of new users in the system.
+- **Auth service**. Express service that deals with the authentication of users.
+- **Webapp**. React web application using the gateway service to allow basic login and new user features.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
