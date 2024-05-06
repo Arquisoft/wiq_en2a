@@ -136,7 +136,7 @@ let GroupController = {
 
 async function getGroupByName(name) {
     try {
-        const group = await Group.findOne({ groupName: name });
+        const group = await Group.findOne({ groupName: name.toString() });
         if (!group) {
           throw new Error('This group does not exist');
         }
