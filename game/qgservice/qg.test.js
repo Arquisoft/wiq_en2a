@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-//const QGController = require('./QGController');
 const Question4Answers = require('./Question4Answers');
+const expectQuestionProperties = require('./test-utils/ExpectQuestionProperties')
 const { generateQuestionCapital, generateQuestionPopulation, generateQuestionChemical, generateQuestionMonument } = require('./generatorLogic/questiongenerator')
 const { executeSparqlQuery } = require('./generatorLogic/SparqlQuery')
 const { bindCapitalsResults, bindPopulationResults, bindChemicalResults, bindMonumentResults } = require('./generatorLogic/BindResults')
@@ -415,19 +415,7 @@ it('should generate a capital question with valid data', () => {
 
   const question = generateQuestionCapital(countryCapitalMap, 'en');
 
-  // Assertions
-  expect(question).toHaveProperty('uuid');
-  expect(question).toHaveProperty('question');
-  expect(question).toHaveProperty('correctAnswer');
-  expect(question).toHaveProperty('incorrectAnswer1');
-  expect(question).toHaveProperty('incorrectAnswer2');
-  expect(question).toHaveProperty('incorrectAnswer3');
-  expect(typeof question.uuid).toBe('string');
-  expect(typeof question.question).toBe('string');
-  expect(typeof question.correctAnswer).toBe('string');
-  expect(typeof question.incorrectAnswer1).toBe('string');
-  expect(typeof question.incorrectAnswer2).toBe('string');
-  expect(typeof question.incorrectAnswer3).toBe('string');
+  expectQuestionProperties(question)
 });
 
 it('should handle error when saving question to MongoDB', async () => {
@@ -474,18 +462,7 @@ it('should generate a chemical question with valid data', () => {
   const question = generateQuestionChemical(chemicalElementMap, 'en');
 
   // Assertions
-  expect(question).toHaveProperty('uuid');
-  expect(question).toHaveProperty('question');
-  expect(question).toHaveProperty('correctAnswer');
-  expect(question).toHaveProperty('incorrectAnswer1');
-  expect(question).toHaveProperty('incorrectAnswer2');
-  expect(question).toHaveProperty('incorrectAnswer3');
-  expect(typeof question.uuid).toBe('string');
-  expect(typeof question.question).toBe('string');
-  expect(typeof question.correctAnswer).toBe('string');
-  expect(typeof question.incorrectAnswer1).toBe('string');
-  expect(typeof question.incorrectAnswer2).toBe('string');
-  expect(typeof question.incorrectAnswer3).toBe('string');
+  expectQuestionProperties(question)
 });
 
 it('should handle error when saving question to MongoDB', async () => {
@@ -532,18 +509,7 @@ it('should generate a monument question with valid data', () => {
   const question = generateQuestionMonument(monumentMap, 'en');
 
   // Assertions
-  expect(question).toHaveProperty('uuid');
-  expect(question).toHaveProperty('question');
-  expect(question).toHaveProperty('correctAnswer');
-  expect(question).toHaveProperty('incorrectAnswer1');
-  expect(question).toHaveProperty('incorrectAnswer2');
-  expect(question).toHaveProperty('incorrectAnswer3');
-  expect(typeof question.uuid).toBe('string');
-  expect(typeof question.question).toBe('string');
-  expect(typeof question.correctAnswer).toBe('string');
-  expect(typeof question.incorrectAnswer1).toBe('string');
-  expect(typeof question.incorrectAnswer2).toBe('string');
-  expect(typeof question.incorrectAnswer3).toBe('string');
+  expectQuestionProperties(question)
 });
 
 it('should handle error when saving question to MongoDB', async () => {
