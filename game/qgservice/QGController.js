@@ -79,7 +79,7 @@ let QGController = {
             const { ids } = req.body;
             const questions = [];
             for (const id of ids) {
-                const question = await Question4Answers.find({uuid: id})
+                const question = await Question4Answers.find({uuid: id.toString()})
                 questions.push(question);
             }
             res.json(questions);
