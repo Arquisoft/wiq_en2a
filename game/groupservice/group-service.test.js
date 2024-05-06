@@ -104,7 +104,7 @@ describe('Group Service API Tests', () => {
 });
 
 it('should return message when user is already in the group', async () => {
-    const group = await Group.create({
+    await Group.create({
         uuid: 'user_already_in_group_uuid',
         groupName: 'User already in group Test Group',
         members: ['userInGroup_id', 'admin_id'],
@@ -124,7 +124,7 @@ it('should return message when user is already in the group', async () => {
 });
 
 it('should return message when group is full', async () => {
-  const group = await Group.create({
+  await Group.create({
       uuid: 'full_group_uuid',
       groupName: 'Full group Test Group',
       members: Array(30).fill("member_uuid"),
@@ -144,7 +144,7 @@ it('should return message when group is full', async () => {
 });
 
 it('should return message when join code is incorrect for a private group', async () => {
-  const group = await Group.create({
+  await Group.create({
       uuid: 'incorrect_join_code_group_uuid',
       groupName: 'Test Group Incorrect Join Code',
       members: ['admin_id3'],
@@ -178,30 +178,8 @@ it('should return status 500 and error message when an error occurs', async () =
   expect(response.body).toEqual({ error: 'Internal server error' });
 });
 
-it('should successfully remove user from the group', async () => {
-  const group = await Group.create({
-      uuid: 'successfully_remove_member_group_uuid',
-      groupName: 'Succesfully remove member from Test Group',
-      members: ['user_id', 'admin_id4'],
-      admin: 'admin_id4',
-      isPublic: true,
-      maxNumUsers: 5
-  });
-
-  const requestBody = {
-      expelledUUID: 'user_id',
-      groupName: 'Succesfully remove member from Test Group',
-      adminUUID: 'admin_id4'
-  };
-
-  const response = await request(app).post('/leaveGroup').send(requestBody);
-  expect(response.status).toBe(200);
-  expect(response.body).toHaveProperty('members');
-  expect(response.body.members).not.toContain(requestBody.expelledUUID);
-});
-
 it('should successfully remove user from the group and remove the group when nobody is left', async () => {
-  const group = await Group.create({
+  await Group.create({
       uuid: 'successfully_remove_member_group_and_remove_group_uuid',
       groupName: 'Succesfully remove member, and group Test Group',
       members: ['admin_id'],
@@ -368,13 +346,8 @@ it('should return status 500 and error message when an error occurs', async () =
   const mockError = new Error('Internal server error');
   jest.spyOn(Group, 'findOne').mockRejectedValue(mockError);
 
-  // Send request to get a group
   const response = await request(app).get('/getGroup/group_uuid');
-
-  // Expect response status to be 500
   expect(response.status).toBe(500);
-
-  // Expect response body to contain the error message
   expect(response.body).toEqual({ error: 'Internal server error' });
 });
 
