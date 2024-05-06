@@ -18,6 +18,7 @@ const NavBar: React.FC<{}> = () =>
     const [languageOpen, setLanguageOpen] = useState<boolean>(false);
     const [profileChevronRotated, setProfileChevronRotated] = useState<boolean>(false);
     const [languageChevronRotated, setLanguageChevronRotated] = useState<boolean>(false);
+    const [selectedLanguage, setSelectedLanguage] = useState<string>(localStorage.getItem("lang")); // Default language is English
 
 
     const handleProfileClick = (event: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGSVGElement>) => {
@@ -39,6 +40,13 @@ const NavBar: React.FC<{}> = () =>
         setLanguageOpen(false);
         setProfileChevronRotated(false);
         setLanguageChevronRotated(false);
+    };
+
+    const handleLanguageSelect = (lang: string) => {
+        setSelectedLanguage(lang);
+        localStorage.setItem("lang", lang);
+        i18n.changeLanguage(lang);
+        handleClose();
     };
 
     if(value === "false"){
@@ -144,13 +152,13 @@ const NavBar: React.FC<{}> = () =>
                                     aria-controls={languageOpen ? 'menu' : undefined}
                                     aria-expanded={languageOpen ? 'true' : undefined}
                                     aria-haspopup='true'
-                                    sx={{ textTransform: 'none', color: 'white' }}
+                                    sx={{ color: 'white', fontSize: '15px' }}
                                     >
-                                        {t('nav_language')}
+                                        {selectedLanguage}
                                         <svg
                                             fill="#ffffff"
-                                            width="24"
-                                            height="24"
+                                            width="22"
+                                            height="22"
                                             onClick={handleLanguageClick}
                                             viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -204,10 +212,10 @@ const NavBar: React.FC<{}> = () =>
                                     }}
                                     sx={{ marginTop: '5px' }}
                                     >
-                                        <MenuItem>
+                                        <MenuItem onClick={() => handleLanguageSelect("en")}>
                                             English
                                         </MenuItem>
-                                        <MenuItem>
+                                        <MenuItem onClick={() => handleLanguageSelect("es")}>
                                             Español
                                         </MenuItem>
                                     </Menu>
