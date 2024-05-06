@@ -8,7 +8,7 @@ const { bindCapitalsResults, bindPopulationResults, bindChemicalResults, bindMon
 const { createMathQuestions, generateRandomMathQuestion } = require('./generatorLogic/MathQuestions')
 const axios = require('axios');
 const { capitalQuestion, populationQuestion, chemicalQuestion, monumentQuestion } = require('./generatorLogic/questionLanguage')
-const uuid = require('uuid');
+const {capitalTestData,chemicalTestData,monumentTestData,populationTestData} = require('./test-utils/BindTestResults')
 
 let app;
 let mongoServer;
@@ -166,7 +166,6 @@ it('should bind query results to a Map of capitals', () => {
 });
 
 it('should handle empty query result', () => {
-  const lang = 'en';
   // Mock empty query result
   const queryResult = {
     results: { bindings: [] }
@@ -233,26 +232,16 @@ it('should create math questions and return them', async () => {
 });
 
 it('should bind query results to a Map of populations', () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { cityLabel: { value: 'New York' }, population: { value: '8623000' } },
-        { cityLabel: { value: 'Los Angeles' }, population: { value: '3990456' } },
-        { cityLabel: { value: 'Chicago' }, population: { value: '2716000' } }
-      ]
-    }
-  };
 
   // Call the function with the mocked query result
-  const populationMap = bindPopulationResults(queryResult);
+  const populationMap = bindPopulationResults(populationTestData);
 
   // Assertions
   expect(populationMap).toBeInstanceOf(Map);
-  expect(populationMap.size).toBe(3);
-  expect(populationMap.get('New York')).toBe(8623000);
-  expect(populationMap.get('Los Angeles')).toBe(3990456);
-  expect(populationMap.get('Chicago')).toBe(2716000);
+  expect(populationMap.size).toBe(4);
+  expect(populationMap.get('Tokyo')).toBe(13929286);
+  expect(populationMap.get('Delhi')).toBe(18978000);
+  expect(populationMap.get('Madrid')).toBe(3550000);
 });
 
 it('should handle empty query result', () => {
@@ -270,23 +259,13 @@ it('should handle empty query result', () => {
 });
 
 it('should bind query results to a Map of chemical elements', () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { elementLabel: { value: 'Hydrogen' }, symbol: { value: 'H' } },
-        { elementLabel: { value: 'Oxygen' }, symbol: { value: 'O' } },
-        { elementLabel: { value: 'Carbon' }, symbol: { value: 'C' } }
-      ]
-    }
-  };
 
   // Call the function with the mocked query result
-  const chemicalElementMap = bindChemicalResults(queryResult);
+  const chemicalElementMap = bindChemicalResults(chemicalTestData);
 
   // Assertions
   expect(chemicalElementMap).toBeInstanceOf(Map);
-  expect(chemicalElementMap.size).toBe(3);
+  expect(chemicalElementMap.size).toBe(4);
   expect(chemicalElementMap.get('H')).toBe('Hydrogen');
   expect(chemicalElementMap.get('O')).toBe('Oxygen');
   expect(chemicalElementMap.get('C')).toBe('Carbon');
@@ -307,28 +286,17 @@ it('should handle empty query result', () => {
 });
 
 it('should bind query results to a Map of monuments', () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { monumentLabel: { value: 'a' }, countryLabel: { value: 'A' } },
-        { monumentLabel: { value: 'b' }, countryLabel: { value: 'B' } },
-        { monumentLabel: { value: 'c' }, countryLabel: { value: 'C' } },
-        { monumentLabel: { value: 'd' }, countryLabel: { value: 'D' } }
-      ]
-    }
-  };
 
   // Call the function with the mocked query result
-  const monumentMap = bindMonumentResults(queryResult);
+  const monumentMap = bindMonumentResults(monumentTestData);
 
   // Assertions
   expect(monumentMap).toBeInstanceOf(Map);
   expect(monumentMap.size).toBe(4);
-  expect(monumentMap.get('c')).toBe('C');
-  expect(monumentMap.get('a')).toBe('A');
-  expect(monumentMap.get('b')).toBe('B');
-  expect(monumentMap.get('d')).toBe('D');
+  expect(monumentMap.get('Eiffel Tower')).toBe('France');
+  expect(monumentMap.get('Taj Mahal')).toBe('India');
+  expect(monumentMap.get('Statue of Liberty')).toBe('United States');
+  expect(monumentMap.get('Great Wall of China')).toBe('China');
 });
 
 it('should handle empty query result', () => {
@@ -346,18 +314,7 @@ it('should handle empty query result', () => {
 });
 
 it('should generate a population question with valid data', () => {
-  const queryResult = {
-    results: {
-      bindings: [
-        { cityLabel: { value: 'Tokyo' }, population: { value: '13929286' } },
-        { cityLabel: { value: 'Delhi' }, population: { value: '18978000' } },
-        { cityLabel: { value: 'Shanghai' }, population: { value: '24150000' } },
-        { cityLabel: { value: 'Madrid' }, population: { value: '3550000' } }
-      ]
-    }
-  };
-
-  const cityPopulationMap = bindPopulationResults(queryResult);
+  const cityPopulationMap = bindPopulationResults(populationTestData);
   const question = generateQuestionPopulation(cityPopulationMap, 'en');
 
   expectQuestionProperties(question)
@@ -389,20 +346,8 @@ it('should handle error when saving question to MongoDB', async () => {
 });
 
 it('should generate a capital question with valid data', () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { countryLabel: { value: 'France' }, capitalLabel: { value: 'Paris' } },
-        { countryLabel: { value: 'Germany' }, capitalLabel: { value: 'Berlin' } },
-        { countryLabel: { value: 'Italy' }, capitalLabel: { value: 'Rome' } },
-        { countryLabel: { value: 'Spain' }, capitalLabel: { value: 'Madrid' } }
-      ]
-    }
-  };
-
   // Call the function with the mocked query result
-  const countryCapitalMap = bindCapitalsResults(queryResult);
+  const countryCapitalMap = bindCapitalsResults(capitalTestData);
 
   const question = generateQuestionCapital(countryCapitalMap, 'en');
 
@@ -410,18 +355,7 @@ it('should generate a capital question with valid data', () => {
 });
 
 it('should handle error when saving question to MongoDB', async () => {
-  const queryResult = {
-    results: {
-      bindings: [
-        { countryLabel: { value: 'France' }, capitalLabel: { value: 'Paris' } },
-        { countryLabel: { value: 'Germany' }, capitalLabel: { value: 'Berlin' } },
-        { countryLabel: { value: 'Italy' }, capitalLabel: { value: 'Rome' } },
-        { countryLabel: { value: 'Spain' }, capitalLabel: { value: 'Madrid' } }
-      ]
-    }
-  };
-
-  const capitalsMap = bindCapitalsResults(queryResult);
+  const capitalsMap = bindCapitalsResults(capitalTestData);
 
   const mockSaveError = new Error('Failed to save question');
   jest.spyOn(Question4Answers.prototype, 'save').mockRejectedValue(mockSaveError);
@@ -435,20 +369,8 @@ it('should handle error when saving question to MongoDB', async () => {
 });
 
 it('should generate a chemical question with valid data', () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { elementLabel: { value: 'Oxygen' }, symbol: { value: 'O' } },
-        { elementLabel: { value: 'Hydrogen' }, symbol: { value: 'H' } },
-        { elementLabel: { value: 'Carbon' }, symbol: { value: 'C' } },
-        { elementLabel: { value: 'Nitrogen' }, symbol: { value: 'N' } }
-      ]
-    }
-  };
-
   // Call the function with the mocked query result
-  const chemicalElementMap = bindChemicalResults(queryResult);
+  const chemicalElementMap = bindChemicalResults(chemicalTestData);
 
   const question = generateQuestionChemical(chemicalElementMap, 'en');
 
@@ -482,20 +404,8 @@ it('should handle error when saving question to MongoDB', async () => {
 });
 
 it('should generate a monument question with valid data', () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { monumentLabel: { value: 'Eiffel Tower' }, countryLabel: { value: 'France' } },
-        { monumentLabel: { value: 'Taj Mahal' }, countryLabel: { value: 'India' } },
-        { monumentLabel: { value: 'Statue of Liberty' }, countryLabel: { value: 'United States' } },
-        { monumentLabel: { value: 'Great Wall of China' }, countryLabel: { value: 'China' } }
-      ]
-    }
-  };
-
   // Call the function with the mocked query result
-  const monumentMap = bindMonumentResults(queryResult);
+  const monumentMap = bindMonumentResults(monumentTestData);
 
   const question = generateQuestionMonument(monumentMap, 'en');
 
@@ -504,19 +414,7 @@ it('should generate a monument question with valid data', () => {
 });
 
 it('should handle error when saving question to MongoDB', async () => {
-  // Mock query result
-  const queryResult = {
-    results: {
-      bindings: [
-        { monumentLabel: { value: 'Eiffel Tower' }, countryLabel: { value: 'France' } },
-        { monumentLabel: { value: 'Taj Mahal' }, countryLabel: { value: 'India' } },
-        { monumentLabel: { value: 'Statue of Liberty' }, countryLabel: { value: 'United States' } },
-        { monumentLabel: { value: 'Great Wall of China' }, countryLabel: { value: 'China' } }
-      ]
-    }
-  };
-
-  const monumentsMap = bindMonumentResults(queryResult);
+  const monumentsMap = bindMonumentResults(monumentTestData);
 
   const mockSaveError = new Error('Failed to save question');
   jest.spyOn(Question4Answers.prototype, 'save').mockRejectedValue(mockSaveError);
