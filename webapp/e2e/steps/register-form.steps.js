@@ -31,7 +31,7 @@ defineFeature(feature, test => {
     given('An unregistered user', async () => {
       username = "conoceryvenceruser"
       password = "conoceryvencerpass"
-      await page.waitFor('button')
+      await page.waitForSelector('button')
       await page.click("button", {id: "registerButton"});
     });
 
