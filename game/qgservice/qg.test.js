@@ -311,9 +311,10 @@ it('should bind query results to a Map of monuments', () => {
   const queryResult = {
     results: {
       bindings: [
-        { monumentLabel: { value: 'Statue of Liberty' }, countryLabel: { value: 'USA' } },
-        { monumentLabel: { value: 'Eiffel Tower' }, countryLabel: { value: 'France' } },
-        { monumentLabel: { value: 'Taj Mahal' }, countryLabel: { value: 'India' } }
+        { monumentLabel: { value: 'a' }, countryLabel: { value: 'A' } },
+        { monumentLabel: { value: 'b' }, countryLabel: { value: 'B' } },
+        { monumentLabel: { value: 'c' }, countryLabel: { value: 'C' } },
+        { monumentLabel: { value: 'd' }, countryLabel: { value: 'D' } }
       ]
     }
   };
@@ -323,10 +324,11 @@ it('should bind query results to a Map of monuments', () => {
 
   // Assertions
   expect(monumentMap).toBeInstanceOf(Map);
-  expect(monumentMap.size).toBe(3);
-  expect(monumentMap.get('Statue of Liberty')).toBe('USA');
-  expect(monumentMap.get('Eiffel Tower')).toBe('France');
-  expect(monumentMap.get('Taj Mahal')).toBe('India');
+  expect(monumentMap.size).toBe(4);
+  expect(monumentMap.get('c')).toBe('C');
+  expect(monumentMap.get('a')).toBe('A');
+  expect(monumentMap.get('b')).toBe('B');
+  expect(monumentMap.get('d')).toBe('D');
 });
 
 it('should handle empty query result', () => {
@@ -358,18 +360,7 @@ it('should generate a population question with valid data', () => {
   const cityPopulationMap = bindPopulationResults(queryResult);
   const question = generateQuestionPopulation(cityPopulationMap, 'en');
 
-  expect(question).toHaveProperty('uuid');
-  expect(question).toHaveProperty('question');
-  expect(question).toHaveProperty('correctAnswer');
-  expect(question).toHaveProperty('incorrectAnswer1');
-  expect(question).toHaveProperty('incorrectAnswer2');
-  expect(question).toHaveProperty('incorrectAnswer3');
-  expect(typeof question.uuid).toBe('string');
-  expect(typeof question.question).toBe('string');
-  expect(typeof question.correctAnswer).toBe('string');
-  expect(typeof question.incorrectAnswer1).toBe('string');
-  expect(typeof question.incorrectAnswer2).toBe('string');
-  expect(typeof question.incorrectAnswer3).toBe('string');
+  expectQuestionProperties(question)
 });
 
 it('should handle error when saving question to MongoDB', async () => {
