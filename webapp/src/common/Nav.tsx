@@ -136,7 +136,7 @@ const NavBar: React.FC<{}> = () =>
                                         viewBox="0 0 24 24" 
                                         xmlns="http://www.w3.org/2000/svg"
                                         className={`
-                                            chevron
+                                            chevron--menu
                                             ${profileChevronRotated ? 'chevron--rotated' : ''}
                                         `}
                                         >
@@ -157,8 +157,8 @@ const NavBar: React.FC<{}> = () =>
                                         {selectedLanguage}
                                         <svg
                                             fill="#ffffff"
-                                            width="22"
-                                            height="22"
+                                            width="21"
+                                            height="21"
                                             onClick={handleLanguageClick}
                                             viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +208,7 @@ const NavBar: React.FC<{}> = () =>
                                     anchorEl={languageAnchorEl}
                                     anchorOrigin={{
                                         vertical: 'bottom',
-                                        horizontal: 'center',
+                                        horizontal: -5,
                                     }}
                                     sx={{ marginTop: '5px' }}
                                     >
