@@ -8,9 +8,12 @@ This is a base repo for the [Software Architecture course](http://arquisoft.gith
 
 The application is deployed at: http://conoceryvencer.xyz
 
-This repo is a basic application composed of several components.
+This repo is a basic application composed of several components:
 
-- **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones.
+- **Game service**. Express service that creates, delivers the logic and stores information about the last game played by the user.
+- **Group service**. Express service responsible for the management of user groups.
+- **Question generation service**. Express service that generates the question for the new game by retrieving data from Wikidata.
+- **Gateway service**. Express service that is exposed to the public and serves as a proxy to the two previous ones. It is also in charge of the application's monitoring process.
 - **User service**. Express service that handles the insertion of new users in the system.
 - **Auth service**. Express service that handles the authentication of users.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
@@ -28,7 +31,7 @@ Both the user and auth service share a Mongo database that is accessed with mong
 
 ## Quick start guide
 
-### Using docker
+### Using Docker
 
 The fastest way for launching this sample project is using docker. Just clone the project:
 
