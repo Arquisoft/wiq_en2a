@@ -77,16 +77,12 @@ let QGController = {
     getQuestionsByIds: async (req, res) => {
         try {
             const { ids } = req.body;
-            console.log(ids)
             const questions = [];
             for (const id of ids) {
                 const question = await Question4Answers.find({uuid: id})
-                console.log(question)
                 questions.push(question);
             }
-            res.json(questions);
         } catch (error) {
-            console.log(error)
             res.status(500).json({ error: 'Internal Server Error' });
         }
     }
