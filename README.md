@@ -17,6 +17,7 @@ This repo is a basic application composed of several components:
 - **User service**. Express service handling the insertion of new users in the system.
 - **Auth service**. Express service that deals with the authentication of users.
 - **Webapp**. React web application using the gateway service to allow basic login and new user features.
+- **Multiplayer service**. A web socket server to communicate with the multiplayer mode in the application
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
 
@@ -44,20 +45,6 @@ and launch it with docker compose:
 ```sh
 docker compose --profile dev up --build
 ```
-
-### Starting Component by component
-
-First, start the database. Either install and run Mongo or run it using docker:
-
-```docker run -d -p 27017:27017 --name=my-mongo mongo:latest```
-
-You can also use services like Mongo Altas for running a Mongo database in the cloud.
-
-Now, launch the auth, user and gateway services. Just go to each directory and run `npm install` followed by `npm start`.
-
-Lastly, go to the webapp directory and launch this component with `npm install` followed by `npm start`.
-
-After all the components are launched, the app should be available in localhost in port 3000.
 
 ## Deployment
 
