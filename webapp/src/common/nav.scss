@@ -43,8 +43,10 @@
 }
 
 .chevron{
-  margin-top: 1px;
   transition: transform 0.1s ease;
+  &--menu{
+    margin-top: 1px;
+  }
 }
 
 .chevron--rotated{
