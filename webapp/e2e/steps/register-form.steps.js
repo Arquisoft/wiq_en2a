@@ -10,8 +10,8 @@ defineFeature(feature, test => {
   
   beforeAll(async () => {
     browser = process.env.GITHUB_ACTIONS
-      ? await puppeteer.launch()
-      : await puppeteer.launch({ headless: false, slowMo: 100 });
+      ? await puppeteer.launch({ slowMo: 100 })
+      : await puppeteer.launch({ slowMo: 100 });
     page = await browser.newPage();
     //Way of setting up the timeout
     setDefaultOptions({ timeout: 10000 })
@@ -29,23 +29,22 @@ defineFeature(feature, test => {
     let password;
 
     given('An unregistered user', async () => {
-      username = "pablo"
-      password = "pabloasw"
-      await page.waitFor('button')
-      await page.click("button", {id: "registerButton"});
+      username = "conoceryvenceruser"
+      password = "conoceryvencerpass"
+      await page.waitForSelector('button')
+      await page.click("button", {text: "REGISTRARSE"});
     });
 
     when('I fill the data in the form and press submit', async () => {
       await page.type('input[name="username"]', username);
       await page.type('input[name="password"]', password);
-      await page.click('button', { text: 'Add User' }) 
+      await page.waitForSelector('button')
+      await page.click('button', { text: 'REGISTRARSE' }) 
     });
 
-   then('A confirmation message should be shown in the screen', async () => {
-      const confirmationMessage = await page.waitForSelector('div',"#successUserAdd");
-
-      const messageText = await page.evaluate(confirmationMessage => confirmationMessage.innerText, confirmationMessage);
-      expect(messageText).toContain('User added successfully');
+   then('Should be inside the game route', async () => {
+      await page.waitForSelector('div', '.game-container');
+      expect(page.url()).toContain('/game');
     });
   })
 
