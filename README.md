@@ -11,7 +11,7 @@ The application is deployed at: http://conoceryvencer.xyz
 
 The API is at http://conoceryvencer.xyz:8000 , and you can see the API documentation at http://conoceryvencer.xyz:8000/api-doc
 
-This repo is a basic application composed of several components:
+This application has a microservice architecture with the following components:
 
 - **Game service**. Express service that creates, delivers the logic and stores information about the last game played by the user.
 - **Group service**. Express service responsible for the management of user groups.
