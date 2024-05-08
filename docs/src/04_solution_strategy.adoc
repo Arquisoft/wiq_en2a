@@ -7,14 +7,14 @@ This section aims to describe the strategies decided by the team.
 === Technologies
 The following list names the technologies selected:
 
-- *TypeScript:* free and open-source high-level programming languaage deriving from JavaScript. The former provides tools that JavaScript does not. It will be used to program the client part of the application.
-- *React:* free and open-source front-end JavaScript library for building user interfaces based in components. It allows building complex interfaces in a simpler way, being flexible and easy to maintain.
-- *MongoDB:* non-relational document database that provides support for JSON-like storage. It has drivers for major programming languages and development environments.
-- *NodeJS:* cross-platform, opens-source JavaScript library for the server layer that provides the tools to implement the application. It has a large and active community that may be usefull in difficult times.
-- *ExpressJS:* nodejs web application framework that provides a robust set of features for web and mobile applications.
-- *Wikidata Query Service:* Wikimedia implementation of SPARQL server to service queries for Wikidata and other data sets.
-- *Socket.io:* A javascript library that enables real-time communication between client and server through objects called sockets. These objects can broadcast events asynchronously, and can be caught by other sockets to perform different operations. This library is used in the multiplayer service, to allow the players to connect to a game lobby, and compete between each other answering questions.
+- *TypeScript:* free and open-source high-level programming language that acts as a superset of JavaScript. The former provides tools that JavaScript does not. It will be used to code the client-side part of the application.
+- *React:* free and open-source front-end JavaScript library for building component-based user interfaces. It allows building complex interfaces in a simpler way, being flexible and easy to maintain.
+- *MongoDB:* non-relational document database that provides support for JSON-like storage. It has drivers for all major programming languages and development environments.
+- *NodeJS:* cross-platform, open-source JavaScript library for the server-side part of the application that provides the tools to implement it. It has a large and active community that may be useful if doubts or errors arise.
+- *ExpressJS:* Node.js web application framework that provides a robust set of features for web and mobile applications.
+- *Wikidata Query Service:* Wikimedia implementation of SPARQL server to service queries from Wikidata and other data sets.
+- *Socket.io:* A JavaScript library that enables real-time communication between client and server through objects called sockets. These objects can broadcast events asynchronously, and can be caught by other sockets to perform different operations. This library is used in the multiplayer service, to allow the players to connect to a game lobby and compete among each other answering questions.
 
 === Organizational
-- *Weekly meetings:* to maintain a well communicated team so all are aware of the decissions and team progress.
-- *Github:* use of issues, pull request, discussions and other tools that Github offers.
+- *Weekly meetings:* to maintain good communication so all team members are aware of the current decissions and progress.
+- *Github:* use of issues, pull requests, discussions and other tools offered.

@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === BCrypt
 
-Bcrypt is a specialized password-hashing library for securely storing passwords. It employs a key derivation function to hash passwords intentionally in a slow and computationally intensive manner. This design choice enhances security by significantly increasing resistance against brute-force attacks.
+Bcrypt is a specialized password-hashing library for the secure storing of passwords. It employs a key derivation function to hash passwords intentionally in a slow and computationally intensive manner. This design choice enhances security by significantly increasing resistance against brute-force attacks.
 
 |===
 | Element | Description

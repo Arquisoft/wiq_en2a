@@ -11,17 +11,17 @@ image::07-infrastructure.png[Deployment Diagram, 600, 400]
 
 Motivation::
 
-The above diagram represents the current architecture of the system. The system is divided in different services related to distinct functionalities. The application is working with multiples services, all of them are ran through docker containers in a virtual machine in Azure.
+The above diagram represents the current system architecture. The system is divided into different services related to different functionalities. The application is working with multiples services, and all of them are ran through Docker containers in a virtual machine in Azure.
 
-The deployment is automated through github actions, therefore when you make a release of a tag in the master branch of the repository, the application updates with the committed changes.
+The deployment is automated through Github Actions, therefore when you make the release of a tag in the master branch of the repository, the application updates with the committed changes.
 
 Quality and/or Performance Features::
 
-The reasons for using a microservice infratructure are the failure isolation, if one of the service fails, is not necesary that the whole system goes down, the member teams can work on different microservices simultaneously and also each microservice can be written in a different programing language better suit for the task.
+The reason for using a microservices-based infratructure is failure isolation: if one of the services fails, is not necesary for the whole system to go down. Also, team members can work on different microservices simultaneously and each microservice can be written in the programing language that best suits the task.
 
-In this case, almost all the microservices communicate between each other through HTTP requests. But in the multiplayer service, a different type of communication is needed: Web sockets.
+In this case, almost all microservices communicate with each other through HTTP requests. But in the multiplayer service, a different type of communication is needed: web sockets.
 
-Web sockets is a communication protocol that allow server and client to send messages simultaneously without waiting for a response. This is very useful for real-time applications, like the multiplayer functionality.
+Web sockets are a communication protocol that allows server and client to send messages simultaneously without waiting for a response. This is very useful for real-time applications, just like the multiplayer functionality.
 
 Mapping of Building Blocks to Infrastructure::
 
@@ -32,10 +32,10 @@ Mapping of Building Blocks to Infrastructure::
 |Web App| User interface to interact with the rest of the application.
 |Gateway| Following the facade pattern, the gateway works as an interface that communicates the web app with the different services.
 |MongoDB| Database to save the application's data.
-|Authentication| Service for the authentification of the users.
+|Authentication| Service for the authentification of users.
 |Users| Service in charge of managing the users.
-|Question Generation| This service retrieves information from Wikidata through SPARQL queries, and generates questions based on custom templates
+|Question Generation| This service retrieves information from Wikidata through SPARQL queries, and generates questions based on custom templates.
 |Game| Service to manage the logic of the game like the players and questions in a game.
 |Groups| Service in charge of managing the groups.
-|Multiplayer| Service in charge of the multiplayer functionality, this service uses web sockets, while the others use HTTP requests. Provides the real-time functionality for a multiplayer game.
+|Multiplayer| Service in charge of the multiplayer functionality, this service uses web sockets, while the others use HTTP requests. Provides the real-time functionality for the multiplayer game mode.
 |===

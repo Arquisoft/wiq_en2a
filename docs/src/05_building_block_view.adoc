@@ -14,7 +14,7 @@ image::WhiteboxOverallSystem.png["Overview Diagram"]
 
 Motivation::
 
-*Conocer y vencer* is an aplication that generates questions using data from wikidata so the user can play a game like Saber y Ganar.
+*Conocer y vencer* is an aplication that generates questions using data from Wikidata to deliver a Saber-y-Ganar-like game.
 
 
 Contained Building Blocks::
@@ -22,8 +22,8 @@ Contained Building Blocks::
 |===
 |*Name* |*Description*
 
-|Saber y conocer |Aplication based on microservices for the user to interact with and play the game
-|Wikidata |Public Data based used to generate questions for the game
+|Saber y conocer |Microservices-based application that lets the user play a Q&A game.
+|Wikidata |Public database used to generate questions for the game
 |===
 
 
@@ -36,11 +36,11 @@ image::BuildingBlockLevel1.png["Level 2 Diagram"]
 
 ==== Webapp
 
-    Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services have its own easy to use interface.
+    Interface for the user to interact with the game and the diferent functionalities of the aplication. Each of the services has its own user-friendly interface.
 
 ==== Microservices
 
-    Components of the application, that have the logic of the game and interact with external services (such as Wikidata and Mongodb). There are several microservices, one for each of the functionalities of the game.
+    Components of the application that deliver the logic of the game and interact with external services (such as Wikidata and MongoDB). There are several microservices, one for each of the functionalities of the game.
     
 
 
@@ -50,24 +50,24 @@ image::BuildingBlockLevel2.png["Level 3 Diagram"]
 
 ==== Authentification service
 
-    Service in charge of create new users in the database
+    Service in charge of the creation of new users in the database.
 
 ==== User service
 
-    Service in charge of safe and retrieve the data of a user from the database.
+    Service in charge of saving and retrieving the data corresponding to a user from the database.
 
 ==== Multiplayer
 
-    Service in charge of multiplayer rooms, the webapp comunicate directly to this service, without using the gateway.
+    Service in charge of the multiplayer mode rooms. The webapp comunicates directly with this service without using the gateway in the process.
 
 ==== Group Service
 
-    Service in charge of manage groups composed of multiple users.
+    Service in charge of managing groups composed of multiple users.
 
 ==== Game Service
 
-    Service in charge of the logic of the game, safe the information of the last game played by a user.
+    Service in charge of the logic of the game as well as saving the information of the last game played by a user.
 
 ==== Question Generation Service
 
-    Service in charge of generating the questions for the game using data from wikidata.
+    Service in charge of generating the questions for the game using data from Wikidata.
