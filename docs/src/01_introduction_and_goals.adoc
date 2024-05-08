@@ -12,10 +12,10 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 * Accesible through the web
 * Historical data of a user will be saved on that user's account
 * Questions have a time limit to be answered
-* Possible answer will be given to the user, only one of them being correct
-* Information about users and questions will be obtained through API's
-* Modo multijugador y modo individual
-* Se habilitarán salas de juego en tiempo real para el modo multijugador
+* Possible answers will be given to the user, only one of them being correct
+* Information about users and questions will be obtained through APIs
+* There will be both an individual and a multiplayer mode
+* Real time game rooms will be created for the multiplayer mode
 
 
 === Quality Goals
@@ -26,9 +26,9 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 [options="header",cols="1,2,2"]
 |===
 |Code|Quality Goal|Scenario
-|QG1[[QG1]]|Usability|The user can easily navigate through the app and find the information they need
+|QG1[[QG1]]|Usability|Users can easily navigate through the app and find the information they need
 |QG2[[QG2]]|Performance|The app should be able to handle a large amount of users at the same time
-|QG3[[QG3]]|Mantainability|The game should be easy to update in order to add functianlities
+|QG3[[QG3]]|Mantainability|The game should be easy to update in order to add new functionalities
 |===
 
 
@@ -37,8 +37,8 @@ The project is a quizz game based on the Spanish TV show "Saber y ganar", the us
 [options="header"]
 |===
 |Role/Name|Contact|Expectations
-| _Wikidata_ | _Wikidata.org_ | _Public exposure by the use of their services deriving in a greater demand of said services_
-| _Uniovi's Software Architecture Teacher council_ | | _Provide their students (development team) with a practical experience about the use of Software architecture in projects and making sure the have understood the concepts of it_
+| _Wikidata_ | _Wikidata.org_ | _Public exposure by the use of their services deriving in a greater demand for said services_
+| _Uniovi's Software Architecture Teacher council_ | | _Provide their students (development team) with a practical experience about the use of software architecture in projects and making sure the have understood the its concepts_
 |_Development Team_||_Acquire experience in the development process of Software Architecture and pass the subject to complete their studies_
-|_Users_|_Anyone who uses the app_|_Test their knowledge on a functional and easy to use quizz game app_
+|_Users_|_Anyone who uses the app_|_Test their knowledge through a functional and easy-to-use quizz game app_
 |===

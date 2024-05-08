@@ -3,7 +3,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-design-decisions]]
 == Architecture Decisions
 
-=== Database Selection for Our Application
+=== Database selection for our application
 
 In this application, we require a database to store information about users, groups, automatically generated questions, and how the user performs on those questions. In this section, we discuss why we chose to use a NoSQL database, specifically MongoDB, for this purpose, and explore the alternatives that we considered and rejected.
 

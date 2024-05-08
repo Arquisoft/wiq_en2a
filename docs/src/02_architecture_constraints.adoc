@@ -3,18 +3,18 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-architecture-constraints]]
 == Architecture Constraints
 
-When designing the WIQ Application there are several constraints that must be taken into consideration, as they will have a large impact on the final application. These requirements that we must follow, will ensure that the final product meets the needs and expectations of final users and stakeholders.
-The following table summarizes these constraints and provides a brief explanation of each.
+When designing the WIQ Application there are several constraints that must be taken into consideration, as they will have a large impact on the final application. These requirements that we must follow will ensure that the final product meets the needs and expectations of final users and stakeholders.
+The following table summarizes these constraints and provides a brief explanation of each one of them.
 
 [options="header", cols="1,1"]
 
 |===
 | Constraint | Explanation
-| Use of Wikidata | Wikidata is a collaborative, multilingual knowledge base that provides the required information to popular websites as Wikipedia. Wikidata houses information about a wide range of entities, such as people, places, and concepts, using a linked and interconnected data model. The project will have to generate questions and responses to those questions automatically, and for this task, Wikidata can be very useful.
+| Use of Wikidata | Wikidata is a collaborative, multilingual knowledge base that provides the required information to popular websites such as Wikipedia. Wikidata houses information about a wide range of entities, such as people, places, and concepts, using a linked and interconnected data model. The project will have to generate questions and responses to those questions automatically, and for this task, Wikidata can be very useful.
 
-| Version control and monitoring (GitHub) | GitHub and Git will be very valuable for the application, facilitating version control and team collaboration during project development. It enables the coordination and management of the development workflow, while also monitoring the modifications and contributions made by individual team members.
+| Version control and monitoring (GitHub) | GitHub and Git will be very valuable for the application, facilitating version control and team collaboration throughout project development. This will enable the coordination and management of the development workflow, while also monitoring the modifications and contributions made by individual team members.
 
-| User Experience | The design of the application must make its use friendly and easy.
+| User Experience | The design of the application must make it user-friendly and easy to understand.
 
 | Deployment | The application must be deployed.
 
@@ -23,13 +23,13 @@ The following table summarizes these constraints and provides a brief explanatio
 
 === Recommended technologies to take into account
 
-The application must be a full stack application consisting of a web app and a server. These are some technologies mentioned to provide a clear understanding of this application and how it works. These are not considered constraints because they were not imposed, but they should be present in this section due to the impact they have on the project.
+The application must be a full-stack application consisting of a web app and a server. These are some technologies mentioned to provide a clear understanding of this application and how it works. These are not considered constraints because they were not imposed, but they should be present in this section due to the impact they have on the project.
 
 [options="header", cols="1,1"]
 
 |===
 | Technology | Explanation
-| React | Description: React is a JavaScript library for building user interfaces with a component-based architecture. It promotes a declarative approach and utilizes a virtual DOM for efficient UI updates.
+| React | Description: React is a JavaScript library for building user interfaces with a component-based architecture. It promotes a declarative approach and uses a virtual DOM for efficient UI updates.
 
 Fit for the application: React's component-based structure is ideal for creating reusable UI elements, aligning well with the modular nature of a trivia app. The virtual DOM enhances performance in real-time scenarios.
 

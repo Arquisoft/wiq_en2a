@@ -14,7 +14,7 @@ image::businessContext.png[Bussiness Context, 600, 400]
 
 .Explanation of the Diagram
 
-The diagram shows the main 4 services the user interacts with.
+The diagram shows the 4 main services the user interacts with.
 
 Login and validation of answers are handled by external services, such as *Google* and *WikiData*.
 
@@ -26,7 +26,7 @@ image::technicalDiagram.png[Technical Diagram, 600, 400]
 .Explanation of the Diagram
 
 
-The application will be deployed on an Azure Server. It will consist of the following:
+The application will be deployed on an Azure Server. It will work as follows:
 
 The client communicates with the web app, the front-end of the application. Developed with *React* and *JavaScript*, this application retrieves information from the server, interacting with the *Gateway*.
 

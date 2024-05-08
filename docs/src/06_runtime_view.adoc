@@ -4,14 +4,14 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Runtime View
 
-=== Interaction with the GroupService
+=== Interaction with the Group Service
 
 image::SequenceGroupService.png[SequenceGroupService, 600, 400]
 
-=== Interaction with the Single Player Game
+=== Interaction with the single player game
 
 image::SequenceGame.png[SequenceGame, 600, 400]
-=== Sing in
+=== Sign in
 
 image::SequenceSingup.png[SequenceSingup, 600, 400]
 
